@@ -1,0 +1,60 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;" ng-cloak>
+  <div id="wrapper">
+    <form class="form-inline" ng-submit="vm.sendData()" role="form" name="editor">
+      <div class='row page-header'>
+        <div class="col-xs-12">
+          <h4 ng-bind-html="vm.pageHeader.smallTitle"></h4>  
+        </div>
+        <div class="alert alert-danger" ng-show="vm.error" ng-bind-html="vm.error"></div>
+        <div class="alert alert-success" ng-show="vm.message" ng-bind-html="vm.message"></div>
+        <label for="title"><h3>Novel title:</h3></label>
+        <input type="text" id="title" name="title" ng-model="vm.novel.title" class="form-control" style="width:70%" />
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-4">
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <img class="img-responsive img-rounded" src="/images/no-image.png"/>
+            </div>
+          </div>
+          <p class="rating">
+            <b style="margin: 0 0.5em 0 0; display: inline;">Overall rating:</b>
+            <span show-rating rating="0"></span>
+          </p>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h2 class="panel-title">Tags</h2>
+            </div>
+            <div id="tags-panel" class="panel-body" ng-show="vm.novel.tags.length > 0">
+              <span class="label label-info" ng-repeat="tag in vm.novel.tags">
+                {{ tag }}
+              </span>
+            </div>
+            <div id="tags-panel" class="panel-body" ng-hide="vm.novel.tags.length > 0">
+              <span class="label label-info">No tags to display yet</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+          <p class="lead">Short description</p>
+          <div name="description" class="form-control" ng-model="vm.novel.description" id="description" contenteditable="true"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-primary review-panel">
+            <div class="panel-heading">
+              <h2 class="panel-title">Enter tags here (separated by: ',' or ';')</h2>
+            </div>
+            <div class="panel-body review-container">
+              <input type="text" name="tags" id="tags" class="form-control" ng-model="vm.novel.stringTags" style="width: 100%" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<sidebar vm="vm" ng-cloak></sidebar>
+<footer class="navbar-default"></footer>

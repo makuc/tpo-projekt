@@ -1,0 +1,106 @@
+<div id="sidebar" class="navbar navbar-default navbar-brand" ng-hide="sdbvm.sidebar.collapse" ng-cloak>
+  <div class="vertical-center">
+    <div class="cont">
+      <ul class="list-unstyled components">
+        <!-- Saving and modifying entries -->
+        <li ng-show="vm.editing">
+          <a id="save" href="#" class="tooltip-enable" alt="Save changes" data-placement="left" title="Save changes" no-default ng-click="vm.sendData()">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+          </a>
+        </li>
+        <li ng-show="vm.editing">
+          <a no-default id="fontmn" href="#fontmn-f" class="tooltip-enable" alt="Change font styles" data-toggle="collapse" data-placement="left" title="Save changes" aria-expanded="false" no-default>
+            <i class="glyphicon glyphicon-font"></i>
+          </a>
+          <ul id="fontmn-f" class="collapse list-unstyled">
+            <li>
+              <a id="font-bold" class="tooltip-enable" href="#" alt="Use bold font style" data-placement="left" title="Use bold font style" ng-click="sdbvm.toggleBold()" no-default>
+                <i class="glyphicon glyphicon-bold"></i>
+              </a>
+            </li>
+            <li>
+              <a id="font-italic" class="tooltip-enable" href="#" alt="Use tialic font style" data-placement="left" title="Use italic font style" ng-click="sdbvm.toggleItalic()" no-default>
+                <i class="glyphicon glyphicon-italic"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- Editing entries -->
+        <li ng-show="!vm.editing && (vm.novel.author._id == sdbvm.user._id || vm.chapter.novel.author._id == sdbvm.user._id)">
+          <a href="{{ vm.url }}/edit" class="tooltip-enable" alt="Edit details of this novel" data-placement="left" title="Edit details of this novel">
+            <i class="glyphicon glyphicon-pencil"></i>
+          </a>
+        </li>
+        <!-- Adding new entries and viewing chapters -->
+        <li ng-show="vm.novel.author._id == sdbvm.user._id || vm.chapter.novel.author._id == sdbvm.user._id">
+          <a href="{{ vm.novelUrl }}/c" ng-click="vm.sendData()" class="tooltip-enable" alt="Add a new chapter" data-placement="left" title="Add a new chapter">
+            <i class="glyphicon glyphicon-plus"></i>
+          </a>
+        </li>
+        <li ng-show="vm.novel.chapters != undefined || vm.chapter.novel.chapters != undefined">
+          <a id="chapters-toggle" href="#" class="tooltip-enable" alt="Open list of chapters" data-placement="left" title="Open list of chapters" no-default ng-click="sdbvm.toggleChapters()">
+            <i class="glyphicon glyphicon-list"></i>
+          </a>
+        </li>
+        <!-- Reader settings -->
+        <li>
+          <a href="#reader-settings" class="tooltip-enable" data-toggle="collapse" aria-expanded="false" alt="Reader settings" data-placement="left" title="Reader settings" no-default>
+            <i class="glyphicon glyphicon-wrench"></i>
+          </a>
+          <ul id="reader-settings" class="collapse list-unstyled">
+            <li>
+              <a id="font-enlarge" href="" class="tooltip-enable" alt="Enlarge font" data-placement="left" title="Enlarge font" no-default ng-click="sdbvm.enlarge()">
+                <i class="glyphicon glyphicon-text-size"></i>
+              </a>
+            </li>
+            <li>
+              <a id="font-shrink" href="" class="tooltip-enable" alt="Shrink font" data-placement="left" title="Shrink font" no-default ng-click="sdbvm.shrink()">
+                <i class="glyphicon glyphicon-text-size icon-flipped"></i>
+              </a>
+            </li>
+            <li>
+              <a id="displayMode" href="" class="tooltip-enable" alt="Change Day/Night view" data-placement="left" title="Change Day/Night view" no-default ng-click="sdbvm.toggleMode()">
+                <i class="glyphicon glyphicon-adjust"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- Delete entry -->
+        <li ng-show="(vm.novel.author._id == sdbvm.user._id || vm.chapter.novel.author._id == sdbvm.user._id)">
+          <a id="delete" href="" class="tooltip-enable" alt="Delete this entry" data-placement="left" title="Delete this entry" ng-click="vm.deleteEntry()" no-default>
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </a>
+        </li>
+        <!-- Close sidebar -->
+        <li>
+          <a id="sidebar-close" href="#" class="tooltip-enable" alt="Minimize sidebar" data-placement="left" title="Minimize sidebar" ng-click="sdbvm.toggle()" no-default>
+            <i class="glyphicon glyphicon-chevron-right"></i>
+          </a>
+        </li>
+        <!-- END of sidebar -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<button id="sidebar-open" class="navbar-default closed tooltip-enable" title="Open toolbar" data-placement="left" style="overflow:hidden; padding:0" ng-click="sdbvm.toggle()" ng-show="sdbvm.sidebar.collapse">
+  <i id="sidebarCtr" class="glyphicon glyphicon-chevron-left"></i>
+</button>
+
+<div id="chapters" ng-show="sdbvm.showChapters">
+  <ul class="list-unstyled components" ng-show="vm.novel.chapters.length > 0">
+    <li ng-repeat="chapter in vm.novel.chapters">
+      <a href="/novel/{{ vm.novel._id }}/c/{{ chapter._id }}">{{ chapter.title }}</a>
+    </li>
+  </ul>
+  <ul class="list-unstyled components" ng-show="vm.chapter.novel.chapters.length > 0">
+    <li ng-repeat="chapter in vm.chapter.novel.chapters">
+      <a href="/novel/{{ vm.chapter.novel._id }}/c/{{ chapter._id }}">{{ chapter.title }}</a>
+    </li>
+  </ul>
+  <ul class="list-unstyled components" ng-hide="vm.novel.chapters.length > 0 || vm.chapter.novel.chapters.length > 0">
+    <li>
+      <a>No chapters available yet</a>
+    </li>
+  </ul>
+</div>

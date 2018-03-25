@@ -1,0 +1,27 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;">
+  <div id="wrapper">
+    <header></header>
+    <div class="alert alert-danger" ng-show="vm.message" ng-bind-html="vm.message"></div>
+    <div class="row">
+        <div class="col">
+            <div role="alert" ng-show="vm.error" class="alert alert-danger" ng-bind-html="vm.error"></div>
+            <div role="alert" ng-show="vm.msg" class="alert alert-info" ng-bind-html="vm.msg"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-default" ng-click="vm.dropdb()">Drop database</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-default" ng-click="vm.populatedb()">Populate database with dummy data</button>
+        </div>
+    </div>
+  </div>
+</div>
+<footer class="navbar-default"></footer>

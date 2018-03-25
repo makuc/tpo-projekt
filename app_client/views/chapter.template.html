@@ -1,0 +1,10 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;" ng-cloak>
+  <div id="wrapper">
+    <header></header>
+    <div class="alert alert-danger" ng-show="vm.message" ng-bind-html="vm.message"></div>
+    <div id="chapter-content" class="row" ng-bind-html="vm.chapter.chapter"></div>
+  </div>
+</div>
+<sidebar vm="vm"></sidebar>
+<footer class="navbar-default"></footer>

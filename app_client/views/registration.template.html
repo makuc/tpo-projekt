@@ -1,0 +1,45 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;" ng-cloak>
+  <div id="wrapper">
+    <header></header>
+    <form ng-submit="vm.submit()" id="login" class="form-horizontal" autocomplete="off">
+      <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="name">Creator name:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="name" placeholder="Enter your desired creator's name" ng-model="vm.formData.name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="email">Email:</label>
+        <div class="col-sm-8">
+          <input type="email" class="form-control" id="email" placeholder="Enter your email address" ng-model="vm.formData.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="password">Password:</label>
+        <div class="col-sm-8">
+          <input type="password" class="form-control" id="password" placeholder="Enter your desired password" ng-model="vm.formData.password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="password2">Repeat password:</label>
+        <div class="col-sm-8">
+          <input type="password" class="form-control" id="password2" placeholder="Repeat the same password as above" ng-model="vm.formData.password2">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8 checkbox" checkbox>
+          <label><input type="checkbox" id="terms" placeholder="Do you agree to the terms of use?" value="true" ng-model="vm.formData.terms">I agree to the terms of use</label>
+        </div>
+      </div>
+      <div id="captcha" class="col-sm-offset-2 col-sm-10 g-recaptcha" data-sitekey="6LfYvz4UAAAAABiUZ8cxXA3DdN8-YhUSt-N7K7uX" data-callback="submit" data-size="inline"></div>
+      <div class="col-sm-offset-2 col-sm-10">
+        <center>
+          <button type="submit" id="btn-register" class="btn btn-default">Register</button>
+        </center>
+      </div>
+    </form>
+  </div>
+</div>
+<footer class="navbar-default"></footer>

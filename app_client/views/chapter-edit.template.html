@@ -1,0 +1,21 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;" ng-cloak>
+  <div id="wrapper">
+    <form class="form-inline" ng-submit="vm.sendData()" role="form" name="editor">
+      <div class='row page-header'>
+        <div class="col-xs-12">
+          <h4 ng-bind-html="vm.pageHeader.smallTitle" ng-cloak></h4>  
+        </div>
+        <div class="alert alert-danger" ng-show="vm.error" ng-bind-html="vm.error"></div>
+        <div class="alert alert-success" ng-show="vm.message" ng-bind-html="vm.message"></div>
+        <label for="title"><h3>Chapter title:</h3></label>
+        <input type="text" id="title" name="title" ng-model="vm.chapter.title" class="form-control" style="width:70%" ng-cloak required />
+        <h5>{{ vm.pageHeader.date | customDate }}</h5>
+      </div>
+      <h4>Chapter content:</h4>
+      <div id="chapterContent" class="row form-control" style="width:100%; min-height: 15em" contenteditable="true" ng-model="vm.chapter.chapter" ng-cloak name="chapterContent"><br></div>
+    </form>
+  </div>
+</div>
+<sidebar vm="vm" ng-cloak></sidebar>
+<footer class="navbar-default"></footer>

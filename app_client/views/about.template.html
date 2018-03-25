@@ -1,0 +1,11 @@
+<nav></nav>
+<div class="container" style="margin-bottom: 4em;">
+  <div id="wrapper">
+    <header></header>
+    <div class="alert alert-danger" ng-show="vm.message" ng-bind-html="vm.message"></div>
+    <div class="row">
+        <p ng-bind-html="vm.content | breakLineToHtml"></p>
+    </div>
+  </div>
+</div>
+<footer class="navbar-default"></footer>

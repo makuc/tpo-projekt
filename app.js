@@ -1,10 +1,13 @@
+require('dotenv').load();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var uglifyJs = require('uglify-js');
+var fs = require('fs');
 
-require('./app_server/models/db');
+require('./app_api/models/db');
 
 var server = {
   indexRouter: require('./app_server/routes/index'),
@@ -14,6 +17,22 @@ var api = {
   public: require('./app_api/routes/api.public.route'),
   private: require('./app_api/routes/api.private.route')
 };
+
+
+/*************************************************/
+/*            Priprava datotek za SPA            */
+/*************************************************/
+var zdruzeno = uglifyJs.minify({
+  'app.js': fs.readFileSync('app_client/app.client.js', 'utf8')
+});
+  
+fs.writeFile('public/angular/spa.min.js', zdruzeno.code, function(err) {
+  if (err)
+    console.log(err);
+  else
+    console.log('Skripta je zgenerirana in shranjena v "public/angular/spa.min.js"');
+});
+
 
 
 var app = express();

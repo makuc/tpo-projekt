@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
-//var ctrlLokacije = require('../controllers/lokacije');
+
+var ctrl = {
+    other: require('../controllers/other.controller')
+};
 
 
+router.get('/', ctrl.other.index);
 
 module.exports = router;

@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 /*  Referenca na ustvarjene modele  */
-//require("./user.model");
+require("./users.model");
 //require("./novel.model");
 //require("./chapter.model");
 
 /*  Poveži se s podatkovno bazo  */
-var dbURI = "mongodb://localhost/aa-novels";
+var dbURI = process.env.DB_HOST_DEV;
 if (process.env.NODE_ENV === 'production') {
     dbURI = process.env.MLAB_URI; // Bi bilo boljše nastaviti: config.prodDB ??
 }
