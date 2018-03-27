@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 
 /*  Referenca na ustvarjene modele  */
-require("./users.model");
-//require("./novel.model");
-//require("./chapter.model");
+require("./drzava.model");
+require("./obcina.model");
+require("./posta.model");
+require("./user.model");
+require("./student.model");
+
 
 /*  Poveži se s podatkovno bazo  */
 var dbURI = process.env.DB_HOST_DEV;

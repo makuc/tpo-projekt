@@ -23,6 +23,7 @@ var api = {
 /*            Priprava datotek za SPA            */
 /*************************************************/
 var zdruzeno = uglifyJs.minify({
+  // Dopiši vse datoteke, ki jih želiš združiti v SPA eno datoteko!
   'app.js': fs.readFileSync('app_client/app.client.js', 'utf8')
 });
   
