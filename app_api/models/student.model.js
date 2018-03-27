@@ -8,7 +8,7 @@ var studentSchema = new mongoose.Schema({
     datum_rojstva: {type: Date, required: true},
     kraj_rojstva: {type: String, required: true},
     drzava_rojstva: {type: ObjectId, ref: 'Drzava', required: true},
-    obcina_rojstva: {type: ObjectId, ref: 'Obcina', required: true},
+    obcina_rojstva: {type: ObjectId, ref: 'Obcina', required: false},
     drzavljanstvo: {type: String, required: true},
     spol: {type: String, required: true},
     emso: {type: String, required: true},
@@ -18,10 +18,11 @@ var studentSchema = new mongoose.Schema({
     stalno_bivalisce_naslov: {type: String, required: true},
     stalno_bivalisce_posta: {type: ObjectId, ref: 'Posta', required: true},
     stalno_bivalisce_drzava_obcina: {type: String, required: true},
+    stalno_bivalisce_vrocanje: {type: Boolean, "default": true},
     zacasno_bivalisce_naslov: {type: String, required: false},
     zacasno_bivalisce_posta: {type: ObjectId, ref: 'Posta', required: false},
     zacasno_bivalisce_drzava_obcina: {type: String, required: false},
-    bivalisce_obvescanje: {type: String, "default": "Stalno"},
+    zacasno_bivalisce_vrocanje: {type: Boolean, "default": false},
     
     datum_registracije: {type: Date, "default": Date.now},
 });

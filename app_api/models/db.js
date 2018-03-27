@@ -6,12 +6,14 @@ require("./obcina.model");
 require("./posta.model");
 require("./user.model");
 require("./student.model");
+require("./kandidat.model");
 
 
 /*  Poveži se s podatkovno bazo  */
 var dbURI = process.env.DB_HOST_DEV;
 if (process.env.NODE_ENV === 'production') {
-    dbURI = process.env.MLAB_URI; // Bi bilo boljše nastaviti: config.prodDB ??
+  console.log("Connecting to production");
+  dbURI = process.env.DB_HOST;
 }
 mongoose.connect(dbURI, { useMongoClient: true });
 

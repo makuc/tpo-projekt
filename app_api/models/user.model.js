@@ -1,20 +1,14 @@
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    student: {type: ObjectId, ref: 'Student', required: false},
+    zaposlen: {type: ObjectId, ref: 'Zaposlen', required: false},
     email: {type: String, required: true, unique: true},
     hashed: {type: String, required: true},
-    salt: {type: String, required: true},
-    
-    date_registered: {type: Date, "default": Date.now},
-    library: [{type: mongoose.Schema.Types.ObjectId, ref: 'Novel', required: false}]
-});
-userSchema.virtual('mynovels', {
-    ref: 'Novel',
-    localField: '_id',
-    foreignField: 'author'
+    salt: {type: String, required: true}
 });
 userSchema.virtual('password').set(function(password) {
     this.preHashed = password;
