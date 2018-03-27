@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
-var imeSchema = new mongoose.Schema({});
+var oblikaStudijaSchema = new mongoose.Schema({
+    naziv: {type: String, required: true, unique: true}
+});
 
 // Save this Scheme as a model
-mongoose.model('Ime', imeSchema, 'Imena');
+mongoose.model('OblikaStudija', oblikaStudijaSchema, 'OblikeStudija');

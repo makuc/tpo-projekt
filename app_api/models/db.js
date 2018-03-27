@@ -4,9 +4,24 @@ var mongoose = require('mongoose');
 require("./drzava.model");
 require("./obcina.model");
 require("./posta.model");
+require("./nacinStudija.model");
+require("./oblikaStudija.model");
+require("./studijskoLeto.model");
+
+require("./ucitelj.model");
+require("./predmet.model");
+require("./delPredmetnika.model");
+require("./predmetnik.model");
+require("./studijskiProgram.model");
+require("./letnik.model");
+
 require("./user.model");
 require("./student.model");
 require("./kandidat.model");
+require("./vpis.model");
+require("./vrstaVpisa.model");
+
+require("./izpit.model");
 
 
 /*  Poveži se s podatkovno bazo  */

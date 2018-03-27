@@ -58,7 +58,8 @@ userSchema.methods.genJwt = function(remember) {
     return jwt.sign(
         {
             _id: this._id,
-            name: this.name,
+            student: this.student,
+            zaposlen: this.zaposlen,
             email: this.email,
             expires: expires
         },
