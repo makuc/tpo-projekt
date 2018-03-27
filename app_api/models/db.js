@@ -11,6 +11,18 @@ require("./user.model");
 require("./student.model");
 require("./kandidat.model");
 require("./vpis.model");
+require("./vrstaVpisa.model");
+require("./ucitelj.model");
+require("./predmet.model");
+require("./izvedbaPredmeta.model");
+require("./rok.model");
+require("./delPredmetnika.model");
+require("./predmetnik.model");
+require("./studijskiProgram.model");
+require("./letnik.model");
+require("./predmetStudenta.model");
+require("./prijava.model");
+require("./izpit.model");
 
 
 /*  Poveži se s podatkovno bazo  */
