@@ -4,9 +4,13 @@ var mongoose = require('mongoose');
 require("./drzava.model");
 require("./obcina.model");
 require("./posta.model");
+require("./nacinStudija.model");
+require("./oblikaStudija.model");
+require("./studijskoLeto.model");
 require("./user.model");
 require("./student.model");
 require("./kandidat.model");
+require("./vpis.model");
 
 
 /*  Poveži se s podatkovno bazo  */
