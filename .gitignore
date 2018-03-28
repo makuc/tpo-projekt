@@ -3,6 +3,8 @@
 node_modules/
 npm-debug.log
 nodemon.json
+mongodb
+.c9
 
 # Environment variables #
 #.env
