@@ -8,7 +8,7 @@ require("./nacinStudija.model");
 require("./oblikaStudija.model");
 require("./studijskoLeto.model");
 
-require("./ucitelj.model");
+require("./zaposlen.model");
 require("./predmet.model");
 require("./delPredmetnika.model");
 require("./predmetnik.model");

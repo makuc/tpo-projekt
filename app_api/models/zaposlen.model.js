@@ -9,4 +9,4 @@ var uciteljSchema = new mongoose.Schema({
 });
 
 // Save this Scheme as a model
-mongoose.model('Ucitelj', uciteljSchema, 'Ucitelji');
+mongoose.model('Zaposlen', uciteljSchema, 'Zaposleni');

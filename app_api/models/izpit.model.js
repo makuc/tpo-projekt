@@ -18,7 +18,7 @@ var izpitSchema = new mongoose.Schema({
     datum_izvajanja: {type: Date, required: true},
     opombe: {type: String, required: false},
     
-    ucitelji: [{type: ObjectId, ref: 'Ucitelj', required: false}],
+    ucitelji: [{type: ObjectId, ref: 'Zaposlen', required: false}],
     polagalci: [polagalecSchema],
     
     veljavnost: {type: Boolean, "default": true}
