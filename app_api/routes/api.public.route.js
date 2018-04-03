@@ -10,5 +10,6 @@ var ctrl = {
 
 router.get('/', ctrl.other.index);
 router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
+router.delete('/db', ctrl.populate.izbrisBaze);
 
 module.exports = router;
