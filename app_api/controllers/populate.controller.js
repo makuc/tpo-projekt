@@ -984,7 +984,7 @@ var models = {
     User: mongoose.model('User')
 };
 
-/* GET home page. */
+/* Public functions */
 module.exports.vnosZacetnihPodatkov = function(req, res) {
     zacniVnasanjeZacetnihPodatkov(req, res, [ dropDB, vnosObcin, vnosDrzav, vnosPost, vnosStudijskihLet, vnosDone ]);
 };
@@ -992,6 +992,10 @@ module.exports.izbrisBaze = function(req, res) {
     dropDB(req, res, [ dropDB, dropDone ]);
 };
 
+
+
+
+/* Private functions */
 function callNext(req, res, next) {
     var exec;
     
