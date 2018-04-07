@@ -78,3 +78,16 @@ console.log("Veljavnost EMSO: " + isEMSO(emso1));
 // Test funkcije emsoMatchesData
 console.log("Se ujema: " + emsoMatchesData(emso1, 29, 2, 1933, 50, 0));
 */
+
+/*
+{
+    0 student
+    1 referntka
+    2 skrbnik
+}*/
+
+
+function vrniStudenta(vpisnaStevilka)
+{
+    
+}
