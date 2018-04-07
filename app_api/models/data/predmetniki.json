@@ -1,0 +1,4 @@
+[
+{"_id":ObjectId("5ac8e2dddf3a431fd3d29278"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"del_predmetnika":ObjectId("5ac8d60f7bfd491b48490279"),"predmeti":[ObjectId("5ac8df8efeae4c1cfd56301b"),ObjectId("5ac8df8efeae4c1cfd56301c")]},
+{"_id":ObjectId("5ac8e2dddf3a431fd3d29279"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"del_predmetnika":ObjectId("5ac8d60f7bfd491b4849027a"),"predmeti":[ObjectId("5ac8df8efeae4c1cfd56301d")]},
+]
