@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var ObjectId = mongoose.Types.ObjectId;
 var ISODate = Date;
 
 var zacetniPodatki = {
@@ -980,28 +980,28 @@ var zacetniPodatki = {
     ],
     
     studijskiProgrami: [
-{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000468 },
-{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000470 }
+{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b36"), "semestri": 6, "sifraEVS": 1000468 },
+{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b35"), "semestri": 6, "sifraEVS": 1000470 }
     ],
     letniki: [
         {
-            studijskiProgram: ObjectId(""),
+            studijskiProgram: ObjectId("5ac8c4739a223311d219b718"),
             naziv: "1. letnik"
         },
         {
-            studijskiProgram: ObjectId(""),
+            studijskiProgram: ObjectId("5ac8c4739a223311d219b718"),
             naziv: "2. letnik"
         },
         {
-            studijskiProgram: ObjectId(""),
+            studijskiProgram: ObjectId("5ac8c4739a223311d219b718"),
             naziv: "3. letnik"
         },
         {
-            studijskiProgram: ObjectId(""),
+            studijskiProgram: ObjectId("5ac8c4739a223311d219b719"),
             naziv: "1. letnik"
         },
         {
-            studijskiProgram: ObjectId(""),
+            studijskiProgram: ObjectId("5ac8c4739a223311d219b719"),
             naziv: "2. letnik"
         }
     ],
@@ -1015,9 +1015,9 @@ var zacetniPodatki = {
     
     kadidati: [],
     studenti: [
-{ "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false },
-{ "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false },
-{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false }
+{ "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
+{ "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
+{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63bb"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
     ],
     vpisi: [],
     
@@ -1055,7 +1055,7 @@ var models = {
 /* Public functions */
 module.exports.vnosZacetnihPodatkov = function(req, res) {
     zacniVnasanjeZacetnihPodatkov(req, res, [ dropDB, vnosObcin, vnosDrzav, vnosPost, vnosStudijskihLet, vnosVrsteStudijev, vnosVrsteVpisev
-    , vnosOblikStudijev, vnosNacinovStudija, vnosStudijskihProgramov
+    , vnosOblikStudijev, vnosNacinovStudija, vnosStudijskihProgramov, vnosLetnikov
     , vnosStudentov
     , vnosDone ]);
 };
@@ -1226,6 +1226,18 @@ function vnosStudijskihProgramov(req, res, next) {
         }
         
         console.log("Študijski programi vnešeni!");
+        callNext(req, res, next);
+    });
+}
+function vnosLetnikov(req, res, next) {
+    console.log("Vnašam letnike...");
+    
+    models.Letnik.collection.insert(zacetniPodatki.letniki, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu Letnikov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Letniki vnešeni!");
         callNext(req, res, next);
     });
 }
