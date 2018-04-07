@@ -1016,7 +1016,6 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8e4fb4d6b0b20b65b9574"),"predmet":ObjectId("5ac8df8efeae4c1cfd56301c"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"datum_izvajanja":1.523115244047e+12,"opombe":{"required":false},"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25f"),ObjectId("5ac8daee119e6a1c2ab5b25e")],"polagalci":[ObjectId("5ac8ca4d36fba41313122308"),ObjectId("5ac8ca4d36fba41313122307")],"veljavnost":true},
     ],
     
-    kadidati: [],
     studenti: [
 { "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
 { "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
@@ -1048,7 +1047,6 @@ var models = {
     Predmetnik: mongoose.model('Predmetnik'),
     Izpit: mongoose.model('Izpit'),
     
-    Kandidat: mongoose.model('Kandidat'),
     Student: mongoose.model('Student'),
     Vpis: mongoose.model('Vpis'),
     
