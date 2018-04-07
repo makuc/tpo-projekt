@@ -1,0 +1,4 @@
+[
+{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000468 },
+{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000470 },
+]

@@ -1,0 +1,4 @@
+[
+{ "_id": ObjectId("5ac8bb39c3e49f0ee16a8b35"), "sifra": 16202, "opis": "Prva stopnja: Visokošolski strokovni", "klasiusSRV": "6/2", "predpona": "J" },
+{ "_id": ObjectId("5ac8bb39c3e49f0ee16a8b36"), "sifra": 17002, "opis": "Prva stopnja: Univerzitetni", "klasiusSRV": "7", "predpona": "K" },
+]
