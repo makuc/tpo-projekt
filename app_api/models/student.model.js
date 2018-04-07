@@ -3,11 +3,14 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 
 var zetonSchema = new mongoose.Schema({
+    studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     letnik: {type: ObjectId, ref: 'Letnik', required: true},
     studijski_program: {type: ObjectId, ref: 'StudijskiProgram', required: true},
+    vrsta_studija: {type: ObjectId, ref: 'VrstaStudija', required: true},
     vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: true},
     
-    // Incomplete
+    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: true},
+    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: true},
     
     izkoriscen: {type: Boolean, "default": false}
 });

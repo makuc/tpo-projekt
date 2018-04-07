@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var ObjectId = mongoose.Types.ObjectId;
 var ISODate = Date;
 
 var zacetniPodatki = {
@@ -980,44 +980,46 @@ var zacetniPodatki = {
     ],
     
     studijskiProgrami: [
-{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000468 },
-{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000470 }
+{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b36"), "semestri": 6, "sifraEVS": 1000468 },
+{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b35"), "semestri": 6, "sifraEVS": 1000470 }
     ],
     letniki: [
-        {
-            studijskiProgram: ObjectId(""),
-            naziv: "1. letnik"
-        },
-        {
-            studijskiProgram: ObjectId(""),
-            naziv: "2. letnik"
-        },
-        {
-            studijskiProgram: ObjectId(""),
-            naziv: "3. letnik"
-        },
-        {
-            studijskiProgram: ObjectId(""),
-            naziv: "1. letnik"
-        },
-        {
-            studijskiProgram: ObjectId(""),
-            naziv: "2. letnik"
-        }
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd312"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "1. letnik" },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd313"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "2. letnik" },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd314"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "3. letnik" },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd315"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b719"), "naziv": "1. letnik" },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd316"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b719"), "naziv": "2. letnik" }
     ],
     
-    zaposleni: [],
+    zaposleni: [
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr." },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as." }
+    ],
     
-    deliPredmetnikov: [],
-    predmetniki: [],
-    izpiti: [],
-    predmeti: [],
+    predmeti: [
+{"_id":ObjectId("5ac8df8efeae4c1cfd56301b"),"sifra":"nevemKjeDobit","naziv":"Programiranje 1","opis":"Cilj predmeta je študentom predstaviti osnovne koncepte objektno usmerjenega programiranja v enem izmed splošno namenskih programskih jezikov 3. generacije in jih usposobiti za samostojen razvoj enostavnih računalniških programov.","izvedbe_predmeta":[{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3d9"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]},{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]}]},
+{"_id":ObjectId("5ac8df8efeae4c1cfd56301c"),"sifra":"nevemKjeDobit2","naziv":"Osnove Matematične Analize","opis":"Številske množice, zaporedja in številske vrste.nFunkcije: osnovni pojmi, graf, zveznost in limita funkcije, lastnosti zveznih funkcij, reševanje nelinearnih enačb, graf in nivojske krivulje funkcije dveh spremenljivk.nOdvod: definicija in geometrijski pomen odvoda, računanje odvodov, diferencial in linearna aproksimacija funkcije, parcialni odvodi, odvodi višjega reda, Taylorjev polinom in Taylorjeva vrsta, uporaba odvoda: risanje grafov, računanje limit, stacionarne točke, lokalni, globalni in vezani ekstremi, primeri optimizacijskih nalog, nIntegral: Nedoločeni integral, računanje nedoločenih integralov. Določeni integral in ploščine. Zveza med nedoločenim in določenim integralom, primeri neelementarnih funkcij, uporaba integrala.","izvedbe_predmeta":[{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3d9"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]},{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]}]},
+{"_id":ObjectId("5ac8df8efeae4c1cfd56301d"),"sifra":"63203","naziv":"Diskretne strukture","opis":"Logika. Izjave. Izjavni vezniki. Izjavni izrazi. Zakoni izjavnega računa. Izjavne formule. Enakovrednosti v predikatnem računu. Zakoni predikatnega računa z omejitvami...","izvedbe_predmeta":[{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3d9"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]},{"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"izpiti":[]}]},
+    ],
+    deliPredmetnika: [
+{ "_id": ObjectId("5ac8d60f7bfd491b48490279"), "sifra": 1, "naziv": "obvezni predmeti" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027a"), "sifra": 2, "naziv": "strokovni izbirni" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027b"), "sifra": 3, "naziv": "splošni izbirni" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027c"), "sifra": 4, "naziv": "moduli" }
+    ],
+    predmetniki: [
+{"_id":ObjectId("5ac8e2dddf3a431fd3d29278"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"del_predmetnika":ObjectId("5ac8d60f7bfd491b48490279"),"predmeti":[ObjectId("5ac8df8efeae4c1cfd56301b"),ObjectId("5ac8df8efeae4c1cfd56301c")]},
+{"_id":ObjectId("5ac8e2dddf3a431fd3d29279"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"del_predmetnika":ObjectId("5ac8d60f7bfd491b4849027a"),"predmeti":[ObjectId("5ac8df8efeae4c1cfd56301d")]},
+    ],
+    izpiti: [
+{"_id":ObjectId("5ac8e4fb4d6b0b20b65b9573"),"predmet":ObjectId("5ac8df8efeae4c1cfd56301b"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"datum_izvajanja":1.523115244047e+12,"opombe":{"required":false},"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"polagalci":[ObjectId("5ac8ca4d36fba41313122306")],"veljavnost":true},
+{"_id":ObjectId("5ac8e4fb4d6b0b20b65b9574"),"predmet":ObjectId("5ac8df8efeae4c1cfd56301c"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"datum_izvajanja":1.523115244047e+12,"opombe":{"required":false},"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25f"),ObjectId("5ac8daee119e6a1c2ab5b25e")],"polagalci":[ObjectId("5ac8ca4d36fba41313122308"),ObjectId("5ac8ca4d36fba41313122307")],"veljavnost":true},
+    ],
     
-    kadidati: [],
     studenti: [
-{ "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false },
-{ "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false },
-{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": null, "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": null, "stalno_bivalisce_obcina": null, "stalno_bivalisce_drzava": null, "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": null, "zacasno_bivalisce_obcina": null, "zacasno_bivalisce_drzava": null, "zacasno_bivalisce_vrocanje": false }
+{ "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
+{ "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
+{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63bb"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
     ],
     vpisi: [],
     
@@ -1040,12 +1042,11 @@ var models = {
     
     Zaposlen: mongoose.model('Zaposlen'),
     
+    Predmet: mongoose.model('Predmet'),
     DelPredmetnika: mongoose.model('DelPredmetnika'),
     Predmetnik: mongoose.model('Predmetnik'),
     Izpit: mongoose.model('Izpit'),
-    Predmet: mongoose.model('Predmet'),
     
-    Kandidat: mongoose.model('Kandidat'),
     Student: mongoose.model('Student'),
     Vpis: mongoose.model('Vpis'),
     
@@ -1054,10 +1055,25 @@ var models = {
 
 /* Public functions */
 module.exports.vnosZacetnihPodatkov = function(req, res) {
-    zacniVnasanjeZacetnihPodatkov(req, res, [ dropDB, vnosObcin, vnosDrzav, vnosPost, vnosStudijskihLet, vnosVrsteStudijev, vnosVrsteVpisev
-    , vnosOblikStudijev, vnosNacinovStudija, vnosStudijskihProgramov
-    , vnosStudentov
-    , vnosDone ]);
+    zacniVnasanjeZacetnihPodatkov(req, res, [
+        dropDB,
+        
+        vnosObcin, vnosDrzav, vnosPost,
+        
+        vnosStudijskihLet,
+        
+        vnosVrsteStudijev, vnosVrsteVpisev, vnosOblikStudijev, vnosNacinovStudija,
+        
+        vnosStudijskihProgramov, vnosLetnikov,
+        
+        vnosZaposlenih,
+        
+        vnosPredmetov, vnosDelovPredmetnika, vnosPredmetnikov, vnosIzpitov,
+        
+        vnosStudentov,
+        
+        vnosDone
+    ]);
 };
 module.exports.izbrisBaze = function(req, res) {
     dropDB(req, res, [ dropDB, dropDone ]);
@@ -1156,6 +1172,7 @@ function vnosPost(req, res, next) {
         callNext(req, res, next);
     });
 }
+
 function vnosStudijskihLet(req, res, next) {
     console.log("Vnašam študijska leta...");
     
@@ -1168,6 +1185,7 @@ function vnosStudijskihLet(req, res, next) {
         callNext(req, res, next);
     });
 }
+
 function vnosVrsteStudijev(req, res, next) {
     console.log("Vnašam vrste študijev...");
     
@@ -1229,6 +1247,82 @@ function vnosStudijskihProgramov(req, res, next) {
         callNext(req, res, next);
     });
 }
+function vnosLetnikov(req, res, next) {
+    console.log("Vnašam letnike...");
+    
+    models.Letnik.collection.insert(zacetniPodatki.letniki, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu Letnikov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Letniki vnešeni!");
+        callNext(req, res, next);
+    });
+}
+
+function vnosZaposlenih(req, res, next) {
+    console.log("Vnašam zaposlene...");
+    
+    models.Zaposlen.collection.insert(zacetniPodatki.zaposleni, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu Zaposlenih - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Zaposleni vnešeni!");
+        callNext(req, res, next);
+    });
+}
+
+function vnosPredmetov(req, res, next) {
+    console.log("Vnašam predmete...");
+    
+    models.Predmet.collection.insert(zacetniPodatki.predmeti, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu predmetov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Predmeti vnešeni!");
+        callNext(req, res, next);
+    });
+}
+function vnosDelovPredmetnika(req, res, next) {
+    console.log("Vnašam dele predmetnika...");
+    
+    models.DelPredmetnika.collection.insert(zacetniPodatki.deliPredmetnika, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu delov predmetnika - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Deli predmetnika vnešeni!");
+        callNext(req, res, next);
+    });
+}
+function vnosPredmetnikov(req, res, next) {
+    console.log("Vnašam predmetnike...");
+    
+    models.Predmetnik.collection.insert(zacetniPodatki.predmetniki, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu predmetnikov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Predmetniki vnešeni!");
+        callNext(req, res, next);
+    });
+}
+function vnosIzpitov(req, res, next) {
+    console.log("Vnašam izpite...");
+    
+    models.Izpit.collection.insert(zacetniPodatki.izpiti, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu izpitov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Izpiti vnešeni!");
+        callNext(req, res, next);
+    });
+}
+
+
 
 
 function vnosStudentov(req, res, next) {

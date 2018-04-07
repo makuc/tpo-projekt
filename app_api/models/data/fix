@@ -1,4 +1,4 @@
-file_IN="./studenti.json"
+file_IN="./izpiti.json"
 
 
 
@@ -8,11 +8,12 @@ while read line
 do
     line=${line// \"/\"}
     line=${line//\{\"\$oid\"\:/ObjectId(}
-    line=${line//\}\,\"/\)\,\"}
-    line=${line//\:/\: }
-    line=${line//\,/\, }
-    line=${line//\{/\{ }
-    line=${line//\}/ \}\,}
+    line=${line//\"\}\,/\"\)\,}
+    line=${line//\"\}\]/\"\)\]}
+    #line=${line//\:/\: }
+    #line=${line//\,/\, }
+    #line=${line//\{/\{ }
+    line=$line","
     
     echo $line
 done < $file_IN >> $file_OUT

@@ -17,7 +17,6 @@ require("./letnik.model");
 
 require("./user.model");
 require("./student.model");
-require("./kandidat.model");
 require("./vpis.model");
 require("./vrstaVpisa.model");
 require("./vrstaStudija.model");

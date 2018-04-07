@@ -6,7 +6,12 @@ var ctrl = {
     populate: require('../controllers/populate.controller'),
     obcina: require("../controllers/obcina.controller"),
     studenti: require("../controllers/studenti.controller"),
+<<<<<<< HEAD
     uvozSprejetih: require("../controllers/studenti.controller")
+=======
+    
+    ctrlStudent: require("../controllers/student.controller")
+>>>>>>> d495115547472a1f6d2ee3bb22e174ecaee40f85
 };
 
 
@@ -15,5 +20,10 @@ router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
 router.delete('/db', ctrl.populate.izbrisBaze);
 router.get('/studenti', ctrl.studenti.getStudenti);
 router.post('/uvozSprejetih', ctrl.studenti.uvoziStudente);
+
+router.get('/vsistudenti', ctrl.ctrlStudent.pridobiStudente);
+router.get('/student/:idStudenta', ctrl.ctrlStudent.izbrisStudenta);
+router.post('/shranistudenta', ctrl.ctrlStudent.ustvariStudenta);
+router.put('/posodobistudenta/:idStudenta', ctrl.ctrlStudent.posodobiStudenta);
 
 module.exports = router;

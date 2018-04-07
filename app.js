@@ -24,7 +24,13 @@ var api = {
 /*************************************************/
 var zdruzeno = uglifyJs.minify({
   // Dopiši vse datoteke, ki jih želiš združiti v SPA eno datoteko!
-  'app.js': fs.readFileSync('app_client/app.client.js', 'utf8')
+  'app.js': fs.readFileSync('app_client/app.client.js', 'utf8'),
+  'header.directive.js': fs.readFileSync('app_client/total/directives/header/header.directive.js', 'utf8'),
+  'footer.directive.js': fs.readFileSync('app_client/total/directives/footer/footer.directive.js', 'utf8'),
+  'navigation.directive.js': fs.readFileSync('app_client/total/directives/navigation/navigation.directive.js', 'utf8'),
+  'student.service.js': fs.readFileSync('app_client/total/services/student.service.js', 'utf8'),
+  'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
+  'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
   
 fs.writeFile('public/angular/spa.min.js', zdruzeno.code, function(err) {
@@ -47,11 +53,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app_client')));
 
 app.use('/', server.indexRouter);
 app.use('/users', server.usersRouter);
 app.use('/api/v1', api.public);
 app.use('/api/v1', api.private);
+
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, 'app_client', 'index-orig.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
