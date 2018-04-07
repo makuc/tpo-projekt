@@ -7,7 +7,7 @@ var ctrl = {
     obcina: require("../controllers/obcina.controller"),
     studenti: require("../controllers/studenti.controller"),
     
-    ctrlStudent: require("../controllers/student")
+    ctrlStudent: require("../controllers/student.controller")
 };
 
 

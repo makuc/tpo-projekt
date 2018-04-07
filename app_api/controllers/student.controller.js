@@ -107,3 +107,7 @@ module.exports.posodobiStudenta = function(req, res){
                 });
             });
 };
+
+module.exports.izbrisStudenta = function(req, res) {
+    res.status(403).json({ message: "Ta funkcija še ne obstaja" });
+};
