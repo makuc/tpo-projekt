@@ -980,20 +980,8 @@ var zacetniPodatki = {
     ],
     
     studijskiProgrami: [
-        {
-            sifra: "VT",
-            naziv: "Računalništvo in informatika",
-            vrstaStudija: ObjectId("5ac8bb39c3e49f0ee16a8b36"),
-            semestri: 6,
-            sifraEVS: 1000468
-        },
-        {
-            sifra: "VU",
-            naziv: "Računalništvo in informatika",
-            vrstaStudija: ObjectId("5ac8bb39c3e49f0ee16a8b35"),
-            semestri: 6,
-            sifraEVS: 1000470
-        }
+{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000468 },
+{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000470 }
     ],
     letniki: [
         {
@@ -1063,7 +1051,7 @@ var models = {
 /* Public functions */
 module.exports.vnosZacetnihPodatkov = function(req, res) {
     zacniVnasanjeZacetnihPodatkov(req, res, [ dropDB, vnosObcin, vnosDrzav, vnosPost, vnosStudijskihLet, vnosVrsteStudijev, vnosVrsteVpisev
-    , vnosOblikStudijev, vnosNacinovStudija
+    , vnosOblikStudijev, vnosNacinovStudija, vnosStudijskihProgramov
     , vnosDone ]);
 };
 module.exports.izbrisBaze = function(req, res) {
@@ -1220,6 +1208,19 @@ function vnosNacinovStudija(req, res, next) {
         }
         
         console.log("Načini študija vnešeni!");
+        callNext(req, res, next);
+    });
+}
+
+function vnosStudijskihProgramov(req, res, next) {
+    console.log("Vnašam študijske programe...");
+    
+    models.StudijskiProgram.collection.insert(zacetniPodatki.studijskiProgrami, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu Študijskih Programov - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Študijski programi vnešeni!");
         callNext(req, res, next);
     });
 }
