@@ -1,4 +1,4 @@
 [
-{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000468 },
-{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": null, "semestri": 6, "sifraEVS": 1000470 },
+{ "_id": ObjectId("5ac8c4739a223311d219b718"), "sifra": "VT", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b36"), "semestri": 6, "sifraEVS": 1000468 },
+{ "_id": ObjectId("5ac8c4739a223311d219b719"), "sifra": "VU", "naziv": "Računalništvo in informatika", "vrstaStudija": ObjectId("5ac8bb39c3e49f0ee16a8b35"), "semestri": 6, "sifraEVS": 1000470 },
 ]

@@ -1,0 +1,6 @@
+[
+{ "_id": ObjectId("5ac8d60f7bfd491b48490279"), "sifra": 1, "naziv": "obvezni predmeti" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027a"), "sifra": 2, "naziv": "strokovni izbirni" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027b"), "sifra": 3, "naziv": "splošni izbirni" },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027c"), "sifra": 4, "naziv": "moduli" },
+]

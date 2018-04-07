@@ -1,0 +1,4 @@
+[
+{"_id":ObjectId("5ac8e4fb4d6b0b20b65b9573"),"predmet":ObjectId("5ac8df8efeae4c1cfd56301b"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"datum_izvajanja":1.523115244047e+12,"opombe":{"required":false},"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25e"),ObjectId("5ac8daee119e6a1c2ab5b25f")],"polagalci":[ObjectId("5ac8ca4d36fba41313122306")],"veljavnost":true},
+{"_id":ObjectId("5ac8e4fb4d6b0b20b65b9574"),"predmet":ObjectId("5ac8df8efeae4c1cfd56301c"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"datum_izvajanja":1.523115244047e+12,"opombe":{"required":false},"ucitelji":[ObjectId("5ac8daee119e6a1c2ab5b25f"),ObjectId("5ac8daee119e6a1c2ab5b25e")],"polagalci":[ObjectId("5ac8ca4d36fba41313122308"),ObjectId("5ac8ca4d36fba41313122307")],"veljavnost":true},
+]
