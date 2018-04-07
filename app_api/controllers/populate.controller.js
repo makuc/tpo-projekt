@@ -992,8 +992,8 @@ var zacetniPodatki = {
     ],
     
     zaposleni: [
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr." },
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as." }
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", e_posta: "test@test.test", skrbnik: true },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as.", e_posta: "test2@test.test" },
     ],
     
     predmeti: [
@@ -1019,14 +1019,20 @@ var zacetniPodatki = {
     studenti: [
 { "_id": ObjectId("5ac8ca4d36fba41313122306"), "vpisna_stevilka": "63140150", "priimek": "Makovec", "ime": "Armin", "datum_rojstva": "31/03/1995", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
 { "_id": ObjectId("5ac8ca4d36fba41313122307"), "vpisna_stevilka": "63140151", "priimek": "Cevokam", "ime": "Nimra", "datum_rojstva": "13/03/1994", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "1303994500072", "davcna_stevilka": "123456788", "e_posta": "cn4530@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 5", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 3", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
-{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "am4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63bb"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
+{ "_id": ObjectId("5ac8ca4d36fba41313122308"), "vpisna_stevilka": "63140152", "priimek": "Kajtebrigovič", "ime": "Nobenkovič", "datum_rojstva": "01/01/1991", "kraj_rojstva": "Šempeter pri Gorici", "drzava_rojstva": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "obcina_rojstva": "Nova Gorica", "drzavljanstvo": "Slovensko", "spol": "M", "emso": "3103995500072", "davcna_stevilka": "123456789", "e_posta": "nb4531@student.uni-lj.si", "prenosni_telefon": "(0)51 492 392", "stalno_bivalisce_naslov": "Med trtami 7", "stalno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "stalno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63c7"), "stalno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "stalno_bivalisce_vrocanje": true, "zacasno_bivalisce_naslov": "kar nekaj nekje 123", "zacasno_bivalisce_posta": ObjectId("5ac3b84dca0b200e0043d0fa"), "zacasno_bivalisce_obcina": ObjectId("5ac3ac7ccaf7bd0bdada63bb"), "zacasno_bivalisce_drzava": ObjectId("5ac3bbb5eeafcf0f08c3a5b1"), "zacasno_bivalisce_vrocanje": false },
     ],
     vpisi: [
 {"_id":ObjectId("5ac8f5189f509a37f0dff33c"),"student":ObjectId("5ac8ca4d36fba41313122306"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"vrsta_studija":ObjectId("5ac8bb39c3e49f0ee16a8b36"),"vrsta_vpisa":ObjectId("5ac8be2a7482291008d3f9f5"),"kraj_izvajanja":"Ljubljana","studijsko_leto_prvega_vpisa_v_ta_program":ObjectId("5ac3c4553f0fb21a058ff3da"),"nacin_studija":ObjectId("5ac8bef1477ab810cd9647f4"),"oblika_studija":ObjectId("5ac8beac24ee18109953514b"),"usmeritev":"-","izbirna_skupina":"-","priloge":[],"potrjen":true},
 {"_id":ObjectId("5ac8f5189f509a37f0dff33d"),"student":ObjectId("5ac8ca4d36fba41313122308"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"vrsta_studija":ObjectId("5ac8bb39c3e49f0ee16a8b36"),"vrsta_vpisa":ObjectId("5ac8be2a7482291008d3f9f5"),"kraj_izvajanja":"Ljubljana","studijsko_leto_prvega_vpisa_v_ta_program":ObjectId("5ac3c4553f0fb21a058ff3da"),"nacin_studija":ObjectId("5ac8bef1477ab810cd9647f4"),"oblika_studija":ObjectId("5ac8beac24ee18109953514b"),"usmeritev":"-","izbirna_skupina":"-","priloge":[],"potrjen":true}
     ],
     
-    userji: []
+    userji: [
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ab"),student: ObjectId("5ac8ca4d36fba41313122306"),email: "am4531@student.uni-lj.si",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ac"),student: ObjectId("5ac8ca4d36fba41313122307"),email: "cn4530@student.uni-lj.si",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ad"),student: ObjectId("5ac8ca4d36fba41313122308"),email: "nb4531@student.uni-lj.si",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "test@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test2@test.test",password: "qwas123"}
+    ]
 };
 var models = {
     Obcina: mongoose.model('Obcina'),
@@ -1075,14 +1081,14 @@ module.exports.vnosZacetnihPodatkov = function(req, res) {
         
         vnosStudentov, vnosVpisov,
         
+        vnosUserjev,
+        
         vnosDone
     ]);
 };
 module.exports.izbrisBaze = function(req, res) {
     dropDB(req, res, [ dropDB, dropDone ]);
 };
-
-
 
 
 /* Private functions */
@@ -1346,6 +1352,19 @@ function vnosVpisov(req, res, next) {
         }
         
         console.log("Vpisi vnešeni!");
+        callNext(req, res, next);
+    });
+}
+
+function vnosUserjev(req, res, next) {
+    console.log("Vnašam userje...");
+    
+    models.User.create(zacetniPodatki.userji, function(err, data) {
+        if(err) {
+            return res.status(409).send({ message: "Napaka pri vnosu userjev - Si spraznil bazo pred izvedbo klica?" });
+        }
+        
+        console.log("Userji vnešeni!");
         callNext(req, res, next);
     });
 }
