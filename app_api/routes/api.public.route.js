@@ -5,7 +5,8 @@ var ctrl = {
     other: require('../controllers/other.controller'),
     populate: require('../controllers/populate.controller'),
     obcina: require("../controllers/obcina.controller"),
-    studenti: require("../controllers/studenti.controller")
+    studenti: require("../controllers/studenti.controller"),
+    uvozSprejetih: require("../controllers/studenti.controller")
 };
 
 
@@ -13,5 +14,6 @@ router.get('/', ctrl.other.index);
 router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
 router.delete('/db', ctrl.populate.izbrisBaze);
 router.get('/studenti', ctrl.studenti.getStudenti);
+router.post('/uvozSprejetih', ctrl.studenti.uvoziStudente);
 
 module.exports = router;

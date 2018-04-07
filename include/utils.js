@@ -85,9 +85,3 @@ console.log("Se ujema: " + emsoMatchesData(emso1, 29, 2, 1933, 50, 0));
     1 referntka
     2 skrbnik
 }*/
-
-
-function vrniStudenta(vpisnaStevilka)
-{
-    
-}
