@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
-//var ctrlLokacije = require('../controllers/lokacije');
 
-router.get('/', function(req, res) {
-    res.status(404);
-});
+var ctrl = {
+    other: require('../controllers/other.controller'),
+    populate: require('../controllers/populate.controller'),
+    obcina: require("../controllers/obcina.controller"),
+    studenti: require("../controllers/studenti.controller"),
+    
+    ctrlStudent: require("../controllers/student")
+};
+
+
+
+
+
+
 
 module.exports = router;

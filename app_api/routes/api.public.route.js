@@ -17,6 +17,8 @@ router.delete('/db', ctrl.populate.izbrisBaze);
 router.get('/studenti', ctrl.studenti.getStudenti);
 
 router.get('/vsistudenti', ctrl.ctrlStudent.pridobiStudente);
-
+router.get('/student/:idStudenta', ctrl.ctrlStudent.izbrisStudenta);
+router.post('/shranistudenta', ctrl.ctrlStudent.ustvariStudenta);
+router.put('/posodobistudenta/:idStudenta', ctrl.ctrlStudent.posodobiStudenta);
 
 module.exports = router;
