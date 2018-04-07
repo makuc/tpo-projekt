@@ -6,12 +6,8 @@ var ctrl = {
     populate: require('../controllers/populate.controller'),
     obcina: require("../controllers/obcina.controller"),
     studenti: require("../controllers/studenti.controller"),
-<<<<<<< HEAD
-    uvozSprejetih: require("../controllers/studenti.controller")
-=======
-    
+    uvozSprejetih: require("../controllers/studenti.controller"),
     ctrlStudent: require("../controllers/student.controller")
->>>>>>> d495115547472a1f6d2ee3bb22e174ecaee40f85
 };
 
 
