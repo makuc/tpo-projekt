@@ -1,0 +1,4 @@
+[
+{ "_id": ObjectId("5ac8bef1477ab810cd9647f4"), "sifra": 1, "naziv": "redni" },
+{ "_id": ObjectId("5ac8bef1477ab810cd9647f5"), "sifra": 3, "naziv": "izredni" },
+]

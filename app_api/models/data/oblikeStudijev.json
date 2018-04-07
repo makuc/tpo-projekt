@@ -1,0 +1,5 @@
+[
+{ "_id": ObjectId("5ac8beac24ee18109953514b"), "sifra": 1, "naziv": "na lokaciji" },
+{ "_id": ObjectId("5ac8beac24ee18109953514c"), "sifra": 2, "naziv": "na daljavo" },
+{ "_id": ObjectId("5ac8beac24ee18109953514d"), "sifra": 3, "naziv": "e-študij" },
+]

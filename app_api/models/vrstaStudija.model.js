@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var vrstaStudijaSchema = new mongoose.Schema({
-    klasius: {type: String, required: true},
-    srv: {type: String, required: true},
-    opis_ravni: {type: String, required: true}
+    sifra: {type: Number, required: true},
+    opis: {type: String, required: true},
+    klasiusSRV: {type: String, required: true},
+    predpona: {type: String, required: true}
 });
 
 // Save this Scheme as a model
