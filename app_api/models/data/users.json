@@ -1,0 +1,7 @@
+[
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ab"),"hashed":"$2a$10$U2MEbmfUhpC97HKeWrjJt.HK5jpH3sjVQWhVFFMAxewHqnCLuEl2u","salt":"$2a$10$U2MEbmfUhpC97HKeWrjJt.","student":ObjectId("5ac8ca4d36fba41313122306"),"email":"am4531@student.uni-lj.si","__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),"hashed":"$2a$10$/bE8Y7SCHvA3kbtUD159qOYJDZrd.j7RGE1Rb6I3.Y8VGyoEkdiYy","salt":"$2a$10$/bE8Y7SCHvA3kbtUD159qO","zaposlen":ObjectId("5ac8daee119e6a1c2ab5b25f"),"email":"test2@test.test","__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ad"),"hashed":"$2a$10$HGyiiLU5McSQTwigMB/JDOp6rsYxTM/8K7TIsdGMfw5rj/HKFvxpy","salt":"$2a$10$HGyiiLU5McSQTwigMB/JDO","student":ObjectId("5ac8ca4d36fba41313122308"),"email":"nb4531@student.uni-lj.si","__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ac"),"hashed":"$2a$10$PJpW63GFo3atUjPLeol5BevZFAOISNCPLbOAmzppJeRBaj0YCLd4a","salt":"$2a$10$PJpW63GFo3atUjPLeol5Be","student":ObjectId("5ac8ca4d36fba41313122307"),"email":"cn4530@student.uni-lj.si","__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),"hashed":"$2a$10$tPWR.tskf2kPuZad9SFSQOwMgdOKHTKw9cSkcChtSALcmlxTfjCGm","salt":"$2a$10$tPWR.tskf2kPuZad9SFSQO","zaposlen":ObjectId("5ac8daee119e6a1c2ab5b25e"),"email":"test@test.test","__v":0},
+]

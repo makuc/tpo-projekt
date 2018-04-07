@@ -1,4 +1,4 @@
 [
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr." },
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as." },
+{"_id":ObjectId("5ac8daee119e6a1c2ab5b25e"),"priimek":"Teacher","ime":"Super","naziv":"prof. dr.","e_posta":"test@test.test","skrbnik":true},
+{"_id":ObjectId("5ac8daee119e6a1c2ab5b25f"),"priimek":"Assistent","ime":"Super","naziv":"as.","e_posta":"test2@test.test"},
 ]
