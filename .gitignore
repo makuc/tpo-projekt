@@ -5,6 +5,7 @@ npm-debug.log
 nodemon.json
 mongodb
 .c9
+public/angular/spa.min.js
 
 # Environment variables #
 #.env
