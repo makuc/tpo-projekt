@@ -14,19 +14,24 @@ var ctrl = {
 };
 
 
+// Osnovne povezave
 router.get('/', ctrl.other.index);
 router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
 router.delete('/db', ctrl.populate.izbrisBaze);
 
+
+// Uporabniki - povezave
 router.post("/prijava", ctrl.users.login);
 router.post("/odjava", ctrl.users.logout);
 
-router.get("/uporabnik", ctrl.users.getUsers)
+router.get("/uporabnik", ctrl.users.getUsers);
 router.get("/uporabnik/:user", ctrl.users.getUser);
 router.post("/uporabnik", ctrl.users.addUser);
 router.delete("/uporabnik/:user", ctrl.users.deleteUser);
 router.put("/uporabnik/:user", ctrl.users.updateUser);
 
+
+// Študenti
 router.get('/studenti', ctrl.studenti.getStudenti);
 router.post('/uvozSprejetih', ctrl.studenti.uvoziStudente);
 
