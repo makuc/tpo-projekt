@@ -2,6 +2,16 @@ var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var Student = mongoose.model('Student');
 
+var request = require('request');
+var apiParameters = {
+  server: "http://localhost:" + process.env.PORT
+};
+/*
+if(process.env.NODE_ENV === 'production') {
+  apiParameters.server = "https://aa-novels.herokuapp.com/";
+}
+*/
+
 /* GET home page. */
 module.exports.getStudenti = function(req, res) {
   // TEST response
@@ -30,67 +40,95 @@ module.exports.uvoziStudente = function(req, res) {
     uvoziStudente(req, res);
 };
 
+// pricakuje da request body vsebuje json objekt s spremenljivko
+// Podatki katere vrednost je plaintext studentov
 function uvoziStudente(req, res) {
-    req = `Robert
-Barachini
-BUN RI
-r.b@gmail.com
-Janez
-Novak
-ISRM
-janovaksomemail.com
-`;
-    //console.log(req);
-    var koncniObject = {};
-    var sprejeti = [];
-    var zavrnjeni = [];
-    var reqSplit = req.split(/[\r\n]+/);
-    var counter = 0;
-    var studentObj = {};
-    for (var i = 0; i < reqSplit.length; i++) {
-        var currValue = reqSplit[i];
-        if(counter == 0)
+    Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
+    {
+        var zaporednaVpisna = -1
+        if(err) 
         {
-            studentObj.ime = currValue;
+            zaporednaVpisna = 0;
+            //return res.status(400).json({ message: "Ne najdem zadnjega vnešenega studenta - Je baza prazna?" });
         }
-        else if(counter == 1)
+        else
         {
-            studentObj.priimek = currValue;
+            zaporednaVpisna = student.vpisna_stevilka;
         }
-        else if(counter == 2)
-        {
-            studentObj.program = currValue;
-        }
-        else if(counter == 3)
-        {
-            studentObj.email = currValue;
-            
-            // check if object can be added
-            if(isEmail(currValue))
+        
+        //var zaporednaVpisna = student.vpisna_stevilka;
+        zaporednaVpisna = parseInt(zaporednaVpisna.toString().slice(-4).replace(/^0+/, ''));
+        
+        var koncniObject = {};
+        var sprejeti = [];
+        var zavrnjeni = [];
+        //console.log(req.body.Podatki);
+        var reqSplit = req.body.Podatki.split(/[\r\n]+/);
+        var counter = 0;
+        var studentObj = {};
+        for (var i = 0; i < reqSplit.length; i++) {
+            var currValue = reqSplit[i];
+            if(counter == 0)
             {
-                sprejeti.push(studentObj);
+                studentObj.ime = currValue;
             }
-            else
+            else if(counter == 1)
             {
-                zavrnjeni.push(studentObj);
+                studentObj.priimek = currValue;
             }
-            studentObj = {};
-            counter = -1;
+            else if(counter == 2)
+            {
+                studentObj.program = currValue;
+            }
+            else if(counter == 3)
+            {
+                studentObj.email = currValue;
+
+                // check if object can be added
+                if(isEmail(currValue))
+                {
+                    // je veljaven in ga lahko dodamo
+                    zaporednaVpisna++;
+                    studentObj.studentMail = getStudentMail(studentObj.ime, studentObj.priimek);
+                    studentObj.password = getMailGeslo();
+                    studentObj.vpisna_stevilka = getVpisnaStevilka((new Date()).getFullYear(), zaporednaVpisna);
+                    sprejeti.push(studentObj);
+                    
+                    var studentDB = new Student ({
+                        vpisna_stevilka: studentObj.vpisna_stevilka,
+                        priimek: studentObj.priimek,
+                        ime: studentObj.ime,
+                        e_posta: studentObj.email
+                    });
+                    
+                    studentDB.save(function(err){
+                        if(err)
+                        {
+                            console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
+                            console.log(err);
+                        }
+                        //var saved = (err ? false : true);
+                        //returnJson(res, 200, saved);
+                    });
+                    
+                    // kreiraj novega userja
+                }
+                else
+                {
+                    zavrnjeni.push(studentObj);
+                }
+                studentObj = {};
+                counter = -1;
+            }
+            counter++;
         }
-        counter++;
-    }
-    // return koncni objekt
-    koncniObject.sprejeti = sprejeti;
-    koncniObject.zavrnjeni = zavrnjeni;
-    //console.log(koncniObject);
-    console.log(getVpisnaStevilka(15, 45));
-    console.log(getStudentMail('robert', 'barachini'));
-    console.log(getMailGeslo());
-    console.log(getMailGeslo());
-    console.log(getMailGeslo());
-    console.log(getMailGeslo());
-    console.log(getMailGeslo());
-    return res.status(200).json(koncniObject);
+        // return koncni objekt
+        koncniObject.sprejeti = sprejeti;
+        koncniObject.zavrnjeni = zavrnjeni;
+        //console.log(koncniObject);
+       
+        return res.status(200).json(koncniObject);
+    });
 };
 
 // Check if provided string is formatted as a proper EMAIL
@@ -101,12 +139,12 @@ function isEmail(email) {
 
 function getVpisnaStevilka(prvoLetoVpisa, zaporednaStev)
 {
-    return "63" + prvoLetoVpisa + ('0000' + zaporednaStev).substr(-4);
+    return "63" + prvoLetoVpisa.toString().slice(-2) + ('0000' + zaporednaStev).substr(-4);
 };
 
 function getStudentMail(ime, priimek)
 {
-    return ime.substr(0,1).toLowerCase() + priimek.substr(0,1).toLowerCase() + "XXXX" + "@student.uni-lj.si";
+    return ime.substr(0,1).toLowerCase() + priimek.substr(0,1).toLowerCase() + getRandomCifra(4) + "@student.uni-lj.si";
 }
 
 function getMailGeslo()
@@ -119,4 +157,16 @@ function getMailGeslo()
         geslo += nabor.charAt(Math.floor(Math.random() * nabor.length * 12345) % nabor.length);
     }
     return geslo;
-}
+};
+
+function getRandomCifra(dolzina)
+{
+    var nabor = "0123456789";
+    //var dolzina = 4;
+    var geslo = "";
+    for (var i = 0; i < dolzina; ++i) 
+    {
+        geslo += nabor.charAt(Math.floor(Math.random() * nabor.length * 12345) % nabor.length);
+    }
+    return geslo;
+};
