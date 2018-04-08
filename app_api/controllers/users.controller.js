@@ -158,7 +158,8 @@ function createUser(req, res, next) {
             student: req.body.student,
             zaposlen: req.body.zaposlen,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            opombe: req.body.opombe
         }, function(err, user) {
             if(err) {
                 //console.log(err);
