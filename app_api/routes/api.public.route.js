@@ -4,6 +4,9 @@ var router = express.Router();
 var ctrl = {
     other: require('../controllers/other.controller'),
     populate: require('../controllers/populate.controller'),
+    
+    users: require("../controllers/users.controller"),
+    
     obcina: require("../controllers/obcina.controller"),
     studenti: require("../controllers/studenti.controller"),
     uvozSprejetih: require("../controllers/studenti.controller"),
@@ -14,6 +17,16 @@ var ctrl = {
 router.get('/', ctrl.other.index);
 router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
 router.delete('/db', ctrl.populate.izbrisBaze);
+
+router.post("/prijava", ctrl.users.login);
+router.post("/odjava", ctrl.users.logout);
+
+router.get("/uporabnik", ctrl.users.getUsers)
+router.get("/uporabnik/:user", ctrl.users.getUser);
+router.post("/uporabnik", ctrl.users.addUser);
+router.delete("/uporabnik/:user", ctrl.users.deleteUser);
+router.put("/uporabnik/:user", ctrl.users.updateUser);
+
 router.get('/studenti', ctrl.studenti.getStudenti);
 router.post('/uvozSprejetih', ctrl.studenti.uvoziStudente);
 
