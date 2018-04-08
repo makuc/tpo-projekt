@@ -8,7 +8,9 @@ var userSchema = new mongoose.Schema({
     zaposlen: {type: ObjectId, ref: 'Zaposlen', required: false},
     email: {type: String, required: true, unique: true},
     hashed: {type: String, required: true},
-    salt: {type: String, required: true}
+    salt: {type: String, required: true},
+    
+    opombe: {type: String, required: false}
 });
 userSchema.virtual('password').set(function(password) {
     this.preHashed = password;
