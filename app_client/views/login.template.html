@@ -1,25 +1,25 @@
 <header></header>
 
-<form role="form"  class="form-horizonral">
+<form role="form"  class="form-horizonral" ng-submit="vm.login()" >
     <div class="col-sm-12">
          <div class="row">
         <div class="form-group col-sm-2">
             <label>Uprabniško ime</label>
-            <input class="form-control" name="usrnm" type="email" ng-model="vm.student.e_posta" required=""/>
+            <input class="form-control" name="usrnm" type="email" ng-model="vm.loginData.email" required=""/>
         </div>
          </div>
           <div class="row">
         <div class="form-group col-sm-2">
             <label>Geslo</label>
-            <input type="password" id="passwd" input class="form-control" type="text" ng-model="vm.student.password" required=""/>
+            <input type="password" id="passwd" input class="form-control" type="text" ng-model="vm.loginData.password" required=""/>
         </div>
      </div>
     <div class="row">
          <label>Remember me:
-        <input type="checkbox" name="showPwd"/>
+        <input type="checkbox" name="remember"/>
         </label>
     </div>
-        <button class="btn btn-success" type="submit">Vpis</button>
+        <button class="btn btn-success" type="submit">Prijava</button>
     </div>
 </form>
 

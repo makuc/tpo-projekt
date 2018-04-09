@@ -4,16 +4,18 @@
     function loginCtrl($location, authentication, $scope) {
         var vm = this;
         
-        vm.loginData ={
-            e_posta: "",
+        
+        vm.previousPage = $location.search().page || "/";
+        vm.loginData = {
+            email: "",
             password: ""
             
         };
-        
+        vm.formError = "";
         vm.sendData = function(){
-            if(!vm.loginData.e_posta || !vm.loginData.password){
+            if(!vm.loginData.email || !vm.loginData.password){
                 
-                console.log("Zahtevana so vsa polja");
+                vm.error="Vsa polja so zahtevana";
                 
                 return false;
                 
@@ -30,11 +32,11 @@
             authentication
                 .login(vm.loginData)
                 .then(function success() {
-                    $location.path("/vpisniList");
-                    
+                    $location.search("page", null);
+                    $location.path(vm.previousPage);
                 }, function error(error){
-                    
                     console.log(error);
+                    vm.formError = error.data.message;
                 });
             
         };
