@@ -1,4 +1,29 @@
 <header></header>
-<navigation></navigation>
+
+<form role="form"  class="form-horizonral">
+    <div class="col-sm-12">
+         <div class="row">
+        <div class="form-group col-sm-2">
+            <label>Uprabniško ime</label>
+            <input class="form-control" name="usrnm" type="text" ng-model="vm.student.vpisnaStevilka" required=""/>
+        </div>
+         </div>
+          <div class="row">
+        <div class="form-group col-sm-2">
+            <label>Geslo</label>
+            <input type="password" id="passwd" input class="form-control" type="text" ng-model="vm.student.priimek" required=""/>
+        </div>
+     </div>
+    <div class="row">
+         <label>Remember me:
+        <input type="checkbox" name="showPwd"/>
+        </label>
+    </div>
+        <button class="btn btn-success" type="submit">Vpis</button>
+    </div>
+</form>
+
+
+
 <footer></footer>
     
