@@ -14,6 +14,11 @@
                 controller: 'vpisniListCtrl',
                 controllerAs: 'vm'
             })
+               .when('/main', {
+                templateUrl: 'views/main.template.html',
+                controller: 'mainCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/'});
             
             $locationProvider.html5Mode(true);
