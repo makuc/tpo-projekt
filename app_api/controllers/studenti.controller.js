@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var Student = mongoose.model('Student');
+var User = mongoose.model('User');
 
 var request = require('request');
 var apiParameters = {
@@ -12,7 +13,35 @@ if(process.env.NODE_ENV === 'production') {
 }
 */
 
-/* GET home page. */
+/*var requestParameters, path, forwardedData;
+path = '/api/v1/uporabnik';
+
+forwardedData = {
+    student: student,
+    email: generiranEmail,
+    password: generiranoGeslo,
+    opombe: generiranoGeslo
+};
+requestParameters = {
+    url: apiParameters.server + path,
+    method: 'POST',
+    json: forwardedData
+};
+request(
+    requestParameters,
+    function(err, answer, token) {
+        if(err) {
+            // Prišlo je do napake, do something
+        }
+        if(answer.statusCode == 201) {
+            // Uporabnik je ustvarjen
+        } else {
+            // Prišlo je do napake
+        }
+    }
+);
+*/
+
 module.exports.getStudenti = function(req, res) {
   // TEST response
   /*res.status(200).json({
@@ -40,9 +69,137 @@ module.exports.uvoziStudente = function(req, res) {
     uvoziStudente(req, res);
 };
 
+function uvoziStudente(req, res)
+{
+    // najprej dobi zaporedno vpisno - ce ni studentov nastavi zaporedno na 0
+    Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
+    {
+        req.zaporednaVpisna = -1
+        if(err) 
+        {
+            req.zaporednaVpisna = 0;
+            //return res.status(400).json({ message: "Ne najdem zadnjega vnešenega studenta - Je baza prazna?" });
+        }
+        else
+        {
+            req.zaporednaVpisna = student.vpisna_stevilka;
+            req.zaporednaVpisna = parseInt(req.zaporednaVpisna.toString().slice(-4).replace(/^0+/, ''));
+        }
+        req.koncniObject = {};
+        req.sprejeti = [];
+        req.zavrnjeni = [];
+        req.reqSplit = req.body.Podatki.split(/[\r\n]+/);
+        if(req.reqSplit.length < 4)
+        {
+            return res.status(400).json({ message: "Ni podatkov za kreiranje studenta" });
+        }
+        else
+        {
+            uvoziNextStudent(req, res);
+        }
+    });
+}
+
+function uvoziNextStudent(req, res)
+{
+    //console.log("Rek klicana");
+
+    var counter = 0;
+    var studentObj = {};
+    studentObj.ime = req.reqSplit.shift();
+    studentObj.priimek = req.reqSplit.shift();
+    studentObj.program = req.reqSplit.shift();
+    studentObj.email = req.reqSplit.shift();
+
+    // check if email is valid
+    if(isEmail(studentObj.email))
+    {
+        // je veljaven in ga lahko dodamo
+        req.zaporednaVpisna++;
+        studentObj.studentMail = getStudentMail(studentObj.ime, studentObj.priimek);
+        studentObj.password = getMailGeslo();
+        studentObj.vpisna_stevilka = getVpisnaStevilka((new Date()).getFullYear(), req.zaporednaVpisna);
+        req.sprejeti.push(studentObj);
+        var studentDB = new Student ({
+            vpisna_stevilka: studentObj.vpisna_stevilka,
+            priimek: studentObj.priimek,
+            ime: studentObj.ime,
+            e_posta: studentObj.email
+        });
+        
+        studentDB.save(function(err)
+        {
+            if(err)
+            {
+                // iz baze odstrani dodanega - TODO
+                req.zaporednaVpisna--;
+                var studentObjErr = {};
+                studentObjErr.ime = studentObj.ime;
+                studentObjErr.priimek = studentObj.priimek;
+                studentObjErr.program = studentObj.program;
+                studentObjErr.email = studentObj.email;
+                req.zavrnjeni.push((studentObjErr));
+                console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
+                //console.log(err);
+            }
+            else
+            {
+                User.create(
+                {
+                    student: studentDB,
+                    email: studentObj.studentMail,
+                    password: studentObj.password,
+                    opombe: studentObj.password
+                }, function(err, user) {
+                    if(err) 
+                    {
+                        // iz baze odstrani dodanega - TODO
+                        req.zaporednaVpisna--;
+                        var studentObjErr = {};
+                        studentObjErr.ime = studentObj.ime;
+                        studentObjErr.priimek = studentObj.priimek;
+                        studentObjErr.program = studentObj.program;
+                        studentObjErr.email = studentObj.email;
+                        req.zavrnjeni.push((studentObjErr));
+                        console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
+                    }
+                    else
+                    {
+                        //req.sprejeti.push(studentObj);
+                        req.studentDB = studentDB;
+                        req.user = user;
+                    }
+                });
+                
+                
+                //req.sprejeti.push(studentObj);
+            }
+            //var saved = (err ? false : true);
+            //returnJson(res, 200, saved);
+        });
+        
+        // kreiraj novega userja
+    }
+    else
+    {
+        req.zavrnjeni.push(studentObj);
+    }
+    
+    if(req.reqSplit.length < 4)
+    {
+        req.koncniObject.sprejeti = req.sprejeti;
+        req.koncniObject.zavrnjeni = req.zavrnjeni;
+        return res.status(200).json(req.koncniObject);
+    }
+    else
+    {
+        uvoziNextStudent(req, res);
+    }
+}
+
 // pricakuje da request body vsebuje json objekt s spremenljivko
 // Podatki katere vrednost je plaintext studentov
-function uvoziStudente(req, res) {
+function uvoziStudenteOLD(req, res) {
     Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
     {
         var zaporednaVpisna = -1
