@@ -1,8 +1,57 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ZosI56d/curly-wave-of-light-green-smoke-on-white-background-abstract-motion-background_smgx7_1xl_thumbnail-full08.png);
+  background-color: #c6ffb3;
 }
 
 a {
   color: #00B7FF;
+}
+
+#passwd {
+   
+  
+}
+
+footer {
+ position: absolute;
+    bottom: 10px;
+}
+
+header {
+  margin-left: -50px;
+  margin-top: -50px;
+  margin-right: -50px;
+  padding: 20px;
+  background-color: #c6ffb3;
+  
+  
+}
+
+#myProf{
+  position: fixed;
+  right: 50px;
+  background-color: #b3ffff;
+  color: black;
+}
+#mainEl{
+  font-size: 20px;
+  padding: 10px;
+  
+  border-bottom: dotted;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
+}
+
+#options {
+  padding: 10px;
+}
+
+#option{
+  color: black;
+  background-color: #f2f2f2;
+  margin: 10px;
+  border-color: black;
+  
 }
