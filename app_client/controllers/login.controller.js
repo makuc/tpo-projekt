@@ -5,9 +5,9 @@
     loginCtrl.$inject = ['$location', 'authentication', '$scope','$route'];
     function loginCtrl($location, authentication, $scope,$route) {
         
-       if(authentication.auth()) {
-          return $location.path('/');
-        }
+   //  if(authentication.auth()) {
+   //     return $location.path('/');
+   //  }
         
      function isEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
