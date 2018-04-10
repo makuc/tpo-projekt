@@ -9,13 +9,13 @@
     }
     
     function saveToken(token) {
-      $window.localStorage['aa-novels-token'] = token;
+      $window.localStorage['tpo-token'] = token;
     }
     function getToken() {
-      return $window.localStorage['aa-novels-token'];
+      return $window.localStorage['tpo-token'];
     }
     function deteleToken() {
-      return $window.localStorage.removeItem('aa-novels-token');
+      return $window.localStorage.removeItem('tpo-token');
     }
     
     function register(user) {
@@ -28,10 +28,10 @@
     function login(user) {
       return $http.post('/api/v1/prijava', user).then(
         function success(res) {
-          //saveToken(res.data.token);
+          saveToken(res.data.token);
         },
         function error(res) {
-          //console.log(res);
+          console.log("Prišlo do napake pri prijavi");
         }
       );
     }
@@ -44,7 +44,7 @@
         var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
         return content.expires > Date.now(); // Transform to seconds and compares
       } else {
-        $window.localStorage.removeItem('aa-novels-token');
+        $window.localStorage.removeItem('tpo-token');
         return false;
       }
     }
@@ -80,6 +80,6 @@
   authentication.$inject = ['$window', '$http'];
   
   angular
-    .module('aa-novels')
+    .module('tpo')
     .service('authentication', authentication);
 })();

@@ -1,13 +1,16 @@
 var mongoose = require("mongoose");
 var Predmet = mongoose.model('Premdet');
+var Student = mongoose.model("Student");
 
-module.exports.pridobiPredmete = function(req, res) {
-  pridobiPredmete(req, res);
+module.exports.pridobiStudente = function(req, res) {
+    pridobiStudente(req, res);
 };
     
-function pridobiPredmete(req, res)
+function pridobiStudente(req, res)
 {
     var koncniObject = {};
+    var studijskoLeto_id = req.params.studijskoLeto_id;
+    var predmet_id = req.params.predmet_id;
     Predmet
         .find().limit(0)
         .exec(function(err, predmeti) {
