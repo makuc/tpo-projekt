@@ -3,44 +3,7 @@ mongoose.Promise = Promise;
 var Student = mongoose.model('Student');
 var User = mongoose.model('User');
 
-var request = require('request');
-var apiParameters = {
-  server: "http://localhost:" + process.env.PORT
-};
-/*
-if(process.env.NODE_ENV === 'production') {
-  apiParameters.server = "https://aa-novels.herokuapp.com/";
-}
-*/
 
-/*var requestParameters, path, forwardedData;
-path = '/api/v1/uporabnik';
-
-forwardedData = {
-    student: student,
-    email: generiranEmail,
-    password: generiranoGeslo,
-    opombe: generiranoGeslo
-};
-requestParameters = {
-    url: apiParameters.server + path,
-    method: 'POST',
-    json: forwardedData
-};
-request(
-    requestParameters,
-    function(err, answer, token) {
-        if(err) {
-            // Prišlo je do napake, do something
-        }
-        if(answer.statusCode == 201) {
-            // Uporabnik je ustvarjen
-        } else {
-            // Prišlo je do napake
-        }
-    }
-);
-*/
 
 module.exports.getStudenti = function(req, res) {
   // TEST response

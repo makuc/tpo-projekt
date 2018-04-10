@@ -1,7 +1,7 @@
 (function() {
     /* global angular */
     mainCtrl.$inject = [];
-    function loginCtrl() {}
+    function mainCtrl() {}
     
     angular
         .module('tpo')

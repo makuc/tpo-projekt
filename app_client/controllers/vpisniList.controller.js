@@ -1,7 +1,7 @@
 (function(){
     /* global angular */
     
-    vpisniListCtrl.$inject = ['studentPodatki', '$rounteParams'];
+    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams'];
     
     function vpisniListCtrl(studentPodatki, $routeParams) {
         var vm = this;
@@ -10,13 +10,42 @@
         
         vm.veljavnostEMSO = function() {
             //logika za prevernjanje pravilnosti EMSA
-            
+            if(vm.isEMSO(vm.student.emso)){
+                //je emso, izloci datum rojstva
+                console.log("je EMSO");
+            } else {
+                //ni emso, javi napako
+                console.log("ni EMSO");
+            }
         };
         
-        vm.veljavnostImeinPriimek = function() {
-            //preverjanje, da so pri imenu in priimku uporabljene samo crke
-            
-        };
+        vm.isEMSO = function(inputEMSO){
+            if(inputEMSO.length !== "DDMMLLLRRZZZK".length || inputEMSO === "7777777777777"){
+                return false;
+            }
+            // DDMMLLLRRZZZK
+            // 765432765432
+            var n = 7;
+            var sum = 0;
+            for (var i = 0; i < 12; i++){
+                var EMSOdigit = parseInt(inputEMSO.substring(i, i + 1));
+                if(isNaN(EMSOdigit)){
+                    return false;
+                }
+                sum += n * EMSOdigit;
+                n--;
+                if(n < 2){
+                    n = 7;
+                }
+            }
+            var ostanek = sum % 11;
+            var kontrola = 11 - ostanek;
+            if (kontrola.toString() === inputEMSO.substring(12, 12 + 1)){
+                return true;
+            }
+            return false;
+        }
+        
         
         vm.shraniPodatke = function() {
             var student = {
@@ -72,5 +101,4 @@
     angular
         .module('tpo')
         .controller('vpisniListCtrl', vpisniListCtrl);
-    
 })();

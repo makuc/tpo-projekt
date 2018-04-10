@@ -27,7 +27,7 @@
     };
     
     
-    App.factory("LS", function($window, $rootScope) {
+    /*App.factory("LS", function($window, $rootScope) {
         return {
             setData: function (key , val) {
                 $window.localStorage && $window.localStorage.setItem(key , val);
@@ -37,7 +37,7 @@
                 return $window.localStorage && $window.localStorage.getItem(key);
             }
         };
-    });
+    });*/
     
     studentPodatki.$inject = ['$http'];
     angular
