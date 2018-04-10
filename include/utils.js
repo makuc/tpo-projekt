@@ -66,6 +66,42 @@ function emsoMatchesData(inputEMSO, day, month, year) // TO BE IMPLEMENTED , reg
     return true;
 }
 
+function isLettersOnly(niz)
+{
+    if(niz.search(/[^a-zA-Z]+/) === -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ce gre za prvi vpis se poda stevilko manjso od 1
+// naslednji letnik je letnik ki ga je prejela forma pri vpisu
+// stopnja je 1==dodiplomska 2==magisterski
+// funkcija vrne true ce je kombinacija trenutnega, naslednjega letnika in stopnje pravilna
+// else false
+function getNaslednjiLetnik(currentLetnik, naslednjiLetnik, stopnja)
+{
+    currentLetnik = parseInt(currentLetnik);
+    naslednjiLetnik = parseInt(naslednjiLetnik);
+    stopnja = parseInt(stopnja);
+    if(stopnja == 1)
+    {
+        if(currentLetnik == 1)
+        {
+            
+        }
+    }
+    else if(stopnja == 2)
+    {
+        
+    }
+    return false;
+}
+
 //
 ////  TEST SECTION
 //
@@ -85,3 +121,4 @@ console.log("Se ujema: " + emsoMatchesData(emso1, 29, 2, 1933, 50, 0));
     1 referntka
     2 skrbnik
 }*/
+
