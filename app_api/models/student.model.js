@@ -15,16 +15,14 @@ var zetonSchema = new mongoose.Schema({
     izkoriscen: {type: Boolean, "default": false}
 });
 
-var predmetiStudentaSchema = new mongoose.Schema({
-    predmeti: [{
-        zaporedni_poskus: {type: Number, min: 0, max: 7},
-        predmet: {type: ObjectId, ref: 'Predmet', required: true}
-    }]
+var predmetStudentaSchema = new mongoose.Schema({
+    predmet: {type: ObjectId, ref: 'Predmet', required: true},
+    zaporedni_poskus: {type: Number, min: 0, max: 7}
 });
 
 var studijskoLetoStudenta = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
-    predmeti: [predmetiStudentaSchema],
+    predmeti: [predmetStudentaSchema],
     zetoni: [zetonSchema]
 });
 
