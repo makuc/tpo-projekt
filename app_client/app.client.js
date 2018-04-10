@@ -26,6 +26,23 @@
     
     angular
         .module('tpo')
-        .config(['$routeProvider', '$locationProvider', configuration]);
+        .config(['$routeProvider', '$locationProvider', configuration])
         
+        // Register interceptors
+        .factory('httpRequestInterceptor', httpInterceptor)
+        .config(httpInterceptorConfig);
+    
+    function httpInterceptorConfig($httpProvider) {
+        $httpProvider.interceptors.push('httpRequestInterceptor');
+    }
+    httpInterceptorConfig.$inject = ['$httpProvider'];
+    function httpInterceptor($window) {
+        return {
+            request: function (config) {
+                config.headers['x-access-token'] = $window.localStorage['tpo-token'];
+                return config;
+            }
+        };
+    }
+    httpInterceptor.$inject = ['$window'];
 })();

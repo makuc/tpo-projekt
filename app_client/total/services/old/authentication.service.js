@@ -26,9 +26,12 @@
       );
     }
     function login(user) {
-      return $http.post('/api/v1/login', user).then(
+      return $http.post('/api/v1/prijava', user).then(
         function success(res) {
-          saveToken(res.data.token);
+          //saveToken(res.data.token);
+        },
+        function error(res) {
+          //console.log(res);
         }
       );
     }
