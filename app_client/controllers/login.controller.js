@@ -1,5 +1,6 @@
 (function() {
     /* global angular */
+    /* global LS */
     loginCtrl.$inject = ["$location", "authentication", "$scope"];
     function loginCtrl($location, authentication, $scope) {
         var vm = this;
@@ -41,6 +42,12 @@
             
         };
         
+        
+        var myMail = LS.getData('emailId');
+        
+        $scope.rememberMe1 = function () {
+            LS.setData("emailId", $scope.loginDetails.email);
+        };
         
         
     }
