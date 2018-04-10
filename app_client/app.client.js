@@ -14,7 +14,7 @@
                 controller: 'vpisniListCtrl',
                 controllerAs: 'vm'
             })
-               .when('/main', {
+               .when('/student/main', {
                 templateUrl: 'views/main.template.html',
                 controller: 'mainCtrl',
                 controllerAs: 'vm'

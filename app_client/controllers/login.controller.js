@@ -1,53 +1,77 @@
-(function() {
     /* global angular */
+(function() {
+ 
 
-    loginCtrl.$inject = ["$location", "authentication", "$scope"];
-    function loginCtrl($location, authentication, $scope) {
+    loginCtrl.$inject = ['$location', 'authentication', '$scope','$route'];
+    function loginCtrl($location, authentication, $scope,$route) {
+        
+       if(authentication.auth()) {
+          return $location.path('/');
+        }
+        
+     function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+    
         var vm = this;
         
-        
-        vm.previousPage = $location.search().page || "/";
-        vm.loginData = {
-            email: "",
-            password: ""
+    vm.formData = {
+      email: "",
+      password: "",
+      remember: false
+    };
+    vm.prevPage = $location.search().page || '/';
+    console.log(vm.prevPage);
+    vm.error = "";
+    
+    vm.sendData = function() {
+      vm.formError = "<ul>";
+      
+      if(!vm.formData.email){
+        vm.formError += "<li>Email is required</li>";
+        angular.element(document.querySelector('#email')).parent().parent().addClass('has-error');
+      } else if(!isEmail(vm.formData.email)) {
+        vm.formError += "<li>Entered email is invalid</li>";
+        angular.element(document.querySelector('#email')).parent().parent().addClass('has-error');
+      } else {
+        angular.element(document.querySelector('#email')).parent().parent().removeClass('has-error');
+      }
+      
+      if(!vm.formData.password) {
+        vm.formError += "<li>Password is required</li>";
+        angular.element(document.querySelector('#password')).parent().parent().addClass('has-error');
+      } else {
+        angular.element(document.querySelector('#password')).parent().parent().removeClass('has-error');
+      }
+      
+      if(vm.formError != "<ul>") {
+        vm.formError += "</ul>";
+        return false;
+      }
+      vm.login();
+    };
+    vm.login = function() {
+      vm.formError = "";
+      
+      authentication
+        .login(vm.formData)
+        .then(
+          function success() {
+            $location.search('page', null);
+            $location.path("/student/main");
+          },
+          function error(res) {
+            if(res.status == 403) return vm.formError = "An illegal expression is entered in the form";
             
-        };
-        vm.formError = "";
-        vm.sendData = function(){
-            if(!vm.loginData.email || !vm.loginData.password){
-                
-                vm.error="Vsa polja so zahtevana";
-                
-                return false;
-                
-            }else{
-                vm.login();
-                
-            }
-            
-            
-        };
-        
-        vm.login=function(){
-            console.log(vm.loginData);
-            authentication
-                .login(vm.loginData)
-                .then(function success() {
-                    $location.search("page", null);
-                    $location.path(vm.previousPage);
-                }, function error(error){
-                    console.log(error);
-                    vm.formError = error.data.message;
-                });
-            
-        };
-        
-
+            vm.formError = "User doesn't exist in our database";
+          }
+        );
+    };
         
         
     }
-    
     angular
         .module('tpo')
-        .contoller('loginCtrl', loginCtrl);
+        .controller('loginCtrl', loginCtrl);
 })();
