@@ -12,10 +12,17 @@
             //logika za prevernjanje pravilnosti EMSA
             if(vm.isEMSO(vm.student.emso)){
                 //je emso, izloci datum rojstva
-                console.log("je EMSO");
+                //console.log("je EMSO");
+                //console.log(vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7));
+                vm.napacenEmso="";
+                if(vm.student.emso.substring(4,7) > 900){
+                    vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7);
+                } else {
+                    vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".2" + vm.student.emso.substring(4,7);
+                }
             } else {
-                //ni emso, javi napako
-                console.log("ni EMSO");
+                //console.log("ni EMSO");
+                vm.napacenEmso = "Ponovno preverite vnos EMSA";
             }
         };
         
