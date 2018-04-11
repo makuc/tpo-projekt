@@ -15,7 +15,9 @@ var server = {
 };
 var api = {
   public: require('./app_api/routes/public.route'),
-  private: require('./app_api/routes/private.route')
+  private: require('./app_api/routes/private.route'),
+  admin: require('./app_api/routes/admin.route'),
+  auth: require('./app_api/controllers/auth/authentication.controller.js')
 };
 
 
@@ -57,8 +59,14 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 
 app.use('/', server.indexRouter);
 app.use('/users', server.usersRouter);
+/* API here */
+// Servev API
+app.use(api.auth.authenticate);
 app.use('/api/v1', api.public);
+app.use(api.auth.private);
 app.use('/api/v1', api.private);
+app.use(api.auth.admin);
+app.use('/api/v1', api.admin);
 
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, 'app_client', 'index-orig.html'));

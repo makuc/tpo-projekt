@@ -4,6 +4,6 @@ var router = express.Router();
 var ctrlMain = require('../controllers/main.controller');
 
 /* GET home page. */
-router.get('/', ctrlMain.index);
+//router.get('/', ctrlMain.index);
 
 module.exports = router;
