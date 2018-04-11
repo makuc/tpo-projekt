@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var callNext = require("./_include/callNext");
 var Utils = require("./_include/utils");
 var User = mongoose.model('User');
 var Student = mongoose.model("Student");
@@ -111,11 +112,11 @@ function validateNewUserData(req, res, next) {
     if(!Utils.isEmail(req.body.email))
         return res.status(400).send({ message: "Neveljaven email maslov" });
     
-    Utils.callNext(req, res, next);
+    callNext(req, res, next);
 }
 function validateZaposlen(req, res, next) {
     if(!req.body.zaposlen)
-        return Utils.callNext(req, res, next);
+        return callNext(req, res, next);
     
     Zaposlen.findOne({ "_id": req.body.zaposlen }, function(err, zaposlen) {
         if(err) {
@@ -124,12 +125,12 @@ function validateZaposlen(req, res, next) {
         }
         req.body.zaposlen = zaposlen;
         
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 function validateStudent(req, res, next) {
     if(!req.body.student)
-        return Utils.callNext(req, res, next);
+        return callNext(req, res, next);
     
     Student.findOne({ "_id": req.body.student }, function(err, student) {
         if(err) {
@@ -138,7 +139,7 @@ function validateStudent(req, res, next) {
         }
         req.body.student = student;
         
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 function checkEmailAlreadyExists(req, res, next) {
@@ -150,7 +151,7 @@ function checkEmailAlreadyExists(req, res, next) {
         }
         if(user) return res.status(409).send({ message: "Ta email naslov je že v uporabi" });
         
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 function createUser(req, res, next) {
@@ -168,7 +169,7 @@ function createUser(req, res, next) {
             }
             
             req.user = user;
-            Utils.callNext(req, res, next);
+            callNext(req, res, next);
         }
     );
 }
@@ -184,7 +185,7 @@ function findUserById(req, res, next) {
             
             req.user = user;
             
-            Utils.callNext(req, res, next);
+            callNext(req, res, next);
         });
 }
 function findUserByEmail(req, res, next) {
@@ -195,7 +196,7 @@ function findUserByEmail(req, res, next) {
         }
         
         req.user = user;
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 function returnUser(req, res) {
@@ -223,7 +224,7 @@ function editUser(req, res, next) {
     } else
         req.body.email = undefined;
     
-    Utils.callNext(req, res, next);
+    callNext(req, res, next);
 }
 function saveUserChanges(req, res, next) {
     if(req.body.email)
@@ -236,7 +237,7 @@ function saveUserChanges(req, res, next) {
         }
         
         req.user = user;
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 
@@ -249,7 +250,7 @@ function validatePassword(req, res, next) {
             return res.status(401).send({ auth: false, token: null });
         }
         
-        Utils.callNext(req, res, next);
+        callNext(req, res, next);
     });
 }
 
@@ -292,7 +293,7 @@ function dodajNeveljavnoPrijavo(req, res) {
 function veljavnostPrijave(req, res, next) {
     NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
         if(err || !prijava) {
-            return Utils.callNext(req, res, next);
+            return callNext(req, res, next);
         }
         if(prijava.zadnji_poskus < Date.now() - 15 * 60 * 1000) { // 15 minut
             prijava.poskusi = 0;
@@ -305,7 +306,7 @@ function veljavnostPrijave(req, res, next) {
             if(err) {
                 return console.log(err);
             }
-            Utils.callNext(req, res, next);
+            callNext(req, res, next);
         });
     });
 }
