@@ -64,9 +64,9 @@ module.exports.getUsers = function(req, res) {
         .exec(function(err, users) {
             if(err) {
                 //console.log(err)
-                return res.status(400).send({ message: "Encountered error while retrieving users" });
+                return res.status(400).send({ message: "Napaka pri pridobivanju uporabnikov iz baze" });
             }
-            console.log("Dela");
+            
             res.status(200).json(users);
         });
 };
@@ -177,11 +177,10 @@ function findUserById(req, res, next) {
     User
         .findById(req.params.user)
         .exec(function(err, user) {
-            if(err) {
+            if(err || !user) {
                 // console.log(err);
-                return res.status(404).send({ message: "Uporabnik ne obstaja" });
+                return res.status(404).send({ message: "Uporabnik s podanim ID-jem ne obstaja" });
             }
-            if(!user) return res.status(404).send("Uporabnika ne najdem");
             
             req.user = user;
             
@@ -190,11 +189,10 @@ function findUserById(req, res, next) {
 }
 function findUserByEmail(req, res, next) {
     User.findOne({ email: req.body.email }, function(err, user) {
-        if(err) {
+        if(err || !user) {
             //console.log(err);
-            return res.status(404).send({ message: "Ne najdem uporabnika" });
+            return res.status(404).send({ message: "Ne najdem uporabnika s tem email naslovom" });
         }
-        if(!user) return res.status(404).send("Ne najdem uporabnika s tem email naslovom");
         
         req.user = user;
         Utils.callNext(req, res, next);
@@ -256,13 +254,12 @@ function validatePassword(req, res, next) {
 }
 
 function neveljavnaPrijava(req, res) {
-    console.log("neveljavnaPrijava()");
     NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
         if(err || !prijava) {
             return dodajNeveljavnoPrijavo(req, res);
         }
         
-        // Popravi neuspešno prijavo
+        // Uredi neuspešno prijavo
         NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
             if(err) {
                 return;
@@ -275,13 +272,12 @@ function neveljavnaPrijava(req, res) {
                     console.log(err);
                     return ;
                 }
-                console.log("Neveljavna prijava: " + prijava.ip + "; zaporedni poskus: " + prijava.poskusi);
+                console.log("Neveljavna prijava: " + prijava.ip + " - zaporedni poskus: " + prijava.poskusi);
             });
         });
     });
 }
 function dodajNeveljavnoPrijavo(req, res) {
-    console.log("dodajNeveljavnoPrijavo()");
     NeveljavnaPrijava.create({
         ip: req.headers['x-forwarded-for'],
         poskusi: 1,
@@ -290,12 +286,10 @@ function dodajNeveljavnoPrijavo(req, res) {
         if(err) {
             return console.log(err);
         }
-        console.log("Neveljavna prijava: " + prijava.ip);
+        console.log("Neveljavna prijava: " + prijava.ip + " - zaporedni poskus: 1");
     });
 }
-
 function veljavnostPrijave(req, res, next) {
-    console.log("veljavnostPrijave()");
     NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
         if(err || !prijava) {
             return Utils.callNext(req, res, next);
