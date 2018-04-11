@@ -29,17 +29,17 @@
       vm.formError = "<ul>";
       
       if(!vm.formData.email){
-        vm.formError += "<li>Email is required</li>";
+        vm.formError += "<li>Elektronska pošta zahtevana</li>";
         angular.element(document.querySelector('#email')).parent().parent().addClass('has-error');
       } else if(!isEmail(vm.formData.email)) {
-        vm.formError += "<li>Entered email is invalid</li>";
+        vm.formError += "<li>Neveljavna elektronska pošta</li>";
         angular.element(document.querySelector('#email')).parent().parent().addClass('has-error');
       } else {
         angular.element(document.querySelector('#email')).parent().parent().removeClass('has-error');
       }
       
       if(!vm.formData.password) {
-        vm.formError += "<li>Password is required</li>";
+        vm.formError += "<li>Geslo zahtevano</li>";
         angular.element(document.querySelector('#password')).parent().parent().addClass('has-error');
       } else {
         angular.element(document.querySelector('#password')).parent().parent().removeClass('has-error');
