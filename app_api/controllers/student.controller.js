@@ -165,7 +165,7 @@ function pridobiStudenta(req, res) {
         .exec(
             function(err, student) {
                 if(err || !student){
-                    return req.status(404).json({ "message": "Ni študenta s tem ID"});
+                    return res.status(404).json({ "message": "Ni študenta s tem ID"});
                 }
                 res.status(200).json(student);
             }

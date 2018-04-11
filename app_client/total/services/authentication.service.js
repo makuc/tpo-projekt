@@ -55,13 +55,17 @@
         return {
           _id: content._id,
           email: content.email,
-          name: content.name
+          student: content.student,
+          zaposlen: content.zaposlen,
+          opombe: content.opombe
         };
       } else
         return {
           _id: "",
           email: "",
-          name: ""
+          student: "",
+          zaposlen: "",
+          opombe: ""
         };
     }
 

@@ -1,12 +1,12 @@
 (function(){
     /* global angular */
     
-    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams'];
+    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication'];
     
-    function vpisniListCtrl(studentPodatki, $routeParams) {
+    function vpisniListCtrl(studentPodatki, $routeParams, authentication) {
         var vm = this;
         
-        vm.idStudenta = $routeParams.idStudenta;
+        vm.idStudenta = authentication.currentUser().student;
         
         vm.veljavnostEMSO = function() {
             //logika za prevernjanje pravilnosti EMSA
@@ -91,18 +91,16 @@
             );
         };
         
-        vm.pridobiStudenta = function(){
-            studentPodatki.izpisStudenta(vm.idStudenta).then(
-                function success(odgovor) {
-                    //doloceni podatki, se ze predizpolnjejo
-                    vm.student = odgovor.data;
-                },
-                function error(odgovor) {
-                    console.log("Pripetila se je napaka: " + odgovor);
-                }
-            );
-        };
-        
+        studentPodatki.izpisStudenta(vm.idStudenta).then(
+            function success(odgovor) {
+                //doloceni podatki, se ze predizpolnjejo
+                vm.student = odgovor.data;
+                console.log(vm.student);
+            },
+            function error(odgovor) {
+                console.log("Pripetila se je napaka: " + odgovor);
+            }
+        );
     }
     
     angular

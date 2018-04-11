@@ -46,11 +46,11 @@ module.exports.admin = function(req, res, next) {
     if(req.splitUrl[1] == "api") {
         // Check if user has been authenticated
         
-        console.log(req.user);
+        //console.log(req.user);
         
         if (!req.user.zaposlen && !req.user.zaposlen.skrbnik) 
             return res.status(403).send({ auth: false, message: 'Token JWT nima skrbniških pravic' });
         return next();
-    }
-    next();
+    } else
+        next();
 }
