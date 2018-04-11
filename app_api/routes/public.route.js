@@ -3,14 +3,12 @@ var router = express.Router();
 
 var ctrl = {
     other: require('../controllers/other.controller'),
-    populate: require('../controllers/populate.controller'),
+    db: require('../controllers/db.controller'),
     
     users: require("../controllers/users.controller"),
     
     obcina: require("../controllers/obcina.controller"),
-    studenti: require("../controllers/studenti.controller"),
-    uvozSprejetih: require("../controllers/studenti.controller"),
-    ctrlStudent: require("../controllers/student.controller"),
+    student: require("../controllers/student.controller"),
     
     predmet: require("../controllers/predmet.controller")
 };
@@ -18,8 +16,8 @@ var ctrl = {
 
 // Osnovne povezave
 router.get('/', ctrl.other.index);
-router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
-router.delete('/db', ctrl.populate.izbrisBaze);
+router.post('/db', ctrl.db.vnosZacetnihPodatkov);
+router.delete('/db', ctrl.db.izbrisBaze);
 
 // Predmeti povezave
 router.get('/predmet/:predmet_id/:studijskoLeto_id', ctrl.predmet.pridobiStudente);
@@ -36,12 +34,11 @@ router.put("/uporabnik/:user", ctrl.users.updateUser);
 
 
 // Študenti
-router.get('/studenti', ctrl.studenti.getStudenti);
-router.post('/uvozSprejetih', ctrl.studenti.uvoziStudente);
 
-router.get('/vsistudenti', ctrl.ctrlStudent.pridobiStudente);
-router.get('/student/:idStudenta', ctrl.ctrlStudent.izbrisStudenta);
-router.post('/shranistudenta', ctrl.ctrlStudent.ustvariStudenta);
-router.put('/posodobistudenta/:idStudenta', ctrl.ctrlStudent.posodobiStudenta);
+router.get('/student', ctrl.student.getStudente);
+router.post('/student', ctrl.student.createStudent);
+router.post('/student/uvozSprejetih', ctrl.student.uvoziStudente);
+router.get('/student/:student_id', ctrl.student.getStudenta);
+router.put('/student/:student_id', ctrl.student.updateStudenta);
 
 module.exports = router;
