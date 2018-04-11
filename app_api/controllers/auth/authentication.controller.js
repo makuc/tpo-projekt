@@ -30,7 +30,7 @@ module.exports.authenticate = function(req, res, next) {
             }
             // if everything is good, save to request for use in other routes
             req.user = decoded;
-            console.log(decoded);
+            //console.log(decoded);
             
             /*if(req.headers['static-page'] !== 'true')
                 console.log("UserID: " + decoded._id + " | Email: " + decoded.email + " | Url: " + req.originalUrl);*/

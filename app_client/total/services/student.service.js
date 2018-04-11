@@ -10,12 +10,12 @@
             return $http.get('/api/v1/student');
         };
         
-        var izpisStudenta = function(idStudenta){
-            return $http.get('/api/v1/student/' + idStudenta);
+        var izpisStudenta = function(student_id){
+            return $http.get('/api/v1/student/' + student_id);
         };
         
-        var urediStudenta = function(idStudenta){
-            return $http.put('/api/v1/student/' + idStudenta);
+        var urediStudenta = function(student_id, student){
+            return $http.put('/api/v1/student/' + student_id, student);
         };
         
         return {

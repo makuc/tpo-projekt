@@ -8,6 +8,9 @@ var ctrl = {
     users: require("../controllers/users.controller"),
     
     obcina: require("../controllers/obcina.controller"),
+    drzava: require("../controllers/drzava.controller"),
+    posta: require("../controllers/posta.controller"),
+    
     student: require("../controllers/student.controller"),
     
     predmet: require("../controllers/predmet.controller")
@@ -34,12 +37,16 @@ router.put("/uporabnik/:user", ctrl.users.updateUser);
 
 
 // Študenti
-
 router.get('/student', ctrl.student.getStudente);
 router.post('/student', ctrl.student.createStudenta);
 router.post('/student/uvozSprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
+
+// Ostalo
+router.get('/obcina', ctrl.obcina.getObcine);
+router.get('/drzava', ctrl.drzava.getDrzave);
+router.get('/posta', ctrl.posta.getPoste);
 
 
 module.exports = router;

@@ -71,7 +71,14 @@ request(
 );
 */
 
-module.exports.uvoziStudente = uvoziStudente;
+module.exports.uvoziStudente = function(req, res) {
+    if(!req.body || !req.body.Podatki || typeof req.body.Podatki !== 'string')
+        return res.status(400).json({ message: "Ni posredovanih ustreznih podatkov" });
+    callNext(req, res, [
+        pridobiZaporednoStevilko, parsePrejetePodatke, pripraviObjekteStudentov, obdelajStudente, ustvariStudente,
+        pripraviObjekteUserjev, obdelajUserje, ustvariUserje, uvozZakljucen
+    ]);
+};
 module.exports.getStudente = function(req, res) {
   pridobiStudente(req, res);
 };
@@ -91,23 +98,13 @@ module.exports.updateStudenta = function(req, res){
     if(!req.body)
         return res.status(400).json({ message: "Ni podatkov za spreminjanje" });
     
+    req.napake = [];
     preveriDrzavaRojstva (req, res, [
         preveriStalnoBivaliscePosta, preveriStalnoBivalisceObcina, preveriStalnoBivalisceDrzava,
         preveriZacasnoBivaliscePosta, preveriZacasnoBivalisceObcina, preveriZacasnoBivalisceDrzava,
         posodobiStudenta
     ]);
 };
-
-
-/* Končne funkcije */
-function uvoziStudente(req, res) {
-    if(!req.body || !req.body.Podatki || typeof req.body.Podatki !== 'string')
-        return res.status(400).json({ message: "Ni posredovanih ustreznih podatkov" });
-    callNext(req, res, [
-        pridobiZaporednoStevilko, parsePrejetePodatke, pripraviObjekteStudentov, obdelajStudente, ustvariStudente,
-        pripraviObjekteUserjev, obdelajUserje, ustvariUserje, uvozZakljucen
-    ]);
-}
 
 
 
@@ -133,33 +130,33 @@ function pridobiStudenta(req, res) {
         .populate([
             {
                 path: "drzava_rojstva",
-                select: "slovenski_naziv -_id"
+                select: "slovenski_naziv"
             },
             // Stalno bivališče
             {
                 path: "stalno_bivalisce_posta",
-                select: "naziv -_id"
+                select: "naziv"
             },
             {
                 path: "stalno_bivalisce_obcina",
-                select: "ime -_id"
+                select: "ime"
             },
             {
                 path: "stalno_bivalisce_drzava",
-                select: "slovenski_naziv -_id"
+                select: "slovenski_naziv"
             },
             // Začasno bivališče
             {
                 path: "zacasno_bivalisce_posta",
-                select: "naziv -_id"
+                select: "naziv"
             },
             {
                 path: "zacasno_bivalisce_obcina",
-                select: "ime -_id"
+                select: "ime"
             },
             {
                 path: "zacasno_bivalisce_drzava",
-                select: "slovenski_naziv -_id"
+                select: "slovenski_naziv"
             }
         ])
         .exec(
@@ -198,7 +195,7 @@ function posodobiStudenta(req, res) {
                 console.log(student);
                 return res.status(404).json({ message: "Ne najdem tega študenta" });
             }
-            
+            console.log(req.body);
             if(typeof req.body.priimek === 'string')
                 student.priimek = req.body.priimek;
             if(typeof req.body.ime === 'string')
@@ -217,8 +214,13 @@ function posodobiStudenta(req, res) {
                 student.spol = req.body.spol;
             if(typeof req.body.emso === 'string')
                 student.emso = req.body.emso;
-            if(typeof req.body.davcna_stevilka === 'string')
-                student.davcna_stevilka = req.body.davcna_stevilka;
+            if(req.body.davcna_stevilka) {
+                console.log(req.body.davcna_stevilka);
+                if(typeof req.body.davcna_stevilka === 'string')
+                    student.davcna_stevilka = req.body.davcna_stevilka;
+                else
+                    req.napake.push("Napačna davčna številka");
+            }
             if(typeof req.body.email === 'string')
                 student.email = req.body.email;
             if(typeof req.body.prenosni_telefon === 'string')
@@ -248,7 +250,7 @@ function posodobiStudenta(req, res) {
                 if(err){
                     return res.status(400).json({ message: "Napaka pri posodabljanju študenta" });
                 }
-                res.status(200).json(student);
+                res.status(200).json({ student: student, napake: req.napake });
             });
         });
 }
@@ -261,8 +263,10 @@ function vrniStudenta(req, res) {
 function preveriDrzavaRojstva(req, res, next) {
     if(req.body.drzava_rojstva) {
         models.Drzava.findById(req.body.drzava_rojstva).exec(function(err, drzava) {
-            if(err || !drzava)
+            if(err || !drzava) {
                 req.body.drzava_rojstva = undefined;
+                req.napake.push("Napačen ID države rojstva");
+            }
             
             req.body.drzava_rojstva = drzava;
             
@@ -274,8 +278,10 @@ function preveriDrzavaRojstva(req, res, next) {
 function preveriStalnoBivaliscePosta(req, res, next) {
     if(req.body.stalno_bivalisce_posta) {
         models.Posta.findById(req.body.stalno_bivalisce_posta).exec(function(err, posta) {
-            if(err || !posta)
+            if(err || !posta) {
                 req.body.stalno_bivalisce_posta = undefined;
+                req.napake.push("Napačen ID pošte stalnega bivališča");
+            }
             
             req.body.stalno_bivalisce_posta = posta;
             
@@ -287,8 +293,10 @@ function preveriStalnoBivaliscePosta(req, res, next) {
 function preveriStalnoBivalisceObcina(req, res, next) {
     if(req.body.stalno_bivalisce_obcina) {
         models.Obcina.findById(req.body.stalno_bivalisce_obcina).exec(function(err, obcina) {
-            if(err || !obcina)
+            if(err || !obcina) {
                 req.body.stalno_bivalisce_obcina = undefined;
+                req.napake.push("Napačen ID občine stalnega bivališča");
+            }
             
             req.body.stalno_bivalisce_obcina = obcina;
             
@@ -300,8 +308,10 @@ function preveriStalnoBivalisceObcina(req, res, next) {
 function preveriStalnoBivalisceDrzava(req, res, next) {
     if(req.body.stalno_bivalisce_drzava) {
         models.Drzava.findById(req.body.stalno_bivalisce_drzava).exec(function(err, drzava) {
-            if(err || !drzava)
+            if(err || !drzava) {
                 req.body.stalno_bivalisce_drzava = undefined;
+                req.napake.push("Napačen ID države stalnega bivališča");
+            }
             
             req.body.stalno_bivalisce_drzava = drzava;
             
@@ -313,8 +323,10 @@ function preveriStalnoBivalisceDrzava(req, res, next) {
 function preveriZacasnoBivaliscePosta(req, res, next) {
     if(req.body.zacasno_bivalisce_posta) {
         models.Posta.findById(req.body.zacasno_bivalisce_posta).exec(function(err, posta) {
-            if(err || !posta)
+            if(err || !posta) {
                 req.body.zacasno_bivalisce_posta = undefined;
+                req.napake.push("Napačen ID pošte začasnega bivališča");
+            }
             
             req.body.zacasno_bivalisce_posta = posta;
             
@@ -326,8 +338,10 @@ function preveriZacasnoBivaliscePosta(req, res, next) {
 function preveriZacasnoBivalisceObcina(req, res, next) {
     if(req.body.zacasno_bivalisce_obcina) {
         models.Obcina.findById(req.body.zacasno_bivalisce_obcina).exec(function(err, obcina) {
-            if(err || !obcina)
+            if(err || !obcina) {
                 req.body.zacasno_bivalisce_obcina = undefined;
+                req.napake.push("Napačen ID občine začasnega bivališča");
+            }
             
             req.body.zacasno_bivalisce_obcina = obcina;
             
@@ -339,8 +353,10 @@ function preveriZacasnoBivalisceObcina(req, res, next) {
 function preveriZacasnoBivalisceDrzava(req, res, next) {
     if(req.body.zacasno_bivalisce_drzava) {
         models.Drzava.findById(req.body.zacasno_bivalisce_drzava).exec(function(err, drzava) {
-            if(err || !drzava)
+            if(err || !drzava) {
                 req.body.zacasno_bivalisce_drzava = undefined;
+                req.napake.push("Napačen ID države začasnega bivališča");
+            }
             
             req.body.zacasno_bivalisce_drzava = drzava;
             

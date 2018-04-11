@@ -1,9 +1,9 @@
 (function(){
     /* global angular */
     
-    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication'];
+    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki'];
     
-    function vpisniListCtrl(studentPodatki, $routeParams, authentication) {
+    function vpisniListCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki) {
         var vm = this;
         
         vm.idStudenta = authentication.currentUser().student;
@@ -52,36 +52,48 @@
             }
             return false;
         }
-        
+        vm.izbranNaslov = function(stalno) {
+            if(stalno) {
+                if(vm.student.stalno_bivalisce_vrocanje)
+                    vm.student.zacasno_bivalisce_vrocanje = false;
+                else
+                    vm.student.zacasno_bivalisce_vrocanje = true;
+            } else {
+                if(vm.student.zacasno_bivalisce_vrocanje)
+                    vm.student.stalno_bivalisce_vrocanje = false;
+                else
+                    vm.student.stalno_bivalisce_vrocanje = true;
+            }
+        };
         
         vm.shraniPodatke = function() {
             var student = {
-                data: {
-                    vpisna_stevilka: vm.student.vpisna_stevilka,
-                    priimek: vm.student.priimek,
-                    ime: vm.student.ime,
-                    datum_rojstva: vm.student.datum_rojstva,
-                    kraj_rojstva: vm.student.kraj_rojstva,
-                    drzava_rojstva: vm.student.drzava_rojstva,
-                    obcina_rojstva: vm.student.obcina_rojstva,
-                    drzavljanstvo: vm.student.drzavljanstvo,
-                    spol: vm.student.spol,
-                    emso: vm.student.emso,
-                    davcna_stevilka: vm.student.davcna_stevilka,
-                    e_posta: vm.student.e_posta,
-                    prenosni_telefon: vm.student.prenosni_telefon,
-                    stalno_bivalisce_naslov: vm.student.stalno_bivalisce_naslov,
-                    stalno_bivalisce_posta: vm.student.stalno_bivalisce_posta,
-                    stalno_bivalisce_drzava_obcina: vm.student.stalno_bivalisce_drzava_obcina,
-                    stalno_bivalisce_vrocanje:  vm.student.stalno_bivalisce_vrocanje,
-                    zacasno_bivalisce_naslov: vm.student.zacasno_bivalisce_naslov,
-                    zacasno_bivalisce_posta: vm.student.zacasno_bivalisce_posta,
-                    zacasno_bivalisce_drzava_obcina: vm.student.zacasno_bivalisce_drzava_obcina,
-                    zacasno_bivalisce_vrocanje: vm.student.zacasno_bivalisce_vrocanje
-                }
+                vpisna_stevilka: vm.student.vpisna_stevilka,
+                priimek: vm.student.priimek,
+                ime: vm.student.ime,
+                datum_rojstva: vm.student.datum_rojstva,
+                kraj_rojstva: vm.student.kraj_rojstva,
+                drzava_rojstva: vm.student.drzava_rojstva,
+                obcina_rojstva: vm.student.obcina_rojstva,
+                drzavljanstvo: vm.student.drzavljanstvo,
+                spol: vm.student.spol,
+                emso: vm.student.emso,
+                davcna_stevilka: vm.student.davcna_stevilka,
+                email: vm.student.email,
+                prenosni_telefon: vm.student.prenosni_telefon,
+                stalno_bivalisce_naslov: vm.student.stalno_bivalisce_naslov,
+                stalno_bivalisce_posta: vm.student.stalno_bivalisce_posta,
+                stalno_bivalisce_obcina: vm.student.stalno_bivalisce_obcina,
+                stalno_bivalisce_drzava: vm.student.stalno_bivalisce_drzava,
+                stalno_bivalisce_vrocanje: vm.student.stalno_bivalisce_vrocanje,
+                zacasno_bivalisce_naslov: vm.student.zacasno_bivalisce_naslov,
+                zacasno_bivalisce_posta: vm.student.zacasno_bivalisce_posta,
+                zacasno_bivalisce_obcina: vm.student.zacasno_bivalisce_obcina,
+                zacasno_bivalisce_drzava: vm.student.zacasno_bivalisce_drzava,
+                zacasno_bivalisce_vrocanje: vm.student.zacasno_bivalisce_vrocanje
             };
             
-            studentPodatki.dodajStudenta(student).then(
+            studentPodatki.urediStudenta(vm.idStudenta, student).then(
                 function success(odgovor) {
                     // preusmeri, na se enkratno preverjanje podatkov, nato pa na izbiranje predmetov
                 },
@@ -95,10 +107,34 @@
             function success(odgovor) {
                 //doloceni podatki, se ze predizpolnjejo
                 vm.student = odgovor.data;
-                console.log(vm.student);
+                //console.log(vm.student);
             },
             function error(odgovor) {
                 console.log("Pripetila se je napaka: " + odgovor);
+            }
+        );
+        ostaloPodatki.pridobiObcine().then(
+            function success(odgovor) {
+                vm.obcine = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju občin: " + odgovor);
+            }
+        );
+        ostaloPodatki.pridobiDrzave().then(
+            function success(odgovor) {
+                vm.drzave = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju drćav: " + odgovor);
+            }
+        );
+        ostaloPodatki.pridobiPoste().then(
+            function success(odgovor) {
+                vm.poste = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju pošt: " + odgovor);
             }
         );
     }
