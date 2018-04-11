@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Predmet = mongoose.model('Premdet');
+var Predmet = mongoose.model('Predmet');
 var Student = mongoose.model("Student");
 
 module.exports.pridobiStudente = function(req, res) {
