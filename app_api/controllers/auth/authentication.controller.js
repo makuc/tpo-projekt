@@ -5,16 +5,16 @@ var Student = require("../student.controller");
 
 
 module.exports.private = function(req, res, next) {
-    req.url = req.originalUrl;
-    req.url = req.url.split(/[\/?#]/g);
+    req.splitUrl = req.originalUrl;
+    req.splitUrl = req.splitUrl.split(/[\/?#]/g);
     
-    if(req.url[1] == "api") {
+    if(req.splitUrl[1] == "api") {
         // Check if user has been authenticated
         if (!req.user) 
             return res.status(403).send({ auth: false, message: 'Ni podanega veljavnega tokena JWT' });
         return next();
-    }
-    next();
+    } else
+        next();
 };
 module.exports.authenticate = function(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -43,7 +43,7 @@ module.exports.authenticate = function(req, res, next) {
     }
 };
 module.exports.admin = function(req, res, next) {
-    if(req.url[1] == "api") {
+    if(req.splitUrl[1] == "api") {
         // Check if user has been authenticated
         
         console.log(req.user);
