@@ -3,8 +3,8 @@ module.exports = function(req, res, next) {
     
     if(Array.isArray(next)) {
         if(next.length == 0) {
-            console.log("Vnašanje začetnih podatkov[callNext]: ni naslednje funkcije");
-            res.status(403).json({ message: "Napačna konfiguracija funkcij za vnos podatkov" });
+            console.log("[callNext]: ni naslednje funkcije");
+            return res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
         }
         
         exec = next.shift();
@@ -17,7 +17,7 @@ module.exports = function(req, res, next) {
         else
             exec(req, res, next);
     } else {
-        console.log("Vnašanje začetnih podatkov[callNext]: naslednja funkcija neveljavna");
-        res.status(403).json({ message: "Napačna konfiguracija funkcij za vnos podatkov" });
+        console.log("[callNext]: naslednja funkcija neveljavna");
+        return res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
     }
 }

@@ -1,10 +1,38 @@
 var Utils = require("./_include/utils");
-var callNext = require("./_include/callNext");;
+var callNext = require("./_include/callNext");
 
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var Student = mongoose.model('Student');
 var User = mongoose.model('User');
+
+var models = {
+    Obcina: mongoose.model('Obcina'),
+    Drzava: mongoose.model('Drzava'),
+    Posta: mongoose.model('Posta'),
+    
+    StudijskoLeto: mongoose.model('StudijskoLeto'),
+    
+    VrstaStudija: mongoose.model('VrstaStudija'),
+    VrstaVpisa: mongoose.model('VrstaVpisa'),
+    OblikaStudija: mongoose.model('OblikaStudija'),
+    NacinStudija: mongoose.model('NacinStudija'),
+    
+    StudijskiProgram: mongoose.model('StudijskiProgram'),
+    Letnik: mongoose.model('Letnik'),
+    
+    Zaposlen: mongoose.model('Zaposlen'),
+    
+    Predmet: mongoose.model('Predmet'),
+    DelPredmetnika: mongoose.model('DelPredmetnika'),
+    Predmetnik: mongoose.model('Predmetnik'),
+    Izpit: mongoose.model('Izpit'),
+    
+    Student: mongoose.model('Student'),
+    Vpis: mongoose.model('Vpis'),
+    
+    User: mongoose.model('User')
+};
 
 var request = require('request');
 var apiParameters = {
@@ -64,9 +92,17 @@ module.exports.createStudent = function(req, res) {
     checkEmailAlreadyExists(req, res, [ ustvariStudenta, vrniStudenta ]);
 };
 module.exports.updateStudenta = function(req, res){
+    if(!req.body)
+        return res.status(400).json({ message: "Ni podatkov za spreminjanje" });
     
+    preveriDrzavaRojstva (req, res, [
+        preveriStalnoBivaliscePosta, preveriStalnoBivalisceObcina, preveriStalnoBivalisceDrzava,
+        preveriZacasnoBivaliscePosta, preveriZacasnoBivalisceObcina, preveriZacasnoBivalisceDrzava,
+        posodobiStudenta
+    ]);
 };
 
+/** Funkcije za manipulacijo študentov **/
 function pridobiStudente(req, res) {
     Student
         .find().limit(0)
@@ -140,46 +176,68 @@ function ustvariStudenta(req, res, next) {
         callNext(req, res, next);
     });
 }
-function posodobiStudenta(req, res, next) {
+function posodobiStudenta(req, res) {
     Student
-        .findById(req.params.idStudenta)
-        .exec(
-            function(napaka, student) {
-                if(!student){
-                    returnJson(res, 404, {"sporočilo": "Ne najdem igralca."});
-                    return;
-                } else if(napaka){
-                    returnJson(res, 400, napaka);
+        .findById(req.params.student_id)
+        .exec(function(err, student) {
+            if(err || !student){
+                console.log(err);
+                console.log(student);
+                return res.status(404).json({ message: "Ne najdem tega študenta" });
+            }
+            
+            if(typeof req.body.priimek === 'string')
+                student.priimek = req.body.priimek;
+            if(typeof req.body.ime === 'string')
+                student.ime = req.body.ime;
+            if(typeof req.body.datum_rojstva === 'string')
+                student.datum_rojstva = req.body.datum_rojstva;
+            if(req.body.kraj_rojstva)
+                student.kraj_rojstva = req.body.kraj_rojstva;
+            if(req.body.drzava_rojstva)
+                student.drzava_rojstva = req.body.drzava_rojstva;
+            if(req.body.obcina_rojstva)
+                student.obcina_rojstva = req.body.obcina_rojstva;
+            if(typeof req.body.drzavljanstvo === 'string')
+                student.drzavljanstvo = req.body.drzavljanstvo;
+            if(typeof req.body.spol === 'string')
+                student.spol = req.body.spol;
+            if(typeof req.body.emso === 'string')
+                student.emso = req.body.emso;
+            if(typeof req.body.davcna_stevilka === 'string')
+                student.davcna_stevilka = req.body.davcna_stevilka;
+            if(typeof req.body.email === 'string')
+                student.e_posta = req.body.email;
+            if(typeof req.body.prenosni_telefon === 'string')
+                student.prenosni_telefon = req.body.prenosni_telefon;
+            if(typeof req.body.stalno_bivalisce_naslov === 'string')
+                student.stalno_bivalisce_naslov = req.body.stalno_bivalisce_naslov;
+            if(req.body.stalno_bivalisce_posta)
+                student.stalno_bivalisce_posta = req.body.stalno_bivalisce_posta;
+            if(req.body.stalno_bivalisce_obcina)
+                student.stalno_bivalisce_obcina = req.body.stalno_bivalisce_obcina;
+            if(req.body.stalno_bivalisce_drzava)
+                student.stalno_bivalisce_drzava = req.body.stalno_bivalisce_drzava;
+            if(typeof req.body.stalno_bivalisce_vrocanje === 'boolean')
+                student.stalno_bivalisce_vrocanje = req.body.stalno_bivalisce_vrocanje;
+            if(typeof req.body.zacasno_bivalisce_naslov === 'string')
+                student.zacasno_bivalisce_naslov = req.body.zacasno_bivalisce_naslov;
+            if(req.body.zacasno_bivalisce_posta)
+                student.zacasno_bivalisce_posta = req.body.zacasno_bivalisce_posta;
+            if(req.body.zacasno_bivalisce_obcina)
+                student.zacasno_bivalisce_obcina = req.body.zacasno_bivalisce_obcina;
+            if(req.body.zacasno_bivalisce_drzava)
+                student.zacasno_bivalisce_drzava = req.body.zacasno_bivalisce_drzava;
+            if(typeof req.body.zacasno_bivalisce_vrocanje === 'boolean')
+                student.zacasno_bivalisce_vrocanje = req.body.zacasno_bivalisce_vrocanje;
+            
+            student.save(function(err, student) {
+                if(err){
+                    return res.status(400).json({ message: "Napaka pri posodabljanju študenta" });
                 }
-                student.vpisna_stevilka = req.body.data.vpisna_stevilka;
-                student.priimek = req.body.data.priimek;
-                student.ime = req.body.data.ime;
-                student.datum_rojstva = req.body.data.datum_rojstva;
-                student.kraj_rojstva = req.body.data.kraj_rojstva;
-                student.drzava_rojstva = req.body.data.drzava_rojstva;
-                student.obcina_rojstva = req.body.data.obcina_rojstva;
-                student.drzavljanstvo = req.body.data.drzavljanstvo;
-                student.spol = req.body.data.spol;
-                student.emso = req.body.data.emso;
-                student.davcna_stevilka = req.body.data.davcna_stevilka;
-                student.e_posta = req.body.data.e_posta;
-                student.prenosni_telefon = req.body.data.prenosni_telefon;
-                student.stalno_bivalisce_naslov = req.body.data.stalno_bivalisce_naslov;
-                student.stalno_bivalisce_posta = req.body.data.stalno_bivalisce_posta;
-                student.stalno_bivalisce_drzava_obcina = req.body.data.stalno_bivalisce_drzava_obcina;
-                student.stalno_bivalisce_vrocanje = req.body.data.stalno_bivalisce_vrocanje;
-                student.zacasno_bivalisce_naslov = req.body.data.zacasno_bivalisce_naslov;
-                student.zacasno_bivalisce_posta = req.body.data.zacasno_bivalisce_posta;
-                student.zacasno_bivalisce_drzava_obcina = req.body.data.zacasno_bivalisce_drzava_obcina;
-                student.zacasno_bivalisce_vrocanje = req.body.data.zacasno_bivalisce_vrocanje;
-                student.save(function(napaka, student) {
-                    if(napaka){
-                        returnJson(res, 404, napaka);
-                    } else {
-                        returnJson(res, 200, student);
-                    }
-                });
+                res.status(200).json(student);
             });
+        });
 }
 function vrniStudenta(req, res) {
     if(!req.student)
@@ -187,6 +245,97 @@ function vrniStudenta(req, res) {
     return res.status(201).json( req.student );
 }
 
+function preveriDrzavaRojstva(req, res, next) {
+    if(req.body.drzava_rojstva) {
+        models.Drzava.findById(req.body.drzava_rojstva).exec(function(err, drzava) {
+            if(err || !drzava)
+                req.body.drzava_rojstva = undefined;
+            
+            req.body.drzava_rojstva = drzava;
+            
+            return callNext(req, res, next);
+        });
+    } else
+    callNext(req, res, next);
+}
+function preveriStalnoBivaliscePosta(req, res, next) {
+    if(req.body.stalno_bivalisce_posta) {
+        models.Posta.findById(req.body.stalno_bivalisce_posta).exec(function(err, posta) {
+            if(err || !posta)
+                req.body.stalno_bivalisce_posta = undefined;
+            
+            req.body.stalno_bivalisce_posta = posta;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
+function preveriStalnoBivalisceObcina(req, res, next) {
+    if(req.body.stalno_bivalisce_obcina) {
+        models.Obcina.findById(req.body.stalno_bivalisce_obcina).exec(function(err, obcina) {
+            if(err || !obcina)
+                req.body.stalno_bivalisce_obcina = undefined;
+            
+            req.body.stalno_bivalisce_obcina = obcina;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
+function preveriStalnoBivalisceDrzava(req, res, next) {
+    if(req.body.stalno_bivalisce_drzava) {
+        models.Drzava.findById(req.body.stalno_bivalisce_drzava).exec(function(err, drzava) {
+            if(err || !drzava)
+                req.body.stalno_bivalisce_drzava = undefined;
+            
+            req.body.stalno_bivalisce_drzava = drzava;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
+function preveriZacasnoBivaliscePosta(req, res, next) {
+    if(req.body.zacasno_bivalisce_posta) {
+        models.Posta.findById(req.body.zacasno_bivalisce_posta).exec(function(err, posta) {
+            if(err || !posta)
+                req.body.zacasno_bivalisce_posta = undefined;
+            
+            req.body.zacasno_bivalisce_posta = posta;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
+function preveriZacasnoBivalisceObcina(req, res, next) {
+    if(req.body.zacasno_bivalisce_obcina) {
+        models.Obcina.findById(req.body.zacasno_bivalisce_obcina).exec(function(err, obcina) {
+            if(err || !obcina)
+                req.body.zacasno_bivalisce_obcina = undefined;
+            
+            req.body.zacasno_bivalisce_obcina = obcina;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
+function preveriZacasnoBivalisceDrzava(req, res, next) {
+    if(req.body.zacasno_bivalisce_drzava) {
+        models.Drzava.findById(req.body.zacasno_bivalisce_drzava).exec(function(err, drzava) {
+            if(err || !drzava)
+                req.body.zacasno_bivalisce_drzava = undefined;
+            
+            req.body.zacasno_bivalisce_drzava = drzava;
+            
+            return callNext(req, res, next);
+        });
+    } else
+        callNext(req, res, next);
+}
 
 function checkEmailAlreadyExists(req, res, next) {
     // Check if user with this email already exists
@@ -201,6 +350,8 @@ function checkEmailAlreadyExists(req, res, next) {
     });
 }
 
+
+/* Funkcije za uvažanje študentov */
 function uvoziStudente(req, res) {
     // najprej dobi zaporedno vpisno - ce ni studentov nastavi zaporedno na 0
     Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
