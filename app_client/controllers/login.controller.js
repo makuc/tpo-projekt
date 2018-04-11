@@ -6,7 +6,7 @@
     function loginCtrl($location, authentication, $scope,$route) {
         
      if(authentication.auth()) {
-        return $location.path('/');
+        return $location.path('/student/main');
      }
         
      function isEmail(email) {
@@ -58,8 +58,13 @@
         .login(vm.formData)
         .then(
           function success() {
+            if(authentication.auth()){
             $location.search('page', null);
             $location.path("/student/main");
+            }else{
+               vm.formError = "Uporabnika ni v bazi";
+              
+            }
           },
           function error(res) {
             if(res.status == 403) return vm.formError = "An illegal expression is entered in the form";

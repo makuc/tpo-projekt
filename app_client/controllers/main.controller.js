@@ -1,12 +1,23 @@
 (function() {
     /* global angular */
-     mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window'];
-    function mainCtrl($location, authentication, $scope,$route,$window) {
+     mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http'];
+    function mainCtrl($location, authentication, $scope, $route, $window, $http) {
         if(!authentication.auth()) {
-             $window.alert("Napačno uporabniško ime ali geslo!");
+            
         return $location.path('/login');
+       
          }
+         
+
         
+   function delTok(){
+        return authentication.logout()
+    }
+    
+         $scope.logoutFunc= function() {
+         delTok();
+         return $location.path('/login');
+    }
         
     }
     
