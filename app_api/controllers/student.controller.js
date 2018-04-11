@@ -366,7 +366,6 @@ function checkEmailAlreadyExists(req, res, next) {
 
 /* Funkcije za uvažanje študentov */
 function pridobiZaporednoStevilko(req, res, next) {
-    console.log("pridobiZaporednoStevilko");
     // najprej dobi zaporedno vpisno - ce ni studentov nastavi zaporedno na 0
     models.Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
     {
@@ -381,7 +380,6 @@ function pridobiZaporednoStevilko(req, res, next) {
     });
 }
 function parsePrejetePodatke(req, res, next) {
-    console.log("parsePrejetePodatke");
     req.queueStudentov = [];
     req.sprejeti = [];
     req.zavrnjeni = [];
@@ -392,7 +390,6 @@ function parsePrejetePodatke(req, res, next) {
 }
 
 function pripraviObjekteStudentov(req, res, next) {
-    console.log("pripraviObjekteStudentov");
     while(req.uvozeniPodatki.length >= 4) {
         var studentObj = {};
         studentObj.ime = req.uvozeniPodatki.shift();
@@ -411,36 +408,23 @@ function pripraviObjekteStudentov(req, res, next) {
     callNext(req, res, next);
 }
 function obdelajStudente(req, res, next) {
-    console.log("obdelajStudente: " + req.queueStudentov.length);
-    printStudente(req.queueStudentov);
-    if(req.queueStudentov.length < 0) {
-        console.log("Obdelaj trenutnega");
+    if(req.queueStudentov.length > 0) {
         req.studentObj = req.queueStudentov.pop();
         
         validateEmail(req, res, next);
     } else {
-        //printStudente(req.sprejeti);
-        console.log("Direktno?");
         req.queueStudentov = req.sprejeti.splice(0); // Da ustvari kopijo arraya in ne samo reference
         req.sprejeti = [];
         callNext(req, res, next);
     }
 }
 function ustvariStudente(req, res, next) {
-    console.log("ustvariStudente");
-    
-    console.log("Queue studentoc:");
-    //printStudente(req.queueStudentov);
-    console.log("-----------");
-    
-    return res.status(500).send();
     
     if(req.queueStudentov.length > 0) {
         models.Student.create(req.queueStudentov, function(err, studenti) {
             if(err) {
                 return console.log(err);
             }
-            
             req.sprejeti = studenti;
             
             callNext(req, res, next);
@@ -450,35 +434,35 @@ function ustvariStudente(req, res, next) {
     }
 }
 function pripraviObjekteUserjev(req, res, next) {
-    console.log("pripraviObjekteUserjev:\n" + req.sprejeti);
-    req.queueUsers = [];
-    for(var i = 0; i < req.sprejeti.length; i++) {
-        req.userObj = {};
-        req.userObj.student = req.sprejeti[i];
-        req.password = getMailGeslo();
-        req.tmpGeslo = req.password;
-        req.queueUsers.push(req.userObj);
+    if(req.sprejeti.length > 0) {
+        req.queueUsers = [];
+        for(var i = 0; i < req.sprejeti.length; i++) {
+            var geslo = getMailGeslo();
+            req.userObj = {};
+            req.userObj.student = req.sprejeti[i];
+            req.userObj.password = geslo;
+            req.userObj.opombe = geslo;
+            req.queueUsers.push(req.userObj);
+        }
+        req.tmpUsers = [];
+        callNext(req, res, next);
+    } else {
+        uvozZakljucen(req, res);
     }
-    console.log(req.queueUsers);
-    req.tmpUsers = [];
-    obdelajUserje(req, res, next);
 }
 function obdelajUserje(req, res, next) {
-    console.log("obdelajUserje");
     if(req.queueUsers.length > 0) {
         req.userObj = req.queueUsers.pop();
         
         genStudentEmail(req, res, next);
     } else {
-        while(req.tmpUsers.length > 0) {
-            req.queueUsers.push( req.tmpUsers.pop() );
-        }
+        req.queueUsers = req.tmpUsers.splice(0);
+        req.tmpUsers = [];
+        
         return callNext(req, res, next);
     }
 }
 function ustvariUserje(req, res, next) {
-    console.log("ustvariUserje");
-    printStudente(req.queueUsers);
     models.User.create(req.queueUsers, function(err, users) {
         if(err) {
             console.log(err);
@@ -495,7 +479,6 @@ function uvozZakljucen(req, res) {
 }
 
 function validateEmail(req, res, next) {
-    console.log("validateEmail");
     if(!Utils.isEmail(req.studentObj.email)) {
         req.studentObj.razlog = "Neveljaven email";
         req.zavrnjeni.push(req.studentObj);
@@ -509,12 +492,10 @@ function validateEmail(req, res, next) {
             req.zavrnjeni.push(req.studentObj);
             return obdelajStudente(req, res, next);
         }
-        req.sprejeti.push(req.studentObj);
         najdiStudijskiProgram(req, res, next);
     });
 }
 function najdiStudijskiProgram(req, res, next) {
-    console.log("najdiStudijskiProgram");
     models.StudijskiProgram.findOne({ sifra: req.studentObj.program }, function(err, program) {
         if(err || !program) {
             req.studentObj.razlog = "Neveljaven program";
@@ -528,9 +509,7 @@ function najdiStudijskiProgram(req, res, next) {
     });
 }
 function genVpisnaStevilka(req, res, next) {
-    console.log("genVpisnaStevilka");
     req.zaporednaVpisna += 1;
-    console.log("Zaporedna številka: " + req.zaporednaVpisna);
     var letoVpisa = (new Date).getFullYear().toString();
     req.studentObj.vpisna_stevilka = "63" + letoVpisa.slice(-2) + ('0000' + req.zaporednaVpisna).substr(-4);
     
@@ -538,16 +517,14 @@ function genVpisnaStevilka(req, res, next) {
     
     obdelajStudente(req, res, next);
 }
-
 function genStudentEmail(req, res, next) {
-    console.log("genStudentEmail");
     var initials = req.userObj.student.ime.substr(0,1).toLowerCase() + req.userObj.student.priimek.substr(0,1).toLowerCase();
     
     models.User.findOne({ "email" : { $regex: initials + "[0-9]{4}@student.uni-lj.si", $options: "gi" }, "student": {$exists: true} })
         .sort("-email")
         .exec(function(err, user) {
             if(err || !user) {
-                req.userObj.email = initials + "0000";
+                req.userObj.email = initials + "0000@student.uni-lj.si";
                 
                 req.tmpUsers.push(req.userObj);
                 
@@ -578,11 +555,3 @@ function getMailGeslo() {
     }
     return geslo;
 };
-
-function printStudente (arr) {
-    var tmp = arr.splice(0);
-    while(tmp.length > 0) {
-        var student = tmp.pop();
-        console.log("Vpisna stevilka: " + student.vpisna_stevilka);
-    }
-}
