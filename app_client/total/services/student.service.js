@@ -26,7 +26,6 @@
         };
     };
     
-
     
     studentPodatki.$inject = ['$http'];
     angular

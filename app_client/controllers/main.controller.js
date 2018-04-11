@@ -1,5 +1,6 @@
 (function() {
     /* global angular */
+<<<<<<< HEAD
      mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http'];
     function mainCtrl($location, authentication, $scope, $route, $window, $http) {
         if(!authentication.auth()) {
@@ -20,6 +21,10 @@
     }
         
     }
+=======
+    mainCtrl.$inject = [];
+    function mainCtrl() {}
+>>>>>>> Uros
     
     angular
         .module('tpo')

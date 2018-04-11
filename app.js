@@ -27,6 +27,7 @@ var api = {
 var zdruzeno = uglifyJs.minify({
   // Dopiši vse datoteke, ki jih želiš združiti v SPA eno datoteko!
   'app.js': fs.readFileSync('app_client/app.client.js', 'utf8'),
+  'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8'),
   'header.directive.js': fs.readFileSync('app_client/total/directives/header/header.directive.js', 'utf8'),
   'footer.directive.js': fs.readFileSync('app_client/total/directives/footer/footer.directive.js', 'utf8'),
   'navigation.directive.js': fs.readFileSync('app_client/total/directives/navigation/navigation.directive.js', 'utf8'),
