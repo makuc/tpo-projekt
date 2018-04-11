@@ -14,8 +14,8 @@ var server = {
   usersRouter: require('./app_server/routes/users')
 };
 var api = {
-  public: require('./app_api/routes/api.public.route'),
-  private: require('./app_api/routes/api.private.route')
+  public: require('./app_api/routes/public.route'),
+  private: require('./app_api/routes/private.route')
 };
 
 
