@@ -10,8 +10,6 @@ var userSchema = new mongoose.Schema({
     hashed: {type: String, required: true},
     salt: {type: String, required: true},
     
-    opombe: {type: String, required: false},
-    
     napacne_prijave: {type: String, required: false},
     zadnja_napacna_prijava: {type: Date, required: false}
 });

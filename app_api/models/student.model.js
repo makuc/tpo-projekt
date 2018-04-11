@@ -38,7 +38,7 @@ var studentSchema = new mongoose.Schema({
     spol: {type: String, required: false},
     emso: {type: String, required: false},
     davcna_stevilka: {type: String, required: false},
-    e_posta: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true},
     prenosni_telefon: {type: String, required: false},
     stalno_bivalisce_naslov: {type: String, required: false},
     stalno_bivalisce_posta: {type: ObjectId, ref: 'Posta', required: false},

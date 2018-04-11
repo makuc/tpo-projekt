@@ -3,8 +3,6 @@ var callNext = require("./_include/callNext");
 
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;
-var Student = mongoose.model('Student');
-var User = mongoose.model('User');
 
 var models = {
     Obcina: mongoose.model('Obcina'),
@@ -73,16 +71,14 @@ request(
 );
 */
 
-module.exports.uvoziStudente = function(req, res) {
-    uvoziStudente(req, res);
-};
+module.exports.uvoziStudente = uvoziStudente;
 module.exports.getStudente = function(req, res) {
   pridobiStudente(req, res);
 };
 module.exports.getStudenta = function(req, res) {
     pridobiStudenta(req, res);
 };
-module.exports.createStudent = function(req, res) {
+module.exports.createStudenta = function(req, res) {
     if(!req.body || !req.body.vpisna_stevilka || !req.body.priimek || !req.body.ime || !req.body.email)
         return res.status(400).json({ message: "Manjkajo podatki za kreiranje študenta" });
     
@@ -102,9 +98,26 @@ module.exports.updateStudenta = function(req, res){
     ]);
 };
 
+
+/* Končne funkcije */
+function uvoziStudente(req, res) {
+    if(!req.body || !req.body.Podatki || typeof req.body.Podatki !== 'string')
+        return res.status(400).json({ message: "Ni posredovanih ustreznih podatkov" });
+    callNext(req, res, [
+        pridobiZaporednoStevilko, parsePrejetePodatke, pripraviObjekteStudentov, obdelajStudente, ustvariStudente,
+        pripraviObjekteUserjev, obdelajUserje, ustvariUserje, uvozZakljucen
+    ]);
+}
+
+
+
+/****************************************/
+/*********** Pomožne funkcije ***********/
+/****************************************/
+
 /** Funkcije za manipulacijo študentov **/
 function pridobiStudente(req, res) {
-    Student
+    models.Student
         .find().limit(0)
         .sort({ "priimek" : 1, "ime" : 1 })
         .exec(function(err, studenti) {
@@ -115,7 +128,7 @@ function pridobiStudente(req, res) {
         });
 }
 function pridobiStudenta(req, res) {
-    Student
+    models.Student
         .findById(req.params.student_id)
         .populate([
             {
@@ -161,11 +174,11 @@ function pridobiStudenta(req, res) {
 function ustvariStudenta(req, res, next) {
     var student = req.body;
     
-    Student.create({
+    models.Student.create({
         vpisna_stevilka: student.vpisna_stevilka,
         priimek: student.priimek,
         ime: student.ime,
-        e_posta: student.email
+        email: student.email
     }, function(err, student){
         if(err) {
             console.log(err);
@@ -177,7 +190,7 @@ function ustvariStudenta(req, res, next) {
     });
 }
 function posodobiStudenta(req, res) {
-    Student
+    models.Student
         .findById(req.params.student_id)
         .exec(function(err, student) {
             if(err || !student){
@@ -207,7 +220,7 @@ function posodobiStudenta(req, res) {
             if(typeof req.body.davcna_stevilka === 'string')
                 student.davcna_stevilka = req.body.davcna_stevilka;
             if(typeof req.body.email === 'string')
-                student.e_posta = req.body.email;
+                student.email = req.body.email;
             if(typeof req.body.prenosni_telefon === 'string')
                 student.prenosni_telefon = req.body.prenosni_telefon;
             if(typeof req.body.stalno_bivalisce_naslov === 'string')
@@ -339,7 +352,7 @@ function preveriZacasnoBivalisceDrzava(req, res, next) {
 
 function checkEmailAlreadyExists(req, res, next) {
     // Check if user with this email already exists
-    Student.findOne({ e_posta: req.body.email }, function(err, student) {
+    models.Student.findOne({ email: req.body.email }, function(err, student) {
         if(err) {
             //console.log(err);
             return res.status(404).send({ message: "Napaka pri pregledu obstoja tega email naslova" });
@@ -352,229 +365,207 @@ function checkEmailAlreadyExists(req, res, next) {
 
 
 /* Funkcije za uvažanje študentov */
-function uvoziStudente(req, res) {
+function pridobiZaporednoStevilko(req, res, next) {
+    console.log("pridobiZaporednoStevilko");
     // najprej dobi zaporedno vpisno - ce ni studentov nastavi zaporedno na 0
-    Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
+    models.Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
     {
-        req.zaporednaVpisna = -1;
-        if(err) 
-        {
-            req.zaporednaVpisna = 0;
-            //return res.status(400).json({ message: "Ne najdem zadnjega vnešenega studenta - Je baza prazna?" });
+        if(err || !student) {
+            req.zaporednaVpisna = -1;
+        } else {
+            req.zaporednaVpisna = student.vpisna_stevilka.slice(-4);
+            req.zaporednaVpisna = parseInt(req.zaporednaVpisna, 10); // 10 zato, ker obdelujemo decimalna števila
         }
-        else
-        {
-            req.zaporednaVpisna = student.vpisna_stevilka;
-            req.zaporednaVpisna = parseInt(req.zaporednaVpisna.toString().slice(-4).replace(/^0+/, ''));
-        }
-        req.koncniObject = {};
-        req.sprejeti = [];
-        req.zavrnjeni = [];
-        req.reqSplit = req.body.Podatki.split(/[\r\n]+/);
-        if(req.reqSplit.length < 4)
-        {
-            return res.status(400).json({ message: "Ni podatkov za kreiranje studenta" });
-        }
-        else
-        {
-            uvoziNextStudent(req, res);
-        }
+        
+        callNext(req, res, next);
     });
 }
+function parsePrejetePodatke(req, res, next) {
+    console.log("parsePrejetePodatke");
+    req.queueStudentov = [];
+    req.sprejeti = [];
+    req.zavrnjeni = [];
+    
+    req.uvozeniPodatki = req.body.Podatki.split(/[\r\n]+/);
+    
+    callNext(req, res, next);
+}
 
-function uvoziNextStudent(req, res) {
-    //console.log("Rek klicana");
-
-    var counter = 0;
-    var studentObj = {};
-    studentObj.ime = req.reqSplit.shift();
-    studentObj.priimek = req.reqSplit.shift();
-    studentObj.program = req.reqSplit.shift();
-    studentObj.email = req.reqSplit.shift();
-
-    // check if email is valid
-    if(Utils.isEmail(studentObj.email))
-    {
-        // je veljaven in ga lahko dodamo
-        req.zaporednaVpisna++;
-        studentObj.studentMail = getStudentMail(studentObj.ime, studentObj.priimek);
-        studentObj.password = getMailGeslo();
-        studentObj.vpisna_stevilka = getVpisnaStevilka((new Date()).getFullYear(), req.zaporednaVpisna);
-        req.sprejeti.push(studentObj);
-        var studentDB = new Student ({
-            vpisna_stevilka: studentObj.vpisna_stevilka,
-            priimek: studentObj.priimek,
-            ime: studentObj.ime,
-            e_posta: studentObj.email
-        });
+function pripraviObjekteStudentov(req, res, next) {
+    console.log("pripraviObjekteStudentov");
+    while(req.uvozeniPodatki.length >= 4) {
+        var studentObj = {};
+        studentObj.ime = req.uvozeniPodatki.shift();
+        studentObj.priimek = req.uvozeniPodatki.shift();
+        studentObj.program = req.uvozeniPodatki.shift();
+        studentObj.email = req.uvozeniPodatki.shift();
+        studentObj.vpisna_stevilka = "ni vpisne";
+        studentObj.password = "";
         
-        studentDB.save(function(err)
-        {
-            if(err)
-            {
-                // iz baze odstrani dodanega - TODO
-                req.zaporednaVpisna--;
-                var studentObjErr = {};
-                studentObjErr.ime = studentObj.ime;
-                studentObjErr.priimek = studentObj.priimek;
-                studentObjErr.program = studentObj.program;
-                studentObjErr.email = studentObj.email;
-                req.zavrnjeni.push((studentObjErr));
-                console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
-                //console.log(err);
-            }
-            else
-            {
-                User.create(
-                {
-                    student: studentDB,
-                    email: studentObj.studentMail,
-                    password: studentObj.password,
-                    opombe: studentObj.password
-                }, function(err, user) {
-                    if(err) 
-                    {
-                        // iz baze odstrani dodanega - TODO
-                        req.zaporednaVpisna--;
-                        var studentObjErr = {};
-                        studentObjErr.ime = studentObj.ime;
-                        studentObjErr.priimek = studentObj.priimek;
-                        studentObjErr.program = studentObj.program;
-                        studentObjErr.email = studentObj.email;
-                        req.zavrnjeni.push((studentObjErr));
-                        console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
-                    }
-                    else
-                    {
-                        //req.sprejeti.push(studentObj);
-                        req.studentDB = studentDB;
-                        req.user = user;
-                    }
-                });
-                
-                
-                //req.sprejeti.push(studentObj);
-            }
-            //var saved = (err ? false : true);
-            //returnJson(res, 200, saved);
-        });
-        
-        // kreiraj novega userja
+        req.queueStudentov.push(studentObj);
     }
-    else
-    {
-        req.zavrnjeni.push(studentObj);
+    if (req.uvozeniPodatki.length !== 0) {
+        req.zavrnjeni.push(req.uvozeniPodatki);
     }
     
-    if(req.reqSplit.length < 4)
-    {
-        req.koncniObject.sprejeti = req.sprejeti;
-        req.koncniObject.zavrnjeni = req.zavrnjeni;
-        return res.status(200).json(req.koncniObject);
-    }
-    else
-    {
-        uvoziNextStudent(req, res);
+    callNext(req, res, next);
+}
+function obdelajStudente(req, res, next) {
+    console.log("obdelajStudente: " + req.queueStudentov.length);
+    printStudente(req.queueStudentov);
+    if(req.queueStudentov.length < 0) {
+        console.log("Obdelaj trenutnega");
+        req.studentObj = req.queueStudentov.pop();
+        
+        validateEmail(req, res, next);
+    } else {
+        //printStudente(req.sprejeti);
+        console.log("Direktno?");
+        req.queueStudentov = req.sprejeti.splice(0); // Da ustvari kopijo arraya in ne samo reference
+        req.sprejeti = [];
+        callNext(req, res, next);
     }
 }
-
-// pricakuje da request body vsebuje json objekt s spremenljivko
-// Podatki katere vrednost je plaintext studentov
-function uvoziStudenteOLD(req, res) {
-    Student.findOne().sort('-vpisna_stevilka').exec(function(err, student) 
-    {
-        var zaporednaVpisna = -1
-        if(err) 
-        {
-            zaporednaVpisna = 0;
-            //return res.status(400).json({ message: "Ne najdem zadnjega vnešenega studenta - Je baza prazna?" });
-        }
-        else
-        {
-            zaporednaVpisna = student.vpisna_stevilka;
-        }
+function ustvariStudente(req, res, next) {
+    console.log("ustvariStudente");
+    
+    console.log("Queue studentoc:");
+    //printStudente(req.queueStudentov);
+    console.log("-----------");
+    
+    return res.status(500).send();
+    
+    if(req.queueStudentov.length > 0) {
+        models.Student.create(req.queueStudentov, function(err, studenti) {
+            if(err) {
+                return console.log(err);
+            }
+            
+            req.sprejeti = studenti;
+            
+            callNext(req, res, next);
+        });
+    } else {
+        callNext(req, res, next);
+    }
+}
+function pripraviObjekteUserjev(req, res, next) {
+    console.log("pripraviObjekteUserjev:\n" + req.sprejeti);
+    req.queueUsers = [];
+    for(var i = 0; i < req.sprejeti.length; i++) {
+        req.userObj = {};
+        req.userObj.student = req.sprejeti[i];
+        req.password = getMailGeslo();
+        req.tmpGeslo = req.password;
+        req.queueUsers.push(req.userObj);
+    }
+    console.log(req.queueUsers);
+    req.tmpUsers = [];
+    obdelajUserje(req, res, next);
+}
+function obdelajUserje(req, res, next) {
+    console.log("obdelajUserje");
+    if(req.queueUsers.length > 0) {
+        req.userObj = req.queueUsers.pop();
         
-        //var zaporednaVpisna = student.vpisna_stevilka;
-        zaporednaVpisna = parseInt(zaporednaVpisna.toString().slice(-4).replace(/^0+/, ''));
-        
-        var koncniObject = {};
-        var sprejeti = [];
-        var zavrnjeni = [];
-        //console.log(req.body.Podatki);
-        var reqSplit = req.body.Podatki.split(/[\r\n]+/);
-        var counter = 0;
-        var studentObj = {};
-        for (var i = 0; i < reqSplit.length; i++) {
-            var currValue = reqSplit[i];
-            if(counter == 0)
-            {
-                studentObj.ime = currValue;
-            }
-            else if(counter == 1)
-            {
-                studentObj.priimek = currValue;
-            }
-            else if(counter == 2)
-            {
-                studentObj.program = currValue;
-            }
-            else if(counter == 3)
-            {
-                studentObj.email = currValue;
-
-                // check if object can be added
-                if(isEmail(currValue))
-                {
-                    // je veljaven in ga lahko dodamo
-                    zaporednaVpisna++;
-                    studentObj.studentMail = getStudentMail(studentObj.ime, studentObj.priimek);
-                    studentObj.password = getMailGeslo();
-                    studentObj.vpisna_stevilka = getVpisnaStevilka((new Date()).getFullYear(), zaporednaVpisna);
-                    sprejeti.push(studentObj);
-                    
-                    var studentDB = new Student ({
-                        vpisna_stevilka: studentObj.vpisna_stevilka,
-                        priimek: studentObj.priimek,
-                        ime: studentObj.ime,
-                        e_posta: studentObj.email
-                    });
-                    
-                    studentDB.save(function(err){
-                        if(err)
-                        {
-                            console.log("Failed to save Student in studenti.controller.js : uvozSprejetih");
-                            console.log(err);
-                        }
-                        //var saved = (err ? false : true);
-                        //returnJson(res, 200, saved);
-                    });
-                    
-                    // kreiraj novega userja
-                }
-                else
-                {
-                    zavrnjeni.push(studentObj);
-                }
-                studentObj = {};
-                counter = -1;
-            }
-            counter++;
+        genStudentEmail(req, res, next);
+    } else {
+        while(req.tmpUsers.length > 0) {
+            req.queueUsers.push( req.tmpUsers.pop() );
         }
-        // return koncni objekt
-        koncniObject.sprejeti = sprejeti;
-        koncniObject.zavrnjeni = zavrnjeni;
-        //console.log(koncniObject);
-       
-        return res.status(200).json(koncniObject);
+        return callNext(req, res, next);
+    }
+}
+function ustvariUserje(req, res, next) {
+    console.log("ustvariUserje");
+    printStudente(req.queueUsers);
+    models.User.create(req.queueUsers, function(err, users) {
+        if(err) {
+            console.log(err);
+        }
+        req.users = users;
+        callNext(req, res, next);
     });
 }
-
-function getVpisnaStevilka(prvoLetoVpisa, zaporednaStev) {
-    return "63" + prvoLetoVpisa.toString().slice(-2) + ('0000' + zaporednaStev).substr(-4);
+function uvozZakljucen(req, res) {
+    if(req.sprejeti.length > 0)
+        res.status(201).json({ uporabniki: req.users, studenti: req.sprejeti, zavrnjeni: req.zavrnjeni });
+    else
+        res.status(400).json({ zavrnjeni: req.zavrnjeni });
 }
 
-function getStudentMail(ime, priimek) {
-    return ime.substr(0,1).toLowerCase() + priimek.substr(0,1).toLowerCase() + getRandomCifra(4) + "@student.uni-lj.si";
+function validateEmail(req, res, next) {
+    console.log("validateEmail");
+    if(!Utils.isEmail(req.studentObj.email)) {
+        req.studentObj.razlog = "Neveljaven email";
+        req.zavrnjeni.push(req.studentObj);
+        return obdelajStudente(req, res, next);
+    }
+    
+    models.Student.findOne({ email: req.studentObj.email }, function(err, student) {
+        if(!err && student) {
+            // Ta email je že v uporabi -> Zavrni ga
+            req.studentObj.razlog = "Email že v uporabi";
+            req.zavrnjeni.push(req.studentObj);
+            return obdelajStudente(req, res, next);
+        }
+        req.sprejeti.push(req.studentObj);
+        najdiStudijskiProgram(req, res, next);
+    });
+}
+function najdiStudijskiProgram(req, res, next) {
+    console.log("najdiStudijskiProgram");
+    models.StudijskiProgram.findOne({ sifra: req.studentObj.program }, function(err, program) {
+        if(err || !program) {
+            req.studentObj.razlog = "Neveljaven program";
+            req.zavrnjeni.push(req.studentObj);
+            return obdelajStudente(req, res, next);
+        }
+        
+        req.studentObj.program = program;
+        
+        genVpisnaStevilka(req, res, next);
+    });
+}
+function genVpisnaStevilka(req, res, next) {
+    console.log("genVpisnaStevilka");
+    req.zaporednaVpisna += 1;
+    console.log("Zaporedna številka: " + req.zaporednaVpisna);
+    var letoVpisa = (new Date).getFullYear().toString();
+    req.studentObj.vpisna_stevilka = "63" + letoVpisa.slice(-2) + ('0000' + req.zaporednaVpisna).substr(-4);
+    
+    req.sprejeti.push(req.studentObj);
+    
+    obdelajStudente(req, res, next);
+}
+
+function genStudentEmail(req, res, next) {
+    console.log("genStudentEmail");
+    var initials = req.userObj.student.ime.substr(0,1).toLowerCase() + req.userObj.student.priimek.substr(0,1).toLowerCase();
+    
+    models.User.findOne({ "email" : { $regex: initials + "[0-9]{4}@student.uni-lj.si", $options: "gi" }, "student": {$exists: true} })
+        .sort("-email")
+        .exec(function(err, user) {
+            if(err || !user) {
+                req.userObj.email = initials + "0000";
+                
+                req.tmpUsers.push(req.userObj);
+                
+                obdelajUserje(req, res, next);
+            } else {
+                var zaporedna = user.email.substr(2, 4);
+                zaporedna = parseInt(zaporedna, 10);
+                zaporedna += 1;
+                zaporedna = '0000' + zaporedna;
+                zaporedna = zaporedna.substr(-4);
+                
+                req.userObj.email = initials + zaporedna + "@student.uni-lj.si";
+                
+                req.tmpUsers.push(req.userObj);
+                
+                obdelajUserje(req, res, next);
+            }
+        });
 }
 
 function getMailGeslo() {
@@ -588,13 +579,10 @@ function getMailGeslo() {
     return geslo;
 };
 
-function getRandomCifra(dolzina) {
-    var nabor = "0123456789";
-    //var dolzina = 4;
-    var geslo = "";
-    for (var i = 0; i < dolzina; ++i) 
-    {
-        geslo += nabor.charAt(Math.floor(Math.random() * nabor.length * 12345) % nabor.length);
+function printStudente (arr) {
+    var tmp = arr.splice(0);
+    while(tmp.length > 0) {
+        var student = tmp.pop();
+        console.log("Vpisna stevilka: " + student.vpisna_stevilka);
     }
-    return geslo;
-};
+}

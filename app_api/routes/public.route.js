@@ -36,9 +36,10 @@ router.put("/uporabnik/:user", ctrl.users.updateUser);
 // Študenti
 
 router.get('/student', ctrl.student.getStudente);
-router.post('/student', ctrl.student.createStudent);
+router.post('/student', ctrl.student.createStudenta);
 router.post('/student/uvozSprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
+
 
 module.exports = router;

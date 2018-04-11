@@ -5,6 +5,7 @@ var uciteljSchema = new mongoose.Schema({
     priimek: {type: String, required: true},
     ime: {type: String, required: true},
     naziv: {type: String, required: false},
+    email: {type: String, required: true},
     
     skrbnik: {type: Boolean, "default": false}
 });
