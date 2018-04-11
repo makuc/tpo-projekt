@@ -3,6 +3,7 @@ var Utils = require("./_include/utils");
 var User = mongoose.model('User');
 var Student = mongoose.model("Student");
 var Zaposlen = mongoose.model("Zaposlen");
+var NeveljavnaPrijava = mongoose.model("NeveljavnaPrijava");
 
 
 module.exports.login = function(req, res) {
@@ -10,7 +11,7 @@ module.exports.login = function(req, res) {
         return res.status(400).send("Manjkajoči prijavni podatki");
     
     findUserByEmail(req, res, [
-        validatePassword, returnToken
+        veljavnostPrijave, validatePassword, returnToken
     ]);
 };
 module.exports.logout = function(req, res) {
@@ -244,12 +245,73 @@ function saveUserChanges(req, res, next) {
 function validatePassword(req, res, next) {
     // Check if password is valid
     req.user.validatePassword(req.body.password, function(err, valid) {
-        if(err) {
+        if(err || !valid) {
             //console.log(err);
+            neveljavnaPrijava(req, res);
             return res.status(401).send({ auth: false, token: null });
         }
-        if(!valid) return res.status(401).send({ auth: false, token: null });
         
         Utils.callNext(req, res, next);
+    });
+}
+
+function neveljavnaPrijava(req, res) {
+    console.log("neveljavnaPrijava()");
+    NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
+        if(err || !prijava) {
+            return dodajNeveljavnoPrijavo(req, res);
+        }
+        
+        // Popravi neuspešno prijavo
+        NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
+            if(err) {
+                return;
+            }
+            prijava.poskusi += 1;
+            prijava.zadnji_poskus = Date.now();
+            
+            prijava.save(function(err, prijava) {
+                if(err) {
+                    console.log(err);
+                    return ;
+                }
+                console.log("Neveljavna prijava: " + prijava.ip + "; zaporedni poskus: " + prijava.poskusi);
+            });
+        });
+    });
+}
+function dodajNeveljavnoPrijavo(req, res) {
+    console.log("dodajNeveljavnoPrijavo()");
+    NeveljavnaPrijava.create({
+        ip: req.headers['x-forwarded-for'],
+        poskusi: 1,
+        zadnji_poskus: Date.now()
+    }, function(err, prijava) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("Neveljavna prijava: " + prijava.ip);
+    });
+}
+
+function veljavnostPrijave(req, res, next) {
+    console.log("veljavnostPrijave()");
+    NeveljavnaPrijava.findOne({ ip: req.headers['x-forwarded-for'] }, function(err, prijava) {
+        if(err || !prijava) {
+            return Utils.callNext(req, res, next);
+        }
+        if(prijava.zadnji_poskus < Date.now() - 15 * 60 * 1000) { // 15 minut
+            prijava.poskusi = 0;
+        }
+        if(prijava.poskusi > 3) {
+            return res.status(401).json({ message: "Začasno onemogočena prijava" });
+        }
+        
+        prijava.save(function(err, prijava) {
+            if(err) {
+                return console.log(err);
+            }
+            Utils.callNext(req, res, next);
+        });
     });
 }

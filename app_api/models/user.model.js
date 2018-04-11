@@ -10,7 +10,10 @@ var userSchema = new mongoose.Schema({
     hashed: {type: String, required: true},
     salt: {type: String, required: true},
     
-    opombe: {type: String, required: false}
+    opombe: {type: String, required: false},
+    
+    napacne_prijave: {type: String, required: false},
+    zadnja_napacna_prijava: {type: Date, required: false}
 });
 userSchema.virtual('password').set(function(password) {
     this.preHashed = password;

@@ -23,6 +23,8 @@ require("./vrstaStudija.model");
 
 require("./izpit.model");
 
+require("./neveljavnaPrijava.model");
+
 
 /*  Poveži se s podatkovno bazo  */
 var dbURI = process.env.DB_HOST_DEV;
