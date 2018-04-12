@@ -19,7 +19,7 @@
                 controller: 'mainCtrl',
                 controllerAs: 'vm'
             })
-            .otherwise({redirectTo: '/'});
+            .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
     }
