@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 var ctrl = {
+    izvozi: {
+        vpisniList: require("../controllers/izvozi/vpisniList.controller")
+    },
     other: require('../controllers/other.controller'),
     db: require('../controllers/db.controller'),
     
@@ -44,7 +47,7 @@ router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
 
 // Vpisni list
-router.get('/student/:student_id/vpisni-list')
+router.get('/student/:student_id/vpisni-list', ctrl.izvozi.vpisniList.pdfVpisniList);
 
 // Ostalo
 router.get('/obcina', ctrl.obcina.getObcine);
