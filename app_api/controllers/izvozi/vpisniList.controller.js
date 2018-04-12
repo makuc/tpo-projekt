@@ -1,5 +1,5 @@
-var Utils = require("./_include/utils");
-var callNext = require("./_include/callNext");
+var Utils = require("../_include/utils");
+var callNext = require("../_include/callNext");
 
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;
