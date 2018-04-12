@@ -25,6 +25,27 @@ header {
   
 }
 
+#email{
+   width: 400px;
+  
+}
+
+
+#password{
+  
+   width: 400px;
+  
+}
+
+#import{
+  width: 400px;
+  margin: 10px;
+  
+}
+#impBut{
+  margin: 10px;
+  
+}
 #myProf{
   position: fixed;
   right: 150px;

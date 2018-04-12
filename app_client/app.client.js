@@ -19,6 +19,11 @@
                 controller: 'mainCtrl',
                 controllerAs: 'vm'
             })
+            .when('/import', {
+                templateUrl: 'views/text.template.html',
+                controller: 'textCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
