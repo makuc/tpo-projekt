@@ -24,6 +24,16 @@
                 controller: 'textCtrl',
                 controllerAs: 'vm'
             })
+            .when('/pozabljeno-geslo', {
+                templateUrl: 'views/pozabljeno.template.html',
+                controller: 'pozabljenoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/pozabljeno-geslo/:ponastavi_id', {
+                templateUrl: 'views/ponastavi.template.html',
+                controller: 'ponastaviCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

@@ -11,11 +11,18 @@
         function pridobiPoste() {
             return $http.get('/api/v1/posta');
         }
+        function uvoziStudente(vsebina) {
+            
+            return $http.post('/api/v1/student/uvoz-sprejetih', {
+                Podatki:vsebina
+            });
+        }
         
         return {
             pridobiObcine: pridobiObcine,
             pridobiDrzave: pridobiDrzave,
-            pridobiPoste: pridobiPoste
+            pridobiPoste: pridobiPoste,
+            uvoziStudente: uvoziStudente
         };
     };
     

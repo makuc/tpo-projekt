@@ -1,8 +1,8 @@
 (function() {
     /* global angular */
     
-    textCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http'];
-    function textCtrl($location, authentication, $scope, $route, $window, $http) {
+    textCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http', "ostaloPodatki"];
+    function textCtrl($location, authentication, $scope, $route, $window, $http, ostaloPodatki) {
         var vm = this;
   window.onload = function() {
 		var fileInput = document.getElementById('fileInput');
@@ -37,7 +37,22 @@
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
-				alert(reader.result);
+					ostaloPodatki.uvoziStudente(reader.result)
+					.then(
+				          function success(res) {
+				            
+				            $location.search('page', null);
+				            
+				            vm.uvoz=res.data;
+				
+				          },
+				          function error(res) {
+				            if(res.status == 403) return vm.formError = "An illegal expression is entered in the form";
+				            
+				            vm.formError = "User doesn't exist in our database";
+				          }
+				        );
+									
 				}
 
 				reader.readAsText(file);	

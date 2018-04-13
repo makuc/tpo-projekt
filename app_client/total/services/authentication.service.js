@@ -28,6 +28,7 @@
     function login(user) {
       return $http.post('/api/v1/prijava', user).then(
         function success(res) {
+          console.log(res.data)
           saveToken(res.data.token);
         },
         function error(res) {
@@ -41,7 +42,10 @@
     function auth() {
       var token = getToken();
       if (token) {
+        console.log(token);
         var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
+        console.log(content);
+        console.log(content.expires + " | " + Date.now());
         return content.expires > Date.now(); // Transform to seconds and compares
       } else {
         $window.localStorage.removeItem('tpo-token');

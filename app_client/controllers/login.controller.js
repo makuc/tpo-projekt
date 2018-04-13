@@ -57,7 +57,7 @@
       authentication
         .login(vm.formData)
         .then(
-          function success() {
+          function success(res) {
             if(authentication.auth()){
             $location.search('page', null);
             $location.path("/student/main");
@@ -73,6 +73,7 @@
           }
         );
     };
+
         
         
     }
