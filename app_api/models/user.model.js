@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
+var Zaposlen = mongoose.model("Zaposlen");
+var Student = mongoose.model("Student");
 
 var userSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: false},
@@ -51,29 +53,70 @@ userSchema.methods.validatePassword = function(password, next) {
     });
 };
 userSchema.methods.genJwt = function(remember) {
-    var exp = "1h";
-    var expires = Date.now();
+    var tokenData = {
+        _id: this._id,
+        student: this.student,
+        zaposlen: this.zaposlen,
+        email: this.email,
+        exp: "1h",
+        expires: Date.now()
+    };
     if(remember) {
-        exp = "31d";
-        expires += (31 * 24 * 60 *60 * 1000); // = 31 dni * 24 ur * 60 min * 60s * 1000
+        tokenData.exp = "31d";
+        tokenData.expires += (31 * 24 * 60 *60 * 1000); // = 31 dni * 24 ur * 60 min * 60s * 1000
     } else
-        expires += 60 * 60 * 1000; // = 60 min * 60s * 1000 = 1h
+        tokenData.expires += 60 * 60 * 1000; // = 60 min * 60s * 1000 = 1h
 
     // User successfully registered -> make a token for it
-    return jwt.sign(
-        {
-            _id: this._id,
-            student: this.student,
-            zaposlen: this.zaposlen,
-            email: this.email,
-            expires: expires
-        },
-        process.env.JWT_SECRET,
-        {
-              expiresIn: exp 
-        }
-    );
+   
+    return signToken(tokenData);
 };
 
 // Save this Scheme as a model
 mongoose.model('User', userSchema, 'Users');
+
+function loadStudent(tokenData) {
+    if(typeof tokenData.student === 'object') {
+        Student
+            .findById(tokenData.student)
+            .select("vpisna_stevilka priimek ime _id")
+            .exec(function(err, student) {
+                if(err) {
+                    console.log("Error: [user][loadStudent] God knows...");
+                    return;
+                }
+                tokenData.student = student;
+                
+                return loadZaposlen(tokenData);
+            });
+    } else
+        return loadZaposlen(tokenData);
+}
+function loadZaposlen(tokenData) {
+    if(typeof tokenData.zaposlen === 'object') {
+        Zaposlen
+            .findById(tokenData.zaposlen)
+            .select("_id priimek ime naziv skrbnik")
+            .exec(function(err, zaposlen) {
+                if(err) {
+                    console.log("Error: [user][loadZaposlen] God knows...");
+                    return;
+                }
+                tokenData.zaposlen = zaposlen;
+                
+                return signToken(tokenData);
+            });
+    } else
+        return signToken(tokenData);
+}
+function signToken(tokenData) {
+    return jwt.sign(
+        {
+            tokenData
+        },
+        process.env.JWT_SECRET,
+        {
+              expiresIn: tokenData.exp 
+        }
+    );
+}

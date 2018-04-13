@@ -15,7 +15,6 @@ require("./predmetnik.model");
 require("./studijskiProgram.model");
 require("./letnik.model");
 
-require("./user.model");
 require("./student.model");
 require("./vpis.model");
 require("./vrstaVpisa.model");
@@ -24,6 +23,7 @@ require("./vrstaStudija.model");
 require("./izpit.model");
 
 require("./neveljavnaPrijava.model");
+require("./user.model");
 
 
 /*  Poveži se s podatkovno bazo  */

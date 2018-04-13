@@ -47,7 +47,7 @@ router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
 
 // Vpisni list
-router.get('/student/:student_id/vpisni-list', ctrl.izvozi.vpisniList.pdfVpisniList);
+router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 
 // Ostalo
 router.get('/obcina', ctrl.obcina.getObcine);
