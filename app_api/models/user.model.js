@@ -71,7 +71,11 @@ userSchema.methods.genJwt = function(remember) {
    
     return jwt.sign(
         {
-            tokenData
+            _id: tokenData._id,
+            student: tokenData.student,
+            zaposlen: tokenData.zaposlen,
+            email: tokenData.email,
+            expires: tokenData.expires
         },
         process.env.JWT_SECRET,
         {
