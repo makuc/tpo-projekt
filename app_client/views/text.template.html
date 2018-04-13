@@ -12,6 +12,19 @@
         
         <div class="row" ng-show="vm.uvoz">
             {{vm.uvoz}}
+            <div>
+                <h3>Sprejeti študenti</h3>
+                <table>
+                    <tr>
+                        <td>Vpisna številka</td>
+                        <td>Priimek, Ime</td>
+                    </tr>
+                    <tr ng-repeat="student in vm.uvoz.studenti">
+                        <td>{{ student.vpisna_stevilka }}</td>
+                        <td>{{ student.priimek }}, {{student..ime}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </form>
