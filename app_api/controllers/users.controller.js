@@ -124,7 +124,22 @@ module.exports.pozabljenoGeslo = function(req, res) {
     });
 };
 module.exports.ponastaviGeslo = function(req, res) {
-    
+    User.findOne({ ponastavi_geslo: req.params.ponastavi_geslo }, function(err, user) {
+        if(err || !user) {
+            return res.status(404).json({ message: "Uporabnika za ponastavitev ne najdem" });
+        }
+        user.password = req.body.password;
+        user.ponastavi_geslo = undefined;
+        
+        user.save(function(err, user) {
+            if(err) {
+                //console.log(err);
+                return res.status(400).send({ message: "Napaka pri shranjevanju uporabnika" });
+            }
+            
+            res.status(200).json({ success: true });
+        });
+    });
 };
 
 function validateNewUserData(req, res, next) {
