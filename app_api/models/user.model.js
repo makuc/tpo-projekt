@@ -69,7 +69,15 @@ userSchema.methods.genJwt = function(remember) {
 
     // User successfully registered -> make a token for it
    
-    return signToken(tokenData);
+    return jwt.sign(
+        {
+            tokenData
+        },
+        process.env.JWT_SECRET,
+        {
+              expiresIn: tokenData.exp 
+        }
+    );
 };
 
 // Save this Scheme as a model
@@ -108,15 +116,4 @@ function loadZaposlen(tokenData) {
             });
     } else
         return signToken(tokenData);
-}
-function signToken(tokenData) {
-    return jwt.sign(
-        {
-            tokenData
-        },
-        process.env.JWT_SECRET,
-        {
-              expiresIn: tokenData.exp 
-        }
-    );
 }
