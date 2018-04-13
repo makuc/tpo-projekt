@@ -2,12 +2,13 @@
 <div class="container" style="margin-bottom: 4em;" ng-cloak>
   <div id="wrapper">
  
-    <form ng-submit="vm.sendData()" id="forgot" class="form-horizontal"  >
+    <form ng-submit="vm.submit()" id="forgot" class="form-horizontal"  >
       
       <div class="form-group">
         <label class="control-label col-sm-4" for="email">Elektronska posta</label>
         <div class="col-sm-8">
-          <input type="email" size="35" class="form-control" id="email" placeholder="Vnesite elektronski poštni naslov" ng-model="vm.formData.email">
+          <input type="email" size="35" class="form-control" id="email" placeholder="Vnesite elektronski poštni naslov" ng-model="vm.email">
+          <button type="submit" id="btn-login" class="btn btn-default">Pridobi geslo</button>
         </div>
       </div>
 

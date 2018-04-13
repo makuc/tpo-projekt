@@ -25,17 +25,11 @@ header {
   
 }
 
-#email{
+#email, #passwd, #confirm,#password{
    width: 400px;
   
 }
 
-
-#password{
-  
-   width: 400px;
-  
-}
 
 #import{
   width: 400px;

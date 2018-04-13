@@ -42,10 +42,7 @@
     function auth() {
       var token = getToken();
       if (token) {
-        console.log(token);
         var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
-        console.log(content);
-        console.log(content.expires + " | " + Date.now());
         return content.expires > Date.now(); // Transform to seconds and compares
       } else {
         $window.localStorage.removeItem('tpo-token');
@@ -72,6 +69,16 @@
           opombe: ""
         };
     }
+    function pozabljenoGeslo(email) {
+      return $http.post("/api/v1/pozabljeno-geslo", {
+        email: email
+      });
+    }
+    function ponastaviGeslo(geslo, pozabljenoId) {
+      return $http.post("/api/v1/pozabljeno-geslo/"+pozabljenoId, {
+        password: geslo
+      });
+    }
 
     
     return {
@@ -82,7 +89,10 @@
         login: login,
         logout: logout,
         auth: auth,
-        currentUser: currentUser
+        currentUser: currentUser,
+        
+        pozabljenoGeslo: pozabljenoGeslo,
+        ponastaviGeslo: ponastaviGeslo
     };
   }
   authentication.$inject = ['$window', '$http'];
