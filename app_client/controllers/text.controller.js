@@ -39,22 +39,16 @@
 				reader.onload = function(e) {
 					ostaloPodatki.uvoziStudente(reader.result)
 					.then(
-				          function success(res) {
-				            
-				            $location.search('page', null);
-				            
-				            vm.uvoz=res.data;
-				
-				          },
-				          function error(res) {
-				            if(res.status == 403) return vm.formError = "An illegal expression is entered in the form";
-				            
-				            vm.formError = "User doesn't exist in our database";
-				          }
-				        );
-									
+				        function success(res) {
+				        	vm.uvoz=res.data;
+				        },
+				        function error(res) {
+							if(res.status == 400)
+								return vm.formError = "Neveljavni podatki v TXT datoteki";
+							vm.formError = "User doesn't exist in our database";
+				        }
+			        );			
 				}
-
 				reader.readAsText(file);	
 			} else {
 				console.log("file not supported");

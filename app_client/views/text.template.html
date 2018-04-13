@@ -2,7 +2,8 @@
 <h2>Vstavitev</h2>
 <form role="form"  class="form-horizonral"  >
     <div class="col-sm-12">
-         <div class="row">
+        <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
+        <div class="row">
          		<div>
         			Select a text file: 
         			<input type="file" id="fileInput" >
@@ -11,7 +12,6 @@
         </div>
         
         <div class="row" ng-show="vm.uvoz">
-            {{vm.uvoz}}
             <div>
                 <h3>Sprejeti študenti</h3>
                 <table>
@@ -21,7 +21,7 @@
                     </tr>
                     <tr ng-repeat="student in vm.uvoz.studenti">
                         <td>{{ student.vpisna_stevilka }}</td>
-                        <td>{{ student.priimek }}, {{student..ime}}</td>
+                        <td>{{ student.priimek }}, {{student.ime}}</td>
                     </tr>
                 </table>
             </div>
