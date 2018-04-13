@@ -104,6 +104,29 @@ module.exports.addUser = function(req, res) {
     ]);
 };
 
+module.exports.pozabljenoGeslo = function(req, res) {
+    User.findOne({ email: req.body.email }, function(err, user) {
+        if(err || !user) {
+            return res.status(404).json({ message: "Uporabnik ne obstaja" });
+        }
+        
+        user.ponastavi_geslo = getRandomId();
+        req.user = user;
+        
+        req.user.save(function(err, user) {
+            if(err) {
+                //console.log(err);
+                return res.status(400).send({ message: "Encountered error while saving user" });
+            }
+            
+            res.status(200).json({ ponastavi_geslo: user.ponastavi_geslo });
+        });
+    });
+};
+module.exports.ponastaviGeslo = function(req, res) {
+    
+};
+
 function validateNewUserData(req, res, next) {
     
     if(!(req.body && (req.body.student || req.body.zaposlen) && req.body.email && req.body.password))
@@ -310,3 +333,14 @@ function veljavnostPrijave(req, res, next) {
         });
     });
 }
+
+function getRandomId() {
+    var nabor = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+    var dolzina = 20;
+    var geslo = "";
+    for (var i = 0; i < dolzina; ++i) 
+    {
+        geslo += nabor.charAt(Math.floor(Math.random() * nabor.length * 12345) % nabor.length);
+    }
+    return geslo;
+};

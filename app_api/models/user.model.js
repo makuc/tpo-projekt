@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
     salt: {type: String, required: true},
     
     opombe: {type: String, required: false},
+    ponastavi_geslo: {type: String, required: false},
     
     napacne_prijave: {type: String, required: false},
     zadnja_napacna_prijava: {type: Date, required: false}
@@ -86,38 +87,3 @@ userSchema.methods.genJwt = function(remember) {
 
 // Save this Scheme as a model
 mongoose.model('User', userSchema, 'Users');
-
-function loadStudent(tokenData) {
-    if(typeof tokenData.student === 'object') {
-        Student
-            .findById(tokenData.student)
-            .select("vpisna_stevilka priimek ime _id")
-            .exec(function(err, student) {
-                if(err) {
-                    console.log("Error: [user][loadStudent] God knows...");
-                    return;
-                }
-                tokenData.student = student;
-                
-                return loadZaposlen(tokenData);
-            });
-    } else
-        return loadZaposlen(tokenData);
-}
-function loadZaposlen(tokenData) {
-    if(typeof tokenData.zaposlen === 'object') {
-        Zaposlen
-            .findById(tokenData.zaposlen)
-            .select("_id priimek ime naziv skrbnik")
-            .exec(function(err, zaposlen) {
-                if(err) {
-                    console.log("Error: [user][loadZaposlen] God knows...");
-                    return;
-                }
-                tokenData.zaposlen = zaposlen;
-                
-                return signToken(tokenData);
-            });
-    } else
-        return signToken(tokenData);
-}

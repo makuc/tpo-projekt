@@ -31,6 +31,8 @@ router.get('/predmet/:predmet_id/:studijskoLeto_id', ctrl.predmet.pridobiStudent
 // Uporabniki - povezave
 router.post("/prijava", ctrl.users.login);
 router.post("/odjava", ctrl.users.logout);
+router.post('/pozabljeno-geslo', ctrl.users.pozabljenoGeslo);
+router.post('/pozabljeno-geslo/:ponastavi_geslo', ctrl.users.ponastaviGeslo);
 
 router.get("/uporabnik", ctrl.users.getUsers);
 router.get("/uporabnik/:user", ctrl.users.getUser);
