@@ -1126,7 +1126,7 @@ function dropDone(req, res) {
 function vnosObcin(req, res, next) {
     console.log("Vnašam občine...");
     
-    models.Obcina.collection.insert(zacetniPodatki.obcine, function(err, data) {
+    models.Obcina.create(zacetniPodatki.obcine, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Občin - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1138,7 +1138,7 @@ function vnosObcin(req, res, next) {
 function vnosDrzav(req, res, next) {
     console.log("Vnašam države...");
     
-    models.Drzava.collection.insert(zacetniPodatki.drzave, function(err, data) {
+    models.Drzava.create(zacetniPodatki.drzave, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Držav - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1150,7 +1150,7 @@ function vnosDrzav(req, res, next) {
 function vnosPost(req, res, next) {
     console.log("Vnašam pošte...");
     
-    models.Posta.collection.insert(zacetniPodatki.poste, function(err, data) {
+    models.Posta.create(zacetniPodatki.poste, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Pošt - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1163,7 +1163,7 @@ function vnosPost(req, res, next) {
 function vnosStudijskihLet(req, res, next) {
     console.log("Vnašam študijska leta...");
     
-    models.StudijskoLeto.collection.insert(zacetniPodatki.studijskaLeta, function(err, data) {
+    models.StudijskoLeto.create(zacetniPodatki.studijskaLeta, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Študijskih let - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1176,7 +1176,7 @@ function vnosStudijskihLet(req, res, next) {
 function vnosVrsteStudijev(req, res, next) {
     console.log("Vnašam vrste študijev...");
     
-    models.VrstaStudija.collection.insert(zacetniPodatki.vrsteStudija, function(err, data) {
+    models.VrstaStudija.create(zacetniPodatki.vrsteStudija, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Vrst Študijev - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1188,7 +1188,7 @@ function vnosVrsteStudijev(req, res, next) {
 function vnosVrsteVpisev(req, res, next) {
     console.log("Vnašam vrste vpisov...");
     
-    models.VrstaVpisa.collection.insert(zacetniPodatki.vrsteVpisev, function(err, data) {
+    models.VrstaVpisa.create(zacetniPodatki.vrsteVpisev, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Vrst Vpisov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1200,7 +1200,7 @@ function vnosVrsteVpisev(req, res, next) {
 function vnosOblikStudijev(req, res, next) {
     console.log("Vnašam oblike študija...");
     
-    models.OblikaStudija.collection.insert(zacetniPodatki.oblikeStudija, function(err, data) {
+    models.OblikaStudija.create(zacetniPodatki.oblikeStudija, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Oblik Študija - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1212,7 +1212,7 @@ function vnosOblikStudijev(req, res, next) {
 function vnosNacinovStudija(req, res, next) {
     console.log("Vnašam načine študija...");
     
-    models.NacinStudija.collection.insert(zacetniPodatki.naciniStudija, function(err, data) {
+    models.NacinStudija.create(zacetniPodatki.naciniStudija, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Načinov Študija - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1225,7 +1225,7 @@ function vnosNacinovStudija(req, res, next) {
 function vnosStudijskihProgramov(req, res, next) {
     console.log("Vnašam študijske programe...");
     
-    models.StudijskiProgram.collection.insert(zacetniPodatki.studijskiProgrami, function(err, data) {
+    models.StudijskiProgram.create(zacetniPodatki.studijskiProgrami, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Študijskih Programov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1237,7 +1237,7 @@ function vnosStudijskihProgramov(req, res, next) {
 function vnosLetnikov(req, res, next) {
     console.log("Vnašam letnike...");
     
-    models.Letnik.collection.insert(zacetniPodatki.letniki, function(err, data) {
+    models.Letnik.create(zacetniPodatki.letniki, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Letnikov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1250,7 +1250,7 @@ function vnosLetnikov(req, res, next) {
 function vnosZaposlenih(req, res, next) {
     console.log("Vnašam zaposlene...");
     
-    models.Zaposlen.collection.insert(zacetniPodatki.zaposleni, function(err, data) {
+    models.Zaposlen.create(zacetniPodatki.zaposleni, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Zaposlenih - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1263,7 +1263,7 @@ function vnosZaposlenih(req, res, next) {
 function vnosPredmetov(req, res, next) {
     console.log("Vnašam predmete...");
     
-    models.Predmet.collection.insert(zacetniPodatki.predmeti, function(err, data) {
+    models.Predmet.create(zacetniPodatki.predmeti, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu predmetov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1275,7 +1275,7 @@ function vnosPredmetov(req, res, next) {
 function vnosDelovPredmetnika(req, res, next) {
     console.log("Vnašam dele predmetnika...");
     
-    models.DelPredmetnika.collection.insert(zacetniPodatki.deliPredmetnika, function(err, data) {
+    models.DelPredmetnika.create(zacetniPodatki.deliPredmetnika, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu delov predmetnika - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1287,7 +1287,7 @@ function vnosDelovPredmetnika(req, res, next) {
 function vnosPredmetnikov(req, res, next) {
     console.log("Vnašam predmetnike...");
     
-    models.Predmetnik.collection.insert(zacetniPodatki.predmetniki, function(err, data) {
+    models.Predmetnik.create(zacetniPodatki.predmetniki, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu predmetnikov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1301,6 +1301,7 @@ function vnosIzpitov(req, res, next) {
     
     models.Izpit.collection.insert(zacetniPodatki.izpiti, function(err, data) {
         if(err) {
+            console.log(err);
             return res.status(409).send({ message: "Napaka pri vnosu izpitov - Si spraznil bazo pred izvedbo klica?" });
         }
         
@@ -1312,7 +1313,7 @@ function vnosIzpitov(req, res, next) {
 function vnosStudentov(req, res, next) {
     console.log("Vnašam študente...");
     
-    models.Student.collection.insert(zacetniPodatki.studenti, function(err, data) {
+    models.Student.create(zacetniPodatki.studenti, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu Študentov - Si spraznil bazo pred izvedbo klica?" });
         }
@@ -1324,7 +1325,7 @@ function vnosStudentov(req, res, next) {
 function vnosVpisov(req, res, next) {
     console.log("Vnašam vpise...");
     
-    models.Vpis.collection.insert(zacetniPodatki.vpisi, function(err, data) {
+    models.Vpis.create(zacetniPodatki.vpisi, function(err, data) {
         if(err) {
             return res.status(409).send({ message: "Napaka pri vnosu vpisov - Si spraznil bazo pred izvedbo klica?" });
         }

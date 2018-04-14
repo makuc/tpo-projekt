@@ -3,7 +3,9 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var postaSchema = new mongoose.Schema({
     postna_stevilka: {type: String, required: true},
-    naziv: {type: String, required: true}
+    naziv: {type: String, required: true},
+    
+    valid: {type: Boolean, "default": true}
 });
 
 // Save this Scheme as a model
