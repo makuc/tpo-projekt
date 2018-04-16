@@ -149,14 +149,7 @@
                         console.log(odgovor);
                     }
                 );
-                predmetPodatki.pridobiPredmet("5ac8df8efeae4c1cfd56301c").then(
-                    function success(odgovor) {
-                        vm.predmeti += odgovor.data;
-                    },
-                    function error(odgovor) {
-                        console.log(odgovor);
-                    }
-                );
+
             }
         };
     }

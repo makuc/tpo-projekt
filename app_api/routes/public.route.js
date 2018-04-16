@@ -53,9 +53,35 @@ router.put('/student/:student_id', ctrl.student.updateStudenta);
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 
 // Ostalo
+// Controller Občina
 router.get('/obcina', ctrl.obcina.getObcine);
+router.get('/obcina/vse', ctrl.obcina.getVseObcine);
+router.get('/obcina/izbrisane', ctrl.obcina.getIzbrisaneObcine);
+router.post('/obcina', ctrl.obcina.addObcina);
+router.get('/obcina/:obcina_id', ctrl.obcina.getObcina);
+router.post('/obcina/:obcina_id', ctrl.obcina.obnoviObcina);
+router.put('/obcina/:obcina_id', ctrl.obcina.editObcina);
+router.delete('/obcina/:obcina_id', ctrl.obcina.delObcina);
+
+// Controller Država
 router.get('/drzava', ctrl.drzava.getDrzave);
+router.get('/drzava/vse', ctrl.drzava.getVseDrzave);
+router.get('/drzava/izbrisane', ctrl.drzava.getIzbrisaneDrzave);
+router.post('/drzava', ctrl.drzava.addDrzava);
+router.get('/drzava/:drzava_id', ctrl.drzava.getDrzava);
+router.post('/drzava/:drzava_id', ctrl.drzava.obnoviDrzava);
+router.put('/drzava/:drzava_id', ctrl.drzava.editDrzava);
+router.delete('/drzava/:drzava_id', ctrl.drzava.delDrzava);
+
+// Controller Pošta
 router.get('/posta', ctrl.posta.getPoste);
+router.get('/posta/vse', ctrl.posta.getVsePoste);
+router.get('/posta/izbrisane', ctrl.posta.getIzbrisanePoste);
+router.post('/posta', ctrl.posta.addPosta);
+router.get('/posta/:posta_id', ctrl.posta.getPosta);
+router.post('/posta/:posta_id', ctrl.posta.obnoviPosta);
+router.put('/posta/:posta_id', ctrl.posta.editPosta);
+router.delete('/posta/:posta_id', ctrl.posta.delPosta);
 
 
 module.exports = router;

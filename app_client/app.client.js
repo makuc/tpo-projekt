@@ -34,6 +34,11 @@
                 controller: 'ponastaviCtrl',
                 controllerAs: 'vm'
             })
+            .when('/db', {
+                templateUrl: 'views/db.template.html',
+                controller: 'dbCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

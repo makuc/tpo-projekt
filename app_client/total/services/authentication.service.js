@@ -79,7 +79,15 @@
         password: geslo
       });
     }
-
+    
+    function zacetniPodatki() {
+      return $http.post("/api/v1/db/", {
+        
+      });
+    }
+    function brisiBazo() {
+     return  $http.delete("/api/v1/db/");
+    }
     
     return {
         saveToken: saveToken,
