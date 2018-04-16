@@ -1,9 +1,9 @@
 (function(){
     /* global angular */
     
-    vpisniListCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki'];
+    vpisniListCtrl.$inject = ['predmetPodatki', 'studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki'];
     
-    function vpisniListCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki) {
+    function vpisniListCtrl(predmetPodatki, studentPodatki, $routeParams, authentication, ostaloPodatki) {
         var vm = this;
         
         vm.idStudenta = authentication.currentUser().student;
@@ -137,7 +137,30 @@
                 console.log("Prišlo do napake pri pridobivanju pošt: " + odgovor);
             }
         );
+        
+        vm.izbiraPredmetov = function(){
+            var letnik = 1;
+            if(letnik == 1){
+                predmetPodatki.pridobiPredmet("5ac8df8efeae4c1cfd56301b").then(
+                    function success(odgovor) {
+                        vm.predmeti = odgovor.data;
+                    },
+                    function error(odgovor) {
+                        console.log(odgovor);
+                    }
+                );
+                predmetPodatki.pridobiPredmet("5ac8df8efeae4c1cfd56301c").then(
+                    function success(odgovor) {
+                        vm.predmeti += odgovor.data;
+                    },
+                    function error(odgovor) {
+                        console.log(odgovor);
+                    }
+                );
+            }
+        };
     }
+    
     
     angular
         .module('tpo')

@@ -1,6 +1,27 @@
 var mongoose = require("mongoose");
 var Predmet = mongoose.model('Predmet');
-var Student = mongoose.model("Student");
+
+module.exports.pridobiPredmet = function(req, res) {
+    pridobiPredmet(req, res);
+};
+    
+function pridobiPredmet(req, res)
+{
+    var koncniObject = {};
+    var predmet_id = req.params.predmet_id;
+    Predmet
+        .findById(predmet_id)
+        .exec(function(err, predmeti) {
+            if(err) {
+                return res.status(404).send({ message: "Predmeti not found 1" });
+            }
+            if(!predmeti) return res.status(404).send({ message: "Predmeti not found 2" });
+            
+            koncniObject.predmeti = predmeti;
+            return res.status(200).json(koncniObject);
+    });
+}
+
 
 module.exports.pridobiStudente = function(req, res) {
     pridobiStudente(req, res);
@@ -23,3 +44,4 @@ function pridobiStudente(req, res)
             return res.status(200).json(koncniObject);
     });
 }
+

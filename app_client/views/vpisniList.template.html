@@ -115,4 +115,17 @@
         </div>
         <button class="btn btn-success" type="submit">Shrani</button>
     </div>
+    
+    <table id="predmeti" class="table table-hover" ng-init="vm.izbiraPredmetov()">
+        <thead>
+            <th>Id</th>
+            <th>Naziv</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="predmet in vm.predmeti">
+                <td>{{ predmet.sifra }}</td>
+                <td>{{ predmet.naziv }}</td>
+            </tr>
+        </tbody>
+    </table>
 </form>

@@ -27,6 +27,7 @@ router.delete('/db', ctrl.db.izbrisBaze);
 
 // Predmeti povezave
 router.get('/predmet/:predmet_id/:studijskoLeto_id', ctrl.predmet.pridobiStudente);
+router.get('/predmet/:predmet_id', ctrl.predmet.pridobiPredmet);
 
 // Uporabniki - povezave
 router.post("/prijava", ctrl.users.login);

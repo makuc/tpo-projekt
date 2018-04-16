@@ -31,7 +31,8 @@ var zdruzeno = uglifyJs.minify({
   'header.directive.js': fs.readFileSync('app_client/total/directives/header/header.directive.js', 'utf8'),
   'footer.directive.js': fs.readFileSync('app_client/total/directives/footer/footer.directive.js', 'utf8'),
   'navigation.directive.js': fs.readFileSync('app_client/total/directives/navigation/navigation.directive.js', 'utf8'),
-  //'student.service.js': fs.readFileSync('app_client/total/services/student.service.js', 'utf8'),
+  'student.service.js': fs.readFileSync('app_client/total/services/student.service.js', 'utf8'),
+  'predmet.service.js': fs.readFileSync('app_client/total/services/predmet.service.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
