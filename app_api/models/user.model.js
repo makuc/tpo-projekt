@@ -9,6 +9,11 @@ var userSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: false},
     zaposlen: {type: ObjectId, ref: 'Zaposlen', required: false},
     email: {type: String, required: true, unique: true},
+    
+    skrbnik: {type: Boolean, "default": false},
+    
+    valid: {type: Boolean, "default": true},
+    
     hashed: {type: String, required: true},
     salt: {type: String, required: true},
     
@@ -60,7 +65,8 @@ userSchema.methods.genJwt = function(remember) {
         zaposlen: this.zaposlen,
         email: this.email,
         exp: "1h",
-        expires: Date.now()
+        expires: Date.now(),
+        skrbnik: this.skrbnik
     };
     if(remember) {
         tokenData.exp = "31d";

@@ -40,12 +40,17 @@
 					ostaloPodatki.uvoziStudente(reader.result)
 					.then(
 				        function success(res) {
+				        	//console.log(res.data);
+				        	if(res.status != 201)
+				        		vm.formError = "Nihče ni bil uspešno vnešen";
 				        	vm.uvoz=res.data;
 				        },
 				        function error(res) {
-							if(res.status == 400)
+				        	vm.uvoz = res.data;
+							if(res.status == 400) {
 								return vm.formError = "Neveljavni podatki v TXT datoteki";
-							vm.formError = "User doesn't exist in our database";
+							}
+							vm.formError = "Napaka pri vnosu: " + res.data.message;
 				        }
 			        );			
 				}

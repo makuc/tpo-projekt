@@ -11,9 +11,12 @@ var izvedbaPredmetaSchema = new mongoose.Schema({
 var predmetSchema = new mongoose.Schema({
     sifra: {type: String, unique: true, required: true},
     naziv: {type: String, required: true},
-    opis: {type: String, required: false},
+    opis: {type: String, "defaule": ""},
+    KT: {type: Number, "default": 6},
     
-    izvedbe_predmeta: [izvedbaPredmetaSchema]
+    izvedbe_predmeta: [izvedbaPredmetaSchema],
+    
+    valid: {type: Boolean, "default": true}
 });
 
 // Save this Scheme as a model

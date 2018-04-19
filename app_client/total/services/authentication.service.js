@@ -28,7 +28,7 @@
     function login(user) {
       return $http.post('/api/v1/prijava', user).then(
         function success(res) {
-          console.log(res.data)
+          //console.log(res.data);
           saveToken(res.data.token);
         },
         function error(res) {
@@ -49,6 +49,19 @@
         return false;
       }
     }
+    function admin() {
+      if(auth()) {
+        var token = getToken();
+        var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
+        
+        if(typeof content.skrbnik === 'boolean')
+          return content.skrbnik;
+        else
+          return false;
+      } else {
+        return false;
+      }
+    }
     function currentUser() {
       if (auth()) {
         var token = getToken();
@@ -58,7 +71,8 @@
           email: content.email,
           student: content.student,
           zaposlen: content.zaposlen,
-          opombe: content.opombe
+          opombe: content.opombe,
+          skrbnik: content.skrbnik
         };
       } else
         return {
@@ -66,7 +80,8 @@
           email: "",
           student: "",
           zaposlen: "",
-          opombe: ""
+          opombe: "",
+          skrbnik: false
         };
     }
     function pozabljenoGeslo(email) {
@@ -97,6 +112,7 @@
         login: login,
         logout: logout,
         auth: auth,
+        admin: admin,
         currentUser: currentUser,
         
         pozabljenoGeslo: pozabljenoGeslo,
