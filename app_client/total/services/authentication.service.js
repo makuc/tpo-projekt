@@ -28,7 +28,7 @@
     function login(user) {
       return $http.post('/api/v1/prijava', user).then(
         function success(res) {
-          console.log(res.data)
+          //console.log(res.data);
           saveToken(res.data.token);
         },
         function error(res) {
