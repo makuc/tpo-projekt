@@ -46,6 +46,7 @@
 				        	vm.uvoz=res.data;
 				        },
 				        function error(res) {
+				        	vm.uvoz = res.data;
 							if(res.status == 400) {
 								return vm.formError = "Neveljavni podatki v TXT datoteki";
 							}
