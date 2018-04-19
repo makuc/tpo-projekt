@@ -16,7 +16,8 @@ var ctrl = {
     
     student: require("../controllers/student.controller"),
     
-    predmet: require("../controllers/predmet.controller")
+    predmet: require("../controllers/predmet.controller"),
+    zeton: require("../controllers/zeton.controller.js"),
 };
 
 
@@ -48,6 +49,16 @@ router.post('/student', ctrl.student.createStudenta);
 router.post('/student/uvoz-sprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
+
+// Žetoni
+router.post('/zeton', ctrl.zeton.ustvariZetone);
+router.post('/zeton/:student_id', ctrl.zeton.ustvariZeton);
+router.get('/zeton/:student_id', ctrl.zeton.pridobiZetoneStudenta);
+router.put('/zeton/:student_id/:zeton_id', ctrl.zeton.urediZeton);
+router.delete('/zeton/:student_id/:zeton_id', ctrl.zeton.izbrisZetona);
+
+// Vpisi
+//router.get('/vpis/:student_id', ctrl.vpis.lahkoVpise);
 
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);

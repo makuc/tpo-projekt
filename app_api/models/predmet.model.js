@@ -12,6 +12,7 @@ var predmetSchema = new mongoose.Schema({
     sifra: {type: String, unique: true, required: true},
     naziv: {type: String, required: true},
     opis: {type: String, required: false},
+    KT: {type: Number, "default": 6},
     
     izvedbe_predmeta: [izvedbaPredmetaSchema]
 });

@@ -406,8 +406,9 @@ function parsePrejetePodatke(req, res, next) {
 }
 
 function pripraviObjekteStudentov(req, res, next) {
+    var studentObj;
     while(req.uvozeniPodatki.length >= 4) {
-        var studentObj = {};
+        studentObj = {};
         studentObj.ime = req.uvozeniPodatki.shift();
         studentObj.priimek = req.uvozeniPodatki.shift();
         studentObj.program = req.uvozeniPodatki.shift();
@@ -418,7 +419,37 @@ function pripraviObjekteStudentov(req, res, next) {
         req.queueStudentov.push(studentObj);
     }
     if (req.uvozeniPodatki.length !== 0) {
-        req.zavrnjeni.push(req.uvozeniPodatki);
+        studentObj = {
+            ime: "",
+            priimek: "",
+            program: "",
+            email: "",
+            razlog: ""
+        };
+        if(req.uvozeniPodatki.length > 0)
+            studentObj.ime = req.uvozeniPodatki.shift();
+        else
+            studentObj.razlog += "Ime ni podano, ";
+        
+        if(req.uvozeniPodatki.length > 0)
+            studentObj.priimek = req.uvozeniPodatki.shift();
+        else
+            studentObj.razlog += "Priimek ni podan, ";
+        
+        if(req.uvozeniPodatki.length > 0)
+            studentObj.program = req.uvozeniPodatki.shift();
+        else
+            studentObj.razlog += "Program ni podan, ";
+        
+        if(req.uvozeniPodatki.length > 0)
+            studentObj.email = req.uvozeniPodatki.shift();
+        else
+            studentObj.razlog += "E-pošta ni podana, ";
+        
+        if(studentObj.razlog.length > 2)
+            studentObj.razlog = studentObj.razlog.substr(0, studentObj.razlog.length - 2);
+        
+        req.zavrnjeni.push(studentObj);
     }
     
     callNext(req, res, next);
@@ -491,7 +522,7 @@ function uvozZakljucen(req, res) {
     if(req.sprejeti.length > 0)
         res.status(201).json({ uporabniki: req.users, studenti: req.sprejeti, zavrnjeni: req.zavrnjeni });
     else
-        res.status(400).json({ zavrnjeni: req.zavrnjeni });
+        res.status(200).json({ zavrnjeni: req.zavrnjeni });
 }
 
 function validateEmail(req, res, next) {

@@ -1,29 +1,18 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
-
-var zetonSchema = new mongoose.Schema({
-    studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
-    letnik: {type: ObjectId, ref: 'Letnik', required: true},
-    studijski_program: {type: ObjectId, ref: 'StudijskiProgram', required: true},
-    vrsta_studija: {type: ObjectId, ref: 'VrstaStudija', required: true},
-    vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: true},
-    
-    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: true},
-    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: true},
-    
-    izkoriscen: {type: Boolean, "default": false}
-});
-
 var predmetStudentaSchema = new mongoose.Schema({
+    letnik: {type: ObjectId, ref: 'Letnik', required: true},
     predmet: {type: ObjectId, ref: 'Predmet', required: true},
+    
     zaporedni_poskus: {type: Number, min: 0, max: 7}
 });
 
 var studijskoLetoStudenta = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     predmeti: [predmetStudentaSchema],
-    zetoni: [zetonSchema]
+    
+    opravil: {type: Boolean, "default": false}
 });
 
 var studentSchema = new mongoose.Schema({
