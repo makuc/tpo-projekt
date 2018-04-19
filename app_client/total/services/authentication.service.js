@@ -53,7 +53,11 @@
       if(auth()) {
         var token = getToken();
         var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
-        return  content.skrbnik;
+        
+        if(typeof content.skrbnik === 'boolean')
+          return content.skrbnik;
+        else
+          return false;
       } else {
         return false;
       }
