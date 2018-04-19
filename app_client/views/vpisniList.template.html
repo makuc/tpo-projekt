@@ -116,16 +116,21 @@
         <button class="btn btn-success" type="submit">Shrani</button>
     </div>
     
-    <table id="predmeti" class="table table-hover" ng-init="vm.izbiraPredmetov()">
-        <thead>
-            <th>Id</th>
-            <th>Naziv</th>
-        </thead>
-        <tbody>
-            <tr ng-repeat="predmet in vm.predmeti">
-                <td>{{ predmet.sifra }}</td>
-                <td>{{ predmet.naziv }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>Obvezni predmeti</h3>
+    <div ng-init="vm.izbiraPredmetov()"></div>
+    <li ng-repeat="predmet in vm.redniPredmeti">
+        {{ predmet.naziv }} {{ predmet.sifra }} 
+    </li>
+    
+    <div ng-show="vm.moduli">
+        <h3>Moduli</h3>
+    </div>
+
+    <div ng-show="vm.izbirci">
+        <h3>Izbirni predmeti</h3>
+        <select ng-model="vm.izbraniIzbirni" ng-options="predmet as predmet.naziv for predmet in vm.izbirniPredmeti track by predmet._id">
+        </select>
+    </div>
+   
+
 </form>

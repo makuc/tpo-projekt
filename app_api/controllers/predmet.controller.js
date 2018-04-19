@@ -7,18 +7,21 @@ module.exports.pridobiPredmet = function(req, res) {
     
 function pridobiPredmet(req, res)
 {
-    var koncniObject = {};
-    var predmet_id = req.params.predmet_id;
+
+    var sifra = req.params.predmet_id;
     Predmet
-        .findById(predmet_id)
+        .find({"opis": sifra})
         .exec(function(err, predmeti) {
             if(err) {
+                console.log(err);
                 return res.status(404).send({ message: "Predmeti not found 1" });
             }
-            if(!predmeti) return res.status(404).send({ message: "Predmeti not found 2" });
-            
-            koncniObject.predmeti = predmeti;
-            return res.status(200).json(koncniObject);
+            if(!predmeti){
+                console.log("Not found");
+                return res.status(404).send({ message: "Predmeti not found 2" });
+            }
+            console.log(predmeti)
+            return res.status(200).json(predmeti);
     });
 }
 

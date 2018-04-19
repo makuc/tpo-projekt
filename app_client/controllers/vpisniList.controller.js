@@ -139,17 +139,50 @@
         );
         
         vm.izbiraPredmetov = function(){
-            var letnik = 1;
+            var letnik = 2;
             if(letnik == 1){
-                predmetPodatki.pridobiPredmet("5ac8df8efeae4c1cfd56301b").then(
+                predmetPodatki.pridobiPredmet("63203").then(
                     function success(odgovor) {
-                        vm.predmeti = odgovor.data;
+                        vm.redniPredmeti = odgovor.data;
                     },
                     function error(odgovor) {
                         console.log(odgovor);
                     }
                 );
 
+            }
+            if(letnik == 2){
+                vm.izbirci = "true";
+                predmetPodatki.pridobiPredmet().then(
+                    function success(odgovor) {
+                        vm.redniPredmeti = odgovor.data;
+                    },
+                    function error(odgovor) {
+                        console.log(odgovor);
+                    }
+                );
+                
+                predmetPodatki.pridobiPredmet("1").then(
+                    function success(odgovor) {
+                        vm.izbirniPredmeti = odgovor.data;
+                    },
+                    function error(odgovor) {
+                        console.log(odgovor);
+                    }
+                );
+            }
+            
+            if(letnik == 3){
+                vm.izbirci = "true";
+                vm.moduli = "true";
+                predmetPodatki.pridobiPredmet().then(
+                    function success(odgovor) {
+                        vm.redniPredmeti = odgovor.data;
+                    },
+                    function error(odgovor) {
+                        console.log(odgovor);
+                    }
+                );
             }
         };
     }
