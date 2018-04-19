@@ -65,7 +65,8 @@ userSchema.methods.genJwt = function(remember) {
         zaposlen: this.zaposlen,
         email: this.email,
         exp: "1h",
-        expires: Date.now()
+        expires: Date.now(),
+        skrbnik: this.skrbnik
     };
     if(remember) {
         tokenData.exp = "31d";
