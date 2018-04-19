@@ -40,7 +40,7 @@
 					ostaloPodatki.uvoziStudente(reader.result)
 					.then(
 				        function success(res) {
-				        	console.log(res.data);
+				        	//console.log(res.data);
 				        	if(res.status != 201)
 				        		vm.formError = "Nihče ni bil uspešno vnešen";
 				        	vm.uvoz=res.data;
