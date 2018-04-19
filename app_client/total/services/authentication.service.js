@@ -49,6 +49,15 @@
         return false;
       }
     }
+    function admin() {
+      if(auth()) {
+        var token = getToken();
+        var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
+        return  content.skrbnik;
+      } else {
+        return false;
+      }
+    }
     function currentUser() {
       if (auth()) {
         var token = getToken();
@@ -58,7 +67,8 @@
           email: content.email,
           student: content.student,
           zaposlen: content.zaposlen,
-          opombe: content.opombe
+          opombe: content.opombe,
+          skrbnik: content.skrbnik
         };
       } else
         return {
@@ -66,7 +76,8 @@
           email: "",
           student: "",
           zaposlen: "",
-          opombe: ""
+          opombe: "",
+          skrbnik: false
         };
     }
     function pozabljenoGeslo(email) {
@@ -97,6 +108,7 @@
         login: login,
         logout: logout,
         auth: auth,
+        admin: admin,
         currentUser: currentUser,
         
         pozabljenoGeslo: pozabljenoGeslo,
