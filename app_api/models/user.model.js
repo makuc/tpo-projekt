@@ -9,6 +9,11 @@ var userSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: false},
     zaposlen: {type: ObjectId, ref: 'Zaposlen', required: false},
     email: {type: String, required: true, unique: true},
+    
+    skrbnik: {type: Boolean, "default": false},
+    
+    valid: {type: Boolean, "default": true},
+    
     hashed: {type: String, required: true},
     salt: {type: String, required: true},
     

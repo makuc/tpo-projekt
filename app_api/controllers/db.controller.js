@@ -992,7 +992,7 @@ var zacetniPodatki = {
     ],
     
     zaposleni: [
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "test@test.test", skrbnik: true },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "test@test.test"},
 { "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as.", email: "test2@test.test" },
     ],
     
@@ -1030,7 +1030,7 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ab"),student: ObjectId("5ac8ca4d36fba41313122306"),email: "am4531@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ac"),student: ObjectId("5ac8ca4d36fba41313122307"),email: "cn4530@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ad"),student: ObjectId("5ac8ca4d36fba41313122308"),email: "nb4531@student.uni-lj.si",password: "qwas123"},
-{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "test@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "test@test.test",password: "qwas123", skrbnik: true},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test2@test.test",password: "qwas123"}
     ]
 };

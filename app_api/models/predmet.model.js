@@ -14,7 +14,9 @@ var predmetSchema = new mongoose.Schema({
     opis: {type: String, required: false},
     KT: {type: Number, "default": 6},
     
-    izvedbe_predmeta: [izvedbaPredmetaSchema]
+    izvedbe_predmeta: [izvedbaPredmetaSchema],
+    
+    valid: {type: Boolean, "default": true}
 });
 
 // Save this Scheme as a model
