@@ -18,8 +18,8 @@
             return $http.get('api/v1/predmet/izbrisane');
         };
         
-        var dodajPredmet = function(){
-            return $http.post('api/v1/predmet');
+        var dodajPredmet = function(podatki){
+            return $http.post('api/v1/predmet', podatki);
         };
         
         var izbrisiPredmet = function(predmet_id){
@@ -30,8 +30,8 @@
             return $http.post('api/v1/predmet/' + predmet_id);
         };
         
-        var urediPredmet = function(predmet_id){
-            return $http.put('api/v1/predmet/' + predmet_id);
+        var urediPredmet = function(predmet_id, podatki){
+            return $http.put('api/v1/predmet/' + predmet_id, podatki);
         };
         
         return {
