@@ -141,7 +141,7 @@
         vm.izbiraPredmetov = function(){
             var letnik = 2;
             if(letnik == 1){
-                predmetPodatki.pridobiPredmet("63203").then(
+                predmetPodatki.pridobiPredmet("1").then(
                     function success(odgovor) {
                         vm.redniPredmeti = odgovor.data;
                     },
@@ -153,7 +153,7 @@
             }
             if(letnik == 2){
                 vm.izbirci = "true";
-                predmetPodatki.pridobiPredmet().then(
+                predmetPodatki.pridobiPredmet("1").then(
                     function success(odgovor) {
                         vm.redniPredmeti = odgovor.data;
                     },
