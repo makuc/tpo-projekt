@@ -19,10 +19,13 @@ var ctrl = {
         
         DelPredmetnika: require("../controllers/delPredmetnika.controller"),
         Predmet: require("../controllers/predmet.controller"),
+        Letnik: require("../controllers/letnik.controller"),
+        Predmetnik: require("../controllers/predmetnik.controller"),
         
         NacinStudija: require("../controllers/nacinStudija.controller"),
         OblikaStudija: require("../controllers/oblikaStudija.controller"),
         VrstaStudija: require("../controllers/vrstaStudija.controller"),
+        StudijskiProgram: require("../controllers/studijskiProgram.controller"),
         
         VrstaVpisa: require("../controllers/vrstaVpisa.controller"),
         
@@ -153,6 +156,16 @@ router.post('/vrsta-vpisa/:vrsta_id', ctrl.NeodvisniPodatki.VrstaVpisa.obnoviVrs
 router.put('/vrsta-vpisa/:vrsta_id', ctrl.NeodvisniPodatki.VrstaVpisa.editVrstaVpisa);
 router.delete('/vrsta-vpisa/:vrsta_id', ctrl.NeodvisniPodatki.VrstaVpisa.delVrstaVpisa);
 
+// Controller Študijski Program
+router.get('/studijski-program', ctrl.NeodvisniPodatki.StudijskiProgram.getStudijskePrograme);
+router.get('/studijski-program/vsi', ctrl.NeodvisniPodatki.StudijskiProgram.getVseStudijskePrograme);
+router.get('/studijski-program/izbrisani', ctrl.NeodvisniPodatki.StudijskiProgram.getIzbrisaneStudijskePrograme);
+router.post('/studijski-program', ctrl.NeodvisniPodatki.StudijskiProgram.addStudijskiProgram);
+router.get('/studijski-program/:program_id', ctrl.NeodvisniPodatki.StudijskiProgram.getStudijskiProgram);
+router.post('/studijski-program/:program_id', ctrl.NeodvisniPodatki.StudijskiProgram.obnoviStudijskiProgram);
+router.put('/studijski-program/:program_id', ctrl.NeodvisniPodatki.StudijskiProgram.editStudijskiProgram);
+router.delete('/studijski-program/:program_id', ctrl.NeodvisniPodatki.StudijskiProgram.delStudijskiProgram);
+
 // Controller Del Predmetnika
 router.get('/del-predmetnika', ctrl.NeodvisniPodatki.DelPredmetnika.getDele);
 router.get('/del-predmetnika/vse', ctrl.NeodvisniPodatki.DelPredmetnika.getVseDele);
@@ -174,7 +187,29 @@ router.put('/predmet/:predmet_id', ctrl.NeodvisniPodatki.Predmet.editPredmet);
 router.delete('/predmet/:predmet_id', ctrl.NeodvisniPodatki.Predmet.delPredmet);
 //router.get('/predmet/:predmet_id/izvedba/:izvdeba_id', ctrl.NeodvisniPodatki.Predmet.pridobiIzvedboPredmeta);
 
-// Controller Študijsko Leto
+// Controller Letnik
+router.get('/letnik', ctrl.NeodvisniPodatki.Letnik.getLetnike);
+router.get('/letnik/vsi', ctrl.NeodvisniPodatki.Letnik.getVseLetnike);
+router.get('/letnik/izbrisani', ctrl.NeodvisniPodatki.Letnik.getIzbrisaneLetnike);
+router.post('/letnik', ctrl.NeodvisniPodatki.Letnik.addLetnik);
+router.get('/letnik/:letnik_id', ctrl.NeodvisniPodatki.Letnik.getLetnik);
+router.post('/letnik/:letnik_id', ctrl.NeodvisniPodatki.Letnik.obnoviLetnik);
+router.put('/letnik/:letnik_id', ctrl.NeodvisniPodatki.Letnik.editLetnik);
+router.delete('/letnik/:letnik_id', ctrl.NeodvisniPodatki.Letnik.delLetnik);
+
+// Controller Predmetnik
+router.get('/predmetnik', ctrl.NeodvisniPodatki.Predmetnik.getPredmetnike);
+router.get('/predmetnik/vsi', ctrl.NeodvisniPodatki.Predmetnik.getVsePredmetnike);
+router.get('/predmetnik/izbrisani', ctrl.NeodvisniPodatki.Predmetnik.getIzbrisanePredmetnike);
+router.post('/predmetnik', ctrl.NeodvisniPodatki.Predmetnik.addPredmetnik);
+router.get('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.getPredmetnik);
+router.post('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.obnoviPredmetnik);
+router.put('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.editPredmetnik);
+router.delete('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.delPredmetnik);
+router.post('/predmetnik/:predmetnik_id/predmet', ctrl.NeodvisniPodatki.Predmetnik.dodajPredmet);
+router.delete('/predmetnik/:predmetnik_id/predmet', ctrl.NeodvisniPodatki.Predmetnik.odstraniPredmet);
+
+// Controller Zaposlen
 router.get('/zaposlen', ctrl.NeodvisniPodatki.Zaposlen.getZaposlene);
 router.get('/zaposlen/vsi', ctrl.NeodvisniPodatki.Zaposlen.getVseZaposlene);
 router.get('/zaposlen/izbrisani', ctrl.NeodvisniPodatki.Zaposlen.getIzbrisaneZaposlene);
