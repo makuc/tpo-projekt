@@ -1,6 +1,9 @@
 var mongoose = require("mongoose");
 var callNext = require("./_include/callNext");
+
 var Predmet = mongoose.model('Predmet');
+var StudijskoLeto = mongoose.model('StudijskoLeto');
+var Zaposlen = mongoose.model('Zaposlen');
 
 
 /* GET home page. */
@@ -16,24 +19,6 @@ module.exports.getPredmete = function(req, res) {
       res.status(200).json(predmeti);
     });
 };
-    
-module.exports.pridobiPredmet = function(req, res){
-    var sifra = req.params.predmet_id;
-    Predmet
-        .find({"opis": sifra})
-        .exec(function(err, predmeti) {
-            if(err) {
-                console.log(err);
-                return res.status(404).send({ message: "Predmeti not found 1" });
-            }
-            if(!predmeti){
-                console.log("Not found");
-                return res.status(404).send({ message: "Predmeti not found 2" });
-            }
-            return res.status(200).json(predmeti);
-        });
-};
-
 module.exports.getVsePredmete = function(req, res) {
   Predmet
     .find()
@@ -46,7 +31,6 @@ module.exports.getVsePredmete = function(req, res) {
       res.status(200).json(predmeti);
     });
 };
-
 module.exports.getIzbrisanePredmete = function(req, res) {
   Predmet
     .find({ valid: false })
@@ -82,6 +66,34 @@ module.exports.obnoviPredmet = function(req, res) {
   callNext(req, res, [ najdiPredmetId, obnoviPredmet, vrniPredmet ]);
 };
 
+module.exports.addIzvedbaPredmeta = function(req, res) {
+  if(!req.body || !req.body.studijsko_leto) {
+    return res.status(400).json({ message: "Ni podanega študijskega leta" });
+  }
+  
+  najdiPredmetId(req, res, [
+    validateStudijskoLeto, najdiIzvedboPredmeta, ustvariIzvedboPredmeta, vrniPredmet
+  ]);
+};
+module.exports.delIzvedbaPredmeta = function(req, res) {
+  najdiPredmetId(req, res, [
+    validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, vrniPredmet
+  ]);
+};
+module.exports.addIzvajalcaIzvedbiPredmeta = function(req, res) {
+  if(!req.body || !req.body.izvajalec) {
+    return res.status(400).json({ message: "Ni podanega izvajatelja za izvedbo predmeta" });
+  }
+  
+  najdiPredmetId(req, res, [
+    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, preveriIzvajalecZeIzvajaIzvedboPredmeta, dodajIzvajalcaIzvedbiPredmeta, vrniPredmet
+  ]);
+};
+module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
+  najdiPredmetId(req, res, [
+    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, odstraniIzvajalcaIzvedbiPredmeta, vrniPredmet
+  ]);
+};
 
 /* Funkcije */
 function najdiPredmetSifra(req, res, next) {
@@ -114,14 +126,24 @@ function createPredmet(req, res, next) {
   });
 }
 function najdiPredmetId(req, res, next) {
-  Predmet.findById(req.params.predmet_id, function(err, predmet) {
-    if(err || !predmet) {
-      return res.status(404).json({ message: "Ne najdem želenega predmeta" });
-    }
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
+  Predmet
+    .findById(req.params.predmet_id)
+    .populate([
+      {
+        path: "izvedbe_predmeta.studijsko_leto"
+      },
+      {
+        path: "izvedbe_predmeta.izvajalci"
+      }
+    ])
+    .exec(function(err, predmet) {
+      if(err || !predmet) {
+        return res.status(404).json({ message: "Ne najdem želenega predmeta" });
+      }
+      req.predmet = predmet;
+      
+      callNext(req, res, next);
+    });
 }
 function vrniPredmet(req, res) {
   res.status(200).json(req.predmet);
@@ -173,18 +195,150 @@ function obnoviPredmet(req, res, next) {
 
 // Dodatne funkcionalnost
 function pridobiIzvedbo(req, res) {
-    var koncniObject = {};
-    var studijskoLeto_id = req.params.studijskoLeto_id;
-    var predmet_id = req.params.predmet_id;
-    Predmet
-        .find().limit(0)
-        .exec(function(err, predmeti) {
-            if(err) {
-                return res.status(404).send({ message: "Predmeti not found 1" });
-            }
-            if(!predmeti) return res.status(404).send({ message: "Predmeti not found 2" });
-            
-            koncniObject.predmeti = predmeti;
-            return res.status(200).json(koncniObject);
+  var koncniObject = {};
+  var studijskoLeto_id = req.params.studijskoLeto_id;
+  var predmet_id = req.params.predmet_id;
+  Predmet
+    .find().limit(0)
+    .exec(function(err, predmeti) {
+      if(err || !predmeti) {
+        return res.status(404).send({ message: "Predmeti not found 1" });
+      }
+      
+      koncniObject.predmeti = predmeti;
+      return res.status(200).json(koncniObject);
+  });
+}
+
+// Funkcije za upravljanje izvedb
+function validateStudijskoLeto(req, res, next) {
+  var studijsko_leto = req.params.studijskoLeto_id || req.body.studijsko_leto;
+  
+  StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
+    if(err || !studijskoLeto) {
+      //console.log(err);
+      return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
+    }
+    
+    req.studijskoLeto = studijskoLeto;
+    
+    callNext(req, res, next);
+  });
+}
+function najdiIzvedboPredmeta(req, res, next) {
+  var izvedbePredmeta = req.predmet.izvedbe_predmeta;
+  
+  for(var i = 0; i < izvedbePredmeta.length; i++) {
+    if(izvedbePredmeta[i].studijsko_leto.equals(req.studijskoLeto)) {
+      req.izvedbaPredmeta = izvedbePredmeta[i];
+      break;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function ustvariIzvedboPredmeta(req, res, next) {
+  if(req.izvedbaPredmeta) {
+    console.log(req.izvedbaPredmeta);
+    return res.status(409).json({ message: "Izvedba predmeta za izbrano šolsko leto že obstaja" });
+  }
+  
+  req.predmet.izvedbe_predmeta.push({
+    studijsko_leto: req.studijskoLeto
+  });
+  req.predmet.save(function(err, predmet) {
+    if(err || !predmet) {
+      //console.log(err);
+      return res.status(400).send({ message: "Napaka pri dodajanju izvedbe predmeta" });
+    }
+    
+    req.predmet = predmet;
+    
+    callNext(req, res, next);
+  });
+}
+function odstraniIzvedboPredmeta(req, res, next) {
+  if(!req.izvedbaPredmeta) {
+    return res.status(404).json({ message: "Ne najdem izvedbe predmeta za želeno študijsko leto" });
+  }
+  
+  req.izvedbaPredmeta.remove();
+  req.predmet.save(function(err, predmet) {
+    if(err || !predmet) {
+      console.log(err);
+      return res.status(400).json({ message: "Napaka pri odstranjevanju izvedbe predmeta" });
+    }
+    
+    req.predmet = predmet;
+    
+    callNext(req, res, next);
+  });
+}
+
+function dodajIzvajalcaIzvedbiPredmeta(req, res, next) {
+  if(req.izvedbaPredmeta.izvajalci.length >= 3) {
+    return res.status(400).json({ message: "Izvedba predmeta ima lahko največ 3 izvajalce" });
+  }
+  
+  req.izvedbaPredmeta.izvajalci.push(req.izvajalec);
+  
+  req.predmet.save(function(err, predmet) {
+    if(err || !predmet) {
+      return res.status(400).json({ message: "Napaka pri dodajanju izvajalca predmeta" });
+    }
+    
+    req.predmet = predmet;
+    
+    callNext(req, res, next);
+  });
+}
+function odstraniIzvajalcaIzvedbiPredmeta(req, res, next) {
+  if(!req.izvedbaPredmeta) {
+    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
+  }
+  if(!req.izvajalec) {
+    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
+  }
+  
+  req.izvedbaPredmeta.izvajalci.pull(req.izvajalec);
+  
+  req.predmet.save(function(err, predmet) {
+    if(err || !predmet) {
+      return res.status(400).json({ message: "Napaka pri odstranjevanju izvajalca predmeta" });
+    }
+    
+    req.predmet = predmet;
+    
+    callNext(req, res, next);
+  });
+}
+function validateIzvajalca(req, res, next) {
+  var izvajalec = req.body.izvajalec || req.params.izvajalec_id;
+  
+  Zaposlen
+    .findById(izvajalec, function(err, izvajalec) {
+      if(err || !izvajalec) {
+        return res.status(404).json({ message: "Ne nadjem izbranega izvajalca" });
+      }
+      
+      req.izvajalec = izvajalec;
+      
+      callNext(req, res, next);
     });
+}
+function preveriIzvajalecZeIzvajaIzvedboPredmeta(req, res, next) {
+  if(!req.izvedbaPredmeta) {
+    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
+  }
+  if(!req.izvajalec) {
+    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
+  }
+  
+  for(var i = 0; i < req.izvedbaPredmeta.izvajalci.length; i++) {
+    if(req.izvedbaPredmeta.izvajalci[i].equals(req.izvajalec)) {
+      return res.status(400).json({ message: "Ta izvajalec že izvaja ta predmet v izbrani izvedbi predmeta" });
+    }
+  }
+  
+  callNext(req, res, next);
 }

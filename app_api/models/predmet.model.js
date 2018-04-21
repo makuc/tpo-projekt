@@ -4,7 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var izvedbaPredmetaSchema = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
-    ucitelji: [{type: ObjectId, ref: 'Zaposlen'}],
+    izvajalci: [{type: ObjectId, ref: 'Zaposlen'}],
     izpiti: [{type: ObjectId, ref: 'Izpit'}]
 });
 
