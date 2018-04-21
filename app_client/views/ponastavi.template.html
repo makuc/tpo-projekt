@@ -2,23 +2,19 @@
 <div class="container" style="margin-bottom: 4em;" ng-cloak>
   <div id="wrapper">
     <form ng-submit="vm.sendData()" id="forgot" class="form-horizontal">
-      
       <div class="form-group">
         <label class="control-label col-sm-4" for="passwd">Novo geslo</label>
         <input type="password" class="form-control"  id="passwd" placeholder="Vnesite novo geslo" ng-model="vm.passwd">
       </div>
-      
       <div class="form-group">
-          <label class="control-label col-sm-4" for="confirm">Potrdi geslo</label>
-          <input type="password" class="form-control" id="confirm" placeholder="Potrdite geslo" ng-model="vm.confirm">
+        <label class="control-label col-sm-4" for="confirm">Potrdi geslo</label>
+        <input type="password" class="form-control" id="confirm" placeholder="Potrdite geslo" ng-model="vm.confirm">
       </div>
       
       <div class="form-group">
         <button type="submit" id="btn-login" class="btn btn-default" ng-click="vm.submit()">Ponastavi geslo</button>
       </div>
-      
       <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
-      
     </form>
   </div>
 </div>
