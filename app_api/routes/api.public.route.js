@@ -6,23 +6,22 @@ var ctrl = {
     populate: require('../controllers/populate.controller'),
     
     users: require("../controllers/users.controller"),
+    predmet: require("../controllers/predmet.controller"),
     
     obcina: require("../controllers/obcina.controller"),
     studenti: require("../controllers/studenti.controller"),
     uvozSprejetih: require("../controllers/studenti.controller"),
-    ctrlStudent: require("../controllers/student.controller"),
-    
-    predmet: require("../controllers/predmet.controller")
+    ctrlStudent: require("../controllers/student.controller")
 };
-
 
 // Osnovne povezave
 router.get('/', ctrl.other.index);
 router.post('/db', ctrl.populate.vnosZacetnihPodatkov);
 router.delete('/db', ctrl.populate.izbrisBaze);
 
-// Predmeti povezave
-router.get('/predmet/:predmet_id/:studijskoLeto_id', ctrl.predmet.pridobiStudente);
+// Predmeti
+router.get('/pridobiStudente', ctrl.predmet.pridobiStudente);
+
 
 // Uporabniki - povezave
 router.post("/prijava", ctrl.users.login);
