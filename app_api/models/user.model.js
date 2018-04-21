@@ -2,15 +2,26 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
+var Zaposlen = mongoose.model("Zaposlen");
+var Student = mongoose.model("Student");
 
 var userSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: false},
     zaposlen: {type: ObjectId, ref: 'Zaposlen', required: false},
     email: {type: String, required: true, unique: true},
+    
+    skrbnik: {type: Boolean, "default": false},
+    
+    valid: {type: Boolean, "default": true},
+    
     hashed: {type: String, required: true},
     salt: {type: String, required: true},
     
-    opombe: {type: String, required: false}
+    opombe: {type: String, required: false},
+    ponastavi_geslo: {type: String, required: false},
+    
+    napacne_prijave: {type: String, required: false},
+    zadnja_napacna_prijava: {type: Date, required: false}
 });
 userSchema.virtual('password').set(function(password) {
     this.preHashed = password;
@@ -48,26 +59,34 @@ userSchema.methods.validatePassword = function(password, next) {
     });
 };
 userSchema.methods.genJwt = function(remember) {
-    var exp = "1h";
-    var expires = Date.now();
+    var tokenData = {
+        _id: this._id,
+        student: this.student,
+        zaposlen: this.zaposlen,
+        email: this.email,
+        exp: "1h",
+        expires: Date.now(),
+        skrbnik: this.skrbnik
+    };
     if(remember) {
-        exp = "31d";
-        expires += (31 * 24 * 60 *60 * 1000); // = 31 dni * 24 ur * 60 min * 60s * 1000
+        tokenData.exp = "31d";
+        tokenData.expires += (31 * 24 * 60 *60 * 1000); // = 31 dni * 24 ur * 60 min * 60s * 1000
     } else
-        expires += 60 * 60 * 1000; // = 60 min * 60s * 1000 = 1h
+        tokenData.expires += 60 * 60 * 1000; // = 60 min * 60s * 1000 = 1h
 
     // User successfully registered -> make a token for it
+   
     return jwt.sign(
         {
-            _id: this._id,
-            student: this.student,
-            zaposlen: this.zaposlen,
-            email: this.email,
-            expires: expires
+            _id: tokenData._id,
+            student: tokenData.student,
+            zaposlen: tokenData.zaposlen,
+            email: tokenData.email,
+            expires: tokenData.expires
         },
         process.env.JWT_SECRET,
         {
-              expiresIn: exp 
+              expiresIn: tokenData.exp 
         }
     );
 };

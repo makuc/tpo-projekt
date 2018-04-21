@@ -9,10 +9,6 @@ a {
   color: #00B7FF;
 }
 
-#passwd {
-   
-  
-}
 
 footer {
  position: absolute;
@@ -29,9 +25,24 @@ header {
   
 }
 
+#email, #passwd, #confirm,#password{
+   width: 400px;
+  
+}
+
+
+#import{
+  width: 400px;
+  margin: 10px;
+  
+}
+#impBut{
+  margin: 10px;
+  
+}
 #myProf{
   position: fixed;
-  right: 50px;
+  right: 150px;
   background-color: #b3ffff;
   color: black;
 }
@@ -53,5 +64,13 @@ header {
   background-color: #f2f2f2;
   margin: 10px;
   border-color: black;
+  
+}
+
+#logout{
+    position: fixed;
+    right: 50px;
+    background-color: #ff9999;
+    color: black;
   
 }

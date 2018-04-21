@@ -3,19 +3,19 @@
     
     var studentPodatki = function($http){
         var dodajStudenta = function(podatki){
-            return $http.post('/api/shranistudenta', podatki);
+            return $http.post('/api/v1/student', podatki);
         };
         
         var izpisStudentov = function(){
-            return $http.get('/api/vsistudenti');
+            return $http.get('/api/v1/student');
         };
         
-        var izpisStudenta = function(idStudenta){
-            return $http.get('/api/student' + idStudenta);
+        var izpisStudenta = function(student_id){
+            return $http.get('/api/v1/student/' + student_id);
         };
         
-        var urediStudenta = function(idStudenta){
-            return $http.put('/posodobistudenta' + idStudenta);
+        var urediStudenta = function(student_id, student){
+            return $http.put('/api/v1/student/' + student_id, student);
         };
         
         return {
@@ -26,7 +26,6 @@
         };
     };
     
-
     
     studentPodatki.$inject = ['$http'];
     angular

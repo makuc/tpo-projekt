@@ -1,0 +1,59 @@
+<header></header>
+<h2>Vstavitev</h2>
+<form role="form"  class="form-horizonral"  >
+    <div class="col-sm-12">
+        <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
+        <div class="row">
+         		<div>
+        			Select a text file: 
+        			<input type="file" id="fileInput" >
+        		</div>
+        		<button class="btn btn-success" type="submit" id="option" ng-click="vm.nek()">Work</button>
+        </div>
+        
+        <div class="row" ng-show="vm.uvoz.studenti">
+            <h3>Sprejeti študenti</h3>
+            <table border="1">
+                <tr>
+                    <th>Vpisna številka</th>
+                    <th>Ime</th>
+                    <th>Priimek</th>
+                    <th>E-pošta</th>
+                    <th>Uporabniško ime</th>
+                    <th>Začasno geslo</th>
+                </tr>
+                <tr ng-repeat="user in vm.uvoz.uporabniki">
+                    <td>{{ user.student.vpisna_stevilka }}</td>
+                    <td>{{ user.student.ime }}</td>
+                    <td>{{ user.student.priimek }}</td>
+                    <td>{{ user.student.email }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.opombe }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row" ng-show="vm.uvoz.zavrnjeni">
+            <h3>Neuspeli študenti</h3>
+            <table border="1">
+                <tr>
+                    <th>Ime</th>
+                    <th>Priimek</th>
+                    <th>Program</th>
+                    <th>E-pošta</th>
+                    <th>Razlog</th>
+                </tr>
+                <tr ng-repeat="student in vm.uvoz.zavrnjeni">
+                    <td>{{ student.ime }}</td>
+                    <td>{{ student.priimek }}</td>
+                    <td>{{ student.program }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.razlog }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+
+
+
+<footer></footer>

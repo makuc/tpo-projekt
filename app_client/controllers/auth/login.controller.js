@@ -8,7 +8,7 @@
   function ctrlLogin($location, $route, authentication, aaData) {
     
     if(authentication.auth()) {
-      return $location.path('/');
+      return $location.path('/student/main');
     }
     
     var vm = this;

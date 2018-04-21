@@ -28,6 +28,7 @@
     function login(user) {
       return $http.post('/api/v1/prijava', user).then(
         function success(res) {
+          //console.log(res.data);
           saveToken(res.data.token);
         },
         function error(res) {
@@ -48,6 +49,19 @@
         return false;
       }
     }
+    function admin() {
+      if(auth()) {
+        var token = getToken();
+        var content = JSON.parse(base64ToUTF8(token.split('.')[1]));
+        
+        if(typeof content.skrbnik === 'boolean')
+          return content.skrbnik;
+        else
+          return false;
+      } else {
+        return false;
+      }
+    }
     function currentUser() {
       if (auth()) {
         var token = getToken();
@@ -55,16 +69,40 @@
         return {
           _id: content._id,
           email: content.email,
-          name: content.name
+          student: content.student,
+          zaposlen: content.zaposlen,
+          opombe: content.opombe,
+          skrbnik: content.skrbnik
         };
       } else
         return {
           _id: "",
           email: "",
-          name: ""
+          student: "",
+          zaposlen: "",
+          opombe: "",
+          skrbnik: false
         };
     }
-
+    function pozabljenoGeslo(email) {
+      return $http.post("/api/v1/pozabljeno-geslo", {
+        email: email
+      });
+    }
+    function ponastaviGeslo(geslo, pozabljenoId) {
+      return $http.post("/api/v1/pozabljeno-geslo/"+pozabljenoId, {
+        password: geslo
+      });
+    }
+    
+    function zacetniPodatki() {
+      return $http.post("/api/v1/db/", {
+        
+      });
+    }
+    function brisiBazo() {
+     return  $http.delete("/api/v1/db/");
+    }
     
     return {
         saveToken: saveToken,
@@ -74,7 +112,11 @@
         login: login,
         logout: logout,
         auth: auth,
-        currentUser: currentUser
+        admin: admin,
+        currentUser: currentUser,
+        
+        pozabljenoGeslo: pozabljenoGeslo,
+        ponastaviGeslo: ponastaviGeslo
     };
   }
   authentication.$inject = ['$window', '$http'];

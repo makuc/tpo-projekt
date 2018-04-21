@@ -4,7 +4,9 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var vrstaVpisaSchema = new mongoose.Schema({
     koda: {type: Number, unique: true, required: true},
     naziv: {type: String, required: true},
-    opis: {type: String, required: false}
+    opis: {type: String, required: false},
+    
+    valid: {type: Boolean, "default": true}
 });
 
 // Save this Scheme as a model

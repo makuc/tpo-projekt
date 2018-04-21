@@ -1,0 +1,193 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='file:///home/ubuntu/workspace/tpo-projekt/app_api/controllers/izvozi/views/css/izpisi.css')
+  body
+    div#header
+      div#h-left
+        h1 VPISNI LIST #{studijsko_leto.studijsko_leto}
+          br
+          | za študente
+        p Fakulteta za računalništvo in informatiko
+      div#h-middle
+        img#logo(src="file:///home/ubuntu/workspace/tpo-projekt/app_api/controllers/izvozi/views/img/logo.svg")
+      div#h-right
+        p
+          small Ur.I. RS, št. 32/2012-UPB 7 in
+          br
+          small spremembe)
+        p.label
+          small 500-7/2014-1
+        
+    div#content
+      table
+        tr
+          td
+            p.label Vpisna številka
+          td(colspan="4")
+            p.label Priimek in ime
+        tr
+          td
+            h2 #{student.vpisna_stevilka}
+          td(colspan="4")
+            h2 #{student.priimek}, #{student.ime}
+        tr
+          td
+            p.label Datum rojstva
+          td(colspan="2")
+            p.label Kraj rojstva
+          td(style="width: 30%;")
+            p.label Država, občina rojstva
+          td
+            p.label Državjanstvo
+        tr
+          td
+            p= student.datum_rojstva
+          td(rowspan="2", colspan="2")
+            p= student.kraj_rojstva
+          td(rowspan="2")
+            p #{student.drzava_rojstva.slovenski_naziv}, #{student.obcina_rojstva}
+          td(rowspan="2")
+            p= student.drzavljanstvo
+        tr
+          td &nbsp;
+        tr
+          td
+            p.label Spol
+          td(colspan="2")
+            p.label EMŠO
+          td(colspan="2")
+            p.label Davčna številka
+        tr
+          td
+            p= student.spol
+          td(colspan="2")
+            p= student.emso
+          td(colspan="2")
+            p= student.davcna_stevilka
+        tr
+          td(colspan="3")
+            p.label e-pošta
+          td(colspan="2")
+            p.label Prenosni telefon
+        tr
+          td(colspan="3")
+            p= student.email
+          td(colspan="2")
+            p= student.prenosni_telefon
+        tr
+          td
+            p.label &nbsp;
+          td
+            p.label Vročanje
+          td(colspan="2")
+            p.label Naslov
+          td
+            p.label Država, občina
+        tr
+          td
+            p.label Stalno bivališče
+          td
+            if student.stalno_bivalisce_vrocanje
+              p &nbsp;x
+            else
+              p &nbsp;
+          td(colspan="2")
+            p #{student.stalno_bivalisce_naslov}, #{student.stalno_bivalisce_posta.postna_stevilka} #{student.stalno_bivalisce_posta.naziv}
+          td
+            p #{student.stalno_bivalisce_drzava.slovenski_naziv}, #{student.stalno_bivalisce_obcina.ime}
+        tr
+          td
+            p.label Začasno bivališče
+          td
+            if student.zacasno_bivalisce_vrocanje
+              p &nbsp;x
+            else
+              p &nbsp;
+          td(colspan="2")
+            p #{student.zacasno_bivalisce_naslov}, #{student.zacasno_bivalisce_posta.postna_stevilka} #{student.zacasno_bivalisce_posta.naziv}
+          td
+            p #{student.zacasno_bivalisce_drzava.slovenski_naziv}, #{student.zacasno_bivalisce_obcina.ime}
+        tr
+          td(style="width: 18%;")
+            p.label &nbsp;
+          td(style="width: 50px;")
+            p.label &nbsp;
+          td
+            p.label &nbsp;
+          td
+            p.label &nbsp;
+          td(style="width: 30%;")
+            p.label &nbsp;
+      div.title PODATKI O VPISU
+      table
+        tr(colspan)
+          td(colspan="3")
+            p.label Študijski program
+        tr
+          td(colspan="3")
+            p= studijski_program.naziv
+        tr
+          td(colspan="3")
+            p.label Smer/usmeritev/modul/znanstveno področje
+        tr
+          td(colspan="3")
+            p= usmeritev
+        tr
+          td
+            p.label Kraj izvajanja
+          td(colspan="2")
+            p.label Izbirna skupina
+        tr
+          td
+            p= kraj_izvajanja
+          td
+            p= izbirna_skupina
+        tr
+          td(style="width:50%;") &nbsp;
+          td(style="width:25%;") &nbsp;
+          td(style="width:25%;") &nbsp;
+        tr
+          td(colspan="3")
+            p.label Vrsta študija
+        tr
+          td(colspan="3")
+            p #{vrsta_studija.sifra} #{vrsta_studija.opis}
+        tr
+          td
+            p.label Vrsta vpia
+          td
+            p.label Letnik/dodatno leto
+          td
+            p.label Način in oblika študija
+        tr
+          td
+            p= vrsta_vpisa.naziv
+          td
+            p= letnik.naziv
+          td
+            p #{nacin_studija.naziv}, #{oblika_studija.naziv}
+        tr
+          td(style="width:50%;") &nbsp;
+          td(style="width:25%;") &nbsp;
+          td(style="width:25%;") &nbsp;
+      div.title PRILOGA 1: PREDMETNIK
+      table
+        tr
+          td(colspan="3")
+            p.label Študijski program
+        tr
+          td(colspan="3")
+            h4= studijski_program.naziv
+        tr
+          td
+            p.label Učitelj
+          td
+            p.label Učna enota
+          td
+            p.label Število KT
+        tr
+          td(style="width: 20%") &nbsp;
+          td &nbsp;
+          td(style="width: 50px") &nbsp;

@@ -3,7 +3,10 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var letnikSchema = new mongoose.Schema({
     studijskiProgram: {type: ObjectId, ref: 'StudijskiProgram', required: true},
-    naziv: {type: String, required: true}
+    pogoj_letnik: {type: ObjectId, ref: 'Letnik', required: false},
+    naziv: {type: String, required: true},
+    
+    valid: {type: Boolean, "default": true}
 });
 
 // Save this Scheme as a model

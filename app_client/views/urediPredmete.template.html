@@ -1,0 +1,17 @@
+<div class="container table-responsive">
+    <table id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
+        <thead>
+            <tr>
+                <th>Šifra</th>
+                <th>Naziv</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="predemet in vm.predmeti">
+                <td>{{ predmet.sifra }}</td>
+                <td>{{ predmet.naziv }}</td>
+                <td><a href="/predmet/{{predmet._id}}"><div class="btn-primary glyphicon glyphicon-edit"></div></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

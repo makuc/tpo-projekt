@@ -1,26 +1,38 @@
 <!--vnosna polja pri vpisnem listu -->
 <h1>VPISNI LIST</h1>
-<div ng-init="vm.pridobiStudenta()"></div>
+<!--<div ng-init="vm.pridobiStudenta()"></div>-->
+<div class="alert alert-danger" role="alert" ng-show="vm.napacenEmso">{{vm.napacenEmso}}</div>
 <form role="form" ng-submit="vm.shraniPodatke()" class="form-horizonral">
     <div class="col-sm-12">
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Vpisna številka</label>
-                <input class="form-control" type="text" ng-model="vm.student.vpisnaStevilka" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.vpisna_stevilka" value="Vpisna stevilka" required="" readonly/>
             </div>
             <div class="form-group col-sm-4">
                 <label>Priimek</label>
-                <input class="form-control" type="text" ng-model="vm.student.priimek" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.priimek" value="Priimek" required="" readonly/>
             </div>
             <div class="form-group col-sm-4">
                 <label>Ime</label>
-                <input class="form-control" type="text" ng-model="vm.student.ime" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.ime" value="Ime" required="" readonly/>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-4">
+                <label>EMŠO</label>
+                <input class="form-control" type="text" ng-model="vm.student.emso" ng-change="vm.veljavnostEMSO()" required=""/>
+            </div>
+            <div class="form-group col-sm-4">
                 <label>Datum rojstva</label>
-                <input class="form-control" type="text" ng-model="vm.student.datum_rojstva" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.datum_rojstva" value="{{vm.student.datum_rojstva}}" required="" readonly/>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Spol</label>
+                <select class="form-control" ng-model="vm.student.spol">
+                    <option value="M">Moški</option>
+                    <option value="Ž">Ženski</option>
+                </select>
             </div>
             <div class="form-group col-sm-4">
                 <label>Kraj rojstva</label>
@@ -37,28 +49,88 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-4">
-                <label>Spol</label>
-                <input class="form-control" type="text" ng-model="vm.student.spol" required=""/>
-            </div>
-            <div class="form-group col-sm-4">
-                <label>EMŠO</label>
-                <input class="form-control" type="text" ng-model="vm.student.emso" required=""/>
-            </div>
-            <div class="form-group col-sm-4">
                 <label>Davčna številka</label>
                 <input class="form-control" type="text" ng-model="vm.student.davcna_stevilka" required=""/>
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-sm-4">
                 <label>e-pošta</label>
-                <input class="form-control" type="text" ng-model="vm.student.e_posta" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.email" required=""/>
             </div>
             <div class="form-group col-sm-4">
                 <label>Prenosni telefon</label>
                 <input class="form-control" type="text" ng-model="vm.student.prenosni_telefon" required=""/>
             </div>
         </div>
+        <div class="row">
+            <h3>Stalno prebivališče</h3>
+            <div class="form-group col-sm-4">
+                <label>Naslov</label>
+                <input class="form-control" type="text" ng-model="vm.student.stalno_bivalisce_naslov" required=""/>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Pošta</label>
+                <select class="form-control" ng-model="vm.student.stalno_bivalisce_posta"
+                    ng-options="posta as posta.naziv for posta in vm.poste track by posta._id" required=""></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Občina</label>
+                <select class="form-control" ng-model="vm.student.stalno_bivalisce_obcina"
+                    ng-options="obcina as obcina.ime for obcina in vm.obcine track by obcina._id" required=""></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Država</label>
+                <select class="form-control" ng-model="vm.student.stalno_bivalisce_drzava"
+                    ng-options="drzava as drzava.slovenski_naziv for drzava in vm.drzave track by drzava._id" required=""></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Vročanje</label>
+                <input type="checkbox" value="true" ng-model="vm.student.stalno_bivalisce_vrocanje" ng-change="vm.izbranNaslov(true)"/>
+            </div>
+        </div>
+         <div class="row">
+            <h3>Začasno prebivališče</h3>
+            <div class="form-group col-sm-4">
+                <label>Naslov</label>
+                <input class="form-control" type="text" ng-model="vm.student.zacasno_bivalisce_naslov"/>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Pošta</label>
+                <select class="form-control" ng-model="vm.student.zacasno_bivalisce_posta"
+                    ng-options="posta as posta.naziv for posta in vm.poste track by posta._id"></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Občina</label>
+                <select class="form-control" ng-model="vm.student.zacasno_bivalisce_obcina"
+                    ng-options="obcina as obcina.ime for obcina in vm.obcine track by obcina._id"></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Država</label>
+                <select class="form-control" ng-model="vm.student.zacasno_bivalisce_drzava"
+                    ng-options="drzava as drzava.slovenski_naziv for drzava in vm.drzave track by drzava._id"></select>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Vročanje</label>
+                <input type="checkbox" value="true" ng-model="vm.student.zacasno_bivalisce_vrocanje" ng-change="vm.izbranNaslov(false)"/>
+            </div>
+        </div>
         <button class="btn btn-success" type="submit">Shrani</button>
     </div>
+    
+    <h3>Obvezni predmeti</h3>
+    <div ng-init="vm.izbiraPredmetov()"></div>
+    <li ng-repeat="predmet in vm.redniPredmeti">
+        {{ predmet.naziv }} {{ predmet.sifra }} 
+    </li>
+    
+    <div ng-show="vm.moduli">
+        <h3>Moduli</h3>
+    </div>
+
+    <div ng-show="vm.izbirci">
+        <h3>Izbirni predmeti</h3>
+        <select ng-model="vm.izbraniIzbirni" ng-options="predmet as predmet.naziv for predmet in vm.izbirniPredmeti track by predmet._id">
+        </select>
+    </div>
+   
+
 </form>
