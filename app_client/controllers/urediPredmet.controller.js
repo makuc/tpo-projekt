@@ -23,11 +23,9 @@
         
         vm.shrani = function(){
             var predmet = {
-                data: {
-                    naziv: vm.predmet.naziv,
-                    sifra: vm.predmet.sifra,
-                    KT: vm.predmet.KT
-                }
+                naziv: vm.predmet.naziv,
+                sifra: vm.predmet.sifra,
+                KT: vm.predmet.KT
             };
             console.log(predmet);
             predmetPodatki.urediPredmet(vm.idPredmeta, predmet).then(
