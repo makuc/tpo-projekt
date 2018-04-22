@@ -9,6 +9,7 @@
         
         vm.idPredmeta = $routeParams.idPredmeta;
         
+        vm.opcijeKT = [1,2,3,4,5,6];
         
         vm.pridobiPredmet = function(){
             predmetPodatki.pridobiPredmet(vm.idPredmeta).then(
@@ -23,11 +24,9 @@
         
         vm.shrani = function(){
             var predmet = {
-                data: {
-                    naziv: vm.predmet.naziv,
-                    sifra: vm.predmet.sifra,
-                    KT: vm.predmet.KT
-                }
+                naziv: vm.predmet.naziv,
+                sifra: vm.predmet.sifra,
+                KT: vm.predmet.KT
             };
             console.log(predmet);
             predmetPodatki.urediPredmet(vm.idPredmeta, predmet).then(

@@ -53,6 +53,7 @@ module.exports.addPredmet = function(req, res) {
   callNext(req, res, [ najdiPredmetSifra, createPredmet ]);
 };
 module.exports.editPredmet = function(req, res) {
+  console.log(req.body);
   if(!req.body || (!req.body.sifra && !req.body.naziv && !req.body.opis && !req.body.KT)) {
     return res.status(400).json({ message: "Nobenega podatka predmeta ne spreminjaš" });
   }
