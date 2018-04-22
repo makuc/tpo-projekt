@@ -39,6 +39,11 @@
                 controller: 'dbCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediPredmete', {
+                templateUrl: 'views/urediPredmete.template.html',
+                controller: 'urediPredmeteCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
