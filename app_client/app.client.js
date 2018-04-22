@@ -44,6 +44,11 @@
                 controller: 'urediPredmeteCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediPredmet/:idPredmeta', {
+                templateUrl: 'views/urediPredmet.template.html',
+                controller: 'urediPredmetCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

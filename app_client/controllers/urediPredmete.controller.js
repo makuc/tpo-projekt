@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    urediPredmeteCtrl.$inject = ['predmetPodatki', '$scope'];
+    urediPredmeteCtrl.$inject = ['predmetPodatki', '$scope', '$location'];
     
     
-    function urediPredmeteCtrl(predmetPodatki, $scope){
+    function urediPredmeteCtrl(predmetPodatki, $scope, $location){
         var vm = this;
         
         vm.prikaziPredmete = function(){
@@ -36,13 +36,28 @@
         vm.izbris = function(predmetId){
             predmetPodatki.izbrisiPredmet(predmetId).then(
                 function success(odgovor){
-                    
+                    vm.prikaziPredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
                 }
             );
-        }
+        };
+        
+        vm.obnovi = function(predmetId){
+            predmetPodatki.obnoviPredmet(predmetId).then(
+                function success(odgovor){
+                    vm.prikaziPredmete();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.uredi = function(predmetId){
+            $location.path("/urediPredmet/" + predmetId);
+        };
         
     }
     
