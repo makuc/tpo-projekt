@@ -1,0 +1,19 @@
+<div class="container table-responsive">
+    <table id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziPredmete()">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Študijski program</th>
+                <th>Naziv</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="letnik in vm.letniki">
+                <td>{{ letnik._id }}</td>
+                <td>{{ letnik.studijskiProgram }}</td>
+                <td>{{ letnik.naziv }}</td>
+                <td><a href="/predmet/{{predmet._id}}"><div class="btn-primary glyphicon glyphicon-edit"></div></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
