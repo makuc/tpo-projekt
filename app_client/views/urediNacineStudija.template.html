@@ -26,8 +26,8 @@
                 <td>{{ nacinStudija.valid }}</td>
                 <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(nacinStudija._id)">Uredi</button></td>
                 <td>
-                    <button ng-show="{{predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(nacinStudija._id)">Izbriši</button>
-                    <button ng-show="{{!predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(nacinStudija._id)">Obnovi</button>
+                    <button ng-show="{{nacinStudija.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(nacinStudija._id)">Izbriši</button>
+                    <button ng-show="{{!nacinStudija.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(nacinStudija._id)">Obnovi</button>
                 </td>
             </tr>
         </tbody>

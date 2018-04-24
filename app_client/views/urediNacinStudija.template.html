@@ -1,23 +1,17 @@
-<div ng-init="vm.pridobiPredmet()"></div>
+<div ng-init="vm.pridobi()"></div>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
 <form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
     <div class="col-sm-12">
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Naziv:</label>
-                <input class="form-control" type="text" value="{{vm.predmet.naziv}}" ng-model="vm.predmet.naziv">
+                <input class="form-control" type="text" value="{{vm.nacinStudija.naziv}}" ng-model="vm.nacinStudija.naziv">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Šifra:</label>
-                <input class="form-control" type="text" value="{{vm.predmet.sifra}}" ng-model="vm.predmet.sifra">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Število kreditnih točk</label>
-                <select class="form-control" value="{{vm.predmet.KT}}" ng-model="vm.predmet.KT" ng-options="kt for kt in vm.opcijeKT"></select>
+                <input class="form-control" type="text" value="{{vm.nacinStudija.sifra}}" ng-model="vm.nacinStudija.sifra">
             </div>
         </div>
         <button class="btn btn-success"  type="submit">Shrani</button>

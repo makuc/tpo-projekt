@@ -33,6 +33,7 @@
                     $location.path("/urediPredmete");
                 },
                 function error(odgovor){
+                    vm.obvestilo = "Že obstaja zapis s to šifro";
                     console.log(odgovor);
                 }
             );

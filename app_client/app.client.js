@@ -54,6 +54,11 @@
                 controller: 'urediNacineStudijaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediNacinStudija/:idNacinStudija', {
+                templateUrl: 'views/urediNacinStudija.template.html',
+                controller: 'urediNacinStudijaCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
