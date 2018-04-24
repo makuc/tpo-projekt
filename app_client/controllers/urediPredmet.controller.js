@@ -28,7 +28,6 @@
                 sifra: vm.predmet.sifra,
                 KT: vm.predmet.KT
             };
-            console.log(predmet);
             predmetPodatki.urediPredmet(vm.idPredmeta, predmet).then(
                 function success(odgovor){
                     $location.path("/urediPredmete");

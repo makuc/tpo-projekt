@@ -1,16 +1,16 @@
 (function() {
     /* global angular */
     
-    urediPredmeteCtrl.$inject = ['predmetPodatki', '$scope', '$location'];
+    urediNacineStudijaCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
     
     
-    function urediPredmeteCtrl(predmetPodatki, $scope, $location){
+    function urediNacineStudijaCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
-        vm.prikaziPredmete = function(){
-            predmetPodatki.izpisiVsePredmete().then(
+        vm.prikazi = function(){
+            ostaloPodatki.pridobiVseNacineStudija().then(
                 function success(odgovor){
-                    vm.predmeti = odgovor.data;
+                    vm.nacinStudija = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -18,10 +18,10 @@
             );
         };
         
-        vm.izbris = function(predmetId){
-            predmetPodatki.izbrisiPredmet(predmetId).then(
+        vm.izbris = function(Id){
+            ostaloPodatki.izbrisiNacinStudija(Id).then(
                 function success(odgovor){
-                    vm.prikaziPredmete();
+                    vm.prikazi();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -29,10 +29,10 @@
             );
         };
         
-        vm.obnovi = function(predmetId){
-            predmetPodatki.obnoviPredmet(predmetId).then(
+        vm.obnovi = function(Id){
+            ostaloPodatki.obnoviNacinStudija(Id).then(
                 function success(odgovor){
-                    vm.prikaziPredmete();
+                    vm.prikazi();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -40,14 +40,14 @@
             );
         };
         
-        vm.uredi = function(predmetId){
-            $location.path("/urediPredmet/" + predmetId);
+        vm.uredi = function(Id){
+            $location.path("/urediNacinStudija/" + Id);
         };
         
     }
     
     angular
         .module('tpo')
-        .controller('urediPredmeteCtrl', urediPredmeteCtrl);
+        .controller('urediNacineStudijaCtrl', urediNacineStudijaCtrl);
     
 })();

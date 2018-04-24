@@ -1,0 +1,35 @@
+<div class="row">
+    <div id="custom-search-input">
+        <div class="input-group col-md-4">
+            <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="container table-responsive">
+    <table id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
+        <thead>
+            <tr>
+                <th>Šifra</th>
+                <th>Naziv</th>
+                <th>Veljavno</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="nacinStudija in vm.nacinStudija | filter: iskanje" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <td>{{ nacinStudija.sifra }}</td>
+                <td>{{ nacinStudija.naziv }}</td>
+                <td>{{ nacinStudija.valid }}</td>
+                <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(nacinStudija._id)">Uredi</button></td>
+                <td>
+                    <button ng-show="{{predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(nacinStudija._id)">Izbriši</button>
+                    <button ng-show="{{!predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(nacinStudija._id)">Obnovi</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
