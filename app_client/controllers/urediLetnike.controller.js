@@ -41,7 +41,7 @@
         };
         
         vm.uredi = function(letnikId){
-            $location.path("/urediLetnik/" + letnikId);
+            $location.path("/urediLetnike/" + letnikId);
         };
         
     }

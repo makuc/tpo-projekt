@@ -55,8 +55,8 @@
                 controllerAs: 'vm'
             })
            .when('/urediLetnike/:idLetnika', {
-                templateUrl: 'views/urediLetnike.template.html',
-                controller: 'urediLetnikeCtrl',
+                templateUrl: 'views/urediLetnik.template.html',
+                controller: 'urediLetnikCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediNacineStudija', {

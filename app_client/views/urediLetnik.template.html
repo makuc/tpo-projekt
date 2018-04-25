@@ -5,28 +5,22 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Naziv:</label>
-                <input class="form-control" type="text" value="{{vm.predmet.naziv}}" ng-model="vm.predmet.naziv">
+                <input class="form-control" type="text" value="{{vm.letnik.naziv}}" ng-model="vm.letnik.naziv">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-4">
-                <label>Študijski program:</label>
-                <input class="form-control" type="text" value="{{vm.predmet.sifra}}" ng-model="vm.predmet.sifra">
+                <label>Študijski program:</label> <!--{{ vm.letnik.studijskiProgram }} ; -->
+                <select class="form-control" value="{{vm.letnik.studijskiProgram}}" ng-model="vm.letnik.studijskiProgram" ng-options="sp for sp in vm.studijskiProgrami"></select>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Pogoj</label>
-                <select class="form-control" value="{{vm.predmet.KT}}" ng-model="vm.predmet.KT" ng-options="kt for kt in vm.opcijeKT"></select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Veljavnost</label>
-                <select class="form-control" value="{{vm.predmet.KT}}" ng-model="vm.predmet.KT" ng-options="kt for kt in vm.opcijeKT"></select>
+                <select class="form-control" value="{{vm.letnik.pogoj_letnik}}" ng-model="vm.letnik.pogoj_letnik" ng-options="po for po in vm.pogoji"></select>
             </div>
         </div>
         <button class="btn btn-success"  type="submit">Shrani</button>
-        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
+        <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
     </div>
 </form>
