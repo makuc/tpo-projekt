@@ -10,12 +10,13 @@
     vm.idLetnika = $routeParams.idLetnika;
     
     //vm.opcijeKT = ["a", "b", "c"];
-    //vm.opcijeKT = [1,2,3,4,5,6];
+    //vm.opcijeKT = [1,2,3,4,5,6]; //
     ostaloPodatki
       .pridobiVseVeljavneStudijskePrograme()
       .then(
         function success(odgovor) {
           vm.studijskiProgrami = odgovor.data;
+          console.log(odgovor.data);
         },
         function error(odgovor) {
           console.log(odgovor);
@@ -26,6 +27,7 @@
       .then(
         function success(odgovor) {
           vm.pogoji = odgovor.data;
+          console.log(odgovor.data);
         },
         function error(odgovor) {
           console.log(odgovor);
