@@ -23,7 +23,7 @@
         <tbody>
             <tr ng-repeat="letnik in vm.letniki | filter: iskanje" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
                 <td>{{ letnik.naziv }}</td>
-                <td>{{ letnik.studijskiProgram.naziv }}</td>
+                <td>{{ letnik.studijskiProgram.naziv }}, {{ letnik.studijskiProgram.vrstaStudija.opis }}</td>
                 <td>{{ letnik.pogoj_letnik.naziv }}</td>
                 <td>{{ letnik.valid }}</td>
                 <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(letnik._id)">Uredi</button></td>

@@ -32,10 +32,16 @@ module.exports.getVseLetnike = function(req, res) {
     .limit(0)
     .populate([
       {
-        "path": "studijskiProgram"
+        "path": "studijskiProgram",
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         "path": "pogoj_letnik"
+      },
+      {
+        "path": "studijskiProgram.vrstaStudija"
       }
     ])
     .sort("naziv")
