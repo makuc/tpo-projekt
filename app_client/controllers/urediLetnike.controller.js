@@ -10,6 +10,7 @@
             ostaloPodatki.pridobiVseLetnike().then(
                 function success(odgovor){
                     vm.letniki = odgovor.data;
+                    console.log(odgovor.data);
                 },
                 function error(odgovor){
                     console.log(odgovor);
