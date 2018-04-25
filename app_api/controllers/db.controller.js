@@ -1037,7 +1037,7 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8df8efeae4c1cfd563040"),"sifra":"63255","naziv":"Spletno programiranje"},
 {"_id":ObjectId("5ac8df8efeae4c1cfd563041"),"sifra":"63256","naziv":"Tehnologija programske opreme"},
 {"_id":ObjectId("5ac8df8efeae4c1cfd563042"),"sifra":"63258","naziv":"Komunikacijski protokoli"},
-{"_id":ObjectId("5ac8df8efeae4c1cfd563043"),"sifra":"63212","naziv":"Brezžična in mobilna omrežja"},
+{"_id":ObjectId("5ac8df8efeae4c1cfd563043"),"sifra":"63259","naziv":"Brezžična in mobilna omrežja"},
 {"_id":ObjectId("5ac8df8efeae4c1cfd563044"),"sifra":"63257","naziv":"Modeliranje računalniških omrežij"},
 {"_id":ObjectId("5ac8df8efeae4c1cfd563045"),"sifra":"63262","naziv":"Zanesljivost in zmogljivost računalniških sistemov"},
 {"_id":ObjectId("5ac8df8efeae4c1cfd563046"),"sifra":"63260","naziv":"Digitalno načrtovanje"},
