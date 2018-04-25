@@ -31,6 +31,9 @@ var ctrl = {
         
         Zaposlen: require("../controllers/zaposlen.controller")
     },
+    
+    Izpit: require('../controllers/izpit.controller.js'),
+    
     student: require("../controllers/student.controller"),
     
     zeton: require("../controllers/zeton.controller.js"),
@@ -223,5 +226,14 @@ router.get('/zaposlen/:zaposlen_id', ctrl.NeodvisniPodatki.Zaposlen.getZaposlene
 router.post('/zaposlen/:zaposlen_id', ctrl.NeodvisniPodatki.Zaposlen.obnoviZaposlenega);
 router.put('/zaposlen/:zaposlen_id', ctrl.NeodvisniPodatki.Zaposlen.editZaposlenega);
 router.delete('/zaposlen/:zaposlen_id', ctrl.NeodvisniPodatki.Zaposlen.delZaposlenega);
+
+// Controller Izpiti
+router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
+router.get('/izpit/predmet/:predmet_id', ctrl.Izpit.getIzpitePredmet);
+router.get('/izpit/leto/:studijskoLeto_id/predmet/>predmet_id', ctrl.Izpit.getIzpiteStudijskoLetoPredmet);
+router.get('/izpit/:izpit_id', ctrl.Izpit.getIzpit);
+router.post('/izpit', ctrl.Izpit.addIzpit);
+router.delete('/izpit/:izpit_id', ctrl.Izpit.delIzpit);
+router.put('/izpit/:izpit_id', ctrl.Izpit.editIzpit);
 
 module.exports = router;
