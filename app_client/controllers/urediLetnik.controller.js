@@ -38,6 +38,7 @@
     vm.pridobiLetnik = function(){
       ostaloPodatki.najdiLetnik(vm.idLetnika).then(
         function success(odgovor){
+          console.log(odgovor.data);
           vm.letnik = odgovor.data;
         },
         function error(odgovor){
