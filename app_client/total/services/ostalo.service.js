@@ -172,7 +172,7 @@
         
         //oblike studija
         function pridobiVseOblikeStudija(){
-            return $http.get('/api/v1/oblika-studija/vsi');
+            return $http.get('/api/v1/oblika-studija/vse');
         }
         
         function pridobiVseVeljavneOblikeStudija(){

@@ -1,0 +1,38 @@
+<div ng-init="vm.pridobi()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Šifra:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.sifra}}" ng-model="vm.podatki.sifra">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Naziv:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.naziv}}" ng-model="vm.podatki.naziv">
+            </div>
+        </div>
+  <!--      <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Vrsta Študija:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.vrstaStudija}}" ng-model="vm.podatki.vrstaStudija">
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Semestri:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.semestri}}" ng-model="vm.podatki.semestri">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Šifra EVS:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.sifraEVS}}" ng-model="vm.podatki.sifraEVS">
+            </div>
+        </div>
+        <button class="btn btn-success"  type="submit">Shrani</button>
+        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>

@@ -14,18 +14,16 @@
     <table id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
         <thead>
             <tr>
-                <th>Šifra</th>
-                <th>Naziv</th>
+                <th>Študijsko leto</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="nacinStudija in vm.nacinStudija | filter: iskanje" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
-                <td>{{ nacinStudija.sifra }}</td>
-                <td>{{ nacinStudija.naziv }}</td>
-                <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(nacinStudija._id)">Uredi</button></td>
+            <tr ng-repeat="x in vm.studijskaLeta | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <td>{{ x.studijsko_leto }}</td>
+                <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                 <td>
-                    <button ng-show="{{nacinStudija.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(nacinStudija._id)">Izbriši</button>
-                    <button ng-show="{{!nacinStudija.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(nacinStudija._id)">Obnovi</button>
+                    <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
+                    <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>
                 </td>
             </tr>
         </tbody>
