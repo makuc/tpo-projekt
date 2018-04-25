@@ -12,7 +12,7 @@
         vm.pridobi = function(){
             ostaloPodatki.najdiNacinStudija(vm.idNacinStudija).then(
                 function success(odgovor){
-                    vm.nacinStudija = odgovor.data;
+                    vm.podatki = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -22,8 +22,8 @@
         
         vm.shrani = function(){
             var data = {
-                naziv: vm.nacinStudija.naziv,
-                sifra: vm.nacinStudija.sifra
+                naziv: vm.podatki.naziv,
+                sifra: vm.podatki.sifra
             };
             ostaloPodatki.urediNacinStudija(vm.idNacinStudija, data).then(
                 function success(odgovor){

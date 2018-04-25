@@ -69,6 +69,86 @@
                 controller: 'urediNacinStudijaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediOblikeStudija', {
+                templateUrl: 'views/urediOblikeStudija.template.html',
+                controller: 'urediOblikeStudijaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediOblikoStudija/:idOblikaStudija', {
+                templateUrl: 'views/urediOblikoStudija.template.html',
+                controller: 'urediOblikoStudijaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPredmetnike', {
+                templateUrl: 'views/urediPredmetnike.template.html',
+                controller: 'urediPredmetnikeCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPredmetnik/:idPredmetnika', {
+                templateUrl: 'views/urediPredmetnike.template.html',
+                controller: 'urediPredmetnikCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediStudijskePrograme', {
+                templateUrl: 'views/urediStudijskePrograme.template.html',
+                controller: 'urediStudijskeProgrameCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediStudijskiProgram/:idStudijskegaPrograma', {
+                templateUrl: 'views/urediStudijskiProgram.template.html',
+                controller: 'urediStudijskiProgramCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediStudijskaLeta', {
+                templateUrl: 'views/urediStudijskaLeta.template.html',
+                controller: 'urediStudijskaLetaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediStudijskoLeto/:idStudijskegaLeta', {
+                templateUrl: 'views/urediStudijskoLeto.template.html',
+                controller: 'urediStudijskoLetoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediVrsteStudija', {
+                templateUrl: 'views/urediVrsteStudija.template.html',
+                controller: 'urediVrsteStudijaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediVrstoStudija/:idVrsteStudija', {
+                templateUrl: 'views/urediVrstoStudija.template.html',
+                controller: 'urediVrstoStudijaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediVrsteVpisa', {
+                templateUrl: 'views/urediVrsteVpisa.template.html',
+                controller: 'urediVrsteVpisaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediVrstoVpisa/:idVrsteVpisa', {
+                templateUrl: 'views/urediVrstoVpisa.template.html',
+                controller: 'urediVrstoVpisaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediZaposlene', {
+                templateUrl: 'views/urediZaposlene.template.html',
+                controller: 'urediZaposleneCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediZaposlenega/:idZaposlenega', {
+                templateUrl: 'views/urediZaposlenega.template.html',
+                controller: 'urediZaposlenegaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediDelePredmetov', {
+                templateUrl: 'views/urediDelePredmetov.template.html',
+                controller: 'urediDelePredmetovCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediDelePredmeta/:idDelaPredmeta', {
+                templateUrl: 'views/urediDelePredmeta.template.html',
+                controller: 'urediDelePredmetaCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
