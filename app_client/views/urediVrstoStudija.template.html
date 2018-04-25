@@ -1,0 +1,32 @@
+<div ng-init="vm.pridobi()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Šifra:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.sifra}}" ng-model="vm.podatki.sifra">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Opis:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.opis}}" ng-model="vm.podatki.opis">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Klasius SRV:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.klasiusSRV}}" ng-model="vm.podatki.klasiusSRV">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Predpona:</label>
+                <input class="form-control" type="text" value="{{vm.podatki.predpona}}" ng-model="vm.podatki.predpona">
+            </div>
+        </div>
+        <button class="btn btn-success"  type="submit">Shrani</button>
+        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>

@@ -36,7 +36,15 @@ var zdruzeno = uglifyJs.minify({
   'urediPredmeteCtrl.js': fs.readFileSync('app_client/controllers/urediPredmete.controller.js', 'utf8'),
   'urediPredmetCtrl.js': fs.readFileSync('app_client/controllers/urediPredmet.controller.js', 'utf8'),
   'urediNacineStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediNacineStudija.controller.js', 'utf8'),
-  'urediNacinStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediNacinStudija.controller.js', 'utf8')
+  'urediNacinStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediNacinStudija.controller.js', 'utf8'),
+  'urediVrsteStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediVrsteStudija.controller.js', 'utf8'),
+  'urediVrstoStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediVrstoStudija.controller.js', 'utf8'),
+  'urediOblikeStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediOblikeStudija.controller.js', 'utf8'),
+  'urediOblikoStudijaCtrl.js': fs.readFileSync('app_client/controllers/urediOblikoStudija.controller.js', 'utf8'),
+  'urediStudijskeProgrameCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskePrograme.controller.js', 'utf8'),
+  'urediStudijskiProgramCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskiProgram.controller.js', 'utf8'),
+  'urediStudijskaLetaCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskaLeta.controller.js', 'utf8'),
+  'urediStudijskoLetoCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskoLeto.controller.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
