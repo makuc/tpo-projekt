@@ -17,7 +17,7 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Pogoj</label>
-                <select class="form-control" ng-model="vm.letnik.pogoj_letnik" ng-options='po as (po.naziv + ", " + po.studijskiProgram.sifra) for po in vm.pogoji track by po._id'></select>
+                <select class="form-control" ng-model="vm.letnik.pogoj_letnik" ng-options='po as (po.naziv + ", " + po.studijskiProgram.vrstaStudija.opis) for po in vm.pogoji track by po._id'></select>
             </div>
         </div>
         <button class="btn btn-success"  type="submit">Shrani</button>

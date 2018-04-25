@@ -16,7 +16,6 @@
       .then(
         function success(odgovor) {
           vm.studijskiProgrami = odgovor.data;
-          console.log(odgovor.data);
         },
         function error(odgovor) {
           console.log(odgovor);
@@ -27,7 +26,7 @@
       .then(
         function success(odgovor) {
           vm.pogoji = odgovor.data;
-          console.log(odgovor.data);
+          console.log(vm.pogoji);
         },
         function error(odgovor) {
           console.log(odgovor);

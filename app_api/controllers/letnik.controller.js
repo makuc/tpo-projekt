@@ -13,7 +13,10 @@ module.exports.getLetnike = function(req, res) {
     .sort("naziv")
     .populate([
       {
-        "path": "studijskiProgram"
+        "path": "studijskiProgram",
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         "path": "pogoj_letnik"
@@ -39,9 +42,6 @@ module.exports.getVseLetnike = function(req, res) {
       },
       {
         "path": "pogoj_letnik"
-      },
-      {
-        "path": "studijskiProgram.vrstaStudija"
       }
     ])
     .sort("naziv")
@@ -58,7 +58,10 @@ module.exports.getIzbrisaneLetnike = function(req, res) {
     .limit(0)
     .populate([
       {
-        "path": "studijskiProgram"
+        "path": "studijskiProgram",
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         "path": "pogoj_letnik"
