@@ -443,6 +443,8 @@
         }
         
         return {
+            uvoziStudente: uvoziStudente,
+            
             pridobiVseObcine: pridobiVseObcine,
             pridobiVseVeljavneObcine: pridobiVseVeljavneObcine,
             pridobiVseIzbrisaneObcine: pridobiVseIzbrisaneObcine,
