@@ -1,38 +1,76 @@
-<div class="row">
-    <div id="custom-search-input">
-        <div class="input-group col-md-4">
-            <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
-            <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
-</div>
-<div class="container table-responsive">
-    <table id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
-        <thead>
-            <tr>
-                <th>Šifra</th>
-                <th>Naziv</th>
-                <th>St. kreditnih točk</th>
-                <th>Veljavno</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="predmet in vm.predmeti | filter: iskanje" ng-class="(predmet.valid ? '' : 'alert alert-danger')">
-                <td>{{ predmet.sifra }}</td>
-                <td>{{ predmet.naziv }}</td>
-                <td>{{ predmet.KT }}</td>
-                <td>{{ predmet.valid }}</td>
-                <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(predmet._id)">Uredi</button></td>
-                <td>
-                    <button ng-show="{{predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(predmet._id)">Izbriši</button>
-                    <button ng-show="{{!predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(predmet._id)">Obnovi</button>
+    <a href="/dodajPredmet" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <div class="container table-responsive">
+        <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
+            <thead>
+                <tr>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>St. kreditnih točk</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.predmeti.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
                 </td>
-            </tr>
-        </tbody>
-    </table>
-    <ul uib-pagination total-items="vm.stPredmetov" ng-model="vm.trenutnaStran" items-per-page="vm.stPredmetovNaStran"></ul>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="predmet in vm.predmeti[vm.trenutnaStran]" ng-class="(predmet.valid ? '' : 'alert alert-danger')">
+                    <td>{{ predmet.sifra }}</td>
+                    <td>{{ predmet.naziv }}</td>
+                    <td>{{ predmet.KT }}</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(predmet._id)">Uredi</button></td>
+                    <td>
+                        <button ng-show="{{predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(predmet._id)">Izbriši</button>
+                        <button ng-show="{{!predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(predmet._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
+            <thead>
+                <tr>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>St. kreditnih točk</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="predmet in vm.vsiPodatki | filter: iskanje" ng-class="(predmet.valid ? '' : 'alert alert-danger')">
+                    <td>{{ predmet.sifra }}</td>
+                    <td>{{ predmet.naziv }}</td>
+                    <td>{{ predmet.KT }}</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(predmet._id)">Uredi</button></td>
+                    <td>
+                        <button ng-show="{{predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(predmet._id)">Izbriši</button>
+                        <button ng-show="{{!predmet.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(predmet._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

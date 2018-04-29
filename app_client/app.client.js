@@ -49,6 +49,11 @@
                 controller: 'urediPredmetCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajPredmet', {
+                templateUrl: 'views/urediPredmet.template.html',
+                controller: 'dodajPredmetCtrl',
+                controllerAs: 'vm'
+            })
             .when('/urediLetnike', {
                 templateUrl: 'views/urediLetnike.template.html',
                 controller: 'urediLetnikeCtrl',
