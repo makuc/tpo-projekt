@@ -7,8 +7,6 @@
     function dodajPredmetCtrl($location, predmetPodatki, $routeParams){
         var vm = this;
         
-        vm.idPredmeta = $routeParams.idPredmeta;
-        
         vm.opcijeKT = [1,2,3,4,5,6];
         
         vm.pridobiPredmet = function(){

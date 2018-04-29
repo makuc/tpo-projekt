@@ -1,39 +1,86 @@
-<div class="row">
-    <div id="custom-search-input">
-        <div class="input-group col-md-4">
-            <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
-            <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
+<navigation></navigation>
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
-</div>
-<div class="container table-responsive">
-    <table id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
-        <thead>
-            <tr>
-                <th>Šifra</th>
-                <th>Naziv</th>
-                <th>Vrsta študija</th>
-                <th>Semestri</th>
-                <th>Šifra EVS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="x in vm.studijskiProgram | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
-                <td>{{ x.sifra }}</td>
-                <td>{{ x.naziv }}</td>
-                <td>{{ x.vrstaStudija.opis }}</td>
-                <td>{{ x.semestri }}</td>
-                <td>{{ x.sifraEVS }}</td>
-                <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
-                <td>
-                    <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
-                    <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>
+    <a href="/dodajStudijskiProgram" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <div class="container table-responsive">
+        <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
+            <thead>
+                <tr>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>Vrsta študija</th>
+                    <th>Semestri</th>
+                    <th>Šifra EVS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in vm.vsiStudijskiProgrami | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ x.sifra }}</td>
+                    <td>{{ x.naziv }}</td>
+                    <td>{{ x.vrstaStudija.opis }}</td>
+                    <td>{{ x.semestri }}</td>
+                    <td>{{ x.sifraEVS }}</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
+                    <td>
+                        <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
+                        <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
+            <thead>
+                <tr>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>Vrsta študija</th>
+                    <th>Semestri</th>
+                    <th>Šifra EVS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in vm.studijskiProgram[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ x.sifra }}</td>
+                    <td>{{ x.naziv }}</td>
+                    <td>{{ x.vrstaStudija.opis }}</td>
+                    <td>{{ x.semestri }}</td>
+                    <td>{{ x.sifraEVS }}</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
+                    <td>
+                        <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
+                        <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.studijskiProgram.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
                 </td>
-            </tr>
-        </tbody>
-    </table>
+            </tfoot>
+        </table>
+    </div>
 </div>
+<footer></footer>

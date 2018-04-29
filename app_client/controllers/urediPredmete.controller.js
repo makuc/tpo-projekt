@@ -45,7 +45,6 @@
                         return pagedData;
                     }
                     vm.predmeti = array;
-                    console.log(vm.predmeti[0]);
                 },
                 function error(odgovor){
                     console.log(odgovor);

@@ -63,6 +63,10 @@
                 templateUrl: 'views/urediLetnik.template.html',
                 controller: 'urediLetnikCtrl',
                 controllerAs: 'vm'
+            }).when('/dodajLetnik', {
+                templateUrl: 'views/urediLetnik.template.html',
+                controller: 'dodajLetnikCtrl',
+                controllerAs: 'vm'
             })
             .when('/urediNacineStudija', {
                 templateUrl: 'views/urediNacineStudija.template.html',
@@ -72,6 +76,11 @@
             .when('/urediNacinStudija/:idNacinStudija', {
                 templateUrl: 'views/urediNacinStudija.template.html',
                 controller: 'urediNacinStudijaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajNacinStudija', {
+                templateUrl: 'views/urediNacinStudija.template.html', 
+                controller: 'dodajNacinStudijaCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediOblikeStudija', {
@@ -84,14 +93,24 @@
                 controller: 'urediOblikoStudijaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajOblikoStudija', {
+                templateUrl: 'views/urediOblikoStudija.template.html',
+                controller: 'dodajOblikoStudijaCtrl',
+                controllerAs: 'vm'
+            })
             .when('/urediPredmetnike', {
                 templateUrl: 'views/urediPredmetnike.template.html',
                 controller: 'urediPredmetnikeCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediPredmetnik/:idPredmetnika', {
-                templateUrl: 'views/urediPredmetnike.template.html',
+                templateUrl: 'views/urediPredmetnik.template.html',
                 controller: 'urediPredmetnikCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajPredmetnik', {
+                templateUrl: 'views/urediPredmetnik.template.html',
+                cotroller: 'dodajPredmetnikCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediStudijskePrograme', {
@@ -104,6 +123,11 @@
                 controller: 'urediStudijskiProgramCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajStudijskiProgram', {
+                templateUrl: 'views/urediStudijskiProgram.template.html',
+                controller: 'dodajStudijskiProgramCtrl',
+                controllerAs: 'vm'
+            })
             .when('/urediStudijskaLeta', {
                 templateUrl: 'views/urediStudijskaLeta.template.html',
                 controller: 'urediStudijskaLetaCtrl',
@@ -112,6 +136,11 @@
             .when('/urediStudijskoLeto/:idStudijskegaLeta', {
                 templateUrl: 'views/urediStudijskoLeto.template.html',
                 controller: 'urediStudijskoLetoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajStudijskoLeto', {
+                templateUrl: 'views/urediStudijskoLeto.template.html',
+                controller: 'dodajStudijskoLetoCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediVrsteStudija', {
@@ -124,6 +153,11 @@
                 controller: 'urediVrstoStudijaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajVrstoStudija', {
+                templateUrl: 'views/urediVrstoStudija.template.html',
+                controller: 'dodajVrstoStudijaCtrl',
+                controllerAs: 'vm'
+            })
             .when('/urediVrsteVpisa', {
                 templateUrl: 'views/urediVrsteVpisa.template.html',
                 controller: 'urediVrsteVpisaCtrl',
@@ -132,6 +166,11 @@
             .when('/urediVrstoVpisa/:idVrsteVpisa', {
                 templateUrl: 'views/urediVrstoVpisa.template.html',
                 controller: 'urediVrstoVpisaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajVrstoVpisa', {
+                templateUrl: 'views/urediVrstoVpisa.template.html',
+                controller: 'dodajVrstoVpisaCtrl',
                 controllerAs: 'vm'
             })
             .when('/urediZaposlene', {
@@ -144,6 +183,11 @@
                 controller: 'urediZaposlenegaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajZaposlenega', {
+                templateUrl: 'views/dodajZaposlenega.template.html',
+                controller: 'dodajZaposlenegaCtrl',
+                controllerAs: 'vm'
+            })
             .when('/urediDelePredmetov', {
                 templateUrl: 'views/urediDelePredmetov.template.html',
                 controller: 'urediDelePredmetovCtrl',
@@ -152,6 +196,11 @@
             .when('/urediDelePredmeta/:idDelaPredmeta', {
                 templateUrl: 'views/urediDelePredmeta.template.html',
                 controller: 'urediDelePredmetaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajDelePredmeta', {
+                templateUrl: 'views/urediDelePredmeta.template.html',
+                controller: 'dodajDelePredmetaCtrl',
                 controllerAs: 'vm'
             })
             .otherwise({redirectTo: '/student/main'});
