@@ -20,8 +20,8 @@
                 controllerAs: 'vm'
             })
             .when('/import', {
-                templateUrl: 'views/text.template.html',
-                controller: 'textCtrl',
+                templateUrl: 'views/uvozStudentov.template.html',
+                controller: 'importCtrl',
                 controllerAs: 'vm'
             })
             .when('/pozabljeno-geslo', {

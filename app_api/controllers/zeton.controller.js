@@ -7,6 +7,7 @@ var VrstaVpisa = mongoose.model("VrstaVpisa");
 var Izpit = mongoose.model("Izpit");
 var StudijskoLeto = mongoose.model("StudijskoLeto");
 
+
 module.exports.ustvariZetone = function(req, res) {
   init(req, res, [ najdiStudijskoLeto, najdiVpise, najdiVrstoVpisa, najdiNaslednjeStudijskoLeto, najdiNaslednjiLetnik, ustvariZetone, vrniRezultat ]);
 };
@@ -148,11 +149,15 @@ function najdiNaslednjiLetnik(req, res, next) {
     });
 }
 function ustvariZetone(req, res, next) {
+  if(!req.next) {
+    req.next = next;
+  }
   console.log("---ustvariZetone");
   if(req.vpisi.length > 0) {
     req.vpis = req.vpis.shift();
-    obdelajVpis(req, res, next);
+    callNext(req, res, [ obdelajVpis, preveriOpravljenostPredmeta, kreirajZeton ]);
   } else {
+    next = req.next;
     callNext(req, res, next);
   }
 }
@@ -172,7 +177,7 @@ function obdelajVpis(req, res, next) {
   req.neopravljeni_predmeti = [];
   req.queuePredmetov = trenutno_leto.predmeti.slice(0);
   
-  preveriOpravljenostPredmeta(req, res, next);
+  callNext(req, res, next);
 }
 function preveriOpravljenostPredmeta(req, res, next) {
   console.log("------preveriOpravljenostPredmeta");
@@ -215,7 +220,7 @@ function preveriOpravljenostPredmeta(req, res, next) {
       });
   } else {
     // Nadaljuj s kreiranjem žetona
-    kreirajZeton(req, res, next);
+    callNext(req, res, next);
   }
 }
 function kreirajZeton(req, res, next) {

@@ -33,12 +33,12 @@ var studentSchema = new mongoose.Schema({
     stalno_bivalisce_posta: {type: ObjectId, ref: 'Posta', required: false},
     stalno_bivalisce_obcina: {type: ObjectId, ref: 'Obcina', required: false},
     stalno_bivalisce_drzava: {type: ObjectId, ref: 'Drzava', required: false},
-    stalno_bivalisce_vrocanje: {type: Boolean, "default": true},
+    stalno_bivalisce_vrocanje: {type: Boolean, required: false},
     zacasno_bivalisce_naslov: {type: String, required: false},
     zacasno_bivalisce_posta: {type: ObjectId, ref: 'Posta', required: false},
     zacasno_bivalisce_obcina: {type: ObjectId, ref: 'Obcina', required: false},
     zacasno_bivalisce_drzava: {type: ObjectId, ref: 'Drzava', required: false},
-    zacasno_bivalisce_vrocanje: {type: Boolean, "default": false},
+    zacasno_bivalisce_vrocanje: {type: Boolean, required: false},
     
     datum_registracije: {type: Date, "default": Date.now},
     

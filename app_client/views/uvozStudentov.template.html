@@ -1,0 +1,117 @@
+<style>
+#uvoz th {
+  padding: 0.5em 0 0.5em 0;
+  text-align: center;
+}
+#uvoz td {
+  padding: 0.4em 0.3em 0.4em 0.3em;
+}
+#uvoz h3 {
+  background-color: inherit;
+  border: none;
+}
+#uvoz .index {
+  text-align: right;
+  width: 3.5em;
+}
+#uvoz .vpisna {
+  width: 5.5em;
+  text-align: center;
+}
+</style>
+<header></header>
+
+<div class="container-fluid">
+  <div class="row">
+    <h2>Uvoz študentov</h2>
+    <div class="col-sm-12">
+      <form role="form"  class="form-horizonral">
+        <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
+        <div class="row">
+       		<div>
+      			Izberi tekstovno datoteko: 
+      			<input type="file" id="fileInput" >
+      		</div>
+      		<button class="btn btn-success" type="submit" id="option" ng-click="vm.nek()">Uvozi študente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div ng-show="vm.uvoz" id="uvoz" class="row">
+    <div class="col-sm-12" ng-show="vm.uvoz.uporabniki.length > 0">
+      <h3 class="alert-success">Sprejeti študenti</h3>
+      <div style="overflow-x: auto">
+        <table border="1" width="100%" class="alert-success">
+          <tr>
+            <th>#</th>
+            <th>Vpisna št.</th>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>E-pošta</th>
+            <th>Uporabniško ime</th>
+            <th>Začasno geslo</th>
+          </tr>
+          <tr ng-repeat="user in vm.uvoz.uporabniki">
+            <td class="index">{{ $index }}</td>
+            <td class="vpisna">{{ user.student.vpisna_stevilka }}</td>
+            <td>{{ user.student.ime }}</td>
+            <td>{{ user.student.priimek }}</td>
+            <td>{{ user.student.email }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.opombe }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row" ng-show="vm.uvoz.spremenjeni.length > 0">
+      <h3 class="alert-info">Popravljeni študenti</h3>
+      <div style="overflow-x: auto">
+        <table border="1" width="100%" class="alert-info">
+          <tr>
+            <th>#</th>
+            <th>Vpisna št.</th>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>E-pošta</th>
+            <th>Uporabniško ime</th>
+            <th>Začasno geslo</th>
+          </tr>
+          <tr ng-repeat="user in vm.uvoz.spremenjeni">
+            <td class="index">{{ $index }}</td>
+            <td class="vpisna">{{ user.student.vpisna_stevilka }}</td>
+            <td>{{ user.student.ime }}</td>
+            <td>{{ user.student.priimek }}</td>
+            <td>{{ user.student.email }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.opombe }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row" ng-show="vm.uvoz.zavrnjeni.length > 0">
+      <h3 class="alert-danger">Neuspeli študenti</h3>
+      <div style="overflow-x: auto">
+        <table class="alert-danger" border="1" width="100%">
+          <tr>
+            <th>#</th>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>Program</th>
+            <th>E-pošta</th>
+            <th>Razlog</th>
+          </tr>
+          <tr ng-repeat="student in vm.uvoz.zavrnjeni">
+            <td class="index">{{ $index }}</td>
+            <td>{{ student.ime }}</td>
+            <td>{{ student.priimek }}</td>
+            <td>{{ student.program }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.razlog }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
