@@ -38,7 +38,7 @@
     </div>
   </div>
   <div ng-show="vm.uvoz" id="uvoz" class="row">
-    <div class="col-sm-12" ng-show="vm.uvoz.uporabniki.length > 0">
+    <div class="col" ng-show="vm.uvoz.uporabniki.length > 0">
       <h3 class="alert-success">Sprejeti študenti</h3>
       <div style="overflow-x: auto">
         <table border="1" width="100%" class="alert-success">
@@ -63,7 +63,7 @@
         </table>
       </div>
     </div>
-    <div class="row" ng-show="vm.uvoz.spremenjeni.length > 0">
+    <div class="col" ng-show="vm.uvoz.spremenjeni.length > 0">
       <h3 class="alert-info">Popravljeni študenti</h3>
       <div style="overflow-x: auto">
         <table border="1" width="100%" class="alert-info">
@@ -88,7 +88,7 @@
         </table>
       </div>
     </div>
-    <div class="row" ng-show="vm.uvoz.zavrnjeni.length > 0">
+    <div class="col" ng-show="vm.uvoz.zavrnjeni.length > 0">
       <h3 class="alert-danger">Neuspeli študenti</h3>
       <div style="overflow-x: auto">
         <table class="alert-danger" border="1" width="100%">
