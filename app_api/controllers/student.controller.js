@@ -682,12 +682,30 @@ function validateNacinStudija(req, res, next) {
 function ustvariStudentomZetone(req, res, next) {
   if(next) {
     req.myNext = next;
+    req.prviLetniki = [];
   }
-  
-  req.prviLetniki = [];
   
   if(req.studenti.length > 0) {
     req.student = req.studenti.shift();
+    
+    var studentObj = null;
+    
+    // Najdi ustrezen objekt študenta, iz katerega smo kreirali celoten objekt !!
+    for(var i = 0; i < req.queueStudentov.length; i++) {
+      if(req.queueStudentov[i].email == req.student.email) {
+        studentObj = req.queueStudentov.splice(i, 1)[0];
+        //console.log("Student OBJ:\n" + studentObj.ime);
+        break;
+      }
+    }
+    
+    if(!studentObj) {
+      console.log("## Napaka pri kreiranju žetona študentu ###");
+      return res.status(400).json({ message: "Prišlo do napake pri kreiranju žetona študentu!" });
+    }
+    
+    // Nadaljuj s kreiranjem študenta
+    req.studentObj = studentObj;
     
     callNext(req, res, [ najdiPrviLetnikPrograma, ustvariZetonNovemuStudentu, ustvariStudentomZetone ]);
   } else {
@@ -699,8 +717,8 @@ function ustvariStudentomZetone(req, res, next) {
 }
 function najdiPrviLetnikPrograma(req, res, next) {
   for(var i = 0; i < req.prviLetniki.length; i++) {
+    console.log(req.prviLetniki[i].program.sifra);
     if(req.prviLetniki[i].program.equals(req.studentObj.program)) {
-      
       req.letnik = req.prviLetniki[i].letnik;
       
       return callNext(req, res, next);
@@ -728,27 +746,11 @@ function najdiPrviLetnikPrograma(req, res, next) {
     });
 }
 function ustvariZetonNovemuStudentu(req, res, next) {
-  
-  var studentObj = null;
-  
-  for(var i = 0; i < req.queueStudentov.length; i++) {
-    if(req.queueStudentov[i].email == req.student.email) {
-      studentObj = req.queueStudentov.splice(i, 1)[0];
-      //console.log("Student OBJ:\n" + studentObj.ime);
-      break;
-    }
-  }
-  
-  if(!studentObj) {
-    console.log("## Napaka pri kreiranju žetona študentu ###");
-    return callNext(req, res, next);
-  }
-  
   req.student.zetoni.push({
     studijsko_leto: req.studijskoLeto,
     letnik: req.letnik,
-    studijski_program: studentObj.program,
-    vrsta_studija: studentObj.program.vrstaStudija,
+    studijski_program: req.studentObj.program,
+    vrsta_studija: req.studentObj.program.vrstaStudija,
     vrsta_vpisa: "5ac8be2a7482291008d3f9f5",
     
     nacin_studija: req.nacinStudija
@@ -756,6 +758,7 @@ function ustvariZetonNovemuStudentu(req, res, next) {
   
   req.student.save(function(err, student) {
     if(err || !student) {
+      console.log(err);
       return res.status(400).json({ message: "Napaka pri shranjevanju žetona" });
     }
     
