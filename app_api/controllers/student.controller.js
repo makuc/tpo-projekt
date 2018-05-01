@@ -647,7 +647,6 @@ function popraviStudenta(req, res, next) {
   });
 }
 
-
 function validateStudijskoLeto(req, res, next) {
   models.StudijskoLeto
     .findById(req.body.studijsko_leto)
