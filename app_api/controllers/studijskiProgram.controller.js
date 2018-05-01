@@ -107,8 +107,8 @@ function urediStudijskiProgram(req, res, next) {
     req.studijskiProgram.sifra = req.body.sifra;
   if(typeof req.body.naziv === 'string')
     req.studijskiProgram.naziv = req.body.naziv;
-  if(req.vrstaStudija)
-    req.studijskiProgram.vrstaStudija = req.vrstaStudija;
+  if(req.body.vrstaStudija)
+    req.studijskiProgram.vrstaStudija = req.body.vrstaStudija;
   if(typeof req.body.semestri === 'number' || typeof req.body.semestri === 'string')
     req.studijskiProgram.semestri = req.semestri;
   if(typeof req.body.sifraEVS === 'number' || typeof req.body.sifraEVS === 'string')

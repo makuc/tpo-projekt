@@ -7,6 +7,14 @@
     function dodajStudijskiProgramCtrl($location, ostaloPodatki, $routeParams){
         var vm = this;
         
+        ostaloPodatki.pridobiVseVeljavneVrsteStudije().then(
+            function success(odgovor){
+                vm.vrstaStudija = odgovor.data;
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            }
+        );
         
         vm.pridobi = function(){
         };

@@ -9,6 +9,15 @@
         
         vm.id = $routeParams.idStudijskegaPrograma;
         
+        ostaloPodatki.pridobiVseVeljavneVrsteStudije().then(
+            function success(odgovor){
+                vm.vrstaStudija = odgovor.data;
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            }
+        );
+        
         vm.pridobi = function(){
             ostaloPodatki.najdiStudijskiProgram(vm.id).then(
                 function success(odgovor){
@@ -30,6 +39,7 @@
             };
             ostaloPodatki.urediStudijskiProgram(vm.id, data).then(
                 function success(odgovor){
+                    console.log(odgovor);
                     $location.path("/urediStudijskePrograme");
                 },
                 function error(odgovor){

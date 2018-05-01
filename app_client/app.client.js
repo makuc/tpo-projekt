@@ -203,6 +203,11 @@
                 controller: 'dodajDelePredmetaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajIzpitniRok', {
+                templateUrl: 'views/dodajIzpitniRok.template.html',
+                controller: 'dodajIzpitniRokCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

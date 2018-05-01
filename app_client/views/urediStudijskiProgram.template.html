@@ -14,12 +14,12 @@
                 <input class="form-control" type="text" value="{{vm.podatki.naziv}}" ng-model="vm.podatki.naziv">
             </div>
         </div>
-  <!--      <div class="row">
+        <div class="row">
             <div class="form-group col-sm-4">
                 <label>Vrsta Študija:</label>
-                <input class="form-control" type="text" value="{{vm.podatki.vrstaStudija}}" ng-model="vm.podatki.vrstaStudija">
+                <select class="form-control" ng-model="vm.podatki.vrstaStudija" ng-options='vs as (vs.sifra + ", " + vs.opis) for vs in vm.vrstaStudija track by vs._id'></select>
             </div>
-        </div> -->
+        </div>
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Semestri:</label>
