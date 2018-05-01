@@ -8,6 +8,23 @@ var predmetStudentaSchema = new mongoose.Schema({
     zaporedni_poskus: {type: Number, min: 0, max: 7}
 });
 
+var zetonSchema = new mongoose.Schema({
+    studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
+    letnik: {type: ObjectId, ref: 'Letnik', required: true},
+    studijski_program: {type: ObjectId, ref: 'StudijskiProgram', required: true},
+    vrsta_studija: {type: ObjectId, ref: 'VrstaStudija', required: false},
+    vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: false},
+    
+    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: false},
+    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: false},
+    
+    neopravljeni_predmeti: [predmetStudentaSchema],
+    
+    prosta_izbira: {type: Boolean, "default": false},
+    
+    izkoriscen: {type: Boolean, "default": false}
+});
+
 var studijskoLetoStudenta = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     predmeti: [predmetStudentaSchema],
@@ -43,7 +60,9 @@ var studentSchema = new mongoose.Schema({
     datum_registracije: {type: Date, "default": Date.now},
     
     // Dodatni podatki - Združena tabela !!
-    studijsko_leto_studenta: [studijskoLetoStudenta]
+    studijsko_leto_studenta: [studijskoLetoStudenta],
+    
+    zetoni: [zetonSchema]
 });
 
 // Save this Scheme as a model
