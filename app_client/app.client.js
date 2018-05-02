@@ -184,7 +184,7 @@
                 controllerAs: 'vm'
             })
             .when('/dodajZaposlenega', {
-                templateUrl: 'views/dodajZaposlenega.template.html',
+                templateUrl: 'views/urediZaposlenega.template.html',
                 controller: 'dodajZaposlenegaCtrl',
                 controllerAs: 'vm'
             })

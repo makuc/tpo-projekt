@@ -1,9 +1,9 @@
 (function() {
     /* global angular */
     
-    urediLetnikeCtrl.$inject = ['ostaloPodatki', '$location'];
+    urediLetnikeCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
     
-    function urediLetnikeCtrl(ostaloPodatki, $location){
+    function urediLetnikeCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
         vm.prikaziLetnike = function(){
