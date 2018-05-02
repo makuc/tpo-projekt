@@ -22,7 +22,7 @@
         vm.prikaziZaposlene = function(){
             ostaloPodatki.pridobiVseZaposlene().then(
                 function success(odgovor){
-                    console.log(odgovor.data);
+                    //console.log(odgovor.data);
                     vm.vsiPodatki = odgovor.data;
                     vm.zaposleni = odgovor.data;
                     vm.stZaposlenih = vm.zaposleni.length;

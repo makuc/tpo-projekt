@@ -11,8 +11,8 @@
         };
         
         vm.shrani = function(){
-            console.log("ZAPOSLEN:");
-            console.log(vm.zaposlen);
+            //console.log("ZAPOSLEN:");
+            //console.log(vm.zaposlen);
             var zaposlen = {
                 ime: vm.zaposlen.zaposlen.ime,
                 priimek: vm.zaposlen.zaposlen.priimek,
