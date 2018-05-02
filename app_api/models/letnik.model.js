@@ -6,6 +6,10 @@ var letnikSchema = new mongoose.Schema({
     pogoj_letnik: {type: ObjectId, ref: 'Letnik', required: false},
     naziv: {type: String, required: true},
     
+    KT_izbirnihPredmetov: {type: Number, "default": 0},
+    KT_strokovnihIzbirnihPredmetov: {type: Number, "default": 0},
+    st_modulov: {type: Number, "default": 0},
+    
     valid: {type: Boolean, "default": true}
 });
 

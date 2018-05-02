@@ -37,6 +37,7 @@ var ctrl = {
     student: require("../controllers/student.controller"),
     
     zeton: require("../controllers/zeton.controller.js"),
+    vpis: require("../controllers/vpis.controller")
 };
 
 
@@ -57,7 +58,6 @@ router.post("/uporabnik", ctrl.users.addUser);
 router.delete("/uporabnik/:user", ctrl.users.deleteUser);
 router.put("/uporabnik/:user", ctrl.users.updateUser);
 
-
 // Študenti
 router.get('/student', ctrl.student.getStudente);
 router.post('/student', ctrl.student.createStudenta);
@@ -73,7 +73,10 @@ router.put('/zeton/:student_id/:zeton_id', ctrl.zeton.urediZeton);
 router.delete('/zeton/:student_id/:zeton_id', ctrl.zeton.izbrisZetona);
 
 // Vpisi
-//router.get('/vpis/:student_id', ctrl.vpis.lahkoVpise);
+router.post('/vpis/zeton', ctrl.vpis.pripraviVpisniList);
+router.get('/vpis/:vpisniList_id', ctrl.vpis.najdiVpisniList);
+router.put('/vpis/:vpisniList_id', ctrl.vpis.urediVpisniList);
+router.post('/vpis/:vpisniList_id', ctrl.vpis.oddajVpisniList);
 
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);

@@ -31,7 +31,20 @@ var models = {
 
 
 module.exports.pripraviVpisniList = function(req, res) {
-  callNext(req, res, [ najdiStudentaId, pripraviVpisniList, porabiZeton, vrniVpisniList ]);
+  callNext(req, res, [ najdiStudentaId, pripraviVpisniList, porabiZeton, vrniVpisniListId ]);
+};
+module.exports.najdiVpisniList = function(req, res) {
+  callNext(req, res, [ najdiVpisniListId, najdiPredmetnike, vrniVpisniList ]);
+};
+module.exports.urediVpisniList = function(req, res) {
+  callNext(req, res, [
+    vrniVpisniList
+  ]);
+};
+module.exports.oddajVpisniList = function(req, res) {
+  callNext(req, res, [
+    najdiVpisniListId, oddajaVpisnegaLista, vrniVpisniList
+  ]);
 };
 
 
@@ -39,7 +52,7 @@ module.exports.pripraviVpisniList = function(req, res) {
 /* Funkcije kontrolerja */
 function najdiStudentaId(req, res, next) {
   models.Student
-    .findById(req.params.student_id)
+    .findById(req.user.student)
     .exec(function(err, student) {
       if(err || !student) {
         return res.status(404).json({ message: "Izbrani študent ne obstaja"});
@@ -51,16 +64,20 @@ function najdiStudentaId(req, res, next) {
     });
 }
 function pripraviVpisniList(req, res, next) {
-  if(req.params.zeton_id) {
-    req.zeton = req.student.zetoni.id(req.params.zeton_id);
+  if(req.body.zeton) {
+    req.zeton = req.student.zetoni.id(req.body.zeton);
     
-    if(!req.zeton) {
+    if(!req.zeton)
+    {
+      console.log(req.student);
       return res.status(403).json({ message: "Nimaš zahtevanega žetona"});
-    } else if(req.zeton.izkoriscen) {
+    }
+    else if(req.zeton.izkoriscen)
+    {
       return res.status(404).json({ message: "Ta žeton je že bil izkoriščen"});
     }
     
-    req.vpisniList = new models.Vpis({
+    models.Vpis.create({
       
       student: req.student,
       
@@ -75,11 +92,20 @@ function pripraviVpisniList(req, res, next) {
       
       neopravljeni_predmeti: req.zeton.neopravljeni_predmeti,
       
-      prosta_izbira: req.zeton.prosta_izbira
+      prosta_izbira: req.zeton.prosta_izbira,
       
+      studijsko_leto_prvega_vpisa_v_ta_program: req.zeton.studijsko_leto_prvega_vpisa_v_ta_program || req.zeton.studijsko_leto
+      
+    }, function(err, vpisniList) {
+      if(err || !vpisniList) {
+        console.log("---pripraviVpisniList:\n" + err);
+        return res.status(403).json({ message: "Ne morem ustvariti novega vpisnega lista z izbranim žetonom"});
+      }
+      
+      req.vpisniList = vpisniList;
+      
+      callNext(req, res, next);
     });
-    
-    callNext(req, res, next);
   }
 }
 function porabiZeton(req, res, next) {
@@ -97,7 +123,141 @@ function porabiZeton(req, res, next) {
   });
   
 }
+function vrniVpisniListId(req, res, next) {
+  res.status(201).json({ vpisniList_id: req.vpisniList._id });
+}
+
+function najdiVpisniListId(req, res, next) {
+  models.Vpis
+    .findOne({
+      student: req.user.student,
+      _id: req.params.vpisniList_id
+    })
+    .populate([
+      {
+        path: "student"
+      },
+      {
+        path: "studijsko_leto"
+      },
+      {
+        path: "letnik"
+      },
+      {
+        path: "studijski_program"
+      },
+      {
+        path: "studijsko_leto_prvega_vpisa_v_ta_program"
+      }
+    ])
+    .exec(function(err, vpisniList) {
+      if(err || !vpisniList) {
+        return res.status(404).json({ message: "Izbranega vpisnega lista ni mogoče najti"});
+      }
+      
+      req.vpisniList = vpisniList;
+      
+      callNext(req, res, next);
+    });
+}
+function najdiPredmetnike(req, res, next) {
+  models.Predmetnik
+    .find({
+      letnik: req.vpisniList.letnik
+    })
+    .populate("predmeti del_predmetnika")
+    .exec(function(err, predmetniki) {
+      if(err || !predmetniki) {
+        console.log("---najdiPredmetnike:\n" + err);
+        return res.status(404).json({ message: "Ne najdem potrebnih predmetnikov"});
+      }
+      
+      req.obvezniPredmeti = [];
+      req.izbirniPredmeti = [];
+      req.strokovniIzbirniPredmeti = [];
+      req.moduliPredmetniki = [];
+      
+      var predmetnik;
+      
+      while(predmetniki.length > 0) {
+        predmetnik = predmetniki.shift().toObject();
+        
+        var predmet;
+        
+        // Prikaži samo izvedbo predmeta za izbrano študijsko leto, ostale izbriši/skrij
+        for(var i = 0; i < predmetnik.predmeti.length; i++) {
+          predmet = predmetnik.predmeti[i];
+          
+          // Preveri, če obstaja izvedba predmeta za trenutno študijsko leto
+          while(predmet.izvedbe_predmeta.length > 0) {
+            var izvedba = predmet.izvedbe_predmeta.shift();
+            
+            if(izvedba.studijsko_leto.equals(req.vpisniList.studijsko_leto._id)) {
+              // Če obstaja, pobriši vse ostale izvedbe predmeta in shrani samo izbrano
+              predmet.izvedba_predmeta = izvedba;
+              predmet.izvedbe_predmeta = undefined;
+              break;
+            }
+          }
+          
+          // Poglej, če si našel veljavno izvedbo predmeta, drugače izbriši predmet
+          if(!predmet.izvedba_predmeta) {
+            predmetnik.predmeti.splice(i, 1);
+          }
+        }
+        
+        // Prerazporedi predmete iz predmetnikov v ustrezne kategorije!
+        if(predmetnik.del_predmetnika.obvezen) {
+          while(predmetnik.predmeti.length > 0) {
+            predmet = predmetnik.predmeti.shift();
+            req.obvezniPredmeti.push(predmet);
+          }
+        }
+        else if(predmetnik.del_predmetnika.modul) {
+          req.moduliPredmetniki.push(predmetnik);
+        }
+        else if(predmetnik.del_predmetnika.strokovni) {
+          while(predmetnik.predmeti.length > 0) {
+            predmet = predmetnik.predmeti.shift();
+            req.strokovniIzbirniPredmeti.push(predmet);
+          }
+        }
+        else {
+          while(predmetnik.del_predmetnika.predmeti.length > 0) {
+            predmet = predmetnik.predmeti.shift();
+            req.izbirniPredmeti.push(predmet);
+          }
+        }
+      }
+      
+      callNext(req, res, next);
+    });
+}
 
 function vrniVpisniList(req, res, next) {
-  res.status(200).json(req.vpisniList);
+  res.status(200).json({
+    vpisniList: req.vpisniList,
+    
+    obvezniPredmeti: req.obvezniPredmeti,
+    strokovniIzbirniPredmeti: req.strokovniIzbirniPredmeti,
+    izbirniPredmeti: req.izbirniPredmeti,
+    
+    moduliPredmetniki: req.moduliPredmetniki
+  });
+}
+
+// Oddaj vpisni list
+function oddajaVpisnegaLista(req, res, next) {
+  req.vpisniList.valid = true;
+  req.vpisniList.vpisan = Date.now();
+  
+  req.vpisniList.save(function(err, vpisniList) {
+    if(err || "vpisniList") {
+      return res.status(400).json({ message: "Napaka pri oddaji vpisnega lista"});
+    }
+    
+    req.vpisniList = vpisniList;
+    
+    callNext(req, res, next);
+  });
 }

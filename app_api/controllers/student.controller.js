@@ -716,7 +716,6 @@ function ustvariStudentomZetone(req, res, next) {
 }
 function najdiPrviLetnikPrograma(req, res, next) {
   for(var i = 0; i < req.prviLetniki.length; i++) {
-    console.log(req.prviLetniki[i].program.sifra);
     if(req.prviLetniki[i].program.equals(req.studentObj.program)) {
       req.letnik = req.prviLetniki[i].letnik;
       
