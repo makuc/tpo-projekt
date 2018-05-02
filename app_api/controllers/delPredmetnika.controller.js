@@ -43,13 +43,13 @@ module.exports.getDel = function(req, res) {
   callNext(req, res, [ najdiDelId, vrniDel ]);
 };
 module.exports.addDel = function(req, res) {
-  if(!req.body || !req.body.sifra || !req.body.naziv)
+  if(!req.body || !req.body.sifra || !req.body.naziv || !req.body.obvezen)
     return res.status(400).json({ message: "Manjkajo podatki za kreiranje dela predmetnika" });
   
   callNext(req, res, [ najdiDelSifra, createDel ]);
 };
 module.exports.editDel = function(req, res) {
-  if(!req.body || (!req.body.sifra && !req.body.naziv)) {
+  if(!req.body || (!req.body.sifra && !req.body.naziv && !req.body.obvezen && !req.body.strokovni && !req.body.modul)) {
     return res.status(400).json({ message: "Nobenega podatka dela predmetnika ne spreminjaš" });
   }
   
@@ -80,7 +80,10 @@ function najdiDelSifra(req, res, next) {
 function createDel(req, res, next) {
   DelPredmetnika.create({
     sifra: req.body.sifra,
-    naziv: req.body.naziv
+    naziv: req.body.naziv,
+    obvezen: req.body.obvezen,
+    strokovni: req.body.strokovni,
+    modul: req.body.modul
   }, function(err, delPredmetnika) {
     if(err) {
       //console.log(err);
@@ -108,6 +111,12 @@ function urediDel(req, res, next) {
     req.delPredmetnika.sifra = req.body.sifra;
   if(req.body.naziv)
     req.delPredmetnika.naziv = req.body.naziv;
+  if(req.body.obvezen)
+    req.delPredmetnika.obvezen = req.body.obvezen;
+  if(req.body.strokovni)
+    req.delPredmetnika.strokovni = req.body.strokovni;
+  if(req.body.modul)
+    req.delPredmetnika.modul = req.body.modul;
   
   req.delPredmetnika.save(function(err, delPredmetnika) {
     if(err)

@@ -1066,10 +1066,10 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8df8efeae4c1cfd56305d"),"sifra":"63703","naziv":"Računska arhitektura"}
     ],
     deliPredmetnika: [
-{ "_id": ObjectId("5ac8d60f7bfd491b48490279"), "sifra": 1, "naziv": "obvezni predmeti" },
-{ "_id": ObjectId("5ac8d60f7bfd491b4849027a"), "sifra": 2, "naziv": "strokovni izbirni" },
-{ "_id": ObjectId("5ac8d60f7bfd491b4849027b"), "sifra": 3, "naziv": "splošni izbirni" },
-{ "_id": ObjectId("5ac8d60f7bfd491b4849027c"), "sifra": 4, "naziv": "moduli" }
+{ "_id": ObjectId("5ac8d60f7bfd491b48490279"), "sifra": 1, "naziv": "obvezni predmeti", "obvezen": true },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027a"), "sifra": 2, "naziv": "strokovni izbirni", "obvezen": false, "strokovni": true },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027b"), "sifra": 3, "naziv": "splošni izbirni", "obvezen": false },
+{ "_id": ObjectId("5ac8d60f7bfd491b4849027c"), "sifra": 4, "naziv": "moduli", "obvezen": false, "modul": true }
     ],
     predmetniki: [
 {"_id":ObjectId("5ac8e2dddf3a431fd3d29278"),"studijski_program":ObjectId("5ac8c4739a223311d219b718"),"studijsko_leto":ObjectId("5ac3c4553f0fb21a058ff3da"),"letnik":ObjectId("5ac8d21c962f7b1a105fd312"),"del_predmetnika":ObjectId("5ac8d60f7bfd491b48490279"),"predmeti":[ObjectId("5ac8df8efeae4c1cfd56301b"),ObjectId("5ac8df8efeae4c1cfd56301c")]},

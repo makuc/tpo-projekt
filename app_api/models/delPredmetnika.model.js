@@ -5,6 +5,11 @@ var delPredmetnikaSchema = new mongoose.Schema({
     sifra: {type: Number, required: true},
     naziv: {type: String, required: true},
     
+    obvezen: {type: Boolean, required: true},
+    
+    strokovni: {type: Boolean, "default": false},
+    modul: {type: Boolean, "default": false},
+    
     valid: {type: Boolean, "default": true}
 });
 
