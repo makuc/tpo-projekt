@@ -14,8 +14,8 @@ var vpisSchema = new mongoose.Schema({
     
     studijsko_leto_prvega_vpisa_v_ta_program: {type: ObjectId, red: 'StudijskoLeto', required: true},
     
-    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: true},
-    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: true},
+    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: false},
+    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: false},
     
     usmeritev: {type: String, required: false},
     izbirna_skupina: {type: String, required: false},
