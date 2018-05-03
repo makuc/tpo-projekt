@@ -7,7 +7,11 @@
   function dodajLetnikCtrl($location, ostaloPodatki, $routeParams){
     var vm = this;
     
-    vm.letnik = {};
+    vm.letnik = {
+      pogoj_letnik: "",
+      studijskiProgrami: "",
+      naziv: ""
+    };
     
     vm.pridobiLetnik = function(){
     };
@@ -37,8 +41,10 @@
     vm.shrani = function(){
       //console.log("ZAPOSLEN:");
       //console.log(vm.zaposlen);
+      
+      console.log(vm.letnik.studijskiProgram);
       var letnik = {
-        studijskiProgram: vm.letnik.studijskiProgram,
+        studijski_program: vm.letnik.studijskiProgram,
         pogoj_letnik: vm.letnik.pogoj_letnik,
         naziv: vm.letnik.naziv,
         /*KT_izbirnihPredmetov: 42,
