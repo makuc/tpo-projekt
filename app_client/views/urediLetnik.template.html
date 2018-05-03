@@ -20,6 +20,24 @@
                 <select class="form-control" ng-model="vm.letnik.pogoj_letnik" ng-options='po._id as (po.naziv + ", " + po.studijskiProgram.vrstaStudija.opis) for po in vm.pogoji track by po._id'></select>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>KT izbirnih predmetov:</label>
+                <input class="form-control" type="text" ng-model="vm.letnik.KT_izbirnihPredmetov">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>KT strokovnih izbirnih predmetov:</label>
+                <input class="form-control" type="text" ng-model="vm.letnik.KT_strokovnihIzbirnihPredmetov">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>KT modulov:</label>
+                <input class="form-control" type="text" ng-model="vm.letnik.KT_modulov">
+            </div>
+        </div>
         <button class="btn btn-success"  type="submit">Shrani</button>
         <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
     </div>

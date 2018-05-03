@@ -47,9 +47,9 @@
         studijski_program: vm.letnik.studijskiProgram,
         pogoj_letnik: vm.letnik.pogoj_letnik,
         naziv: vm.letnik.naziv,
-        /*KT_izbirnihPredmetov: 42,
-        KT_strokovnihIzbirnihPredmetov: 43,
-        st_modulov: 44,*/
+        KT_izbirnihPredmetov: vm.letnik.KT_izbirnihPredmetov,
+        KT_strokovnihIzbirnihPredmetov: vm.letnik.KT_strokovnihIzbirnihPredmetov,
+        KT_modulov: vm.letnik.KT_modulov
       };
       ostaloPodatki.dodajLetnik(letnik).then(
         function success(odgovor){
