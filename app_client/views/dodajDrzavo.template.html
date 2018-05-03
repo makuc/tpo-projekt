@@ -1,0 +1,40 @@
+<div ng-init="vm.pridobiDrzavo()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Dvomestna koda:</label>
+                <input class="form-control" type="text" value="{{vm.drzava.drzava.dvomestna_koda}}" ng-model="vm.drzava.drzava.dvomestna_koda">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Trimestna koda:</label>
+                <input class="form-control" type="text" value="{{vm.drzava.drzava.trimestna_koda}}" ng-model="vm.drzava.drzava.trimestna_koda">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Numerična oznaka:</label>
+                <input class="form-control" type="text" value="{{vm.drzava.drzava.numericna_oznaka}}" ng-model="vm.drzava.drzava.numericna_oznaka">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>ISO naziv:</label>
+                <input class="form-control" type="text" value="{{vm.drzava.drzava.ISO_naziv}}" ng-model="vm.drzava.drzava.ISO_naziv">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Slovenski naziv:</label>
+                <input class="form-control" type="text" value="{{vm.drzava.drzava.slovenski_naziv}}" ng-model="vm.drzava.drzava.slovenski_naziv">
+            </div>
+        </div>
+
+        
+        <button class="btn btn-success"  type="submit">Shrani</button>
+        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>
