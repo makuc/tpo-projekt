@@ -208,6 +208,21 @@
                 controller: 'dodajIzpitniRokCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediObcine', {
+                templateUrl: 'views/urediObcine.template.html',
+                controller: 'urediObcineCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPoste', {
+                templateUrl: 'views/urediPoste.template.html',
+                controller: 'urediPosteCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediDrzave', {
+                templateUrl: 'views/urediDrzave.template.html',
+                controller: 'urediDrzaveCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
