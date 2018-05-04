@@ -29,6 +29,8 @@ var vpisSchema = new mongoose.Schema({
     
     vpisan: {type: Date, "default": Date.now()},
     
+    predmeti: [{type: ObjectId, ref: 'Predmet'}],
+    
     modulniPredmeti: [{type: ObjectId, ref: 'Predmet'}],
     moduli: [{type: ObjectId, ref: 'Predmetnik'}],
     splosniIzbirniPredmeti: [{type: ObjectId, ref: 'Predmet'}],

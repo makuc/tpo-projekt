@@ -8,7 +8,7 @@ var letnikSchema = new mongoose.Schema({
     
     KT_izbirnihPredmetov: {type: Number, "default": 0},
     KT_strokovnihIzbirnihPredmetov: {type: Number, "default": 0},
-    KT_modulov: {type: Number, "default": 0},
+    st_modulov: {type: Number, "default": 0},
     
     valid: {type: Boolean, "default": true}
 });

@@ -36,7 +36,7 @@ module.exports.pripraviVpisniList = function(req, res) {
   callNext(req, res, [ najdiStudentaId, pripraviVpisniList, porabiZeton, vrniVpisniListId ]);
 };
 module.exports.najdiVpisniList = function(req, res) {
-  callNext(req, res, [ najdiVpisniListId, najdiPredmetnike, vrniVpisniList ]);
+  callNext(req, res, [ najdiStudentaId, najdiVpisniListId, najdiPredmetnike, vrniVpisniList ]);
 };
 module.exports.urediVpisniList = function(req, res) {
   if(!req.body || !req.body.oblika_studija) {
@@ -64,7 +64,7 @@ function najdiStudentaId(req, res, next) {
         return res.status(404).json({ message: "Izbrani študent ne obstaja"});
       }
       
-      req.student = student;
+      req.student = student.toObject();
       
       callNext(req, res, next);
     });
@@ -290,8 +290,19 @@ function validatePredmet(req, res, next) {
     });
 }
 
-function pridobiVseOpravljenePredmete(req, res, next) {
+function pridobiVseOpravljanePredmete(req, res, next) {
+  req.opravljaniPredmeti = [];
   
+  var studijskaLeta = req.student.studijska_leta_studenta.slice(0);
+  var studijskoLeto;
+  
+  while(studijskaLeta.length > 0) {
+    studijskoLeto = req.student.studijska_leta_studenta.shift();
+    
+    while(studijskoLeto.predmeti.length > 0) {
+      
+    }
+  }
 }
 
 function moduleVModulnePredmete(req, res, next) {
