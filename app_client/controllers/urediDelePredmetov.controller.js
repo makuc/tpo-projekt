@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    urediZaposleneCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    urediDelePredmetovCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
     
     
-    function urediZaposleneCtrl(ostaloPodatki, $scope, $location){
+    function urediDelePredmetovCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
         vm.nextPage = function(){
@@ -19,33 +19,33 @@
             vm.trenutnaStran = x-1;
         };
         
-        vm.prikaziZaposlene = function(){
-            ostaloPodatki.pridobiVseZaposlene().then(
+        vm.prikaziDelePredmetnika = function(){
+            ostaloPodatki.pridobiVseDelePredmetnika().then(
                 function success(odgovor){
                     //console.log(odgovor.data);
                     vm.vsiPodatki = odgovor.data;
-                    vm.zaposleni = odgovor.data;
-                    vm.stZaposlenih = vm.zaposleni.length;
-                    vm.stZaposlenihNaStran = 10;
+                    vm.deliPredmetnika = odgovor.data;
+                    vm.stDelovPredmetnika = vm.deliPredmetnika.length;
+                    vm.stDelovPredmetnikaNaStran = 10;
                     vm.trenutnaStran = 0;
                     
                     var array = [setPagingData(1)];
                     
                     vm.strani = [1];
                     
-                    for(var i = 2; i <= (vm.stZaposlenih/10)+1; i++){
+                    for(var i = 2; i <= (vm.stDelovPredmetnika/10)+1; i++){
                         array.push(setPagingData(i));
                         vm.strani.push(i);
                     }
                     
                     function setPagingData(page){
-                        var pagedData = vm.zaposleni.slice(
-                            (page - 1) * vm.stZaposlenihNaStran,
-                            page * vm.stZaposlenihNaStran
+                        var pagedData = vm.deliPredmetnika.slice(
+                            (page - 1) * vm.stDelovPredmetnikaNaStran,
+                            page * vm.stDelovPredmetnikaNaStran
                             );
                         return pagedData;
                     }
-                    vm.zaposleni = array;
+                    vm.deliPredmetnika = array;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -53,10 +53,10 @@
             );
         };
         
-        vm.izbris = function(zaposlenId){
-            ostaloPodatki.izbrisiZaposlenega(zaposlenId).then(
+        vm.izbris = function(delPredmetnikaId){
+            ostaloPodatki.izbrisiDelPredmetnika(delPredmetnikaId).then(
                 function success(odgovor){
-                    vm.prikaziZaposlene();
+                    vm.prikaziDelePredmetnika();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -64,10 +64,10 @@
             );
         };
         
-        vm.obnovi = function(zaposlenId){
-            ostaloPodatki.obnoviZaposlenega(zaposlenId).then(
+        vm.obnovi = function(delPredmetnikaId){
+            ostaloPodatki.obnoviDelPredmetnika(delPredmetnikaId).then(
                 function success(odgovor){
-                    vm.prikaziZaposlene();
+                    vm.prikaziDelePredmetnika();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -75,14 +75,14 @@
             );
         };
         
-        vm.uredi = function(zaposlenId){
-            $location.path("/urediZaposlenega/" + zaposlenId);
+        vm.uredi = function(prikaziDelePredmetnika){
+            $location.path("/urediDelePredmeta/" + prikaziDelePredmetnika);
         };
         
     }
     
     angular
         .module('tpo')
-        .controller('urediZaposleneCtrl', urediZaposleneCtrl);
+        .controller('urediDelePredmetovCtrl', urediDelePredmetovCtrl);
     
 })();

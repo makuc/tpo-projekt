@@ -18,6 +18,9 @@
   width: 5.5em;
   text-align: center;
 }
+.custom {
+  width: 20em;
+}
 </style>
 <header></header>
 
@@ -28,6 +31,16 @@
       <form role="form"  class="form-horizonral">
         <div role="alert" ng-show="vm.formError" class="alert alert-danger" ng-bind-html="vm.formError"></div>
         <div class="row">
+          <div class="form-group col-sm-12">
+            <label>Študijsko leto</label>
+            <select class="form-control custom" ng-model="vm.podatki.studijsko_leto"
+                ng-options="leto._id as leto.studijsko_leto for leto in vm.studijskaLeta track by leto._id" required=""></select>
+          </div>
+          <div class="form-group col-sm-12">
+            <label>Način študija</label>
+            <select class="form-control custom" ng-model="vm.podatki.nacin_studija"
+                ng-options="nacin._id as nacin.naziv for nacin in vm.naciniStudija track by nacin._id" required=""></select>
+          </div>
        		<div>
       			Izberi tekstovno datoteko: 
       			<input type="file" id="fileInput" >

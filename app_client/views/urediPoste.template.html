@@ -1,0 +1,81 @@
+<navigation></navigation>
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <a href="/dodajPosto" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <div class="container table-responsive">
+        <table ng-show="!iskanje" id="tabela_post" class="table table-hover" ng-init="vm.prikaziPoste()">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Poštna številka</th>
+                    
+                </tr>
+            </thead>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.predmeti.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="posta in vm.poste[vm.trenutnaStran]" ng-class="(posta.valid ? '' : 'alert alert-danger')">
+                    <td>{{ posta.naziv }}</td>
+                    <td>{{ posta.postna_stevilka }}</td>
+                   
+                   
+                    <td>
+                        <button ng-show="{{posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(posta._id)">Izbriši</button>
+                        <button ng-show="{{!posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(posta._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziPoste()">
+            <thead>
+                <tr>
+                   
+                     <th>Naziv</th>
+                    <th>Poštna številka</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="posta in vm.vsiPodatki | filter: iskanje" ng-class="(posta.valid ? '' : 'alert alert-danger')">
+                     <td>{{ posta.naziv }}</td>
+                    <td>{{ posta.postna_stevilka }}</td>
+                   
+                   
+                    <td>
+                        <button ng-show="{{posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(posta._id)">Izbriši</button>
+                        <button ng-show="{{!posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(posta._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>

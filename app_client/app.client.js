@@ -223,6 +223,36 @@
                 controller: 'dodajIzpitniRokCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediObcine', {
+                templateUrl: 'views/urediObcine.template.html',
+                controller: 'urediObcineCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPoste', {
+                templateUrl: 'views/urediPoste.template.html',
+                controller: 'urediPosteCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediDrzave', {
+                templateUrl: 'views/urediDrzave.template.html',
+                controller: 'urediDrzaveCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajPosto', {
+                templateUrl: 'views/dodajPosto.template.html',
+                controller: 'dodajPostoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajObcino', {
+                templateUrl: 'views/dodajObcino.template.html',
+                controller: 'dodajObcinoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajDrzavo', {
+                templateUrl: 'views/dodajDrzavo.template.html',
+                controller: 'dodajDrzavoCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

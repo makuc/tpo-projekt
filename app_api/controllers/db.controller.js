@@ -986,8 +986,8 @@ var zacetniPodatki = {
     ],
     letniki: [
 { "_id": ObjectId("5ac8d21c962f7b1a105fd312"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "1. letnik" },
-{ "_id": ObjectId("5ac8d21c962f7b1a105fd313"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "2. letnik", "pogoj_letnik": ObjectId("5ac8d21c962f7b1a105fd312"), "KT_strokovnihIzbirnihPredmetov": 1, "KT_izbirnihPredmetov": 1 },
-{ "_id": ObjectId("5ac8d21c962f7b1a105fd314"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "3. letnik", "pogoj_letnik": ObjectId("5ac8d21c962f7b1a105fd313"), "st_modulov": 2 },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd313"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "2. letnik", "pogoj_letnik": ObjectId("5ac8d21c962f7b1a105fd312"), "KT_strokovnihIzbirnihPredmetov": 6, "KT_izbirnihPredmetov": 6 },
+{ "_id": ObjectId("5ac8d21c962f7b1a105fd314"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b718"), "naziv": "3. letnik", "pogoj_letnik": ObjectId("5ac8d21c962f7b1a105fd313"), "KT_modulov": 36 },
 { "_id": ObjectId("5ac8d21c962f7b1a105fd315"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b719"), "naziv": "1. letnik" },
 { "_id": ObjectId("5ac8d21c962f7b1a105fd316"), "studijskiProgram": ObjectId("5ac8c4739a223311d219b719"), "naziv": "2. letnik", "pogoj_letnik": ObjectId("5ac8d21c962f7b1a105fd315") },
     ],

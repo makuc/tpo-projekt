@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    urediZaposleneCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    urediObcineCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
     
     
-    function urediZaposleneCtrl(ostaloPodatki, $scope, $location){
+    function urediObcineCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
         vm.nextPage = function(){
@@ -19,33 +19,32 @@
             vm.trenutnaStran = x-1;
         };
         
-        vm.prikaziZaposlene = function(){
-            ostaloPodatki.pridobiVseZaposlene().then(
+        vm.prikaziObcine = function(){
+            ostaloPodatki.pridobiVseObcine().then(
                 function success(odgovor){
-                    //console.log(odgovor.data);
                     vm.vsiPodatki = odgovor.data;
-                    vm.zaposleni = odgovor.data;
-                    vm.stZaposlenih = vm.zaposleni.length;
-                    vm.stZaposlenihNaStran = 10;
+                    vm.obcine = odgovor.data;
+                    vm.stObcin = vm.obcine.length;
+                    vm.stObcinNaStran = 10;
                     vm.trenutnaStran = 0;
                     
                     var array = [setPagingData(1)];
                     
                     vm.strani = [1];
                     
-                    for(var i = 2; i <= (vm.stZaposlenih/10)+1; i++){
+                    for(var i = 2; i <= (vm.stObcin/10)+1; i++){
                         array.push(setPagingData(i));
                         vm.strani.push(i);
                     }
                     
                     function setPagingData(page){
-                        var pagedData = vm.zaposleni.slice(
-                            (page - 1) * vm.stZaposlenihNaStran,
-                            page * vm.stZaposlenihNaStran
+                        var pagedData = vm.obcine.slice(
+                            (page - 1) * vm.stObcinNaStran,
+                            page * vm.stObcinNaStran
                             );
                         return pagedData;
                     }
-                    vm.zaposleni = array;
+                    vm.obcine = array;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -53,10 +52,10 @@
             );
         };
         
-        vm.izbris = function(zaposlenId){
-            ostaloPodatki.izbrisiZaposlenega(zaposlenId).then(
+        vm.izbris = function(obcinaId){
+            ostaloPodatki.izbrisiObcino(obcinaId).then(
                 function success(odgovor){
-                    vm.prikaziZaposlene();
+                    vm.prikaziObcine();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -64,10 +63,10 @@
             );
         };
         
-        vm.obnovi = function(zaposlenId){
-            ostaloPodatki.obnoviZaposlenega(zaposlenId).then(
+        vm.obnovi = function(obcinaId){
+            ostaloPodatki.obnoviObcino(obcinaId).then(
                 function success(odgovor){
-                    vm.prikaziZaposlene();
+                    vm.prikaziObcine();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -75,14 +74,14 @@
             );
         };
         
-        vm.uredi = function(zaposlenId){
-            $location.path("/urediZaposlenega/" + zaposlenId);
-        };
+       // vm.uredi = function(drzavaId){
+       //     $location.path("/urediPredmet/" + drzavaId);
+      //  };
         
     }
     
     angular
         .module('tpo')
-        .controller('urediZaposleneCtrl', urediZaposleneCtrl);
+        .controller('urediObcineCtrl', urediObcineCtrl);
     
 })();

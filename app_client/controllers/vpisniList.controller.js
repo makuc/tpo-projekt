@@ -35,7 +35,7 @@
             var n = 7;
             var sum = 0;
             for (var i = 0; i < 12; i++){
-                var EMSOdigit = parseInt(inputEMSO.substring(i, i + 1));
+                var EMSOdigit = parseInt(inputEMSO.substring(i, i + 1), 10);
                 if(isNaN(EMSOdigit)){
                     return false;
                 }
@@ -51,7 +51,7 @@
                 return true;
             }
             return false;
-        }
+        };
         vm.izbranNaslov = function(stalno) {
             if(stalno) {
                 if(vm.student.stalno_bivalisce_vrocanje)
