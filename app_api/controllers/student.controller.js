@@ -542,7 +542,7 @@ function validateEmail(req, res, next) {
   });
 }
 function najdiStudijskiProgram(req, res, next) {
-  models.StudijskiProgram.findOne({ sifra: req.studentObj.program }, function(err, program) {
+  models.StudijskiProgram.findOne({ sifraEVS: req.studentObj.program }, function(err, program) {
     if(err || !program) {
       req.studentObj.razlog = "Neveljaven program";
       req.zavrnjeni.push(req.studentObj);

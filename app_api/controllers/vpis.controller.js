@@ -31,13 +31,19 @@ var models = {
 
 
 module.exports.pripraviVpisniList = function(req, res) {
+  if(!req.body || !req.body.zeton)
+    return res.status(400).json({ message: "Ni izbranega žetona"});
   callNext(req, res, [ najdiStudentaId, pripraviVpisniList, porabiZeton, vrniVpisniListId ]);
 };
 module.exports.najdiVpisniList = function(req, res) {
   callNext(req, res, [ najdiVpisniListId, najdiPredmetnike, vrniVpisniList ]);
 };
 module.exports.urediVpisniList = function(req, res) {
+  if(!req.body || !req.body.oblika_studija) {
+    return res.status(400).json({ message: "Ni vseh potrebnih podatkov"});
+  }
   callNext(req, res, [
+    validateOblikaStudija,
     vrniVpisniList
   ]);
 };
@@ -69,7 +75,7 @@ function pripraviVpisniList(req, res, next) {
     
     if(!req.zeton)
     {
-      console.log(req.student);
+      //console.log(req.student);
       return res.status(403).json({ message: "Nimaš zahtevanega žetona"});
     }
     else if(req.zeton.izkoriscen)
@@ -94,7 +100,9 @@ function pripraviVpisniList(req, res, next) {
       
       prosta_izbira: req.zeton.prosta_izbira,
       
-      studijsko_leto_prvega_vpisa_v_ta_program: req.zeton.studijsko_leto_prvega_vpisa_v_ta_program || req.zeton.studijsko_leto
+      studijsko_leto_prvega_vpisa_v_ta_program: req.zeton.studijsko_leto_prvega_vpisa_v_ta_program || req.zeton.studijsko_leto,
+      
+      kraj_izvajanja: "Ljubljana"
       
     }, function(err, vpisniList) {
       if(err || !vpisniList) {
@@ -245,6 +253,55 @@ function vrniVpisniList(req, res, next) {
     moduliPredmetniki: req.moduliPredmetniki
   });
 }
+
+// Izpolnjevanje vpisnega lista
+/*
+oblika_studija
+
+modulniPredmeti
+strokovniIzbirniPredmeti
+splosniIzbirniPredmeti
+obvezniPredmeti
+*/
+function validateOblikaStudija(req, res, next) {
+  models.OblikaStudija
+    .findById(req.body.oblika_studija)
+    .exec(function(err, oblikaStudija) {
+      if(err) {
+        return res.status(400).json({ message: "Neveljavna oblika študija"});
+      }
+      
+      req.oblikaStudija = oblikaStudija;
+      
+      callNext(req, res, next);
+    });
+}
+function validatePredmet(req, res, next) {
+  models.Predmet
+    .findById(req.predmet)
+    .exec(function(err, predmet) {
+      if(err || !predmet) {
+        return res.status(404).json({ message: "Izbran neveljaven predmet"});
+      }
+      
+      req.predmet = predmet;
+      
+      callNext(req, res, next);
+    });
+}
+
+function pridobiVseOpravljenePredmete(req, res, next) {
+  
+}
+
+function moduleVModulnePredmete(req, res, next) {
+  if(!req.vpisniList.prosta_izbira) {
+    // Pretvori module v dejanske predmete
+  } else {
+    callNext(req, res, next);
+  }
+}
+
 
 // Oddaj vpisni list
 function oddajaVpisnegaLista(req, res, next) {
