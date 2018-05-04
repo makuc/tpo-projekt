@@ -435,11 +435,9 @@
             return $http.put('/api/v1/del-predmetnika/' + delPredmetnika_id, podatki);    
         }
         
-        function uvoziStudente(vsebina) {
+        function uvoziStudente(podatki) {
             
-            return $http.post('/api/v1/student/uvoz-sprejetih', {
-                Podatki:vsebina
-            });
+            return $http.post('/api/v1/student/uvoz-sprejetih', podatki);
         }
         
         return {
