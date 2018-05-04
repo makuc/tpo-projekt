@@ -34,6 +34,7 @@
                           <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}</li>  
                     </ul></td>                    
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.urediPredmete(x._id)">Predmeti</button></td>
                     <td>
                         <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
                         <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>
@@ -61,6 +62,7 @@
                           <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}</li>  
                     </ul></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.urediPredmete(x._id)">Predmeti</button></td>
                     <td>
                         <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
                         <button ng-show="{{!x.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(x._id)">Obnovi</button>

@@ -218,6 +218,11 @@
                 controller: 'dodajPredmetnikCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediPredmetePredmetnika/:idPredmetnika', {
+                templateUrl: 'views/urediPredmetePredmetnika.template.html',
+                controller: 'urediPredmetePredmetnikaCtrl',
+                controllerAs: 'vm'
+            })
             .when('/dodajIzpitniRok', {
                 templateUrl: 'views/dodajIzpitniRok.template.html',
                 controller: 'dodajIzpitniRokCtrl',
