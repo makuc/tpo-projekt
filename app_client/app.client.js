@@ -203,6 +203,21 @@
                 controller: 'dodajDelePredmetaCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediPredmetnike', {
+                templateUrl: 'views/urediPredmetnike.template.html',
+                controller: 'urediPredmetnikeCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPredmetnik/:idPredmetnika', {
+                templateUrl: 'views/urediPredmetnik.template.html',
+                controller: 'urediPredmetnikCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/dodajPredmetnik', {
+                templateUrl: 'views/urediPredmetnik.template.html',
+                controller: 'dodajPredmetnikCtrl',
+                controllerAs: 'vm'
+            })
             .when('/dodajIzpitniRok', {
                 templateUrl: 'views/dodajIzpitniRok.template.html',
                 controller: 'dodajIzpitniRokCtrl',

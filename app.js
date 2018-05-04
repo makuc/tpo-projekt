@@ -50,7 +50,11 @@ var zdruzeno = uglifyJs.minify({
   'dodajStudijskiProgramCtrl.js': fs.readFileSync('app_client/controllers/dodajStudijskiProgram.controller.js', 'utf8'),
   'urediStudijskaLetaCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskaLeta.controller.js', 'utf8'),
   'urediStudijskoLetoCtrl.js': fs.readFileSync('app_client/controllers/urediStudijskoLeto.controller.js', 'utf8'),
-  'dodajStudijskoLetoCtrl.js': fs.readFileSync('app_client/controllers/dodajStudijskoLeto.controller.js', 'utf8')
+  'dodajStudijskoLetoCtrl.js': fs.readFileSync('app_client/controllers/dodajStudijskoLeto.controller.js', 'utf8'),
+  'urediPredmetnikeCtrl.js': fs.readFileSync('app_client/controllers/urediPredmetnike.controller.js', 'utf8'),
+  'urediPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/urediPredmetnik.controller.js', 'utf8'),
+  'dodajPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/dodajPredmetnik.controller.js', 'utf8'),
+  'dodajIzpitniRokCtrl.js': fs.readFileSync('app_client/controllers/dodajIzpitniRok.controller.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
