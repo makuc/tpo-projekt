@@ -12,7 +12,7 @@ var vpisSchema = new mongoose.Schema({
     vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: true},
     kraj_izvajanja: {type: String, required: false},
     
-    studijsko_leto_prvega_vpisa_v_ta_program: {type: ObjectId, red: 'StudijskoLeto', required: true},
+    studijsko_leto_prvega_vpisa_v_ta_program: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     
     nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: false},
     oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: false},
