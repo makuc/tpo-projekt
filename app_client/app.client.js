@@ -54,6 +54,11 @@
                 controller: 'dodajPredmetCtrl',
                 controllerAs: 'vm'
             })
+            .when('/urediIzvedbePredmeta/:predmetId',{
+                templateUrl: 'views/urediIzvedbePredmeta.template.html',
+                controller: 'urediIzvedbePredmetaCtrl',
+                controllerAs: 'vm'   
+            })
             .when('/urediLetnike', {
                 templateUrl: 'views/urediLetnike.template.html',
                 controller: 'urediLetnikeCtrl',

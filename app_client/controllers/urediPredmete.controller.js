@@ -78,6 +78,11 @@
             $location.path("/urediPredmet/" + predmetId);
         };
         
+        vm.urediIzvedbe = function(predmetId)
+        {
+            $location.path("/urediIzvedbePredmeta/" + predmetId);
+        }
+        
     }
     
     angular

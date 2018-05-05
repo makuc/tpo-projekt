@@ -1,30 +1,25 @@
 (function() {
     /* global angular */
     
-    urediPredmetePredmetnikaCtrl.$inject = ['ostaloPodatki', 'predmetPodatki', '$scope', '$location', '$routeParams'];
+    urediIzvedbePredmetaCtrl.$inject = ['ostaloPodatki', 'predmetPodatki', '$scope', '$location', '$routeParams'];
     
     
-    function urediPredmetePredmetnikaCtrl(ostaloPodatki, predmetPodatki, $scope, $location, $routeParams){
+    function urediIzvedbePredmetaCtrl(ostaloPodatki, predmetPodatki, $scope, $location, $routeParams){
         var vm = this;
         
-        vm.idPredmetnika = $routeParams.idPredmetnika;
+        vm.predmetId = $routeParams.predmetId;
 
-        ostaloPodatki
-        .najdiPredmetnik(vm.idPredmetnika)
+        /*predmetPodatki
+        .pridobiPredmet(vm.predmetId)
         .then(
           function success(odgovor) {
-            vm.predmetnik = odgovor.data;
+            vm.predmet = odgovor.data;
             //console.log(vm.predmetnik);
           },
           function error(odgovor) {
             console.log(odgovor);
           }
-        );
-        
-        vm.posodobiPredmetnik = function()
-        {
-          
-        }
+        );*/
         
         vm.nextPage = function(){
             vm.trenutnaStran++;
@@ -38,32 +33,34 @@
             vm.trenutnaStran = x-1;
         };
         
-        vm.prikaziPredmete = function(){
-            predmetPodatki.izpisiVseVeljavnePredmete().then(
+        vm.prikaziIzvedbe = function(){
+            predmetPodatki.pridobiPredmet(vm.predmetId).then(
                 function success(odgovor){
-                    vm.vsiPodatki = odgovor.data;
-                    vm.predmeti = odgovor.data;
-                    vm.stPredmetov = vm.predmeti.length;
-                    vm.stPredmetovNaStran = 10;
+                    console.log(odgovor.data)
+                    vm.predmet = odgovor.data;
+                    vm.izvedbe_predmeta = vm.predmet.izvedbe_predmeta;
+                    console.log("Izvedbe: ", vm.izvedbe_predmeta);
+                    vm.stIzvedb = vm.izvedbe_predmeta.length;
+                    vm.stIzvedbNaStran = 10;
                     vm.trenutnaStran = 0;
                     
                     var array = [setPagingData(1)];
                     
                     vm.strani = [1];
                     
-                    for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
+                    for(var i = 2; i <= (vm.stIzvedb/10)+1; i++){
                         array.push(setPagingData(i));
                         vm.strani.push(i);
                     }
                     
                     function setPagingData(page){
-                        var pagedData = vm.predmeti.slice(
-                            (page - 1) * vm.stPredmetovNaStran,
-                            page * vm.stPredmetovNaStran
+                        var pagedData = vm.izvedbe_predmeta.slice(
+                            (page - 1) * vm.stIzvedbNaStran,
+                            page * vm.stIzvedbNaStran
                             );
                         return pagedData;
                     }
-                    vm.predmeti = array;
+                    vm.izvedbe_predmeta = array;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -158,6 +155,6 @@
     
     angular
         .module('tpo')
-        .controller('urediPredmetePredmetnikaCtrl', urediPredmetePredmetnikaCtrl);
+        .controller('urediIzvedbePredmetaCtrl', urediIzvedbePredmetaCtrl);
     
 })();

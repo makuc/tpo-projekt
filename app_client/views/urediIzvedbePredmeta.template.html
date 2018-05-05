@@ -1,0 +1,85 @@
+<navigation></navigation>
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <a href="/dodajIzvedboPredmeta" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <div class="container table-responsive">
+        <table ng-show="!iskanje" id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
+            <thead>
+                <tr>
+                    <th>Študijsko leto</th>
+                    <th>Izpiti</th>
+                    <th>Izvajalci</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.izvedbe.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="izvedba in vm.izvedbe_predmeta[vm.trenutnaStran]" ng-class="(izvedba.valid ? '' : 'alert alert-danger')">
+                    <td>{{ izvedba.studijsko_leto.studijsko_leto }}</td>
+                    <td>IZPITI</td>
+                    <td><ul>
+                          <li ng-repeat="izvajalec in izvedba.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
+                    </ul></td>
+                    
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(izvedba._id)">Uredi</button></td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvedbe(izvedba._id)">Izvajalci</button></td>
+                    <td>
+                        <button ng-show="{{izvedba.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(izvedba._id)">Izbriši</button>
+                        <button ng-show="{{!izvedba.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(izvedba._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="iskanje" id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
+            <thead>
+                <tr>
+                    <th>Študijsko leto</th>
+                    <th>Izpiti</th>
+                    <th>Izvajalci</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="izvedba in vm.izvedbe_predmeta | filter: iskanje" ng-class="(izvedba.valid ? '' : 'alert alert-danger')">
+                    <td>{{ izvedba.studijsko_leto.studijsko_leto }}</td>
+                    <td>IZPITa</td>
+                    <td><ul>
+                          <li ng-repeat="izvajalec in izvedba.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
+                    </ul></td>
+                    
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(izvedba._id)">Uredi</button></td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvedbe(izvedba._id)">Izvajalci</button></td>
+                    <td>
+                        <button ng-show="{{izvedba.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(izvedba._id)">Izbriši</button>
+                        <button ng-show="{{!izvedba.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(izvedba._id)">Obnovi</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
