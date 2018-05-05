@@ -119,14 +119,15 @@
           return false;
         };
         
-           vm.odstraniPredmet = function(predmetId)
+       vm.odstraniPredmet = function(predmetId)
         {
-          console.log("Predmet id: " + predmetId);
-          console.log("Predmetnik id: " + vm.predmetnik._id);
           var data = {
-            predmet: predmetId
-          };
-          console.log("Podatki: " + data);
+                predmet: predmetId,
+            };
+          /*console.log("Predmet id: " + predmetId);
+          console.log("Predmetnik id: " + vm.predmetnik._id);
+          console.log("Podatki: " + data);*/
+          console.log("Podatki:", data);
           
           ostaloPodatki.odstraniPredmetIzPredmetnika(vm.predmetnik._id, data).then(
             function success(odgovor){
@@ -142,12 +143,12 @@
         
         vm.dodajPredmet = function(predmetId)
         {
-          console.log("Predmet id: " + predmetId);
-          console.log("Predmetnik id: " + vm.predmetnik._id);
           var podatkiNeki = {
             predmet: predmetId
           };
-          console.log("Podatki: " + podatkiNeki);
+          /*console.log("Predmet id: " + predmetId);
+          console.log("Predmetnik id: " + vm.predmetnik._id);
+          console.log("Podatki: " + podatkiNeki);*/
           
           ostaloPodatki.dodajPredmetPredmetniku(vm.predmetnik._id, podatkiNeki).then(
             function success(odgovor){
@@ -160,8 +161,6 @@
    
             );
         };
-        
-     
     };
         
     

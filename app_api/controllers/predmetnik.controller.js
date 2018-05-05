@@ -73,6 +73,7 @@ module.exports.obnoviPredmetnik = function(req, res) {
 };
 
 module.exports.dodajPredmet = function(req, res) {
+  //console.log("req body: ", req.body);
   if(!req.body || !req.body.predmet) {
     return res.status(400).json({ message: "Ni podanega predmeta" });
   }
@@ -80,6 +81,7 @@ module.exports.dodajPredmet = function(req, res) {
   callNext(req, res, [ najdiPredmetnikId, validatePredmet, dodajPredmet, vrniPredmetnik ]);
 };
 module.exports.odstraniPredmet = function(req, res) {
+  console.log("req body odstrani: ", req.body);
   if(!req.body || !req.body.predmet) {
     return res.status(400).json({ message: "Ni podanega predmeta" });
   }

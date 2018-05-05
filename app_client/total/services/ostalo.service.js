@@ -237,12 +237,15 @@
         }
         
         function dodajPredmetPredmetniku(predmetnik_id, podatki){
-            console.log("Complete req: " + '/api/v1/predmetnik/' + predmetnik_id + '/predmet');
-            console.log("Podatki req: " + podatki);
+            /*console.log("Complete req: " + '/api/v1/predmetnik/' + predmetnik_id + '/predmet');
+            console.log("Podatki req: " + podatki);*/
             return $http.post('/api/v1/predmetnik/' + predmetnik_id + '/predmet', podatki);
         }
         
         function odstraniPredmetIzPredmetnika(predmetnik_id, podatki){
+            console.log("Complete req: " + '/api/v1/predmetnik/' + predmetnik_id + '/predmet');
+            console.log("Podatki req: ", podatki);
+            //podatki.predmet = "5ac8df8efeae4c1cfd56302a";
             return $http.delete('/api/v1/predmetnik/' + predmetnik_id + '/predmet', podatki);
         }
         
