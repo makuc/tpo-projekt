@@ -8,11 +8,15 @@
         var vm = this;
         
         vm.nextPage = function(){
-            vm.trenutnaStran++;
+            if(vm.trenutnaStran < vm.stDrzav/10-1){
+                vm.trenutnaStran++;
+            }
         };
         
         vm.prevPage = function(){
-            vm.trenutnaStran--;
+            if(vm.trenutnaStran > 0){
+                vm.trenutnaStran--;
+            }
         };
         
         vm.setPage = function(x){

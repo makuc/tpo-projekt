@@ -8,11 +8,15 @@
         var vm = this;
         
         vm.nextPage = function(){
-            vm.trenutnaStran++;
+            if(vm.trenutnaStran < vm.stPredmetov/10-1){
+                vm.trenutnaStran++;
+            }
         };
         
         vm.prevPage = function(){
-            vm.trenutnaStran--;
+            if(vm.trenutnaStran > 0){
+                vm.trenutnaStran--;
+            }
         };
         
         vm.setPage = function(x){
@@ -77,6 +81,11 @@
         vm.uredi = function(predmetId){
             $location.path("/urediPredmet/" + predmetId);
         };
+        
+        vm.urediIzvedbe = function(predmetId)
+        {
+            $location.path("/urediIzvedbePredmeta/" + predmetId);
+        }
         
     }
     
