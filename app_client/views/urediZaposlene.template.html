@@ -48,8 +48,8 @@
                     <td>{{ zaposlen.zaposlen.email }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zaposlen.zaposlen._id)">Uredi</button></td>
                     <td>
-                        <button ng-show="{{zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(zaposlen._id)">Izbriši</button>
-                        <button ng-show="{{!zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(zaposlen._id)">Obnovi</button>
+                        <button ng-show="{{zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(zaposlen.zaposlen._id)">Izbriši</button>
+                        <button ng-show="{{!zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(zaposlen.zaposlen._id)">Obnovi</button>
                     </td>
                 </tr>
             </tbody>
@@ -71,8 +71,8 @@
                     <td>{{ zaposlen.zaposlen.email }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zaposlen._id)">Uredi</button></td>
                     <td>
-                        <button ng-show="{{zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(zaposlen._id)">Izbriši</button>
-                        <button ng-show="{{!zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(zaposlen._id)">Obnovi</button>
+                        <button ng-show="{{zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(zaposlen.zaposlen._id)">Izbriši</button>
+                        <button ng-show="{{!zaposlen.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(zaposlen.zaposlen._id)">Obnovi</button>
                     </td>
                 </tr>
             </tbody>
