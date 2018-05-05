@@ -7,6 +7,18 @@
     function urediVrsteStudijaCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
+        vm.nextPage = function(){
+            if(vm.trenutnaStran < vm.stVseh/10-1){
+                vm.trenutnaStran++;
+            }
+        };
+        
+        vm.prevPage = function(){
+            if(vm.trenutnaStran > 0){
+                vm.trenutnaStran--;
+            }
+        };
+        
         vm.prikazi = function(){
             ostaloPodatki.pridobiVseVrsteStudije().then(
                 function success(odgovor){

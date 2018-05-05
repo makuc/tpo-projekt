@@ -7,6 +7,22 @@
     function urediOblikeStudijaCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
+        vm.nextPage = function(){
+            if(vm.trenutnaStran < vm.stVseh/10-1){
+                vm.trenutnaStran++;
+            }
+        };
+        
+        vm.prevPage = function(){
+            if(vm.trenutnaStran > 0){
+                vm.trenutnaStran--;
+            }
+        };
+        
+        vm.setPage = function(x){
+            vm.trenutnaStran = x-1;
+        };
+        
         vm.prikazi = function(){
             ostaloPodatki.pridobiVseOblikeStudija().then(
                 function success(odgovor){
