@@ -20,19 +20,19 @@
         }
         
         function najdiObcino(obcina_id){
-            return $http.get('/api/v1/obcina' + obcina_id);
+            return $http.get('/api/v1/obcina/' + obcina_id);
         }
         
         function izbrisiObcino(obcina_id){
-            return $http.delete('/api/v1/obcina' + obcina_id);    
+            return $http.delete('/api/v1/obcina/' + obcina_id);    
         }
         
         function obnoviObcino(obcina_id){
-            return $http.post('/api/v1/obcina' + obcina_id);
+            return $http.post('/api/v1/obcina/' + obcina_id);
         }
         
         function urediObcino(obcina_id, podatki){
-            return $http.put('/api/v1/obcina' + obcina_id, podatki);
+            return $http.put('/api/v1/obcina/' + obcina_id, podatki);
         }
         
         

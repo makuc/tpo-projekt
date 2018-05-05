@@ -48,7 +48,7 @@
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.dvomestna_koda }}</td>
                     <td>{{ drzava.trimestna_koda }}</td>
-                   
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(drzava._id)">Uredi</button></td>
                     <td>
                         <button ng-show="{{drzava.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(drzava._id)">Izbriši</button>
                         <button ng-show="{{!drzava.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(drzava._id)">Obnovi</button>
@@ -73,7 +73,7 @@
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.dvomestna_koda }}</td>
                     <td>{{ drzava.trimestna_koda }}</td>
-                   
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(drzava._id)">Uredi</button></td>
                     <td>
                         <button ng-show="{{drzava.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(drzava._id)">Izbriši</button>
                         <button ng-show="{{!drzava.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(drzava._id)">Obnovi</button>

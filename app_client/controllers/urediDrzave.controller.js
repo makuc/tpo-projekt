@@ -74,9 +74,9 @@
             );
         };
         
-       // vm.uredi = function(drzavaId){
-       //     $location.path("/urediPredmet/" + drzavaId);
-      //  };
+        vm.uredi = function(drzavaId){
+           $location.path("/urediDrzavo/" + drzavaId);
+       };
         
     }
     
