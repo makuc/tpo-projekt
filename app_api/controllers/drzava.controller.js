@@ -128,7 +128,8 @@ function createDrzava(req, res, next) {
     trimestna_koda: req.body.trimestna_koda,
     numericna_oznaka: req.body.numericna_oznaka,
     ISO_naziv: req.body.ISO_naziv,
-    slovenski_naziv: req.body.slovenski_naziv
+    slovenski_naziv: req.body.slovenski_naziv,
+    opomba: req.body.opomba
   }, function(err, drzava) {
     if(err) {
       //console.log(err);
@@ -152,11 +153,19 @@ function vrniDrzava(req, res) {
   res.status(200).json(req.drzava);
 }
 function urediDrzava(req, res, next) {
-  if(req.body.sifra)
-    req.obcina.sifra = req.body.sifra;
-  if(req.body.ime)
-    req.obcina.ime = req.body.ime;
-  
+  if(req.body.dvomestna_koda)
+    req.drzava.dvomestna_koda = req.body.dvomestna_koda;
+  if(req.body.trimestna_koda)
+    req.drzava.trimestna_koda = req.body.trimestna_koda;
+  if(req.body.numericna_oznaka)
+    req.drzava.numericna_oznaka = req.body.numericna_oznaka;
+  if(req.body.ISO_naziv)
+    req.drzava.ISO_naziv = req.body.ISO_naziv;
+  if(req.body.slovenski_naziv)
+    req.drzava.slovenski_naziv = req.body.slovenski_naziv;
+  if(req.body.opomba)
+    req.drzava.opomba = req.body.opomba;
+    
   req.drzava.save(function(err, drzava) {
     if(err)
       return res.status(400).json({ message: "Nekaj šlo narobe pri shranjevanju države" });
