@@ -81,11 +81,6 @@ module.exports.dodajPredmet = function(req, res) {
   callNext(req, res, [ najdiPredmetnikId, validatePredmet, dodajPredmet, vrniPredmetnik ]);
 };
 module.exports.odstraniPredmet = function(req, res) {
-  console.log("req body odstrani: ", req.body);
-  if(!req.body || !req.body.predmet) {
-    return res.status(400).json({ message: "Ni podanega predmeta" });
-  }
-  
   callNext(req, res, [ najdiPredmetnikId, odstraniPredmet, vrniPredmetnik ]);
 };
 
@@ -261,7 +256,7 @@ function odstraniPredmet(req, res, next) {
   if(req.predmetnik.predmeti.length <= 0)
     return res.status(404).send({ message: "Ni predmetov za izbris" });
   
-  req.predmetnik.predmeti.pull(req.body.predmet);
+  req.predmetnik.predmeti.pull(req.params.predmet_id);
   
   req.predmetnik.save(function(err, predmetnik) {
     if(err) {
