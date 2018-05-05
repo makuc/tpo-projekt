@@ -43,7 +43,7 @@
                 <tr ng-repeat="obcina in vm.obcine[vm.trenutnaStran]" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
                     <td>{{ obcina.ime }}</td>
                     <td>{{ obcina.sifra }}</td>
-                   
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(obcina._id)">Uredi</button></td>
                    
                     <td>
                         <button ng-show="{{obcina.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(obcina._id)">Izbriši</button>
@@ -65,7 +65,7 @@
                 <tr ng-repeat="obcina in vm.vsiPodatki | filter: iskanje" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
                      <td>{{ obcina.ime }}</td>
                     <td>{{ obcina.sifra }}</td>
-                   
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(obcina._id)">Uredi</button></td>
                    
                     <td>
                         <button ng-show="{{obcina.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(obcina._id)">Izbriši</button>
