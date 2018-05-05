@@ -84,6 +84,11 @@
             $location.path("/urediPredmetnik/" + Id);
         };
         
+        vm.urediPredmete = function(Id)
+        {
+            $location.path("/urediPredmetePredmetnika/" + Id);
+        }
+        
         /*vm.vrstaStudija = function(idVrsteStudija){
             ostaloPodatki.najdiVrstoStudija(idVrsteStudija).then(
                 function success(odgovor){

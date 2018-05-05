@@ -61,7 +61,7 @@ var studentSchema = new mongoose.Schema({
     datum_registracije: {type: Date, "default": Date.now},
     
     // Dodatni podatki - Združena tabela !!
-    studijsko_leto_studenta: [studijskoLetoStudenta],
+    studijska_leta_studenta: [studijskoLetoStudenta],
     
     zetoni: [zetonSchema]
 });

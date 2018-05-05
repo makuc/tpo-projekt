@@ -236,6 +236,17 @@
             return $http.put('/api/v1/predmetnik/' + predmetnik_id, podatki);
         }
         
+        function dodajPredmetPredmetniku(predmetnik_id, podatki){
+            /*console.log("Complete req: " + '/api/v1/predmetnik/' + predmetnik_id + '/predmet');
+            console.log("Podatki req: " + podatki);*/
+            return $http.post('/api/v1/predmetnik/' + predmetnik_id + '/predmet', podatki);
+        }
+        
+        function odstraniPredmetIzPredmetnika(predmetnik_id, predmet_id){
+            //podatki.predmet = "5ac8df8efeae4c1cfd56302a";
+            return $http.delete('/api/v1/predmetnik/' + predmetnik_id + '/predmet/' + predmet_id);
+        }
+        
         //studijski programi
         function pridobiVseStudijskePrograme(){
             return $http.get('/api/v1/studijski-program/vsi');
@@ -550,6 +561,8 @@
             izbrisiPredmetnik: izbrisiPredmetnik,
             obnoviPredmetnik: obnoviPredmetnik,
             urediPredmetnik: urediPredmetnik,
+            dodajPredmetPredmetniku: dodajPredmetPredmetniku,
+            odstraniPredmetIzPredmetnika: odstraniPredmetIzPredmetnika,
             
             pridobiVseZaposlene: pridobiVseZaposlene,
             pridobiVseVeljavneZaposlene: pridobiVseVeljavneZaposlene,

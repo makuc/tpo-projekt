@@ -218,7 +218,7 @@ router.post('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.obnov
 router.put('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.editPredmetnik);
 router.delete('/predmetnik/:predmetnik_id', ctrl.NeodvisniPodatki.Predmetnik.delPredmetnik);
 router.post('/predmetnik/:predmetnik_id/predmet', ctrl.NeodvisniPodatki.Predmetnik.dodajPredmet);
-router.delete('/predmetnik/:predmetnik_id/predmet', ctrl.NeodvisniPodatki.Predmetnik.odstraniPredmet);
+router.delete('/predmetnik/:predmetnik_id/predmet/:predmet_id', ctrl.NeodvisniPodatki.Predmetnik.odstraniPredmet);
 
 // Controller Zaposlen
 router.get('/zaposlen', ctrl.NeodvisniPodatki.Zaposlen.getZaposlene);

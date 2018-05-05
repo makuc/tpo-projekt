@@ -86,7 +86,7 @@ module.exports.addLetnik = function(req, res) {
 };
 module.exports.editLetnik = function(req, res) {
   if(!req.body || (!req.body.naziv && !req.body.pogoj_letnik && !req.body.studijski_program &&
-          !req.body.KT_izbirnihPredmetov && !req.body.KT_strokovnihIzbirnihPredmetov && !req.body.KT_modulov)) {
+          !req.body.KT_izbirnihPredmetov && !req.body.KT_strokovnihIzbirnihPredmetov && !req.body.st_modulov)) {
     return res.status(400).json({ message: "Nobenega podatka letnika ne spreminjaš" });
   }
   
@@ -108,7 +108,7 @@ function createLetnik(req, res, next) {
     
     KT_izbirnihPredmetov: req.body.KT_izbirnihPredmetov,
     KT_strokovnihIzbirnihPredmetov: req.body.KT_strokovnihIzbirnihPredmetov,
-    KT_modulov: req.body.KT_modulov
+    st_modulov: req.body.st_modulov
   }, function(err, letnik) {
     if(err) {
       //console.log(err);
@@ -152,8 +152,8 @@ function urediLetnik(req, res, next) {
     req.letnik.KT_izbirnihPredmetov = req.body.KT_izbirnihPredmetov;
   if(req.body.KT_strokovnihIzbirnihPredmetov)
     req.letnik.KT_strokovnihIzbirnihPredmetov = req.body.KT_strokovnihIzbirnihPredmetov;
-  if(req.body.KT_modulov)
-    req.letnik.KT_modulov = req.body.KT_modulov;
+  if(req.body.st_modulov)
+    req.letnik.st_modulov = req.body.st_modulov;
   
   req.letnik.save(function(err, letnik) {
     if(err)
