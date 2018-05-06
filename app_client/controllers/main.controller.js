@@ -14,6 +14,9 @@
             delTok();
             return $location.path('/login');
         };
+        $scope.myData = function() {
+            return $location.path('/myData');
+        };
     }
     
     angular
