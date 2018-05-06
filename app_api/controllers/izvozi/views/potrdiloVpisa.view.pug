@@ -1,11 +1,13 @@
+include _include/funkcije.pug
+
 doctype html
 html
   head
     title= title
     link(rel='stylesheet', href= base + '/css/izpisi.css')
-  body
+  body(style="margin: 50px")
     div#header
-      div.h-left
+      div.h-left(style="width: 25em")
         
       div.h-middle
         img#logo(src= base + "/img/logo.svg")
@@ -24,11 +26,21 @@ html
             | www.fri.uni-lj.sifra
             br
             | e-mail: dekanat@fri.uni-lj.sifra
-    div#content
-      div.h-left.caps
-        p
-          b #{vpis.student.ime} #{vpis.student.priimek}
-        p #{vpis.student.stal}
+    div#content(style="margin-top: 35px")
+      div
+        div.h-left.caps
+          p
+            b #{vpis.student.ime} #{vpis.student.priimek}
+          p #{vpis.student.stalno_bivalisce_naslov}
+          p #{vpis.student.stalno_bivalisce_posta.postna_stevilka} #{vpis.student.stalno_bivalisce_obcina.ime}
+          p #{vpis.student.stalno_bivalisce_drzava.slovenski_naziv}
+        div.h-right
+          p Številka: #{vpis._id.toString().substring(16, 24)}
+          p Datum: 
+            +formatDate(vpis.vpisan)
+      div.caps
+        p(style="text-align: center")
+          b potrdilo o vpisu
       table
         tr
           td
@@ -37,9 +49,11 @@ html
             p.label Priimek in ime
         tr
           td
-            h2 #{vpis.student.vpisna_stevilka}
+            p
+              b #{vpis.student.vpisna_stevilka}
           td(colspan="4")
-            h2 #{vpis.student.priimek}, #{vpis.student.ime}
+            p.caps
+              b #{vpis.student.priimek}, #{vpis.student.ime}
         tr
           td
             p.label Datum rojstva
@@ -51,151 +65,63 @@ html
             p.label Državjanstvo
         tr
           td
-            p= vpis.student.datum_rojstva
+            p
+              b= vpis.student.datum_rojstva
           td(rowspan="2", colspan="2")
-            p= vpis.student.kraj_rojstva
+            p
+              b= vpis.student.kraj_rojstva
           td(rowspan="2")
-            p #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva}
+            p
+              b #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva}
           td(rowspan="2")
-            p= vpis.student.drzavljanstvo
+            p
+              b= vpis.student.drzavljanstvo
         tr
           td &nbsp;
         tr
-          td
-            p.label Spol
+          td(colspan="3")
+            p.label Študijsko leto
           td(colspan="2")
-            p.label EMŠO
-          td(colspan="2")
-            p.label Davčna številka
-        tr
-          td
-            p= vpis.student.spol
-          td(colspan="2")
-            p= vpis.student.emso
-          td(colspan="2")
-            p= vpis.student.davcna_stevilka
+            p.label Vrsta vpisa
         tr
           td(colspan="3")
-            p.label e-pošta
+            p
+              b= vpis.studijsko_leto.studijsko_leto
           td(colspan="2")
-            p.label Prenosni telefon
+            p
+              b= vpis.vrsta_vpisa.naziv
         tr
           td(colspan="3")
-            p= vpis.student.email
+            p.label Način in oblika študija
           td(colspan="2")
-            p= vpis.student.prenosni_telefon
+            p.label Letnik/dodatno leto
         tr
-          td
-            p.label &nbsp;
-          td
-            p.label Vročanje
+          td(colspan="3")
+            p
+              b #{vpis.nacin_studija.naziv}, #{vpis.oblika_studija.naziv}
           td(colspan="2")
-            p.label Naslov
-          td
-            p.label Država, občina
+            p
+              b= vpis.letnik.naziv
         tr
-          td
-            p.label Stalno bivališče
-          td
-            if vpis.student.stalno_bivalisce_vrocanje
-              p &nbsp;x
-            else
-              p &nbsp;
-          td(colspan="2")
-            p #{vpis.student.stalno_bivalisce_naslov}, #{vpis.student.stalno_bivalisce_posta.postna_stevilka} #{vpis.student.stalno_bivalisce_posta.naziv}
-          td
-            p #{vpis.student.stalno_bivalisce_drzava.slovenski_naziv}, #{vpis.student.stalno_bivalisce_obcina.ime}
-        tr
-          td
-            p.label Začasno bivališče
-          td
-            if vpis.student.zacasno_bivalisce_vrocanje
-              p &nbsp;x
-            else
-              p &nbsp;
-          td(colspan="2")
-            p #{vpis.student.zacasno_bivalisce_naslov}, #{vpis.student.zacasno_bivalisce_posta.postna_stevilka} #{vpis.student.zacasno_bivalisce_posta.naziv}
-          td
-            p #{vpis.student.zacasno_bivalisce_drzava.slovenski_naziv}, #{vpis.student.zacasno_bivalisce_obcina.ime}
-        tr
-          td(style="width: 18%;")
-            p.label &nbsp;
-          td(style="width: 50px;")
-            p.label &nbsp;
-          td
-            p.label &nbsp;
-          td
-            p.label &nbsp;
-          td(style="width: 30%;")
-            p.label &nbsp;
-      div.title PODATKI O VPISU
-      table
-        tr(colspan)
           td(colspan="3")
             p.label Študijski program
-        tr
-          td(colspan="3")
-            p= vpis.studijski_program.naziv
-        tr
-          td(colspan="3")
+          td(colspan="2")
             p.label Smer/usmeritev/modul/znanstveno področje
         tr
           td(colspan="3")
-            p= vpis.usmeritev
-        tr
-          td
-            p.label Kraj izvajanja
+            p
+              b= vpis.studijski_program.naziv
           td(colspan="2")
-            p.label Izbirna skupina
+            p
+              b= vpis.usmeritev
         tr
-          td
-            p= vpis.kraj_izvajanja
-          td
-            p= vpis.izbirna_skupina
+          td(colspan="5")
+            p.label Vrsta in stopnja študija
         tr
-          td(style="width:50%;") &nbsp;
-          td(style="width:25%;") &nbsp;
-          td(style="width:25%;") &nbsp;
-        tr
-          td(colspan="3")
-            p.label Vrsta študija
-        tr
-          td(colspan="3")
-            p #{vpis.vrsta_studija.sifra} #{vpis.vrsta_studija.opis}
-        tr
-          td
-            p.label Vrsta vpia
-          td
-            p.label Letnik/dodatno leto
-          td
-            p.label Način in oblika študija
-        tr
-          td
-            p= vpis.vrsta_vpisa.naziv
-          td
-            p= vpis.letnik.naziv
-          td
-            p #{vpis.nacin_studija.naziv}, #{vpis.oblika_studija.naziv}
-        tr
-          td(style="width:50%;") &nbsp;
-          td(style="width:25%;") &nbsp;
-          td(style="width:25%;") &nbsp;
-      div.title PRILOGA 1: PREDMETNIK
-      table
-        tr
-          td(colspan="3")
-            p.label Študijski program
-        tr
-          td(colspan="3")
-            h4= vpis.studijski_program.naziv
-        tr
-          td
-            p.label Učitelj
-          td
-            p.label Učna enota
-          td
-            p.label Število KT
-        tr
-          td(style="width: 20%") &nbsp;
-          td &nbsp;
-          td(style="width: 50px") &nbsp;
+          td(colspan="5")
+            p
+              b #{vpis.vrsta_studija.sifra} #{vpis.vrsta_studija.opis}
+      div(style="margin-top: 15em;")
+        p.h-right prof. dr. Bojan Orel
+          br
+          | dekan

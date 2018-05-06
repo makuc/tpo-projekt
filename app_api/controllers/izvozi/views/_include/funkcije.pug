@@ -1,0 +1,6 @@
+mixin formatDate(origDate)
+    - var date = new Date(origDate);
+    - var d = date.getDate();
+    - var m = date.getMonth() + 1;
+    - var y = date.getFullYear();
+    = d + ". " + m + ". " + y
