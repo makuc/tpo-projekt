@@ -132,15 +132,18 @@ function vrniIzpite(req, res) {
 }
 
 function najdiIzpit(req, res, next) {
-  Izpit.findById(req.params.izpit_id, function(err, izpit) {
-    if(err || !izpit) {
-      return res.status(404).json({ message: "Ne najdem zelenega izpita" });
-    }
-    
-    req.izpit = izpit;
-    
-    callNext(req, res, next);
-  });
+  Izpit
+    .findById(req.params.izpit_id)
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
+    .exec(function(err, izpit) {
+      if(err || !izpit) {
+        return res.status(404).json({ message: "Ne najdem zelenega izpita" });
+      }
+      
+      req.izpit = izpit;
+      
+      callNext(req, res, next);
+    });
 }
 function ustvariIzpit(req, res, next) {
   Izpit.create({
