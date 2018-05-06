@@ -1,4 +1,4 @@
-file_IN="./users.json"
+file_IN="./predmeti.json"
 
 
 
@@ -8,6 +8,7 @@ while read line
 do
     line=${line// \"/\"}
     line=${line//\{\"\$oid\"\:/ObjectId(}
+    line=${line//\{\"\$date\"\:/Date(}
     line=${line//\"\}\,/\"\)\,}
     line=${line//\"\}\]/\"\)\]}
     #line=${line//\:/\: }

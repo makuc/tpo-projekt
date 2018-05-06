@@ -17,7 +17,7 @@ var zetonSchema = new mongoose.Schema({
     nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: false},
     oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: false},
     
-    studijsko_leto_prvega_vpisa_v_ta_program: {type: ObjectId, ref: 'StudijskoLeto', required: false},
+    studijsko_leto_prvega_vpisa_v_ta_program: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     neopravljeni_predmeti: [predmetStudentaSchema],
     
     prosta_izbira: {type: Boolean, "default": false},

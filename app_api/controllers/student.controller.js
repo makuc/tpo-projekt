@@ -748,6 +748,7 @@ function ustvariZetonNovemuStudentu(req, res, next) {
     studijsko_leto: req.studijskoLeto,
     letnik: req.letnik,
     studijski_program: req.studentObj.program,
+    studijsko_leto_prvega_vpisa_v_ta_program: req.studijskoLeto,
     vrsta_studija: req.studentObj.program.vrstaStudija,
     vrsta_vpisa: "5ac8be2a7482291008d3f9f5",
     
