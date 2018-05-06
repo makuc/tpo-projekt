@@ -6,20 +6,29 @@ html
   body
     div#header
       div.h-left
-        h1 VPISNI LIST #{vpis.studijsko_leto.studijsko_leto}
-          br
-          | za študente
-        p Fakulteta za računalništvo in informatiko
+        
       div.h-middle
         img#logo(src= base + "/img/logo.svg")
       div.h-right
-        p
-          small Ur.I. RS, št. 32/2012-UPB 7 in
+        p Fakulteta za računalništvo
           br
-          small spremembe)
-        p.label
-          small 500-7/2014-1
+          | in informatiko
+        p
+          small
+            | Večna pot 113
+            br
+            | 1000 Ljubljana, Slovenija
+            br
+            | telefon: 01 47 98 100
+            br
+            | www.fri.uni-lj.sifra
+            br
+            | e-mail: dekanat@fri.uni-lj.sifra
     div#content
+      div.h-left.caps
+        p
+          b #{vpis.student.ime} #{vpis.student.priimek}
+        p #{vpis.student.stal}
       table
         tr
           td

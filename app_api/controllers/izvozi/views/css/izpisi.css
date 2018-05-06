@@ -38,17 +38,21 @@ p {
     margin: 0;
     line-height: 11px;
 }
-#h-left {
+.h-left {
     display: inline-block;
+    width: 28em;
     vertical-align: top;
 }
-#h-middle {
+.h-middle {
     display: inline-block;
 }
-#h-right {
+.h-right {
     vertical-align: top;
     text-align: right;
     float: right;
+}
+.caps {
+    text-transform: uppercase;
 }
 #logo {
     height: 70px;

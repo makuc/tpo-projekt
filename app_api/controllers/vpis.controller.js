@@ -540,20 +540,22 @@ function oddajaVpisnegaLista(req, res, next) {
 }
 
 function prijaviStudenta(req, res, next) {
-  var predmeti = [], i;
+  req.skupnoPredmeti = [];
+  
+  var i;
   
   for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
-    predmeti.push({
+    req.skupnoPredmeti.push({
       predmet: req.vpisniList.obvezniPredmeti[i]
     });
   }
   for(i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++) {
-    predmeti.push({
+    req.skupnoPredmeti.push({
       predmet: req.vpisniList.strokovniIzbirniPredmeti[i]
     });
   }
   for(i = 0; i < req.vpisniList.modulniPredmeti.length; i++) {
-    predmeti.push({
+    req.skupnoPredmeti.push({
       predmet: req.vpisniList.modulniPredmeti[i]
     });
   }
@@ -561,7 +563,7 @@ function prijaviStudenta(req, res, next) {
   req.student.studijska_leta_studenta.push({
     studijsko_leto: req.vpisniList.studijsko_leto,
     letnik: req.vpisniList.letnik,
-    predmeti: predmeti
+    predmeti: req.skupnoPredmeti
   });
   
   req.student.save(function(err, student) {
@@ -578,6 +580,8 @@ function prijaviStudenta(req, res, next) {
 function potrdiVpisniList(req, res, next) {
   req.vpisniList.valid = true;
   req.vpisniList.potrjen = true;
+  
+  req.vpisniList.predmeti = req.skupnoPredmeti;
   
   req.vpisniList.save(function(err, vpisniList) {
     if(err || !vpisniList) {

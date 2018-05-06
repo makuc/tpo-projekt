@@ -13,12 +13,12 @@
     "dotenv": "^4.0.0",
     "express": "~4.16.0",
     "html-pdf": "^2.2.0",
-    "http-errors": "~1.6.2",
-    "jsonwebtoken": "^8.2.0",
+    "http-errors": "^1.6.3",
+    "jsonwebtoken": "^8.2.1",
     "mongoose": "^4.13.12",
     "morgan": "~1.9.0",
     "pug": "^2.0.3",
     "request": "^2.85.0",
-    "uglify-js": "^3.3.16"
+    "uglify-js": "^3.3.23"
   }
 }

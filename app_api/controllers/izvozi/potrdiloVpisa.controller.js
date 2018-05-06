@@ -37,7 +37,7 @@ var models = {
     User: mongoose.model('User')
 };
 
-module.exports.pdfVpisniList = function(req, res) {
+module.exports.pdfPotrdiloVpisa = function(req, res) {
   models.Vpis
     .findById(req.params.vpisnica_id)
     .populate([
@@ -101,7 +101,7 @@ module.exports.pdfVpisniList = function(req, res) {
     ])
     .exec(function(err, vpis) {
       if(err || !vpis) {
-        return res.status(404).json({ message: "Ne najdem vpisnega lista" });
+        return res.status(404).json({ message: "Ne najdem vpisa" });
       }
       
       var base = path.join(__dirname, 'views');
@@ -114,7 +114,7 @@ module.exports.pdfVpisniList = function(req, res) {
       };
       
       //console.log("Vpis: " + vpis);
-      var vpisniList = Pug.renderFile(__dirname + '/views/vpisniList.view.pug', data);
+      var vpisniList = Pug.renderFile(__dirname + '/views/potrdiloVpisa.view.pug', data);
       
       var options = {
         "format": 'A4',

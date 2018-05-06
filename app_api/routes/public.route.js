@@ -3,7 +3,8 @@ var router = express.Router();
 
 var ctrl = {
     izvozi: {
-        vpisniList: require("../controllers/izvozi/vpisniList.controller")
+        vpisniList: require("../controllers/izvozi/vpisniList.controller"),
+        potrdiloVpisa: require("../controllers/izvozi/potrdiloVpisa.controller")
     },
     other: require('../controllers/other.controller'),
     db: require('../controllers/db.controller'),
@@ -98,6 +99,7 @@ router.post('/vpis/:vpisniList_id', ctrl.vpis.oddajVpisniList);
 /* IZPISI */
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
+router.get('/potrdilo-vpisa/:vpisnica_id', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
 
 
 module.exports = router;
