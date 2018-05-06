@@ -1,4 +1,4 @@
-file_IN="./predmeti.json"
+file_IN="./vpisi.json"
 
 
 
@@ -10,6 +10,7 @@ do
     line=${line//\{\"\$oid\"\:/ObjectId(}
     line=${line//\{\"\$date\"\:/Date(}
     line=${line//\"\}\,/\"\)\,}
+    line=${line//\"\}\}/\"\)\}}
     line=${line//\"\}\]/\"\)\]}
     #line=${line//\:/\: }
     #line=${line//\,/\, }
