@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="row">
+        <select class="form-control" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
+        <button ng-click="vm.prikazi()">Prikaži</button>
+    </div>
+    <div class="row">
+        <div id="custom-search-input">
+            <input type="text" class"search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <a href="/dodajIzpitniRok" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <div class="container table-responsive">
+        <table ng-show="iskanje" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Predmet</th>
+                    <th>Datum</th>
+                    <th>Opis</th>
+                    <th>Izvajalci</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="rok in vm.VsiRoki | filter:iskanje" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                    <td>{{ rok.predmet }}</td>
+                    <td>{{ rok.datum_izvajanja | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ rok.opombe }}</td>
+                    <td>{{ rok.izvajalci }}</td>
+                </tr> 
+            </tbody>
+        </table>
+        <table ng-show="!iskanje" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Predmet</th>
+                    <th>Datum</th>
+                    <th>Opis</th>
+                    <th>Izvajalci</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="rok in vm.izpitniRoki[vm.trenutnaStran]" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                    <td>{{ rok.predmet }}</td>
+                    <td>{{ rok.datum_izvajanja | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ rok.opombe }}</td>
+                    <td>{{ rok.izvajalci }}</td>
+                </tr> 
+            </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.izpitniRoki.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+        </table>
+    </div>
+</div>

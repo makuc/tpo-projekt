@@ -39,6 +39,9 @@
                 controller: 'dbCtrl',
                 controllerAs: 'vm'
             })
+            
+            
+            //vdrzevanje sifrantov
             .when('/urediPredmete', {
                 templateUrl: 'views/urediPredmete.template.html',
                 controller: 'urediPredmeteCtrl',
@@ -228,12 +231,7 @@
                 controller: 'urediPredmetePredmetnikaCtrl',
                 controllerAs: 'vm'
             })
-            .when('/dodajIzpitniRok', {
-                templateUrl: 'views/dodajIzpitniRok.template.html',
-                controller: 'dodajIzpitniRokCtrl',
-                controllerAs: 'vm'
-            })
-            .when('/urediObcine', {
+             .when('/urediObcine', {
                 templateUrl: 'views/urediObcine.template.html',
                 controller: 'urediObcineCtrl',
                 controllerAs: 'vm'
@@ -263,6 +261,19 @@
                 controller: 'dodajDrzavoCtrl',
                 controllerAs: 'vm'
             })
+            
+            
+            //izpitni roki
+            .when('/dodajIzpitniRok', {
+                templateUrl: 'views/dodajIzpitniRok.template.html',
+                controller: 'dodajIzpitniRokCtrl',
+                controllerAs: 'vm'
+            })
+           .when('/vsiIzpitniRoki', {
+               templateUrl: 'views/prikaziIzpitneRoke.template.html',
+               controller: 'prikaziVseIzpitneRokeCtrl',
+               controllerAs: 'vm'
+           })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

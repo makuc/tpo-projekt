@@ -28,11 +28,18 @@ var zdruzeno = uglifyJs.minify({
   // Dopiši vse datoteke, ki jih želiš združiti v SPA eno datoteko!
   'app.js': fs.readFileSync('app_client/app.client.js', 'utf8'),
   'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8'),
+  
+  //directives
   'header.directive.js': fs.readFileSync('app_client/total/directives/header/header.directive.js', 'utf8'),
   'footer.directive.js': fs.readFileSync('app_client/total/directives/footer/footer.directive.js', 'utf8'),
   'navigation.directive.js': fs.readFileSync('app_client/total/directives/navigation/navigation.directive.js', 'utf8'),
+  
+  //services
   'student.service.js': fs.readFileSync('app_client/total/services/student.service.js', 'utf8'),
   'predmet.service.js': fs.readFileSync('app_client/total/services/predmet.service.js', 'utf8'),
+  'izpitniRok.service.js': fs.readFileSync('app_client/total/services/izpitniRok.service.js', 'utf8'),
+  
+  //controllers
   'urediPredmeteCtrl.js': fs.readFileSync('app_client/controllers/urediPredmete.controller.js', 'utf8'),
   'urediPredmetCtrl.js': fs.readFileSync('app_client/controllers/urediPredmet.controller.js', 'utf8'),
   'dodajPredmetCtrl.js': fs.readFileSync('app_client/controllers/dodajPredmet.controller.js', 'utf8'),
@@ -54,7 +61,8 @@ var zdruzeno = uglifyJs.minify({
   'urediPredmetnikeCtrl.js': fs.readFileSync('app_client/controllers/urediPredmetnike.controller.js', 'utf8'),
   'urediPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/urediPredmetnik.controller.js', 'utf8'),
   'dodajPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/dodajPredmetnik.controller.js', 'utf8'),
-  'dodajIzpitniRokCtrl.js': fs.readFileSync('app_client/controllers/dodajIzpitniRok.controller.js', 'utf8')
+  'dodajIzpitniRokCtrl.js': fs.readFileSync('app_client/controllers/dodajIzpitniRok.controller.js', 'utf8'),
+  'prikaziVseIzpitneRokeCtrl.js': fs.readFileSync('app_client/controllers/prikaziVseIzpitneRoke.controller.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
