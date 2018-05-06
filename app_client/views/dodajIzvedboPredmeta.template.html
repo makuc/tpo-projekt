@@ -1,0 +1,14 @@
+<div ng-init="vm.pridobiStudijskaLeta()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Študijsko leto:</label>
+                <select class="form-control" ng-model="vm.studijskoLetoId" ng-options='vs as vs.studijsko_leto for vs in vm.studijskaLeta track by vs._id'></select>
+            </div>
+        </div>
+        <button class="btn btn-success"  type="submit">Shrani</button>
+        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>

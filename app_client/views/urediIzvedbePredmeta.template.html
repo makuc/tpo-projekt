@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <a href="/dodajIzvedboPredmeta" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <a href="/dodajIzvedboPredmeta/{{vm.predmetId}}/izvedba" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
     <div class="container table-responsive">
         <table ng-show="!iskanje" id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
             <thead>
@@ -55,6 +55,7 @@
                     </td>
                     
                     <td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvedbo(izvedba._id)">Uredi</button></td>
+                    <td><button class="btn btn-danger" type="button" ng-click="vm.izbrisiIzvedbo(izvedba.studijsko_leto._id)">Izbriši</button></td>
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izpiti</button></td>-->
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izvajalci</button></td>-->
                 </tr>
@@ -85,6 +86,7 @@
                     </td>
                     
                     <td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvedbo(izvedba._id)">Uredi</button></td>
+                    <td><button class="btn btn-danger" type="button" ng-click="vm.izbrisiIzvedbo(izvedba.studijsko_leto._id)">Izbriši</button></td>
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izpiti</button></td>-->
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izvajalci</button></td>-->
                 </tr>
