@@ -14,6 +14,8 @@ var zetonSchema = new mongoose.Schema({
     vrsta_studija: {type: ObjectId, ref: 'VrstaStudija', required: false},
     vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: false},
     
+    kraj_izvajanja: {type: String, required: true},
+    
     nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: false},
     oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: false},
     
@@ -29,6 +31,12 @@ var studijskoLetoStudenta = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     letnik: {type: ObjectId, ref: 'Letnik', required: true},
     predmeti: [predmetStudentaSchema],
+    
+    kraj_izvajanja: {type: String, required: true},
+    oblika_studija: {type: ObjectId, ref: 'OblikaStudija', required: true},
+    vrsta_studija: {type: ObjectId, ref: 'VrstaStudija', required: true},
+    nacin_studija: {type: ObjectId, ref: 'NacinStudija', required: true},
+    vrsta_vpisa: {type: ObjectId, ref: 'VrstaVpisa', required: true},
     
     opravil: {type: Boolean, "default": false}
 });

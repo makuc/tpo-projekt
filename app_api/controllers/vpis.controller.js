@@ -606,7 +606,13 @@ function prijaviStudenta(req, res, next) {
   req.student.studijska_leta_studenta.push({
     studijsko_leto: req.vpisniList.studijsko_leto,
     letnik: req.vpisniList.letnik,
-    predmeti: req.skupnoPredmetiStudenta
+    predmeti: req.skupnoPredmetiStudenta,
+    
+    kraj_izvajanja: req.vpisniList.kraj_izvajanja,
+    oblika_studija: req.vpisniList.oblika_studija,
+    vrsta_studija: req.vpisniList.vrsta_studija,
+    nacin_studija: req.vpisniList.nacin_studija,
+    vrsta_vpisa: req.vpisniList.vrsta_vpisa,
   });
   
   req.student.save(function(err, student) {

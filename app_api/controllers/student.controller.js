@@ -119,6 +119,27 @@ function pridobiStudenta(req, res) {
       {
         path: "zacasno_bivalisce_drzava",
         select: "slovenski_naziv"
+      },
+      {
+        path: "studijska_leta_studenta.studijsko_leto"
+      },
+      {
+        path: "studijska_leta_studenta.letnik",
+        populate: {
+          path: "studijskiProgram"
+        }
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_studija"
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_vpisa"
+      },
+      {
+        path: "studijska_leta_studenta.nacin_studija"
+      },
+      {
+        path: "studijska_leta_studenta.oblika_studija"
       }
     ])
     .exec(
@@ -751,6 +772,9 @@ function ustvariZetonNovemuStudentu(req, res, next) {
     studijsko_leto_prvega_vpisa_v_ta_program: req.studijskoLeto,
     vrsta_studija: req.studentObj.program.vrstaStudija,
     vrsta_vpisa: "5ac8be2a7482291008d3f9f5",
+    oblika_studija: "5ac8beac24ee18109953514b",
+    
+    kraj_izvajanja: "Ljubljana",
     
     nacin_studija: req.nacinStudija
   });
