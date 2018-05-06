@@ -136,11 +136,11 @@
         
         vm.odstraniIzvajalca = function(izvajalecId)
         {
-          console.log("odstrani izvajalca id: ", izvajalecId);
+          //console.log("odstrani izvajalca id: ", izvajalecId);
           //return predmetPodatki.odstraniIzvajalcaIzvedbiPredmeta()
           predmetPodatki.odstraniIzvajalcaIzvedbiPredmeta(vm.predmetId, vm.izvedba.studijsko_leto._id, izvajalecId).then(
             function success(odgovor){
-                console.log(odgovor);
+                //console.log(odgovor);
                 vm.pridobiPredmet();
             },
             function error(odgovor){
@@ -152,13 +152,23 @@
         
         vm.dodajIzvajalca = function(izvajalecId)
         {
-          console.log("dodaj izvajalca id: ", izvajalecId);
+          console.log("izvajalci: ", vm.izvajalci);
+          if(vm.izvajalci && vm.izvajalci[0].length < 3)
+          {
+              vm.obvestilo = "";
+          }
+          else
+          {
+              vm.obvestilo = "Posamezna izvedba predmeta ima lahko največ 3 izvajalce.";
+              return;
+          }
+          //console.log("dodaj izvajalca id: ", izvajalecId);
           var data = {
             izvajalec: izvajalecId
           };
           predmetPodatki.dodajIzvajalcaIzvedbePredmeta(vm.predmetId, vm.izvedba.studijsko_leto._id, data).then(
             function success(odgovor){
-                console.log(odgovor);
+                //console.log(odgovor);
                 vm.pridobiPredmet();
             },
             function error(odgovor){

@@ -155,7 +155,35 @@
    
             );
         };
+        
+        vm.dodajIzvedbo = function(studijskoLetoId)
+        {
+            var data = {
+              studijsko_leto: studijskoLetoId  
+            };
+            predmetPodatki.dodajIzvedboPredmetu(vm.predmetId, data).then(
+            function success(odgovor){
+                    vm.prikaziIzvedbe();
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            });
+        };
+        
+        vm.izbrisiIzvedbo = function(studijskoLetoId)
+        {
+            predmetPodatki.odstraniIzvedboPredmeta(vm.predmetId, studijskoLetoId).then(
+            function success(odgovor){
+                    vm.prikaziIzvedbe();
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            });
+        };
+        
     };
+    
+    
         
     
     angular
