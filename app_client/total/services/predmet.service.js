@@ -34,6 +34,17 @@
             return $http.put('api/v1/predmet/' + predmet_id, podatki);
         };
         
+        var dodajIzvajalcaIzvedbePredmeta = function(predmetId, studijskoLetoId, podatki)
+        {
+            return $http.post('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec", podatki);
+        };
+        
+        var odstraniIzvajalcaIzvedbiPredmeta = function(predmetId, studijskoLetoId, izvajalecId)
+        {
+            console.log("address: ", 'api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec/" + izvajalecId);
+            return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec/" + izvajalecId);
+        };
+        
         return {
             pridobiPredmet: pridobiPredmet,
             izpisiVsePredmete: izpisiVsePredmete,
@@ -42,7 +53,9 @@
             dodajPredmet: dodajPredmet,
             izbrisiPredmet: izbrisiPredmet,
             obnoviPredmet: obnoviPredmet,
-            urediPredmet: urediPredmet
+            urediPredmet: urediPredmet,
+            dodajIzvajalcaIzvedbePredmeta: dodajIzvajalcaIzvedbePredmeta,
+            odstraniIzvajalcaIzvedbiPredmeta: odstraniIzvajalcaIzvedbiPredmeta
         };
     };
     

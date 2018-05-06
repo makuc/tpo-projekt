@@ -58,6 +58,7 @@
         };
         
         vm.izbris = function(zaposlenId){
+            //console.log("izbris: ", zaposlenId);
             ostaloPodatki.izbrisiZaposlenega(zaposlenId).then(
                 function success(odgovor){
                     vm.prikaziZaposlene();

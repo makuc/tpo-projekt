@@ -90,8 +90,13 @@
             );
         };
         
-        vm.uredi = function(predmetId){
-            $location.path("/urediPredmet/" + predmetId);
+        vm.urediIzvedbo = function(izvedbaId){
+            $location.path("/urediIzvedbePredmeta/" + vm.predmetId + "/izvedba/" + izvedbaId);
+        };
+        
+        vm.urediIzvajalce = function(izvedbaId){
+            console.log("se ni");
+            //$location.path("/urediPredmet/" + vm.predmetId + "/izvedba/" + izvedbaId);
         };
         
         vm.preklici = function()

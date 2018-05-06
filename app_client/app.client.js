@@ -62,6 +62,11 @@
                 controller: 'urediIzvedbePredmetaCtrl',
                 controllerAs: 'vm'   
             })
+            .when('/urediIzvedbePredmeta/:predmetId/izvedba/:izvedbaId',{
+                templateUrl: 'views/urediIzvedboPredmeta.template.html',
+                controller: 'urediIzvedboPredmetaCtrl',
+                controllerAs: 'vm'   
+            })
             .when('/urediLetnike', {
                 templateUrl: 'views/urediLetnike.template.html',
                 controller: 'urediLetnikeCtrl',
@@ -274,6 +279,22 @@
                controller: 'prikaziVseIzpitneRokeCtrl',
                controllerAs: 'vm'
            })
+
+            .when('/urediDrzavo/:idDrzave', {
+                templateUrl: 'views/urediDrzavo.template.html',
+                controller: 'urediDrzavoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediObcino/:idObcine', {
+                templateUrl: 'views/urediObcino.template.html',
+                controller: 'urediObcinoCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/urediPosto/:idPoste', {
+                templateUrl: 'views/urediPosto.template.html',
+                controller: 'urediPostoCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

@@ -43,7 +43,7 @@
                 <tr ng-repeat="posta in vm.poste[vm.trenutnaStran]" ng-class="(posta.valid ? '' : 'alert alert-danger')">
                     <td>{{ posta.naziv }}</td>
                     <td>{{ posta.postna_stevilka }}</td>
-                   
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(posta._id)">Uredi</button></td>
                    
                     <td>
                         <button ng-show="{{posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(posta._id)">Izbriši</button>
@@ -66,7 +66,7 @@
                 <tr ng-repeat="posta in vm.vsiPodatki | filter: iskanje" ng-class="(posta.valid ? '' : 'alert alert-danger')">
                      <td>{{ posta.naziv }}</td>
                     <td>{{ posta.postna_stevilka }}</td>
-                   
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(posta._id)">Uredi</button></td>
                    
                     <td>
                         <button ng-show="{{posta.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(posta._id)">Izbriši</button>
