@@ -82,6 +82,7 @@ function najdiVseIzpiteStudijskoLeto(req, res, next) {
     })
     .limit(0)
     .sort("datum_izvajanja")
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
     .exec(function(err, izpiti) {
       if(err || !izpiti) {
         return res.status(404).json({ message: "Ne najdem izpitov" });
@@ -98,6 +99,7 @@ function najdiVseIzpitePredmet(req, res, next) {
     })
     .limit(0)
     .sort("datum_izvajanja")
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
     .exec(function(err, izpiti) {
       if(err || !izpiti) {
         return res.status(404).json({ message: "Ne najdem izpitov" });
@@ -115,6 +117,7 @@ function najdiVseIzpiteStudijskoLetoPredmet(req, res, next) {
     })
     .limit(0)
     .sort("datum_izvajanja")
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
     .exec(function(err, izpiti) {
       if(err || !izpiti) {
         return res.status(404).json({ message: "Ne najdem izpitov" });
@@ -129,15 +132,18 @@ function vrniIzpite(req, res) {
 }
 
 function najdiIzpit(req, res, next) {
-  Izpit.findById(req.params.izpit_id, function(err, izpit) {
-    if(err || !izpit) {
-      return res.status(404).json({ message: "Ne najdem zelenega izpita" });
-    }
-    
-    req.izpit = izpit;
-    
-    callNext(req, res, next);
-  });
+  Izpit
+    .findById(req.params.izpit_id)
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
+    .exec(function(err, izpit) {
+      if(err || !izpit) {
+        return res.status(404).json({ message: "Ne najdem zelenega izpita" });
+      }
+      
+      req.izpit = izpit;
+      
+      callNext(req, res, next);
+    });
 }
 function ustvariIzpit(req, res, next) {
   Izpit.create({

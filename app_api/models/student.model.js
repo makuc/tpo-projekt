@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var predmetStudentaSchema = new mongoose.Schema({
-    letnik: {type: ObjectId, ref: 'Letnik', required: true},
     predmet: {type: ObjectId, ref: 'Predmet', required: true},
     
     zaporedni_poskus: {type: Number, min: 0, max: 7}
@@ -28,6 +27,7 @@ var zetonSchema = new mongoose.Schema({
 
 var studijskoLetoStudenta = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
+    letnik: {type: ObjectId, ref: 'Letnik', required: true},
     predmeti: [predmetStudentaSchema],
     
     opravil: {type: Boolean, "default": false}

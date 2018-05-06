@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    dodajIzpitniRokCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki'];
+    dodajIzpitniRokCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki', 'izpitniRokPodatki'];
     
     
-    function dodajIzpitniRokCtrl($location, ostaloPodatki, $routeParams, predmetPodatki){
+    function dodajIzpitniRokCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki){
         var vm = this;
         
         predmetPodatki.izpisiVseVeljavnePredmete().then(
@@ -27,11 +27,27 @@
 
         
         vm.shrani = function(){
-            console.log(vm.podatki.opis);
+            //preveri veljavnost datuma
+            var data = {
+                predmet: vm.podatki.predmet,
+                studijsko_leto: vm.podatki.studijsko_leto,
+                datum_izvajanja: vm.podatki.datum_izvajanja,
+                opombe: vm.podatki.opombe
+            };
+            
+            izpitniRokPodatki.ustvariIzpitniRok(data).then(
+                function success(odgovor){
+                    $location.path("/vsiIzpitniRoki");
+                },
+                function error(odgovor){
+                    vm.obvestilo = "Napaka";
+                    console.log(odgovor);
+                }
+            );
         };
         
         vm.preklici = function(){
-            $location.path("/");
+            $location.path("/vsiIzpitniRoki");
         };
     }
     
