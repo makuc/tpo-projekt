@@ -45,7 +45,58 @@
             </div>
         </div>
         
-        <div>Podatki o vseh vpisih: (TBA) </div>
+        <div>Podatki o vseh vpisih:</div>
+        
+            <div class="container table-responsive">
+        <table ng-show="!iskanje" id="tabela_studijskih_let" class="table table-hover" >
+            <thead>
+                <tr>
+                    <th>Študijsko leto </th>
+                    <th>Letnik</th>
+                    <th>Študijski program</th>
+                    <th>Vrsta vpisa</th>
+                    <th>Način študija</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr ng-repeat="leto in vm.student.studijska_leta_studenta" >
+                    <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
+                    <td>{{ leto.letnik.naziv }}</td>
+                    <td>{{ leto.letnik.studijskiProgram.sifra }} / {{ leto.letnik.studijskiProgram.sifraEVS }}</td>
+                     <td>{{ leto.vrsta_vpisa.naziv }}</td>
+                    <td>{{ leto.nacin_studija.naziv }}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="iskanje" id="tabela_studijskih_let" class="table table-hover" >
+            <thead>
+                <tr>
+                    <th>Študijsko leto </th>
+                    <th>Letnik</th>
+                    <th>Študijski program</th>
+                    <th>Vrsta vpisa</th>
+                    <th>Način študija</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="leto in  vm.student.studijska_leta_studenta | filter: iskanje" >
+                     <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
+                    <td>{{ leto.letnik.naziv }}</td>
+                   <td>{{ leto.letnik.studijskiProgram.sifra }} / {{ leto.letnik.studijskiProgram.sifraEVS }}</td>
+                    <td>{{ leto.vrsta_vpisa.naziv }}</td>
+                    <td>{{ leto.nacin_studija.naziv }}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        
+        
+        
+        
+        
         <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Back</button>
     </div>
 </form>
