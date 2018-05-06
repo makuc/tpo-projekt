@@ -233,7 +233,7 @@ router.delete('/zaposlen/:zaposlen_id', ctrl.NeodvisniPodatki.Zaposlen.delZaposl
 // Controller Izpiti
 router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
 router.get('/izpit/predmet/:predmet_id', ctrl.Izpit.getIzpitePredmet);
-router.get('/izpit/leto/:studijskoLeto_id/predmet/>predmet_id', ctrl.Izpit.getIzpiteStudijskoLetoPredmet);
+router.get('/izpit/leto/:studijskoLeto_id/predmet/:predmet_id', ctrl.Izpit.getIzpiteStudijskoLetoPredmet);
 router.get('/izpit/:izpit_id', ctrl.Izpit.getIzpit);
 router.post('/izpit', ctrl.Izpit.addIzpit);
 router.delete('/izpit/:izpit_id', ctrl.Izpit.delIzpit);
