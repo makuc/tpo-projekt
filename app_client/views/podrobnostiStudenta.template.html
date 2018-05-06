@@ -1,0 +1,51 @@
+<div ng-init="vm.najdiStudenta()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form"  class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Vpisna številka:</label>
+                <div class="form-control" type="text" value="{{vm.student.vpisna_stevilka}}" ng-model="vm.student.vpisna_stevilka">{{vm.student.vpisna_stevilka}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Priimek:</label>
+                <div class="form-control" type="text" value="{{vm.student.priimek}}" ng-model="vm.student.priimek"> {{vm.student.priimek}}</div>
+            </div>
+               <div class="form-group col-sm-4">
+                <label>Ime:</label>
+                <div class="form-control" type="text" value="{{vm.student.ime}}" ng-model="vm.student.ime">{{vm.student.ime}} </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Datum rojstva:</label>
+                <div class="form-control" type="text" value="{{vm.student.datum_rojstva}}" ng-model="vm.student.datum_rojstva">{{vm.student.datum_rojstva}} </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Kraj rojstva:</label>
+                <div class="form-control" type="text" value="{{vm.student.kraj_rojstva}}" ng-model="vm.student.kraj_rojstva">{{vm.student.kraj_rojstva}} </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Naslov stalnega bivališča:</label>
+                <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_naslov}}" ng-model="vm.student.stalno_bivalisce_naslov">{{vm.student.stalno_bivalisce_naslov}} </div>
+            </div>
+               <div class="form-group col-sm-4">
+                <label>Naslov za prejemanje pošte:</label>
+                <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_posta.naziv}}" ng-model="vm.student.stalno_bivalisce_posta.naziv">{{vm.student.stalno_bivalisce_posta.naziv}} </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Telefonska številka:</label>
+                <div class="form-control" type="text" value="{{vm.student.prenosni_telefon}}" ng-model="vm.student.prenosni_telefon">{{vm.student.prenosni_telefon}} </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Elektronska pošta:</label>
+                <div class="form-control" type="text" value="{{vm.student.email}}" ng-model="vm.student.email">{{vm.student.email}} </div>
+            </div>
+        </div>
+        
+        <div>Podatki o vseh vpisih: (TBA) </div>
+        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Back</button>
+    </div>
+</form>

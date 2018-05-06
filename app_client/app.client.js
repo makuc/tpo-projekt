@@ -300,6 +300,21 @@
                 controller: 'urediPostoCtrl',
                 controllerAs: 'vm'
             })
+            .when('/prikaziStudente', {
+                templateUrl: 'views/prikaziStudente.template.html',
+                controller: 'prikaziStudenteCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/podrobnostiStudenta/:idStudenta', {
+                templateUrl: 'views/podrobnostiStudenta.template.html',
+                controller: 'podrobnostiStudentaCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/myData', {
+                templateUrl: 'views/myData.template.html',
+                controller: 'myDataCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
