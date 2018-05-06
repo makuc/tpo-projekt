@@ -44,23 +44,66 @@ module.exports.urediVpisniList = function(req, res) {
     return res.status(400).json({ message: "Ni vseh potrebnih podatkov"});
   }
   callNext(req, res, [
-    najdiStudentaId, najdiVpisniListId, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
     validateOblikaStudija, validateObveznePredmete, validateStrokovneIzbirnePredmete,
     shraniVpisniList, vrniVpisniList
   ]);
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, oddajaVpisnegaLista, vrniVpisniList
+    najdiVpisniListId, preveriNeoddan, oddajaVpisnegaLista, vrniVpisniList
+  ]);
+};
+
+module.exports.oddaniVpisi = function(req, res) {
+  models.Vpis
+    .find({
+      valid: true,
+      potrjen: false
+    })
+    .populate("student studijsko_leto letnik studijski_program vrsta_studija vrsta_vpisa studijsko_leto_prvega_vpisa_v_ta_program nacin_studija oblika_studija")
+    .exec(function(err, vpisniListi) {
+      if(err || !vpisniListi)
+      {
+        console.log("---oddaniVpisi:\n" + err);
+        return res.status(404).json({ message: "Ne najdem oddanih vpisov"});
+      }
+      
+      res.status(200).json(vpisniListi);
+    });
+};
+module.exports.vsiVpisi = function(req, res) {
+  models.Vpis
+    .find({
+      potrjen: false
+    })
+    .populate("student studijsko_leto letnik studijski_program vrsta_studija vrsta_vpisa studijsko_leto_prvega_vpisa_v_ta_program nacin_studija oblika_studija")
+    .exec(function(err, vpisniListi) {
+      if(err || !vpisniListi) {
+        console.log("---vsiVpisi:\n" + err);
+        return res.status(404).json({ message: "Ne najdem vpisnih listov"});
+      }
+      
+      res.status(200).json(vpisniListi);
+    });
+};
+module.exports.potrdiVpis = function(req, res) {
+  callNext(req, res, [
+    najdiVpisniListId, najdiStudentaId, prijaviStudenta, potrdiVpisniList, vrniVpisniList
   ]);
 };
 
 
-
 /* Funkcije kontrolerja */
 function najdiStudentaId(req, res, next) {
+  var student_id = req.user.student;
+  
+  if(req.vpisniList) {
+    student_id = req.vpisniList.student._id;
+  }
+  
   models.Student
-    .findById(req.user.student)
+    .findById(student_id)
     .exec(function(err, student) {
       if(err || !student) {
         return res.status(404).json({ message: "Izbrani študent ne obstaja"});
@@ -143,7 +186,6 @@ function vrniVpisniListId(req, res, next) {
 function najdiVpisniListId(req, res, next) {
   models.Vpis
     .findOne({
-      student: req.user.student,
       _id: req.params.vpisniList_id
     })
     .populate([
@@ -187,6 +229,12 @@ function najdiVpisniListId(req, res, next) {
       
       callNext(req, res, next);
     });
+}
+function preveriNeoddan(req, res, next) {
+  if(req.vpisniList.valid)
+    return res.status(403).json({ message: "Ta vpis je že bil oddan - ureja lahko samo skrbnik"});
+  
+  callNext(req, res, next);
 }
 function pripraviPredmetnike(req, res, next) {
   console.log("--pripraviPredmetnike");
@@ -483,6 +531,58 @@ function oddajaVpisnegaLista(req, res, next) {
     if(err || !vpisniList) {
       console.log("---oddajaVpisnegaLista:\n" + err);
       return res.status(400).json({ message: "Napaka pri oddaji vpisnega lista"});
+    }
+    
+    req.vpisniList = vpisniList;
+    
+    callNext(req, res, next);
+  });
+}
+
+function prijaviStudenta(req, res, next) {
+  var predmeti = [], i;
+  
+  for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
+    predmeti.push({
+      predmet: req.vpisniList.obvezniPredmeti[i]
+    });
+  }
+  for(i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++) {
+    predmeti.push({
+      predmet: req.vpisniList.strokovniIzbirniPredmeti[i]
+    });
+  }
+  for(i = 0; i < req.vpisniList.modulniPredmeti.length; i++) {
+    predmeti.push({
+      predmet: req.vpisniList.modulniPredmeti[i]
+    });
+  }
+  
+  req.student.studijska_leta_studenta.push({
+    studijsko_leto: req.vpisniList.studijsko_leto,
+    letnik: req.vpisniList.letnik,
+    predmeti: predmeti
+  });
+  
+  req.student.save(function(err, student) {
+    if(err || !student) {
+      console.log("---prijaviStudenta:\n" + err);
+      return res.status(404).json({ message: "Napaka pri prijavi študenta v študijsko leto"});
+    }
+    
+    req.student = student;
+    
+    callNext(req, res, next);
+  });
+}
+function potrdiVpisniList(req, res, next) {
+  req.vpisniList.valid = true;
+  req.vpisniList.potrjen = true;
+  
+  req.vpisniList.save(function(err, vpisniList) {
+    if(err || !vpisniList) {
+      console.log("---potrdiVpisniList:\n" + err);
+      return res.status(404).json({ message: "Ne morem potrditi vpisnega lista"});
     }
     
     req.vpisniList = vpisniList;
