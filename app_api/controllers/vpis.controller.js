@@ -74,9 +74,7 @@ module.exports.oddaniVpisi = function(req, res) {
 };
 module.exports.vsiVpisi = function(req, res) {
   models.Vpis
-    .find({
-      potrjen: false
-    })
+    .find()
     .populate("student studijsko_leto letnik studijski_program vrsta_studija vrsta_vpisa studijsko_leto_prvega_vpisa_v_ta_program nacin_studija oblika_studija")
     .exec(function(err, vpisniListi) {
       if(err || !vpisniListi) {
@@ -277,10 +275,11 @@ function pripraviPredmetnike(req, res, next) {
         // Prikaži samo izvedbo predmeta za izbrano študijsko leto, ostale izbriši/skrij
         for(i = 0; i < predmetnik.predmeti.length; i++) {
           predmet = predmetnik.predmeti[i];
-          
           // Preveri, če obstaja izvedba predmeta za trenutno študijsko leto
           while(predmet.izvedbe_predmeta.length > 0) {
             var izvedba = predmet.izvedbe_predmeta.shift();
+            
+            console.log(izvedba.studijsko_leto);
             
             if(izvedba.studijsko_leto.equals(req.vpisniList.studijsko_leto._id)) {
               // Če obstaja, pobriši vse ostale izvedbe predmeta in shrani samo izbrano
@@ -292,8 +291,11 @@ function pripraviPredmetnike(req, res, next) {
           
           // Poglej, če si našel veljavno izvedbo predmeta, drugače izbriši predmet
           if(!predmet.izvedba_predmeta) {
+            console.log("### Brišem predmet: " + predmet.naziv);
             predmetnik.predmeti.splice(i, 1);
             i--;
+          } else {
+            console.log("Predmet OK");
           }
         }
         
