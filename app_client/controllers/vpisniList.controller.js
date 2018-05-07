@@ -1,12 +1,16 @@
 (function(){
     /* global angular */
     
-    vpisniListCtrl.$inject = ['predmetPodatki', 'studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki'];
+    vpisniListCtrl.$inject = ['predmetPodatki', 'studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki', '$location'];
     
-    function vpisniListCtrl(predmetPodatki, studentPodatki, $routeParams, authentication, ostaloPodatki) {
+    function vpisniListCtrl(predmetPodatki, studentPodatki, $routeParams, authentication, ostaloPodatki, $location) {
         var vm = this;
         
         vm.idStudenta = $routeParams.idStudenta;
+        
+        vm.preklici = function() {
+            $location.path('/student/main');
+        };
         
         vm.veljavnostEMSO = function() {
             //logika za prevernjanje pravilnosti EMSA
