@@ -1,21 +1,21 @@
 <!--vnosna polja pri vpisnem listu -->
 <h1>VPISNI LIST</h1>
-<!--<div ng-init="vm.pridobiStudenta()"></div>-->
+<div class="alert alert-success" role="alert" ng-show="vm.uspesnoShranjeno">{{vm.uspesnoShranjeno}}</div>
 <div class="alert alert-danger" role="alert" ng-show="vm.napacenEmso">{{vm.napacenEmso}}</div>
 <form role="form" ng-submit="vm.shraniPodatke()" class="form-horizonral">
     <div class="col-sm-12">
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Vpisna številka</label>
-                <input class="form-control" type="text" ng-model="vm.student.vpisna_stevilka" value="Vpisna stevilka" required="" readonly/>
+                <input class="form-control" type="text" ng-model="vm.student.vpisna_stevilka" required="" readonly/>
             </div>
             <div class="form-group col-sm-4">
                 <label>Priimek</label>
-                <input class="form-control" type="text" ng-model="vm.student.priimek" value="Priimek" required="" readonly/>
+                <input class="form-control" type="text" ng-model="vm.student.priimek" required="" readonly/>
             </div>
             <div class="form-group col-sm-4">
                 <label>Ime</label>
-                <input class="form-control" type="text" ng-model="vm.student.ime" value="Ime" required="" readonly/>
+                <input class="form-control" type="text" ng-model="vm.student.ime" required="" readonly/>
             </div>
         </div>
         <div class="row">
@@ -70,7 +70,7 @@
             <div class="form-group col-sm-4">
                 <label>Pošta</label>
                 <select class="form-control" ng-model="vm.student.stalno_bivalisce_posta"
-                    ng-options="posta as posta.naziv for posta in vm.poste track by posta._id" required=""></select>
+                    ng-options="posta as (posta.postna_stevilka + ', ' + posta.naziv) for posta in vm.poste track by posta._id" required=""></select>
             </div>
             <div class="form-group col-sm-4">
                 <label>Občina</label>
@@ -113,24 +113,12 @@
                 <input type="checkbox" value="true" ng-model="vm.student.zacasno_bivalisce_vrocanje" ng-change="vm.izbranNaslov(false)"/>
             </div>
         </div>
-        <button class="btn btn-success" type="submit">Shrani</button>
+        <button class="btn btn-danger" ng-click="vm.preklici()">Prekliči</button>
+        <button class="btn btn-success pull-right" type="submit">Naprej</button>
+        <button class="btn btn-primary pull-right" ng-click="vm.shrani()" style="margin-right: 10px">Shrani</button>  
+       
     </div>
     
-    <h3>Obvezni predmeti</h3>
-    <div ng-init="vm.izbiraPredmetov()"></div>
-    <li ng-repeat="predmet in vm.redniPredmeti">
-        {{ predmet.naziv }} {{ predmet.sifra }} 
-    </li>
-    
-    <div ng-show="vm.moduli">
-        <h3>Moduli</h3>
-    </div>
-
-    <div ng-show="vm.izbirci">
-        <h3>Izbirni predmeti</h3>
-        <select ng-model="vm.izbraniIzbirni" ng-options="predmet as predmet.naziv for predmet in vm.izbirniPredmeti track by predmet._id">
-        </select>
-    </div>
    
 
 </form>

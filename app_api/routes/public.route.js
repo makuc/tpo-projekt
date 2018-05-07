@@ -100,6 +100,7 @@ router.post('/vpis/:vpisniList_id', ctrl.vpis.oddajVpisniList);
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 router.get('/potrdilo-vpisa/:vpisnica_id', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
+router.get('/potrdilo-vpisa/:vpisnica_id/:N', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
 
 
 module.exports = router;

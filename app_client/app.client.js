@@ -9,7 +9,7 @@
                 controller: 'loginCtrl',
                 controllerAs: 'vm'
             })
-            .when('/vpisniList', {
+            .when('/vpis/:idStudenta/podatkiStudenta', {
                 templateUrl: 'views/vpisniList.template.html',
                 controller: 'vpisniListCtrl',
                 controllerAs: 'vm'

@@ -18,11 +18,31 @@
             return $http.put('/api/v1/student/' + student_id, student);
         };
         
+        var kreiranjeNovegaVpisa = function(zeton_id){
+            return $http.post('/api/v1/vpis/zeton', zeton_id);
+        };
+        
+        var pridobiPodatkeVpisnice = function(student_id){
+            return $http.get('/api/v1/vpis/' + student_id);
+        };
+        
+        var oddajaVpisnice = function(student_id){
+            return $http.put('/api/v1/vpis/' + student_id);
+        };
+        
+        var zakljucekVpisa = function(student_id){
+            return $http.post('/api/v1/vpis' + student_id)
+        }
+        
         return {
             dodajStudenta: dodajStudenta,
             izpisStudentov: izpisStudentov,
             izpisStudenta: izpisStudenta,
-            urediStudenta: urediStudenta
+            urediStudenta: urediStudenta,
+            kreiranjeNovegaVpisa: kreiranjeNovegaVpisa,
+            pridobiPodatkeVpisnice: pridobiPodatkeVpisnice,
+            oddajaVpisnice: oddajaVpisnice,
+            zakljucekVpisa: zakljucekVpisa
         };
     };
     
