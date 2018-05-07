@@ -6,7 +6,7 @@
     function vpisniListCtrl(predmetPodatki, studentPodatki, $routeParams, authentication, ostaloPodatki) {
         var vm = this;
         
-        vm.idStudenta = authentication.currentUser().student;
+        vm.idStudenta = $routeParams.idStudenta;
         
         vm.veljavnostEMSO = function() {
             //logika za prevernjanje pravilnosti EMSA
@@ -66,7 +66,7 @@
             }
         };
         
-        vm.shraniPodatke = function() {
+        vm.shrani = function() {
             var student = {
                 vpisna_stevilka: vm.student.vpisna_stevilka,
                 priimek: vm.student.priimek,
@@ -95,6 +95,7 @@
             
             studentPodatki.urediStudenta(vm.idStudenta, student).then(
                 function success(odgovor) {
+                    vm.uspesnoShranjeno = "Podatki so uspešno shranjeni.";
                     // preusmeri, na se enkratno preverjanje podatkov, nato pa na izbiranje predmetov
                 },
                 function error(odgovor) {
@@ -103,17 +104,22 @@
             );
         };
         
+        vm.shraniPodatke = function() {
+            vm.shrani();
+            //porabi zeton in preusmeri na izbiro predmeta
+        };
+        
         studentPodatki.izpisStudenta(vm.idStudenta).then(
             function success(odgovor) {
                 //doloceni podatki, se ze predizpolnjejo
                 vm.student = odgovor.data;
-                //console.log(vm.student);
+                console.log(vm.student);
             },
             function error(odgovor) {
                 console.log("Pripetila se je napaka: " + odgovor);
             }
         );
-        ostaloPodatki.pridobiObcine().then(
+        ostaloPodatki.pridobiVseVeljavneObcine().then(
             function success(odgovor) {
                 vm.obcine = odgovor.data;
             },
@@ -121,7 +127,7 @@
                 console.log("Prišlo do napake pri pridobivanju občin: " + odgovor);
             }
         );
-        ostaloPodatki.pridobiDrzave().then(
+        ostaloPodatki.pridobiVseVeljavneDrzave().then(
             function success(odgovor) {
                 vm.drzave = odgovor.data;
             },
@@ -129,7 +135,7 @@
                 console.log("Prišlo do napake pri pridobivanju drćav: " + odgovor);
             }
         );
-        ostaloPodatki.pridobiPoste().then(
+        ostaloPodatki.pridobiVseVeljavnePoste().then(
             function success(odgovor) {
                 vm.poste = odgovor.data;
             },
