@@ -451,6 +451,18 @@
             return $http.post('/api/v1/student/uvoz-sprejetih', podatki);
         }
         
+        // Vpis / Referentka
+        
+        function najdiVseVpise()
+        {
+            return $http.get('/api/v1/vpis/vsi');
+        }
+        
+        function potrdiVpis(vpisId)
+        {
+            return $http.post('/api/v1/vpis/' + vpisId + '/potrdi');
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -571,8 +583,10 @@
             najdiZaposlenega: najdiZaposlenega,
             izbrisiZaposlenega: izbrisiZaposlenega,
             obnoviZaposlenega: obnoviZaposlenega,
-            urediZaposlenega: urediZaposlenega
-
+            urediZaposlenega: urediZaposlenega,
+            
+            najdiVseVpise: najdiVseVpise,
+            potrdiVpis: potrdiVpis
         };
     };
     
