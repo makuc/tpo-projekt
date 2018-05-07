@@ -315,6 +315,11 @@
                 controller: 'myDataCtrl',
                 controllerAs: 'vm'
             })
+            .when('/potrdiVpise', {
+                templateUrl: 'views/potrdiVpise.template.html',
+                controller: 'potrdiVpiseCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
