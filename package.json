@@ -18,6 +18,7 @@
     "mongoose": "^4.13.12",
     "morgan": "~1.9.0",
     "node-pdftk": "^1.2.3",
+    "pdftk": "0.0.0-rc.0",
     "pug": "^2.0.3",
     "request": "^2.85.0",
     "uglify-js": "^3.3.23"

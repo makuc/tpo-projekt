@@ -5,6 +5,7 @@ var Predmet = mongoose.model('Predmet');
 var StudijskoLeto = mongoose.model('StudijskoLeto');
 var Zaposlen = mongoose.model('Zaposlen');
 var Izpit = mongoose.model('Izpit');
+var Student = mongoose.model('Student');
 
 
 /* GET home page. */
@@ -21,6 +22,12 @@ module.exports.getIzpitePredmet = function(req, res) {
 module.exports.getIzpiteStudijskoLetoPredmet = function(req, res) {
   callNext(req, res, [
     validateStudijskoLeto, validatePredmet, najdiVseIzpiteStudijskoLetoPredmet, vrniIzpite
+  ]);
+};
+
+module.exports.getMozneIzpiteStudenta = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, vrniIzpite
   ]);
 };
 
@@ -265,8 +272,7 @@ function validIzvedbaPredmeta(req, res, next) {
 }
 
 function validateDatumIzvedbe(req, res, next) {
-  req.datumIzvajanja = parseInt(req.body.datum_izvajanja, 10) * 1000;
-  req.datumIzvajanja = new Date(req.datumIzvajanja);
+  req.datumIzvajanja = new Date(req.body.datum_izvajanja);
   
   console.log(req.datumIzvajanja);
   console.log(req.datumIzvajanja.getDay());
@@ -334,6 +340,84 @@ function validateIzvajalca(req, res, next) {
       }
       
       req.izvajalec = izvajalec;
+      
+      callNext(req, res, next);
+    });
+}
+
+function najdiStudentaId(req, res, next) {
+  Student
+    .findById(req.params.student_id)
+    .populate([
+      {
+        path: "studijska_leta_studenta.studijsko_leto"
+      },
+      {
+        path: "studijska_leta_studenta.letnik",
+        populate: {
+          path: "studijskiProgram"
+        }
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_studija"
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_vpisa"
+      },
+      {
+        path: "studijska_leta_studenta.nacin_studija"
+      },
+      {
+        path: "studijska_leta_studenta.oblika_studija"
+      }
+    ])
+    .exec(function(err, student) {
+      if(err || !student) {
+        console.log(err);
+        return res.status(404).json({ message: "Ne najdem izbranega študenta"});
+      }
+      
+      req.student = student;
+      
+      callNext(req, res, next);
+    });
+}
+function najdiNeopravljenePredmete(req, res, next) {
+  req.neopravljeniPredmeti = [];
+  
+  req.studijskoLeto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
+  
+  if(!req.studijskoLeto) {
+    return res.status(404).json({ message: "Izbrani študent nima veljavnih študijskih let"});
+  }
+  
+  for(var i = 0; i < req.studijskoLeto.predmeti.length; i++) {
+    if(req.studijskoLeto.predmeti[i].ocena <= 5) {
+      req.neopravljeniPredmeti.push(req.studijskoLeto.predmeti[i].predmet);
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function najdiMozneIzpiteStudenta(req, res, next) {
+  var cur = new Date(Date.now());
+  
+  var datum = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
+  console.log(datum);
+  Izpit
+    .find({
+      predmet: { $in: req.neopravljeniPredmeti },
+      datum_izvajanja: { $gt: datum }
+    })
+    .sort("datum_izvajanja")
+    .populate("predmet izvajalci studijsko_leto")
+    .exec(function(err, izpiti) {
+      if(err || !izpiti) {
+        console.log(err);
+        return res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
+      }
+      
+      req.izpiti = izpiti;
       
       callNext(req, res, next);
     });
