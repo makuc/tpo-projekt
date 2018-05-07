@@ -73,8 +73,8 @@ var studentSchema = new mongoose.Schema({
     predhodna_izobrazba: {
         zavod: {type: String, required: false},
         kraj: {type: String, required: false},
-        drzava: {type: ObjectId, ref: 'VrstaStudija', required: false},
-        program: {type: ObjectId, ref: 'VrstaStudija', required: false},
+        drzava: {type: ObjectId, ref: 'Drzava', required: false},
+        program: {type: String, required: false},
         leto_zakljucka: {type: Number, required: false},
         uspeh: {type: Number, min: 1, max: 5, required: false},
         smer_strokovna_izobrazba: {type: String, required: false},

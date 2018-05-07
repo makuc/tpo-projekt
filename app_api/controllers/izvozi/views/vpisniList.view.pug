@@ -1,3 +1,5 @@
+include _include/funkcije.pug
+
 doctype html
 html
   head
@@ -126,7 +128,7 @@ html
             p.label Študijski program
         tr
           td(colspan="3")
-            p= vpis.studijski_program.naziv
+            h3= vpis.studijski_program.naziv
         tr
           td(colspan="3")
             p.label Smer/usmeritev/modul/znanstveno področje
@@ -171,7 +173,17 @@ html
           td(style="width:50%;") &nbsp;
           td(style="width:25%;") &nbsp;
           td(style="width:25%;") &nbsp;
-      div.title PRILOGA 1: PREDMETNIK
+      div(style="page-break-after: always;margin-top:15em")
+        div.h-left
+          p.label Datum oddaje:
+          p
+            +formatDate(vpis.vpisan)
+        div.h-right
+          p
+            small ______________________________________
+              br
+              | podpis študentke/študenta
+      div.title(style="margin-top:1.5em;") PRILOGA 1: PREDMETNIK
       table
         tr
           td(colspan="3")
@@ -194,3 +206,81 @@ html
                   li #{izvajalec.naziv} #{izvajalec.ime} #{izvajalec.priimek}
             td #{predmet.naziv}
             td(style="width: 50px") #{predmet.KT}
+      div(style="margin: 3em 0 1em 0; text-align: right;")
+        p
+          Veljavnost predmetnika potrjuje: _________________________
+            small
+              br
+              | podpis mentorja/koordinatorja/
+              br
+              | skrbnika področja
+        br
+        p Pregledal: _________________________
+      div.title PRILOGA 2: PREDHODNO DOSEŽENA IZOBRAZABA
+      table
+        tr
+          td
+            p.label Zavod
+          td
+            p.label Kraj
+          td
+            p.label Država
+        tr
+          td
+            p= vpis.student.predhodna_izobrazba.zavod
+          td
+            p= vpis.student.predhodna_izobrazba.kraj
+          td
+            p= vpis.student.predhodna_izobrazba.drzava.slovenski_naziv
+        tr
+          td
+            p.label Program
+          td
+            p.label Leto zaključka
+          td
+            p.label Uspeh
+        tr
+          td
+            p= vpis.student.predhodna_izobrazba.program
+          td
+            p= vpis.student.predhodna_izobrazba.leto_zakljucka
+          td
+            p= vpis.student.predhodna_izobrazba.uspeh
+        tr
+          td
+            p.label Smer/naziv strokovne izobrazbe
+          td(colspan="2")
+            p.label Način končanja srednje šole
+        tr
+          td
+            p= vpis.student.predhodna_izobrazba.smer_strokovna_izobrazba
+          td
+            p= vpis.student.predhodna_izobrazba.nacin_koncanja
+        tr
+          td
+            p.label Smer/naziv strokovne izobrazbe
+          td(colspan="2")
+            p.label Način končanja srednje šole
+        tr
+          td
+            p #{vpis.student.predhodna_izobrazba.najvisja_dosezena_izobrazba.sifra} #{vpis.student.predhodna_izobrazba.najvisja_dosezena_izobrazba.opis}
+          td(colspan="2")
+            p #{vpis.student.predhodna_izobrazba.najvisja_dosezena_izobrazba.sifra} #{vpis.student.predhodna_izobrazba.najvisja_dosezena_izobrazba.opis}
+        tr
+          td
+            p.label Vrsta vpia
+          td
+            p.label Letnik/dodatno leto
+          td
+            p.label Način in oblika študija
+        tr
+          td
+            p= vpis.vrsta_vpisa.naziv
+          td
+            p= vpis.letnik.naziv
+          td
+            p #{vpis.nacin_studija.naziv}, #{vpis.oblika_studija.naziv}
+        tr
+          td(style="width:50%;") &nbsp;
+          td(style="width:25%;") &nbsp;
+          td(style="width:25%;") &nbsp;

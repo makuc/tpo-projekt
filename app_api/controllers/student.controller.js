@@ -65,6 +65,7 @@ module.exports.updateStudenta = function(req, res){
   preveriDrzavaRojstva (req, res, [
     preveriStalnoBivaliscePosta, preveriStalnoBivalisceObcina, preveriStalnoBivalisceDrzava,
     preveriZacasnoBivaliscePosta, preveriZacasnoBivalisceObcina, preveriZacasnoBivalisceDrzava,
+    preveriDosezenoIzobrazbo, preveriDrzavoIzobrazbe,
     posodobiStudenta
   ]);
 };
@@ -181,7 +182,7 @@ function posodobiStudenta(req, res) {
         console.log(student);
         return res.status(404).json({ message: "Ne najdem tega študenta" });
       }
-      console.log(req.body);
+      
       if(typeof req.body.priimek === 'string')
         student.priimek = req.body.priimek;
       if(typeof req.body.ime === 'string')
@@ -234,20 +235,28 @@ function posodobiStudenta(req, res) {
       
       // Podatki o preteklem izobraževanju
       if(typeof req.body.izo_zavod === 'string')
-        student.predhodna_izobrazba.zavod = req.body.zavod;
-      //if(typeof req.)
-      /*kraj
-      drzava
-      program
-      leto_zakljucka
-      uspeh
-      smer_strokovna_izobrazba
-      nacin_koncanja
-      najvisja_dosezena_izobrazba*/
+        student.predhodna_izobrazba.zavod = req.body.izo_zavod;
+      if(typeof req.body.izo_kraj === 'string')
+        student.predhodna_izobrazba.kraj = req.body.izo_kraj;
+      if(req.body.izo_drzava)
+        student.predhodna_izobrazba.drzava = req.body.izo_drzava;
+      if(typeof req.body.izo_program === 'string')
+        student.predhodna_izobrazba.program = req.body.izo_program;
+      if(typeof req.body.izo_leto_zakljucka === 'string')
+        student.predhodna_izobrazba.leto_zakljucka = req.body.izo_leto_zakljucka;
+      if(typeof req.body.izo_uspeh === 'string')
+        student.predhodna_izobrazba.uspeh = req.body.izo_uspeh;
+      if(typeof req.body.izo_smer_strokovna_izobrazba === 'string')
+        student.predhodna_izobrazba.smer_strokovna_izobrazba = req.body.izo_smer_strokovna_izobrazba;
+      if(typeof req.body.izo_nacin_koncanja === 'string')
+        student.predhodna_izobrazba.nacin_koncanja = req.body.izo_nacin_koncanja;
+      if(req.body.izo_najvisja_dosezena_izobrazba)
+        student.predhodna_izobrazba.najvisja_dosezena_izobrazba = req.body.izo_najvisja_dosezena_izobrazba;
       
       student.save(function(err, student) {
         if(err){
-            return res.status(400).json({ message: "Napaka pri posodabljanju študenta" });
+          console.log("---posodobiStudenta:\n" + err);
+          return res.status(400).json({ message: "Napaka pri posodabljanju študenta" });
         }
         res.status(200).json({ student: student, napake: req.napake });
       });
@@ -657,6 +666,37 @@ function genStudentEmail(req, res, next) {
     });
 }
 
+function preveriDosezenoIzobrazbo(req, res, next) {
+  if(req.body.izo_najvisja_dosezena_izobrazba) {
+    models.VrstaStudija.findById(req.body.izo_najvisja_dosezena_izobrazba, function(err, izobrazba) {
+      if(err || !izobrazba) {
+        console.log("---preveriDosezenoIzobrazbo:\n" + err);
+        return res.status(404).json({ message: "Ta dosežena izobrazba ne obstaja"});
+      }
+      
+      req.body.izo_najvisja_dosezena_izobrazba = izobrazba;
+      
+      callNext(req, res, next);
+    });
+  } else
+    callNext(req, res, next);
+}
+function preveriDrzavoIzobrazbe(req, res, next) {
+  if(req.body.izo_drzava) {
+    models.Drzava.findById(req.body.izo_drzava, function(err, drzava) {
+      if(err || !drzava) {
+        console.log("---validateDrzavoIzobrazbe:\n" + err);
+        return res.status(404).json({ message: "Ta država za izobraževanje ne obstaja"});
+      }
+      
+      req.body.izo_drzava = drzava;
+      
+      callNext(req, res, next);
+    });
+  } else
+    callNext(req, res, next);
+}
+
 function getMailGeslo() {
   var nabor = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
   var dolzina = 12;
@@ -789,6 +829,9 @@ function ustvariZetonNovemuStudentu(req, res, next) {
     vrsta_studija: req.studentObj.program.vrstaStudija,
     vrsta_vpisa: "5ac8be2a7482291008d3f9f5",
     oblika_studija: "5ac8beac24ee18109953514b",
+    
+    usmeritev: "-",
+    izbirna_skupina: "-",
     
     kraj_izvajanja: "Ljubljana",
     

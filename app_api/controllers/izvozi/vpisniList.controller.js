@@ -71,6 +71,12 @@ module.exports.pdfVpisniList = function(req, res) {
           {
               path: "zacasno_bivalisce_drzava",
               select: "slovenski_naziv"
+          },
+          {
+            path: "predhodna_izobrazba.drzava"
+          },
+          {
+            path: "predhodna_izobrazba.najvisja_dosezena_izobrazba"
           }
         ]
       },
@@ -113,7 +119,6 @@ module.exports.pdfVpisniList = function(req, res) {
       var base = path.join(__dirname, 'views');
       base = base.replace(new RegExp(/\\/, 'g'), "/");
       base = 'file:\/\/' + base;
-      
       
       vpis = vpis.toObject();
       
