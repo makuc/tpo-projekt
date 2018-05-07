@@ -413,8 +413,6 @@ function vrniVpisniList(req, res, next) {
 
 // Izpolnjevanje vpisnega lista
 /*
-oblika_studija
-
 modulniPredmeti
 strokovniIzbirniPredmeti
 splosniIzbirniPredmeti
