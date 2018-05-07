@@ -232,6 +232,19 @@ function posodobiStudenta(req, res) {
       if(typeof req.body.zacasno_bivalisce_vrocanje === 'boolean')
         student.zacasno_bivalisce_vrocanje = req.body.zacasno_bivalisce_vrocanje;
       
+      // Podatki o preteklem izobraževanju
+      if(typeof req.body.izo_zavod === 'string')
+        student.predhodna_izobrazba.zavod = req.body.zavod;
+      //if(typeof req.)
+      /*kraj
+      drzava
+      program
+      leto_zakljucka
+      uspeh
+      smer_strokovna_izobrazba
+      nacin_koncanja
+      najvisja_dosezena_izobrazba*/
+      
       student.save(function(err, student) {
         if(err){
             return res.status(400).json({ message: "Napaka pri posodabljanju študenta" });
