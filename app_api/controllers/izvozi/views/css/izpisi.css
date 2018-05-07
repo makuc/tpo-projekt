@@ -6,6 +6,12 @@ html, body {
 body {
     margin: 10px 15px 10px 15px;
 }
+ul, li {
+    margin: 0;
+    padding: 0;
+    text-decoration: 0;
+    list-style-type: none;
+}
 #header {
     vertical-align: top;
     margin-bottom: 10px;

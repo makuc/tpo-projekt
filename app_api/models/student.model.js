@@ -70,6 +70,18 @@ var studentSchema = new mongoose.Schema({
     zacasno_bivalisce_drzava: {type: ObjectId, ref: 'Drzava', required: false},
     zacasno_bivalisce_vrocanje: {type: Boolean, required: false},
     
+    predhodna_izobrazba: {
+        zavod: {type: String, required: false},
+        kraj: {type: String, required: false},
+        drzava: {type: ObjectId, ref: 'VrstaStudija', required: false},
+        program: {type: ObjectId, ref: 'VrstaStudija', required: false},
+        leto_zakljucka: {type: Number, required: false},
+        uspeh: {type: Number, min: 1, max: 5, required: false},
+        smer_strokovna_izobrazba: {type: String, required: false},
+        nacin_koncanja: {type: String, required: false},
+        najvisja_dosezena_izobrazba: {type: ObjectId, ref: 'VrstaStudija', required: false}
+    },
+    
     datum_registracije: {type: Date, "default": Date.now},
     
     // Dodatni podatki - Združena tabela !!

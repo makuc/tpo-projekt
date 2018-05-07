@@ -959,6 +959,9 @@ var zacetniPodatki = {
     vrsteStudija: [
 { "_id": ObjectId("5ac8bb39c3e49f0ee16a8b35"), "sifra": 16203, "opis": "Visokošolska strokovna izobrazba (prva bolonjska stopnja)", "klasiusSRV": "6/2", "predpona": "J" },
 { "_id": ObjectId("5ac8bb39c3e49f0ee16a8b36"), "sifra": 16204, "opis": "Visokošolska univerzitetna izobrazba (prva bolonjska stopnja)", "klasiusSRV": "6/2", "predpona": "K" },
+{ "_id": ObjectId("5ac8bb39c3e49f0ee16a8b37"), "sifra": 15002, "opis": "Srednja splošna izobrazba", "klasiusSRV": "5", "predpona": "SPL" },
+{ "_id": ObjectId("5ac8bb39c3e49f0ee16a8b38"), "sifra": 15001, "opis": "Srednja strokovna izobrazba", "klasiusSRV": "5", "predpona": "STR" },
+{ "_id": ObjectId("5ac8bb39c3e49f0ee16a8b39"), "sifra": 14001, "opis": "Srednja poklicna izobrazba", "klasiusSRV": "4", "predpona": "POK" },
     ],
     vrsteVpisev: [
 { "_id": ObjectId("5ac8be2a7482291008d3f9f5"), "koda": 1, "naziv": "Prvi vpis v letnik/dodatno leto", "opis": "Vsi letniki in dodatno leto" },

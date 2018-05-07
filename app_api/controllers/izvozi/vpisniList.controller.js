@@ -97,6 +97,12 @@ module.exports.pdfVpisniList = function(req, res) {
       },
       {
         path: "oblika_studija"
+      },
+      {
+        path: "predmeti",
+        populate: {
+          path: "izvedbe_predmeta.izvajalci"
+        }
       }
     ])
     .exec(function(err, vpis) {
@@ -108,12 +114,30 @@ module.exports.pdfVpisniList = function(req, res) {
       base = base.replace(new RegExp(/\\/, 'g'), "/");
       base = 'file:\/\/' + base;
       
+      
+      vpis = vpis.toObject();
+      
+      for(var x = 0; x < vpis.predmeti.length; x++)
+      {// Obdelaj vse predmete
+        var predmet = vpis.predmeti[x];
+        
+        // Glej samo zadnjo izvedbo predmeta
+        var izvedba = predmet.izvedbe_predmeta[predmet.izvedbe_predmeta.length - 1];
+        
+        for(var z = 0; z < izvedba.izvajalci.length; z++)
+        {// Preglej vse izvajalce predmeta
+          if(izvedba.izvajalci[z].naziv == "as.")
+          {
+            izvedba.izvajalci.splice(z);
+          }
+        }
+      }
+      
       var data = {
         vpis: vpis,
         base: base
       };
       
-      //console.log("Vpis: " + vpis);
       var vpisniList = Pug.renderFile(__dirname + '/views/vpisniList.view.pug', data);
       
       var options = {

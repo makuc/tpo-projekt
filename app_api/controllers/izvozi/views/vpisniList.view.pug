@@ -186,7 +186,11 @@ html
             p.label Učna enota
           td
             p.label Število KT
-        tr
-          td(style="width: 20%") &nbsp;
-          td &nbsp;
-          td(style="width: 50px") &nbsp;
+        each predmet in vpis.predmeti
+          tr
+            td(style="width: 20%")
+              ul
+                each izvajalec in predmet.izvedbe_predmeta[predmet.izvedbe_predmeta.length - 1].izvajalci
+                  li #{izvajalec.naziv} #{izvajalec.ime} #{izvajalec.priimek}
+            td #{predmet.naziv}
+            td(style="width: 50px") #{predmet.KT}
