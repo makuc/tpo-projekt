@@ -4,8 +4,8 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var polagalecSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: true},
-    zaporedni_poskus: {type: Number, min: 1, required: true},
-    zaporedni_poskus_skupaj: {type: Number, min: 1, required: true},
+    zaporedni_poskus: {type: Number, min: 0, "default": 0},
+    zaporedni_poskus_skupaj: {type: Number, min: 0, "default": 0},
     
     placano: {type: Boolean, "default": true},
     

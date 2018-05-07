@@ -79,7 +79,7 @@ module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
 // Prijave in odjave na izpite
 module.exports.getMozneIzpiteStudenta = function(req, res) {
   callNext(req, res, [
-    najdiStudentaId, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, vrniIzpite
+    najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, vrniIzpite
   ]);
 };
 module.exports.prijavaNaIzpitStudent = function(req, res) {
@@ -88,12 +88,12 @@ module.exports.prijavaNaIzpitStudent = function(req, res) {
   }
   
   callNext(req, res, [
-    najdiIzpit, najdiStudentaId, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, dodajPolagalca, visajZaporedniPoskus, prijavaUspesna
+    najdiIzpit, najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, dodajPolagalca, visajZaporedniPoskus, prijavaUspesna
   ]);
 };
 module.exports.odjavaIzIzpitaStudent = function(req, res) {
   callNext(req, res, [
-    najdiIzpit, najdiStudentaId, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, odjavaUspesna
+    najdiIzpit, najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, odjavaUspesna
   ]);
 };
 
@@ -180,7 +180,7 @@ function ustvariIzpit(req, res, next) {
   }, function(err, izpit) {
     if(err) {
       console.log(err);
-      return res.status(403).send({ message: "Nepravilni podatki" });
+      return res.status(400).send({ message: "Nepravilni podatki" });
     }
     
     res.status(201).send(izpit);
@@ -209,7 +209,7 @@ function urediIzpit(req, res, next) {
 }
 function izbrisiIzpit(req, res, next) {
   if(req.izpit.polagalci.length > 0) {
-    return res.status(403).json({ message: "Obstajajo prijavljeni polagalci izpita" });
+    return res.status(400).json({ message: "Obstajajo prijavljeni polagalci izpita" });
   }
   
   req.izpit.remove(function(err, izpit) {
@@ -363,6 +363,8 @@ function validateIzvajalca(req, res, next) {
     });
 }
 
+
+// Prijave/odjave na izpit
 function najdiStudentaId(req, res, next) {
   var student_id = req.params.student_id || req.body.student;
   Student
@@ -419,9 +421,6 @@ function najdiNeopravljenePredmete(req, res, next) {
   callNext(req, res, next);
 }
 function najdiMozneIzpiteStudenta(req, res, next) {
-  var cur = new Date(Date.now());
-  var datum = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
-  
   var predmeti = [];
   for(var i = 0; i < req.neopravljeniPredmeti.length; i++) {
     predmeti.push(req.neopravljeniPredmeti[i].predmet);
@@ -432,7 +431,7 @@ function najdiMozneIzpiteStudenta(req, res, next) {
       $or: [
         {
           predmet: { $in: predmeti },
-          datum_izvajanja: { $gt: datum }
+          datum_izvajanja: { $gt: req.danes }
         },
         {
           predmet: { $in: predmeti },
@@ -482,6 +481,10 @@ function najdiPolaganje(req, res, next) {
 }
 
 function dodajPolagalca(req, res, next) {
+  if(req.danes > req.izpit.datum_izvajanja) {
+    return res.status(403).json({ message: "Rok za prijavo potekel"});
+  }
+  
   if(!req.polaganje) {
     var placano = true;
     
@@ -491,19 +494,19 @@ function dodajPolagalca(req, res, next) {
     }
     else if(req.predmet.zaporedni_poskus_skupaj + 1 > 6)
     {
-      return res.status(403).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
+      return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
     }
     if(req.predmet.zaporedni_poskus +1 > 3)
     {
-      return res.status(403).json({ message: "Izpit za ta predmet si že opravljal 3x"});
+      return res.status(400).json({ message: "Izpit za ta predmet si že opravljal 3x"});
     }
     
     console.log(req.predmet);
     
     req.izpit.polagalci.push({
       student: req.student,
-      zaporedni_poskus: (req.predmet.zaporedni_poskus + 1),
-      zaporedni_poskus_skupaj: (req.predmet.zaporedni_poskus_skupaj + 1),
+      zaporedni_poskus: req.predmet.zaporedni_poskus + 1,
+      zaporedni_poskus_skupaj: req.predmet.zaporedni_poskus_skupaj + 1,
       
       placano: placano,
     });
@@ -527,13 +530,13 @@ function dodajPolagalca(req, res, next) {
     req.polaganje.odjavljen = false;
     req.polaganje.odavil = undefined;
     req.polaganje.cas_odjave = undefined;
-    req.polaganje.zaporedni_poskus = req.predmet.zaporedni_poskus;
-    req.polaganje.zaporedni_poskus_skupaj = req.predmet.zaporedni_poskus_skupaj;
+    req.polaganje.zaporedni_poskus = req.predmet.zaporedni_poskus + 1;
+    req.polaganje.zaporedni_poskus_skupaj = req.predmet.zaporedni_poskus_skupaj + 1;
     
     req.izpit.save(function(err, izpit) {
       if(err || !izpit) {
         console.log(err);
-        return res.status(403).json({ message: "Napaka pri shranjevanju prijave študenta"});
+        return res.status(404).json({ message: "Napaka pri shranjevanju prijave študenta"});
       }
       
       req.izpit = izpit;
@@ -543,6 +546,10 @@ function dodajPolagalca(req, res, next) {
   }
 }
 function odjaviPolagalca(req, res, next) {
+  if(req.danes > req.izpit.datum_izvajanja) {
+    return res.status(403).json({ message: "Rok za odjavo potekel"});
+  }
+  
   if(!req.polaganje || req.polaganje.odjavljen) {
     return res.status(400).json({ message: "Izbrani študent ni prijavljen na izbran izpit"});
   }
@@ -554,7 +561,7 @@ function odjaviPolagalca(req, res, next) {
   req.izpit.save(function(err, izpit) {
     if(err || !izpit) {
       console.log(err);
-      return res.status(403).json({ message: "Napaka pri shranjevanju odjave študenta"});
+      return res.status(404).json({ message: "Napaka pri shranjevanju odjave študenta"});
     }
     
     req.izpit = izpit;
@@ -563,10 +570,10 @@ function odjaviPolagalca(req, res, next) {
   });
 }
 
-function prijavaUspesna(req, res, next) {
+function prijavaUspesna(req, res) {
   res.status(201).json({ message: "Prijava na izpit uspešna"});
 }
-function odjavaUspesna(req, res, next) {
+function odjavaUspesna(req, res) {
   res.status(201).json({ message: "Odjava iz izpita uspešna"});
 }
 
@@ -599,4 +606,11 @@ function nizajZaporedniPoskus(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+
+function pripraviDateDanes(req, res, next) {
+  var cur = new Date(Date.now());
+  req.danes = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
+  
+  callNext(req, res, next);
 }
