@@ -125,16 +125,29 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
       };
       
       //return res.status(200).send(vpisniList);
-      //console.log("1");
+      
       if(req.params.N) {
-            //console.log("2: ", req.params.N);
-            req.params.N = parseInt(req.params.N, 10);
-            if(req.params.N > 0) {
+        req.params.N = parseInt(req.params.N, 10);
+        if(req.params.N > 0) {
+          
+          
+          base = path.join(__dirname, 'tmp');
+          
+          pdf.create(vpisniList, options).toFile(base + "/tmp.pdf", function(err, pdf) {
+            if (err) {   
+              // handle error and return a error response code
+              console.log(err);
+              return res.sendStatus(403);
+            } else {
+              // send a status code of 200 OK
+              res.statusCode = 200;
               
+              console.log(pdf.filename);
               
-              base = path.join(__dirname, 'tmp');
+              var base = path.join(__dirname, 'tmp');
+              var file = base + pdf.filename;
               
-              pdf.create(vpisniList, options).toFile(base + "/tmp.pdf", function(err, pdf) {
+              /*pdf.create(vpisniList, options).toFile(base + "/tmp.pdf", function(err, pdf) {
                 if (err) {   
                   // handle error and return a error response code
                   console.log(err);
@@ -160,9 +173,22 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
                     });
                 }
               });
-              return;
+              return;*/
+              pdftk
+                .input({
+                  A: pdf.filename
+                })
+                .cat('A')
+                .output()
+                .then(buf => {
+                  res.type('application/pdf');
+                  res.send(buf);
+                });
             }
-          }
+          });
+          return;
+        }
+      }
       
       pdf.create(vpisniList, options).toStream((err, pdfStream) => {
         if (err) {   

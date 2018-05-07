@@ -65,6 +65,7 @@ router.post('/student', ctrl.student.createStudenta);
 router.post('/student/uvoz-sprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
+router.get('/student/:student_id/izpit', ctrl.Izpit.getMozneIzpiteStudenta);
 
 // Controller Izpiti
 router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
@@ -74,6 +75,9 @@ router.get('/izpit/:izpit_id', ctrl.Izpit.getIzpit);
 router.post('/izpit', ctrl.Izpit.addIzpit);
 router.delete('/izpit/:izpit_id', ctrl.Izpit.delIzpit);
 router.put('/izpit/:izpit_id', ctrl.Izpit.editIzpit);
+// Prijave na izpit
+router.post('/izpit/:izpit_id/prijava', ctrl.Izpit.prijavaNaIzpitStudent);
+router.delete('/izpit/:izpit_id/odjava/:student_id', ctrl.Izpit.odjavaIzIzpitaStudent);
 
 // Žetoni
 router.post('/zeton', ctrl.zeton.ustvariZetone);
@@ -100,7 +104,7 @@ router.post('/vpis/:vpisniList_id', ctrl.vpis.oddajVpisniList);
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 router.get('/potrdilo-vpisa/:vpisnica_id', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
-router.get('/potrdilo-vpisa/:vpisnica_id/:N', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
+//router.get('/potrdilo-vpisa/:vpisnica_id/:N', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
 
 
 module.exports = router;

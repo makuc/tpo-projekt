@@ -4,12 +4,17 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var polagalecSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: true},
-    zaporedni_poskus: {type: Number, min: 1, max: 7},
+    zaporedni_poskus: {type: Number, min: 1, required: true},
+    zaporedni_poskus_skupaj: {type: Number, min: 1, required: true},
     
-    podatki_o_placilu: {type: String, "default": "Ni plačano"},
+    placano: {type: Boolean, "default": true},
     
     ocena: {type: Number, min: 0, max: 10, "default": 0},
-    veljavnost: {type: Boolean, "default": true}
+    veljavnost: {type: Boolean, "default": true},
+    
+    odjavljen: {type: Boolean, "default": false},
+    odavil: {type: ObjectId, ref: 'Zaposlen', required: false},
+    cas_odjave: {type: Date, required: false}
 });
 
 var izpitSchema = new mongoose.Schema({

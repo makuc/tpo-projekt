@@ -140,6 +140,9 @@ function pridobiStudenta(req, res) {
       },
       {
         path: "studijska_leta_studenta.oblika_studija"
+      },
+      {
+        path: "studijska_leta_studenta.predmeti.predmet"
       }
     ])
     .exec(
