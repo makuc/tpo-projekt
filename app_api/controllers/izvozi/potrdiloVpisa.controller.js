@@ -114,9 +114,10 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
         vpis: vpis,
         base: base
       };
-      
+
       //console.log("Vpis: " + vpis);
       var vpisniList = Pug.renderFile(__dirname + '/views/potrdiloVpisa.view.pug', data);
+       //console.log(vpisniList);
       
       var options = {
         "format": 'A4',
@@ -124,8 +125,9 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
       };
       
       //return res.status(200).send(vpisniList);
-      
+      //console.log("1");
       if(req.params.N) {
+            //console.log("2: ", req.params.N);
             req.params.N = parseInt(req.params.N, 10);
             if(req.params.N > 0) {
               
@@ -148,7 +150,7 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
                   
                   pdftk
                     .input({
-                      A: "./tmp/tmp.pdf"
+                      A: pdf.filename//"./tmp/tmp.pdf"
                     })
                     .cat('A')
                     .output()
