@@ -26,7 +26,7 @@ module.exports.getIzpiteStudijskoLetoPredmet = function(req, res) {
 };
 
 module.exports.getIzpit = function(req, res) {
-  callNext(req, res, [ najdiIzpit, vrniIzpit ]);
+  callNext(req, res, [ najdiIzpit, filtrirajPrijave, vrniIzpit ]);
 };
 module.exports.addIzpit = function(req, res) {
   if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja || !req.body.izvajalci)
@@ -221,6 +221,18 @@ function izbrisiIzpit(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+function filtrirajPrijave(req, res, next) {
+  req.izpit = req.izpit.toObject();
+  
+  for(var i = 0; i < req.izpit.polagalci.length; i++) {
+    if(req.izpit.polagalci[i].odjavljen) {
+      req.izpit.polagalci.splice(i, 1);
+      i--;
+    }
+  }
+  
+  callNext(req, res, next);
 }
 function vrniIzpit(req, res) {
   res.status(200).json(req.izpit);

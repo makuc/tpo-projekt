@@ -126,11 +126,11 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
       
       //return res.status(200).send(vpisniList);
       
+      /*
       if(req.params.N) {
         req.params.N = parseInt(req.params.N, 10);
-        if(req.params.N > 0) {
-          
-          
+        if(req.params.N > 0)
+        {
           base = path.join(__dirname, 'tmp');
           
           pdf.create(vpisniList, options).toFile(base + "/tmp.pdf", function(err, pdf) {
@@ -147,33 +147,6 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
               var base = path.join(__dirname, 'tmp');
               var file = base + pdf.filename;
               
-              /*pdf.create(vpisniList, options).toFile(base + "/tmp.pdf", function(err, pdf) {
-                if (err) {   
-                  // handle error and return a error response code
-                  console.log(err);
-                  return res.sendStatus(403);
-                } else {
-                  // send a status code of 200 OK
-                  res.statusCode = 200;
-                  
-                  console.log(pdf.filename);
-                  
-                  var base = path.join(__dirname, 'tmp');
-                  var file = base + pdf.filename;
-                  
-                  pdftk
-                    .input({
-                      A: pdf.filename//"./tmp/tmp.pdf"
-                    })
-                    .cat('A')
-                    .output()
-                    .then(buf => {
-                      res.type('application/pdf');
-                      res.send(buf);
-                    });
-                }
-              });
-              return;*/
               pdftk
                 .input({
                   A: pdf.filename
@@ -189,6 +162,7 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
           return;
         }
       }
+      */
       
       pdf.create(vpisniList, options).toStream((err, pdfStream) => {
         if (err) {   
