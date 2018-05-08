@@ -325,6 +325,13 @@
                 controller: 'potrdiVpiseCtrl',
                 controllerAs: 'vm'
             })
+            
+            // izpiti student - prijava / odjava
+            .when('/izpiti', {
+                templateUrl: 'views/izpiti.template.html',
+                controller: 'izpitiCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
