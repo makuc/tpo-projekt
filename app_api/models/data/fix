@@ -8,7 +8,7 @@ while read line
 do
     line=${line// \"/\"}
     line=${line//\{\"\$oid\"\:/ObjectId(}
-    line=${line//\{\"\$date\"\:/Date(}
+    line=${line//\{\"\$date\"\:/new Date(}
     line=${line//\"\}\,/\"\)\,}
     line=${line//\"\}\}/\"\)\}}
     line=${line//\"\}\]/\"\)\]}
