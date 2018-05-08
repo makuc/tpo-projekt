@@ -463,6 +463,22 @@
             return $http.post('/api/v1/vpis/' + vpisId + '/potrdi');
         }
         
+        // Izpiti (prijava student)
+        function vsiIzpitniRoki(studentId)
+        {
+            return $http.get('/api/v1/student/' + studentId + '/izpit');
+        }
+        
+        function prijaviNaRok(izpitId, studentData)
+        {
+            return $http.post('/api/v1/izpit/' + izpitId + '/prijava', studentData);
+        }
+        
+        function odjaviOdRoka(izpitId, studentId)
+        {
+            return $http.delete('/api/v1/izpit/' + izpitId + '/odjava/' + studentId);
+        }
+
         return {
             uvoziStudente: uvoziStudente,
             
@@ -586,7 +602,11 @@
             urediZaposlenega: urediZaposlenega,
             
             najdiVseVpise: najdiVseVpise,
-            potrdiVpis: potrdiVpis
+            potrdiVpis: potrdiVpis,
+            
+            vsiIzpitniRoki: vsiIzpitniRoki,
+            prijaviNaRok: prijaviNaRok,
+            odjaviOdRoka: odjaviOdRoka
         };
     };
     

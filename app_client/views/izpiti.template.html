@@ -1,0 +1,88 @@
+<!--<navigation></navigation>-->
+<div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="container table-responsive">
+        <table ng-show="iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Šifra</th>
+                    <th>Izvajalci</th>
+                    <th>Datum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran] | filter: iskanje">
+                    <td>{{ x.predmet.naziv }}</td>
+                    <td>{{ x.predmet.sifra }}</td>
+                    <td>
+                      <ul>
+                          <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
+                      </ul>
+                    </td>
+                    <td>{{ x.datum_izvajanja | date:'dd.MM.yyyy HH:mm' }}</td>
+                    <td>
+                        <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
+                        <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="!iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
+            <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Šifra</th>
+                    <th>Izvajalci</th>
+                    <th>Datum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran]">
+                    <td>{{ x.predmet.naziv }}</td>
+                    <td>{{ x.predmet.sifra }}</td>
+                    <td>
+                      <ul>
+                          <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
+                      </ul>
+                    </td>
+                    <td>{{ x.datum_izvajanja | date:'dd.MM.yyyy HH:mm' }}</td>
+                    <td>
+                        <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
+                        <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.izpiti.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!--<footer></footer>-->
