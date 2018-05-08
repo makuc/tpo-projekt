@@ -276,6 +276,9 @@ function odstraniIzvedboPredmeta(req, res, next) {
 }
 
 function dodajIzvajalcaIzvedbiPredmeta(req, res, next) {
+  if(!req.izvedbaPredmeta) {
+    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
+  }
   if(req.izvedbaPredmeta.izvajalci.length >= 3) {
     return res.status(400).json({ message: "Izvedba predmeta ima lahko največ 3 izvajalce" });
   }

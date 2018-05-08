@@ -29,49 +29,35 @@ module.exports.getIzpit = function(req, res) {
   callNext(req, res, [ najdiIzpit, filtrirajPrijave, vrniIzpit ]);
 };
 module.exports.addIzpit = function(req, res) {
-  if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja || !req.body.izvajalci)
+  if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja)
     return res.status(400).json({ message: "Manjkajo podatki za kreiranje izpitnega roka" });
   
-  callNext(req, res, [ validateDatumIzvedbe, validatePredmet, validateStudijskoLeto, validateIzvedboPredmeta, validateIzvajalce, ustvariIzpit ]);
+  callNext(req, res, [ validateDatumIzvedbe, validatePredmet, validateStudijskoLeto, validateIzvedboPredmeta, ustvariIzpit ]);
 };
 module.exports.editIzpit = function(req, res) {
   console.log(req.body);
-  if(!req.body || (!req.body.datum_izvajanja && !req.body.izvajalci)) {
+  if(!req.body || (!req.body.datum_izvajanja)) {
     return res.status(400).json({ message: "Nobenega podatka izpita ne spreminjaš" });
   }
   
-  callNext(req, res,[ najdiIzpit, validateDatumIzvedbe, validateIzvajalce, urediIzpit, vrniIzpit ]);
+  callNext(req, res,[ najdiIzpit, validateDatumIzvedbe, urediIzpit, vrniIzpit ]);
 };
 module.exports.delIzpit = function(req, res) {
   callNext(req, res, [ najdiIzpit, izbrisiIzpit, vrniIzpit ]);
 };
 
-module.exports.addIzvedbaPredmeta = function(req, res) {
-  if(!req.body || !req.body.studijsko_leto) {
-    return res.status(400).json({ message: "Ni podanega študijskega leta" });
-  }
-  
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, ustvariIzvedboPredmeta, vrniPredmet
-  ]);
-};
-module.exports.delIzvedbaPredmeta = function(req, res) {
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, vrniPredmet
-  ]);
-};
-module.exports.addIzvajalcaIzvedbiPredmeta = function(req, res) {
+module.exports.addIzvajalcaIzpita = function(req, res) {
   if(!req.body || !req.body.izvajalec) {
     return res.status(400).json({ message: "Ni podanega izvajatelja za izvedbo predmeta" });
   }
   
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, preveriIzvajalecZeIzvajaIzvedboPredmeta, dodajIzvajalcaIzvedbiPredmeta, vrniPredmet
+  callNext(req, res, [
+    najdiIzpit, validateIzvajalca, preveriIzvajalcaIzpita, dodajIzvajalcaIzpita, vrniIzpit
   ]);
 };
-module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, odstraniIzvajalcaIzvedbiPredmeta, vrniPredmet
+module.exports.delIzvajalcaIzpita = function(req, res) {
+  callNext(req, res, [
+    najdiIzpit, validateIzvajalca, preveriIzvajalcaIzpita, odstraniIzvajalcaIzpita, vrniIzpit
   ]);
 };
 
@@ -175,7 +161,6 @@ function ustvariIzpit(req, res, next) {
     predmet: req.predmet,
     studijsko_leto: req.studijskoLeto,
     datum_izvajanja: req.datumIzvajanja,
-    izvajalci: req.izvajalci,
     opombe: req.body.opombe
   }, function(err, izpit) {
     if(err) {
@@ -195,8 +180,6 @@ function urediIzpit(req, res, next) {
   }
   if(req.body.opombe)
     req.izpit.opombe = req.body.opombe;
-  if(req.body.izvajalci)
-    req.izpit.izvajalci = req.izvajalci;
   
   req.izpit.save(function(err, izpit) {
     if(err)
@@ -340,26 +323,6 @@ function validateDatumIzvedbe(req, res, next) {
   callNext(req, res, next);
 }
 
-function validateIzvajalce(req, res, next) {
-  if(!Array.isArray(req.izvajalci)) {
-    req.izvajalci = [];
-    req.next = next; // Shrani sledece funkcije za nadaljnjo uporabo!!
-  } else if(req.izvajalec) {
-    req.izvajalci.push(req.izvajalec);
-  }
-  
-  if(req.body.izvajalci.length > 0) {
-    req.body.izvajalec = req.body.izvajalci.shift();
-    
-    validateIzvajalca(req, res, validateIzvajalce);
-    
-  } else {
-    next = req.next; // Nalozi prej shranjene sledece funkcije za uporabo!!
-    req.next = undefined; // Pobrisem podatke za seboj, da ne bom pomesal v naprej
-    
-    callNext(req, res, next);
-  }
-}
 function validateIzvajalca(req, res, next) {
   var izvajalec = req.body.izvajalec || req.params.izvajalec_id;
   
@@ -625,4 +588,55 @@ function pripraviDateDanes(req, res, next) {
   req.danes = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
   
   callNext(req, res, next);
+}
+
+function preveriIzvajalcaIzpita(req, res, next) {
+  if(!req.izvajalec) {
+    return res.status(404).json({ message: "Ne najdem izbranega izvajalca"});
+  }
+  
+  for(var i = 0; i < req.izpit.izvajalci.length; i++) {
+    if(req.izpit.izvajalci[i].equals(req.izvajalec)) {
+      req.izvajaIzpit = true;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function dodajIzvajalcaIzpita(req, res, next) {
+  if(req.izvajaIzpit) {
+    return res.status(400).json({ message: "Ta izvajalec že izvaja izbran izpit"});
+  }
+  if(req.izpit.izvajalci.length >= 3) {
+    return res.status(400).json({ message: "Izpit ima lahko največ 3 izvajalce" });
+  }
+  
+  req.izpit.izvajalci.push(req.izvajalec);
+  
+  req.izpit.save(function(err, izpit) {
+    if(err || !izpit) {
+      return res.status(400).json({ message: "Napaka pri dodajanju izvajalca izpita" });
+    }
+    
+    req.izpit = izpit;
+    
+    callNext(req, res, next);
+  });
+}
+function odstraniIzvajalcaIzpita(req, res, next) {
+  if(!req.izvajaIzpit) {
+    return res.status(400).json({ message: "Ta izvajalec ne izvaja izbranega izpita"});
+  }
+  
+  req.izpit.izvajalci.pull(req.izvajalec);
+  
+  req.izpit.save(function(err, izpit) {
+    if(err || !izpit) {
+      return res.status(400).json({ message: "Napaka pri odstranjevanju izvajalca izpita" });
+    }
+    
+    req.izpit = izpit;
+    
+    callNext(req, res, next);
+  });
 }

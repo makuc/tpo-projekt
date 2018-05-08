@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-var ISODate = Date;
 var callNext = require("./_include/callNext");
 
 var zacetniPodatki = {
