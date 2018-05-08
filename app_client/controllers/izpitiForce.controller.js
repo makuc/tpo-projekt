@@ -1,13 +1,14 @@
 (function() {
     /* global angular */
     
-    izpitiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication'];
+    izpitiForceCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication', '$route'];
     
     
-    function izpitiCtrl(ostaloPodatki, $scope, $location, authentication){
+    function izpitiForceCtrl(ostaloPodatki, $scope, $location, authentication, $route){
         var vm = this;
         
-        vm.studentId = authentication.currentUser().student;
+        vm.studentId = $route.current.params.studentId;
+        //console.log($route.current.params.studentId);
         //console.log(authentication.currentUser());
         
         vm.nextPage = function(){
@@ -65,31 +66,45 @@
             datumIzvajanja = new Date(datumIzvajanja);
             var dns = new Date(Date.now());
             var upostevanRok = new Date(dns.getFullYear(), dns.getMonth(), dns.getDate() + 2);
+            var sporocilo = 0;
             if(upostevanRok > datumIzvajanja) {
-                 console.log("Rok za prijavo na izpit je potekel.");
+                 console.log("Rok za prijavo na izpit je potekel.")
                  vm.obvestilo = "Rok za prijavo na izpit je potekel.";
-                 return;
+                 sporocilo = 1;
+                 //return;
             }
             
             for (var i = 0; i < vm.izpitiData.length; i++) {
               if(vm.izpitiData[i].predmet._id == predmetId && vm.jePrijavljen(vm.izpitiData[i].polagalci) == true)
               {
                 //console.log("na ta predmet ste ze prijavljeni");
-                vm.obvestilo = "Za ta predmet že obstaja prijava na izpit.";
-                return;
+                if(sporocilo == 1)
+                {
+                  vm.obvestilo = "Rok za prijavo na izpit je potekel. Za ta predmet že obstaja prijava na izpit.";
+                }
+                else
+                {
+                  vm.obvestilo = "Za ta predmet že obstaja prijava na izpit.";
+                }
+                sporocilo = 2;
+                
+                //return;
               }
             }
             var studentData = {
               student: vm.studentId
             };
-            ostaloPodatki.prijaviNaRok(izpitId, studentData).then(
+            ostaloPodatki.prijaviNaRokForce(izpitId, studentData).then(
                 function success(odgovor){
                     vm.prikaziIzpite();
-                    vm.obvestilo = "";
+                    if(sporocilo == 0)
+                    {
+                      vm.obvestilo = "";
+                    }
                 },
                 function error(odgovor){
                     console.log("Err:", odgovor);
-                    vm.obvestilo = odgovor;
+                    vm.obvestilo = "Opozorilo";
                 }
             );
         };
@@ -102,19 +117,24 @@
             console.log("datumIzvajanja: ", datumIzvajanja);
             console.log("upostevanRok < datumIzvajanja = ", upostevanRok < datumIzvajanja);
             console.log("/");*/
+            var potekel = false;
             if(upostevanRok > datumIzvajanja) {
                  console.log("Rok za odjavo od izpita je potekel.")
                  vm.obvestilo = "Rok za odjavo od izpita je potekel.";
-                 return;
+                 potekel = true;
+                 //return;
             }
-            ostaloPodatki.odjaviOdRoka(izpitId, vm.studentId).then(
+            ostaloPodatki.odjaviOdRokaForce(izpitId, vm.studentId).then(
                 function success(odgovor){
                     vm.prikaziIzpite();
-                    vm.obvestilo = "";
+                    if(potekel == false)
+                    {
+                      vm.obvestilo = "";
+                    }
                 },
                 function error(odgovor){
                     console.log(odgovor);
-                    vm.obvestilo = odgovor;
+                    vm.obvestilo = "Opozorilo";
                 }
             );
         };
@@ -134,7 +154,7 @@
             if(polagalci[i].student == vm.studentId)
             {
               //console.log(polagalci[i]);
-              if(polagalci[i].odjavljen == false && polagalci[i].veljavnost == true)
+              if(polagalci[i].odjavljen == false && polagalci[i].valid == true)
               {
                 return true;
               }
@@ -151,6 +171,6 @@
     
     angular
         .module('tpo')
-        .controller('izpitiCtrl', izpitiCtrl);
+        .controller('izpitiForceCtrl', izpitiForceCtrl);
     
 })();

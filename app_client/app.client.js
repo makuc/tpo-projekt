@@ -327,6 +327,12 @@
                 controller: 'izpitiCtrl',
                 controllerAs: 'vm'
             })
+            // izpiti referentka - prijava / odjava
+            .when('/izpitiForce/:studentId', {
+                templateUrl: 'views/izpitiForce.template.html',
+                controller: 'izpitiForceCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);

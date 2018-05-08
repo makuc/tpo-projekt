@@ -464,6 +464,7 @@
         }
         
         // Izpiti (prijava student)
+        
         function vsiIzpitniRoki(studentId)
         {
             return $http.get('/api/v1/student/' + studentId + '/izpit');
@@ -477,6 +478,18 @@
         function odjaviOdRoka(izpitId, studentId)
         {
             return $http.delete('/api/v1/izpit/' + izpitId + '/odjava/' + studentId);
+        }
+        
+        // Izpiti (prijava referentka)
+        
+        function prijaviNaRokForce(izpitId, studentData)
+        {
+            return $http.post('/api/v1/izpit/' + izpitId + '/prijava/force', studentData);
+        }
+        
+        function odjaviOdRokaForce(izpitId, studentId)
+        {
+            return $http.delete('/api/v1/izpit/' + izpitId + '/odjava/' + studentId + '/force');
         }
 
         return {
@@ -606,7 +619,10 @@
             
             vsiIzpitniRoki: vsiIzpitniRoki,
             prijaviNaRok: prijaviNaRok,
-            odjaviOdRoka: odjaviOdRoka
+            odjaviOdRoka: odjaviOdRoka,
+            
+            prijaviNaRokForce: prijaviNaRokForce,
+            odjaviOdRokaForce: odjaviOdRokaForce
         };
     };
     
