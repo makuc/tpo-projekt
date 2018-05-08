@@ -26,13 +26,28 @@
             return $http.put('/api/v1/izpit/' + id, data);
         }
         
+        function dodajIzvajalca(izpitId, izvajalecId){
+            return $http.post('/api/v1/izpit/' + izpitId + '/izvajalec', izvajalecId);
+        }
+        
+        function odstraniIzvajalca(izpitId, izvajalecId){
+            return $http.delete('/api/v1/izpit/' + izpitId + '/izvajalec/' + izvajalecId);
+        }
+        
+        function pridobiIzpitniRok(izpitId){
+            return $http.get('/api/v1/izpit/' + izpitId);
+        }
+        
         return {
             najdiVseIzpiteZaStudijskoLeto: najdiVseIzpiteZaStudijskoLeto,
             najdiVseIzpiteZaPredmet: najdiVseIzpiteZaPredmet,
             najdiVseIzpitePredmetaZaStudijskoLeto: najdiVseIzpitePredmetaZaStudijskoLeto,
             ustvariIzpitniRok: ustvariIzpitniRok,
             izbrisiIzpitniRok: izbrisiIzpitniRok,
-            urediIzpitniRok: urediIzpitniRok
+            urediIzpitniRok: urediIzpitniRok,
+            dodajIzvajalca: dodajIzvajalca,
+            odstraniIzvajalca: odstraniIzvajalca,
+            pridobiIzpitniRok: pridobiIzpitniRok
         };
     };
     

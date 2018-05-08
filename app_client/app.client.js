@@ -284,6 +284,11 @@
                controller: 'prikaziVseIzpitneRokeCtrl',
                controllerAs: 'vm'
            })
+           .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
+               templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
+               controller: 'dodajIzvajalcaIzpitCtrl',
+               controllerAs: 'vm'
+           })
 
             .when('/urediDrzavo/:idDrzave', {
                 templateUrl: 'views/urediDrzavo.template.html',

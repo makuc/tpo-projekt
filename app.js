@@ -65,7 +65,8 @@ var zdruzeno = uglifyJs.minify({
   'urediPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/urediPredmetnik.controller.js', 'utf8'),
   'dodajPredmetnikCtrl.js': fs.readFileSync('app_client/controllers/dodajPredmetnik.controller.js', 'utf8'),
   'dodajIzpitniRokCtrl.js': fs.readFileSync('app_client/controllers/dodajIzpitniRok.controller.js', 'utf8'),
-  'prikaziVseIzpitneRokeCtrl.js': fs.readFileSync('app_client/controllers/prikaziVseIzpitneRoke.controller.js', 'utf8')
+  'prikaziVseIzpitneRokeCtrl.js': fs.readFileSync('app_client/controllers/prikaziVseIzpitneRoke.controller.js', 'utf8'),
+  'dodajIzvajalcaIzpitCtrl.js': fs.readFileSync('app_client/controllers/dodajIzvajalcaIzpitniRok.controller.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });
