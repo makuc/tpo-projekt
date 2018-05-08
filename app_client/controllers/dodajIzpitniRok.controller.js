@@ -83,7 +83,8 @@
             
                 izpitniRokPodatki.ustvariIzpitniRok(data).then(
                     function success(odgovor){
-                        $location.path("/vsiIzpitniRoki");
+                        console.log(odgovor);
+                        $location.path("/dodajIzvajalceIzpitniRok/" + odgovor.data._id);
                     },
                     function error(odgovor){
                         vm.obvestilo = odgovor.data.message;

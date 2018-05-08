@@ -66,13 +66,13 @@
             );
         };
         
-      vm.uredi = function(){
+    vm.uredi = function(){
           
-      };
+    };
       
-      vm.izvajalci = function(){
-          
-      };
+    vm.izvajalci = function(id_rok){
+       $location.path('/dodajIzvajalceIzpitniRok/' + id_rok); 
+    };
         
     }
     

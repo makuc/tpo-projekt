@@ -43,8 +43,8 @@
                     <td>{{ zaposlen.zaposlen.naziv }}</td>
                     <td>{{ zaposlen.zaposlen.email }}</td>
                     <td>
-                        <button ng-show="{{vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
-                        <button ng-show="{{!vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
+                        <button ng-show=" {{ vm.jeIzvajalec(zaposlen.zaposlen._id) }} " class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
+                        <button ng-show=" {{ !vm.jeIzvajalec(zaposlen.zaposlen._id) }} " class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
                     </td>
                 </tr>
             </tbody>
@@ -58,18 +58,19 @@
                     <th>Email</th>
                 </tr>
             </thead>
-            <tbody
+            <tbody>
                 <tr ng-repeat="zaposlen in vm.vsiZaposleni | filter: iskanje" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
                     <td>{{ zaposlen.zaposlen.priimek }}</td>
                     <td>{{ zaposlen.zaposlen.ime }}</td>
                     <td>{{ zaposlen.zaposlen.naziv }}</td>
                     <td>{{ zaposlen.zaposlen.email }}</td>
                     <td>
-                        <button ng-show="{{vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
-                        <button ng-show="{{!vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
+                        <button ng-show="{{ vm.jeIzvajalec(zaposlen.zaposlen._id) }}" class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
+                        <button ng-show="{{ !vm.jeIzvajalec(zaposlen.zaposlen._id) }}" class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <button class="btn btn-primary" ng-click="vm.koncaj()">Zapusti urejanje</button>
 </div>
