@@ -80,6 +80,8 @@ router.delete('/izpit/:izpit_id/izvajalec/:izvajalec_id', ctrl.Izpit.delIzvajalc
 // Prijave na izpit
 router.post('/izpit/:izpit_id/prijava', ctrl.Izpit.prijavaNaIzpitStudent);
 router.delete('/izpit/:izpit_id/odjava/:student_id', ctrl.Izpit.odjavaIzIzpitaStudent);
+router.post('/izpit/:izpit_id/prijava/force', ctrl.Izpit.prijavaNaIzpitForce);
+router.delete('/izpit/:izpit_id/odjava/:student_id/force', ctrl.Izpit.odjavaIzIzpitaForce);
 
 // Žetoni
 router.post('/zeton', ctrl.zeton.ustvariZetone);
@@ -87,6 +89,9 @@ router.post('/zeton/:student_id', ctrl.zeton.ustvariZeton);
 router.get('/zeton/:student_id', ctrl.zeton.pridobiZetoneStudenta);
 router.put('/zeton/:student_id/:zeton_id', ctrl.zeton.urediZeton);
 router.delete('/zeton/:student_id/:zeton_id', ctrl.zeton.izbrisZetona);
+router.post('/student/:student_id/zeton', ctrl.student.addZetonStudentu);
+router.put('/student/:student_id/zeton/:zeton_id', ctrl.student.editZetonStudenta);
+router.delete('/student/:student_id/zeton/:zeton_id', ctrl.student.delZetonStudenta);
 
 /* VPIS */
 // Referentka nadzor vpisov
