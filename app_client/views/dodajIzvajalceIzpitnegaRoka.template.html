@@ -1,0 +1,75 @@
+<div class="container">
+    <div id="custom-search-input">
+        <div class="input-group col-md-4">
+            <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="container table-responsive">
+        <table ng-show="!iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
+            <thead>
+                <tr>
+                    <th>Priimek</th>
+                    <th>Ime</th>
+                    <th>Naziv</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.trenutnaStran == vm.zaposleni.length - 1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran]" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
+                    <td>{{ zaposlen.zaposlen.priimek }}</td>
+                    <td>{{ zaposlen.zaposlen.ime }}</td>
+                    <td>{{ zaposlen.zaposlen.naziv }}</td>
+                    <td>{{ zaposlen.zaposlen.email }}</td>
+                    <td>
+                        <button ng-show="{{vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
+                        <button ng-show="{{!vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table ng-show="iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
+            <thead>
+                <tr>
+                    <th>Priimek</th>
+                    <th>Ime</th>
+                    <th>Naziv</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody
+                <tr ng-repeat="zaposlen in vm.vsiZaposleni | filter: iskanje" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
+                    <td>{{ zaposlen.zaposlen.priimek }}</td>
+                    <td>{{ zaposlen.zaposlen.ime }}</td>
+                    <td>{{ zaposlen.zaposlen.naziv }}</td>
+                    <td>{{ zaposlen.zaposlen.email }}</td>
+                    <td>
+                        <button ng-show="{{vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-danger" type="button" ng-click="vm.odstraniIzvajalca(zaposlen.zaposlen._id)">Odstrani izvajalca</button>
+                        <button ng-show="{{!vm.jeIzvajalec(zaposlen.zaposlen._id)}}" class="btn btn-primary" type="button" ng-click="vm.dodajIzvajalca(zaposlen.zaposlen._id)">Dodaj izvajalca</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
