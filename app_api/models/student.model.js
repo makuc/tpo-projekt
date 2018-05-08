@@ -4,8 +4,8 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var predmetStudentaSchema = new mongoose.Schema({
     predmet: {type: ObjectId, ref: 'Predmet', required: true},
     
-    ocena: {type: Number, "default": 0, min: 0, max: 10},
-    izpit: {type: ObjectId, required: false},
+    ocena: {type: Number, "default": -1, min: -1, max: 10},
+    izpit: {type: ObjectId, ref: "Izpit", required: false},
     
     zaporedni_poskus: {type: Number, min: 0, "default": 0},
     zaporedni_poskus_skupaj: {type: Number, min: 0, "default": 0}

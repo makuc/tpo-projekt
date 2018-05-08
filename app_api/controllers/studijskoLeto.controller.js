@@ -63,6 +63,15 @@ module.exports.obnoviStudijskoLeto = function(req, res) {
   callNext(req, res, [ najdiStudijskoLetoId, obnoviStudijskoLeto, vrniStudijskoLeto ]);
 };
 
+module.exports.oznaciTrenutnoStudijskoLeto = function(req, res) {
+  if(!req.body || !req.body.studijsko_leto)
+    return res.status(400).json({ message: "Ni podanega študijskega leta"});
+  
+  callNext(req, res, [
+    najdiTrenutnoStudijskoLeto, resetThem, najdiStudijskoLetoId, makeItDefault, shraniLeto, vrniStudijskoLeto
+  ]);
+};
+
 
 /* Funkcije */
 function najdiStudijskoLetoIme(req, res, next) {
@@ -92,7 +101,9 @@ function createStudijskoLeto(req, res, next) {
   });
 }
 function najdiStudijskoLetoId(req, res, next) {
-  StudijskoLeto.findById(req.params.leto_id, function(err, leto) {
+  var leto_id = req.params.leto_id || req.body.studijsko_leto;
+  
+  StudijskoLeto.findById(leto_id, function(err, leto) {
     if(err || !leto) {
       return res.status(404).json({ message: "Ne najdem želenega študijskega leta" });
     }
@@ -137,6 +148,61 @@ function obnoviStudijskoLeto(req, res, next) {
   req.leto.save(function(err, leto) {
     if(err)
       return res.status(400).json({ message: "Nekaj šlo narobe pri obnavljanju študijskega leta" });
+    
+    req.leto = leto;
+    
+    callNext(req, res, next);
+  });
+}
+
+function najdiTrenutnoStudijskoLeto(req, res, next) {
+  StudijskoLeto.find({
+    trenutno: true
+  }, function(err, leta) {
+    if(err || !leta) {
+      return res.status(404).json({ message: "Napaka pri pridobivanju trenutnih študijskih let"});
+    }
+    
+    req.leta = leta;
+    
+    callNext(req, res, next);
+  });
+}
+function resetThem(req, res, next) {
+  if(next) {
+    req.myNext = next;
+  }
+  
+  if(req.leta.length > 0)
+  {
+    req.leto = req.leta.shift();
+    req.leto.trenutno = false;
+    
+    callNext(req, res, [ shraniLeto, resetThem ]);
+  }
+  else
+  {
+    next = req.myNext;
+    req.myNext = undefined;
+    
+    callNext(req, res, next);
+  }
+}
+function makeItDefault(req, res, next) {
+  
+  console.log(req.leto);
+  
+  req.leto.trenutno = true;
+  
+  callNext(req, res, next);
+}
+function shraniLeto(req, res, next) {
+  req.leto.save(function(err, leto) {
+    if(err || !leto)
+    {
+      console.log("---shraniLeto:\n" + err);
+      return res.status(400).json({ message: "Napaka pri shranjevanju leta"});
+    }
     
     req.leto = leto;
     

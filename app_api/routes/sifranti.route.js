@@ -56,6 +56,7 @@ router.get('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.getStudijskoLet
 router.post('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.obnoviStudijskoLeto);
 router.put('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.editStudijskoLeto);
 router.delete('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.delStudijskoLeto);
+router.post('/trenutno-leto', ctrl.NeodvisniPodatki.StudijskoLeto.oznaciTrenutnoStudijskoLeto);
 
 // Controller Občina
 router.get('/obcina', ctrl.NeodvisniPodatki.Obcina.getObcine);

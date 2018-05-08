@@ -950,7 +950,7 @@ var zacetniPodatki = {
     ],
     
     studijskaLeta: [
-{ "_id": ObjectId("5ac3c4553f0fb21a058ff3d8"), "studijsko_leto": "2015/2016" },
+{ "_id": ObjectId("5ac3c4553f0fb21a058ff3d8"), "studijsko_leto": "2015/2016", "trenutno": true },
 { "_id": ObjectId("5ac3c4553f0fb21a058ff3d9"), "studijsko_leto": "2016/2017" },
 { "_id": ObjectId("5ac3c4553f0fb21a058ff3da"), "studijsko_leto": "2017/2018" },
 ],

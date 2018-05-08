@@ -66,6 +66,8 @@ router.post('/student/uvoz-sprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
 router.get('/student/:student_id/izpit', ctrl.Izpit.getMozneIzpiteStudenta);
+router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
+//router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
 
 // Controller Izpiti
 router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
