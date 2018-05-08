@@ -83,7 +83,27 @@ module.exports.odjavaIzIzpitaStudent = function(req, res) {
     najdiIzpit, najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, odjavaUspesna
   ]);
 };
-
+module.exports.prijavaNaIzpitForce = function(req, res) {
+  if(!req.body || !req.body.student) {
+    return res.status(400).json({ message: "Ni izbranega študenta za prijavo"});
+  }
+  
+  req.force = true;
+  req.opozorila = [];
+  
+  callNext(req, res, [
+    najdiIzpit, najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet,
+    najdiPolaganje, preveriPrijavljenNaDrugIzpit, preveriPretekloDovoljDni, dodajPolagalca, visajZaporedniPoskus, prijavaUspesna
+  ]);
+};
+module.exports.odjavaIzIzpitaForce = function(req, res) {
+  req.force = true;
+  req.opozorila = [];
+  
+  callNext(req, res, [
+    najdiIzpit, najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, odjavaUspesna
+  ]);
+};
 
 
 /* Funkcije */
@@ -466,7 +486,9 @@ function najdiPolaganje(req, res, next) {
 
 function dodajPolagalca(req, res, next) {
   if(req.danes > req.izpit.datum_izvajanja) {
-    return res.status(403).json({ message: "Rok za prijavo potekel"});
+    if(!req.force)
+      return res.status(403).json({ message: "Rok za prijavo potekel"});
+    req.opozorila.push("Rok za prijavo je potekel");
   }
   
   req.placano = true;
@@ -477,11 +499,15 @@ function dodajPolagalca(req, res, next) {
   }
   else if(req.predmet.zaporedni_poskus_skupaj + 1 > 6)
   {
-    return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
+    if(!req.force)
+      return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
+    req.opozorila.push("Izpitov za ta predmet ne more več opravljati");
   }
   if(req.predmet.zaporedni_poskus +1 > 3)
   {
-    return res.status(400).json({ message: "Izpit za ta predmet si že opravljal 3x"});
+    if(!req.force)
+      return res.status(400).json({ message: "Izpit za ta predmet si že opravljal 3x"});
+    req.opozorila.push("Izpit za ta predmet je že opravljal 3x");
   }
   
   if(!req.polaganje) {
@@ -530,7 +556,9 @@ function dodajPolagalca(req, res, next) {
 }
 function odjaviPolagalca(req, res, next) {
   if(req.danes > req.izpit.datum_izvajanja) {
-    return res.status(403).json({ message: "Rok za odjavo potekel"});
+    if(!req.force)
+      return res.status(403).json({ message: "Rok za odjavo potekel"});
+    req.opozorila.push("Rok za odjavo potekel");
   }
   
   if(!req.polaganje || req.polaganje.odjavljen) {
@@ -556,11 +584,15 @@ function odjaviPolagalca(req, res, next) {
 function prijavaUspesna(req, res) {
   res.status(201).json({
     message: "Prijava na izpit uspešna",
-    moraPlacati: !req.placano
+    moraPlacati: !req.placano,
+    opozorila: req.opozorila
   });
 }
 function odjavaUspesna(req, res) {
-  res.status(201).json({ message: "Odjava iz izpita uspešna"});
+  res.status(201).json({
+    message: "Odjava iz izpita uspešna",
+    opozorila: req.opozorila
+  });
 }
 
 function visajZaporedniPoskus(req, res, next) {
@@ -669,8 +701,10 @@ function preveriPrijavljenNaDrugIzpit(req, res, next) {
       console.log("---preveriPrijavljenNaDrugIzpit:\n" + err);
       return res.status(404).json({ message: "Napaka pri pridobivanju izpitov, na katere je že prijavljen"});
     }
-    if(izpit) {
+    if(izpit && !req.force) {
       return res.status(400).json({ message: "Si že prijavljen na izpit za ta predmet,"});
+    } else if(izpit) {
+      req.opozorila.push("Študent je že prijavljen na en drug izpit za ta predmet");
     }
     
     callNext(req, res, next);
@@ -701,8 +735,10 @@ function preveriPretekloDovoljDni(req, res, next) {
       return res.status(404).json({ message: "Napaka pri pridobivanju izpita preden je preteklo dovolj dni"});
     }
     
-    if(izpit) {
+    if(izpit && !req.force) {
       return res.status(400).json({ message: "Ni še preteklo dovolj dni od prejšnjega polaganja izpita za ta predmet"});
+    } else if(izpit) {
+      req.opozorila.push("Ni še preteklo dovolj dni od prejšnjega polaganja izpita za ta predmet");
     }
     
     callNext(req, res, next);

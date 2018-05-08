@@ -70,6 +70,36 @@ module.exports.updateStudenta = function(req, res){
   ]);
 };
 
+// Manipuliranje z žetoni!
+module.exports.addZetonStudentu = function(req, res) {
+  if(!req.body || !req.body.studijsko_leto || !req.body.letnik || !req.body.studijski_program ||
+          !req.body.studijsko_leto_prvega_vpisa_v_ta_program || !req.body.vrsta_studija || !req.body.vrsta_vpisa ||
+          !req.body.oblika_studija || !req.body.usmeritev || !req.body.izbirna_skupina || !req.body.kraj_izvajanja || !req.body.nacin_studija)
+  {
+    return res.status(400).json({ message: "Ni dovolj podatkov za kreiranje novega žetona"});
+  }
+  
+  callNext(req, res, [ najdiStudentaId,
+    validateStudijskoLeto, validateLetnik, validateStudijskiProgram, validateStudijskoLetoPrvegaVpisa, validateVrstaStudija,
+    validateVrstaVpisa, validateOblikaStudija, validateNacinStudija, dodajZetonStudentu, vrniZeton
+  ]);
+};
+module.exports.editZetonStudenta = function(req, res) {
+  if(!req.body || (!req.body.studijsko_leto && !req.body.letnik && !req.body.studijski_program &&
+          !req.body.studijsko_leto_prvega_vpisa_v_ta_program && !req.body.vrsta_studija && !req.body.vrsta_vpisa &&
+          !req.body.oblika_studija && !req.body.usmeritev && !req.body.izbirna_skupina && !req.body.kraj_izvajanja && !req.body.nacin_studija))
+  {
+    return res.status(400).json({ message: "Nobenega podatka žetona ne spreminjap"});
+  }
+  
+  callNext(req, res, [ najdiStudentaId,
+    validateStudijskoLeto, validateLetnik, validateStudijskiProgram, validateStudijskoLetoPrvegaVpisa, validateVrstaStudija,
+    validateVrstaVpisa, validateOblikaStudija, validateNacinStudija, najdiZetonStudenta, urediZetonStudenta, najdiZetonStudenta, vrniZeton
+  ]);
+};
+module.exports.delZetonStudenta = function(req, res) {
+  callNext(req, res, [najdiStudentaId, najdiZetonStudenta, odstraniZetonStudenta ]);
+};
 
 /****************************************/
 /*********** Pomožne funkcije ***********/
@@ -152,6 +182,77 @@ function pridobiStudenta(req, res) {
           return res.status(404).json({ "message": "Ni študenta s tem ID"});
         }
         res.status(200).json(student);
+      }
+    );
+}
+function najdiStudentaId(req, res, next) {
+  models.Student
+    .findById(req.params.student_id)
+    .populate([
+      {
+        path: "drzava_rojstva",
+        select: "slovenski_naziv"
+      },
+      // Stalno bivališče
+      {
+        path: "stalno_bivalisce_posta",
+        select: "naziv"
+      },
+      {
+        path: "stalno_bivalisce_obcina",
+        select: "ime"
+      },
+      {
+        path: "stalno_bivalisce_drzava",
+        select: "slovenski_naziv"
+      },
+      // Začasno bivališče
+      {
+        path: "zacasno_bivalisce_posta",
+        select: "naziv"
+      },
+      {
+        path: "zacasno_bivalisce_obcina",
+        select: "ime"
+      },
+      {
+        path: "zacasno_bivalisce_drzava",
+        select: "slovenski_naziv"
+      },
+      {
+        path: "studijska_leta_studenta.studijsko_leto"
+      },
+      {
+        path: "studijska_leta_studenta.letnik",
+        populate: {
+          path: "studijskiProgram"
+        }
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_studija"
+      },
+      {
+        path: "studijska_leta_studenta.vrsta_vpisa"
+      },
+      {
+        path: "studijska_leta_studenta.nacin_studija"
+      },
+      {
+        path: "studijska_leta_studenta.oblika_studija"
+      },
+      {
+        path: "studijska_leta_studenta.predmeti.predmet"
+      }
+    ])
+    .exec(
+      function(err, student) {
+        if(err || !student){
+          return res.status(404).json({ "message": "Ni študenta s tem ID"});
+        }
+        
+        req.student = student;
+        
+        callNext(req, res, next);
       }
     );
 }
@@ -725,34 +826,148 @@ function popraviStudenta(req, res, next) {
 }
 
 function validateStudijskoLeto(req, res, next) {
-  models.StudijskoLeto
-    .findById(req.body.studijsko_leto)
-    .populate()
-    .exec(function(err, leto) {
-      if(err || !leto) {
-        console.log(err);
-        return res.status(404).json({ message: "Ne najdem izbranega študijskega leta" });
-      }
-      
-      req.studijskoLeto = leto;
-      
-      callNext(req, res, next);
-    });
+  if(req.body.studijsko_leto) {
+    models.StudijskoLeto
+      .findById(req.body.studijsko_leto)
+      .populate()
+      .exec(function(err, leto) {
+        if(err || !leto) {
+          console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbranega študijskega leta" });
+        }
+        
+        req.studijskoLeto = leto;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateStudijskoLetoPrvegaVpisa(req, res, next) {
+  if(req.body.studijsko_leto_prvega_vpisa_v_ta_program) {
+    models.StudijskoLeto
+      .findById(req.body.studijsko_leto_prvega_vpisa_v_ta_program)
+      .populate()
+      .exec(function(err, leto) {
+        if(err || !leto) {
+          console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbranega študijskega leta" });
+        }
+        
+        req.studijskoLetoPrvegaVpisa = leto;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
 }
 function validateNacinStudija(req, res, next) {
-  models.NacinStudija
-    .findById(req.body.nacin_studija)
-    .populate()
-    .exec(function(err, nacinStudija) {
-      if(err || !nacinStudija) {
-        //console.log(err);
-        return res.status(404).json({ message: "Ne najdem izbranega načina študija" });
-      }
-      
-      req.nacinStudija = nacinStudija;
-      
-      callNext(req, res, next);
-    });
+  if(req.body.nacin_studija) {
+    models.NacinStudija
+      .findById(req.body.nacin_studija)
+      .populate()
+      .exec(function(err, nacinStudija) {
+        if(err || !nacinStudija) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbranega načina študija" });
+        }
+        
+        req.nacinStudija = nacinStudija;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateLetnik(req, res, next) {
+  if(req.body.letnik) {
+    models.Letnik
+      .findById(req.body.letnik)
+      .populate()
+      .exec(function(err, letnik) {
+        if(err || !letnik) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbranega letnika" });
+        }
+        
+        req.letnik = letnik;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateStudijskiProgram(req, res, next) {
+  if(req.body.studijski_program) {
+    models.StudijskiProgram
+      .findById(req.body.studijski_program)
+      .populate()
+      .exec(function(err, studijskiProgram) {
+        if(err || !studijskiProgram) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbranega študijskega programa" });
+        }
+        
+        req.studijskiProgram = studijskiProgram;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateVrstaStudija(req, res, next) {
+  if(req.body.vrsta_studija) {
+    models.VrstaStudija
+      .findById(req.body.vrsta_studija)
+      .populate()
+      .exec(function(err, vrstaStudija) {
+        if(err || !vrstaStudija) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbrane vrste študija" });
+        }
+        
+        req.vrstaStudija = vrstaStudija;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateOblikaStudija(req, res, next) {
+  if(req.body.oblika_studija) {
+    models.OblikaStudija
+      .findById(req.body.oblika_studija)
+      .populate()
+      .exec(function(err, oblikaStudija) {
+        if(err || !oblikaStudija) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbrane oblike študija" });
+        }
+        
+        req.oblikaStudija = oblikaStudija;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
+}
+function validateVrstaVpisa(req, res, next) {
+  if(req.body.vrsta_vpisa) {
+    models.VrstaVpisa
+      .findById(req.body.vrsta_vpisa)
+      .populate()
+      .exec(function(err, vrstaVpisa) {
+        if(err || !vrstaVpisa) {
+          //console.log(err);
+          return res.status(404).json({ message: "Ne najdem izbrane vrste vpisa" });
+        }
+        
+        req.vrstaVpisa = vrstaVpisa;
+        
+        callNext(req, res, next);
+      });
+  } else
+    callNext(req, res, next);
 }
 
 function ustvariStudentomZetone(req, res, next) {
@@ -848,4 +1063,104 @@ function ustvariZetonNovemuStudentu(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+
+function pripraviObjektZetonaStudentu(req, res, next) {
+  
+}
+function dodajZetonStudentu(req, res, next) {
+  req.student.zetoni.push({
+    studijsko_leto: req.studijskoLeto,
+    letnik: req.letnik,
+    studijski_program: req.studijskiProgram,
+    studijsko_leto_prvega_vpisa_v_ta_program: req.studijskoLetoPrvegaVpisa || req.studijskoLeto,
+    vrsta_studija: req.vrstaStudija,
+    vrsta_vpisa: req.vrstaVpisa,
+    oblika_studija: req.oblikaStudija,
+    
+    usmeritev: req.body.usmeritev,
+    izbirna_skupina: req.body.izbirna_skupina,
+    
+    kraj_izvajanja: req.body.kraj_izvajanja,
+    
+    nacin_studija: req.nacinStudija
+  });
+  
+  req.student.save(function(err, student) {
+    if(err || !student) {
+      console.log("---dodajZetonStudentu:\n" + err);
+      return res.status(400).json({ message: "Napaka pri dodajanju žetona" });
+    }
+    
+    req.student = student;
+    
+    req.zeton = req.student.zetoni[req.student.zetoni.length - 1];
+    
+    callNext(req, res, next);
+  });
+}
+
+function najdiZetonStudenta(req, res, next) {
+  req.zeton = req.student.zetoni.id(req.params.zeton_id);
+  
+  if(!req.zeton)
+  {
+    return res.status(404).json({ message: "Ne najdem izbranega žetona"});
+  }
+  
+  callNext(req, res, next);
+}
+function urediZetonStudenta(req, res, next) {
+  if(req.studijskoLeto)
+    req.zeton.studijsko_leto = req.studijskoLeto;
+  if(req.letnik)
+    req.zeton.letnik = req.letnik;
+  if(req.studijskiProgram)
+    req.zeton.studijski_program = req.studijskiProgram;
+  if(req.studijskoLetoPrvegaVpisa)
+    req.zeton.studijsko_leto_prvega_vpisa_v_ta_program = req.studijskoLetoPrvegaVpisa;
+  if(req.vrstaStudija)
+    req.zeton.vrsta_studija = req.vrstaStudija;
+  if(req.vrstaVpisa)
+    req.zeton.vrsta_vpisa = req.vrstaVpisa;
+  if(req.oblikaStudija)
+    req.zeton.oblika_studija = req.oblikaStudija;
+  if(req.nacinStudija)
+    req.zeton.nacin_studija = req.nacinStudija;
+  
+  if(req.body.usmeritev)
+    req.zeton.usmeritev = req.body.usmeritev;
+  if(req.body.izbirna_skupina)
+    req.zeton.izbirna_skupina = req.body.izbirna_skupina;
+  if(req.body.kraj_izvajanja)
+    req.zeton.kraj_izvajanja = req.body.kraj_izvajanja;
+  
+  req.student.save(function(err, student) {
+    if(err || !student) {
+      console.log("---urediZetonStudenta:\n" + err);
+      return res.status(404).json({ message: "Napaka pri shranjevanju žetona"});
+    }
+    
+    req.student = student;
+    
+    callNext(req, res, next);
+  });
+}
+function odstraniZetonStudenta(req, res, next) {
+  req.student.zetoni.pull(req.zeton);
+  
+  req.student.save(function(err, student) {
+    if(err || !student)
+    {
+      console.log("---odstraniZetonStudenta:\n" + err);
+      return res.status(404).json({ message: "Napaka pri odstranjevanju žetona8"});
+    }
+    
+    req.student = student;
+    
+    return res.status(200).json({ message: "Žeton odstranjen"});
+  });
+}
+function vrniZeton(req, res, next) {
+  res.status(200).json(req.zeton);
 }
