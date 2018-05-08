@@ -7,6 +7,12 @@ var Zaposlen = mongoose.model('Zaposlen');
 
 
 /* GET home page. */
+module.exports.predmetiZaposlenega = function(req, res) {
+  if(!req.user || !req.user.zaposlen)
+    return res.status(403).json({ message: "Nisi prijavljen oziroma nisi zaposlen"});
+  
+  callNext(req, res, [ najdiPredmeteZaposlenega, odstraniOstalaStudijskaLeta, vrniPredmete ]);
+};
 module.exports.getPredmete = function(req, res) {
   Predmet
     .find({ valid: true })
@@ -344,4 +350,54 @@ function preveriIzvajalecZeIzvajaIzvedboPredmeta(req, res, next) {
   }
   
   callNext(req, res, next);
+}
+
+// Najde in procesira predmete zaposlenega
+function najdiPredmeteZaposlenega(req, res, next) {
+  Predmet
+    .find({
+      "izvedbe_predmeta.izvajalci": req.user.zaposlen,
+      valid: true
+    })
+    .exec(function(err, predmeti) {
+      if(err || !predmeti)
+      {
+        console.log("---najdiPredmeteZaposlenega:\n" + err);
+        return res.status(404).json({ message: "Ne najdem predmetov zaposlenega"});
+      }
+      
+      req.predmeti = predmeti;
+      
+      callNext(req, res, next);
+    });
+}
+function odstraniOstalaStudijskaLeta(req, res, next) {
+  for( var i = 0; i < req.predmeti.length; i++)
+  {// Obdelaj vse predmete
+    var predmet = req.predmeti[i].toObject();
+    
+    for(var j = 0; j < predmet.izvedbe_predmeta.length; j++)
+    {// Obdelaj vse izvedbe predmeta
+      var izvedba = predmet.izvedbe_predmeta[j];
+      var found = false;
+      
+      for(var x = 0; x < izvedba.izvajalci.length; x++)
+      {
+        if(izvedba.izvajalci[x].equals(req.user.zaposlen))
+        {
+          found = true;
+          break;
+        }
+      }
+      
+      if(!found) {
+        predmet.izvedbe_predmeta.splice(j, 1);
+        j--;
+      }
+    }
+  }
+  callNext(req, res, next);
+}
+function vrniPredmete(req, res, next) {
+  res.status(200).json(req.predmeti);
 }

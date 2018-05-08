@@ -150,6 +150,7 @@ router.delete('/del-predmetnika/:delPredmetnika_id', ctrl.NeodvisniPodatki.DelPr
 
 // Controller Predmet
 router.get('/predmet', ctrl.NeodvisniPodatki.Predmet.getPredmete);
+router.get('/predmet/zaposlen', ctrl.NeodvisniPodatki.Predmet.predmetiZaposlenega);
 router.get('/predmet/vse', ctrl.NeodvisniPodatki.Predmet.getVsePredmete);
 router.get('/predmet/izbrisane', ctrl.NeodvisniPodatki.Predmet.getIzbrisanePredmete);
 router.post('/predmet', ctrl.NeodvisniPodatki.Predmet.addPredmet);
