@@ -965,12 +965,12 @@ var zacetniPodatki = {
     vrsteVpisev: [
 { "_id": ObjectId("5ac8be2a7482291008d3f9f5"), "koda": 1, "naziv": "Prvi vpis v letnik/dodatno leto", "opis": "Vsi letniki in dodatno leto" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f6"), "koda": 2, "naziv": "Ponavljanje letnika", "opis": "V zadnjem letniku in v dodatnem letu ponavljanje ni možno." },
-{ "_id": ObjectId("5ac8be2a7482291008d3f9f7"), "koda": 3, "naziv": "Nadaljevanje letnika", "opis": "Vpis ni več dovoljen", valid: false },
+{ "_id": ObjectId("5ac8be2a7482291008d3f9f7"), "koda": 3, "naziv": "Nadaljevanje letnika", "opis": "Vpis ni več dovoljen", deleted: true },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f8"), "koda": 4, "naziv": "Podaljšanje statusa študenta", "opis": "Vsi letniki, dodatno leto" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f9"), "koda": 5, "naziv": "Vpis po merilih za prehode v višji letnik", "opis": "Vsi letniki razen prvega, dodatno leto ni dovoljeno." },
 { "_id": ObjectId("5ac8be2a7482291008d3f9fa"), "koda": 6, "naziv": "Vpis v semester skupnega št. programa", "opis": "Vsi letniki, samo za skupne študijske programe." },
 { "_id": ObjectId("5ac8be2a7482291008d3f9fb"), "koda": 7, "naziv": "Vpis po merilih za prehode v isti letnik", "opis": "Vsi letniki, dodatno leto ni dovoljeno." },
-{ "_id": ObjectId("5ac8be2a7482291008d3f9fc"), "koda": 98, "naziv": "Vpis za zaključek", "opis": "Zadnji letnik. Namenjeno samo strokovnim delavcem v študentskem referatu.", valid: false },
+{ "_id": ObjectId("5ac8be2a7482291008d3f9fc"), "koda": 98, "naziv": "Vpis za zaključek", "opis": "Zadnji letnik. Namenjeno samo strokovnim delavcem v študentskem referatu.", deleted: true },
     ],
     oblikeStudija: [
 { "_id": ObjectId("5ac8beac24ee18109953514b"), "sifra": 1, "naziv": "na lokaciji" },
