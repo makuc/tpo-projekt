@@ -153,10 +153,6 @@ router.post('/del-predmetnika/:delPredmetnika_id', auth.skrbnik, ctrl.NeodvisniP
 router.put('/del-predmetnika/:delPredmetnika_id', auth.skrbnik, ctrl.NeodvisniPodatki.DelPredmetnika.editDel);
 router.delete('/del-predmetnika/:delPredmetnika_id', auth.skrbnik, ctrl.NeodvisniPodatki.DelPredmetnika.delDel);
 
-
-
-
-
 // Controller Predmet
 router.get('/predmet', ctrl.NeodvisniPodatki.Predmet.getPredmete);
 router.get('/predmet/zaposlen', ctrl.NeodvisniPodatki.Predmet.predmetiZaposlenega);
@@ -167,30 +163,11 @@ router.get('/predmet/:predmet_id', ctrl.NeodvisniPodatki.Predmet.getPredmet);
 router.post('/predmet/:predmet_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.obnoviPredmet);
 router.put('/predmet/:predmet_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.editPredmet);
 router.delete('/predmet/:predmet_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delPredmet);
-
-// Vzdrževanje kombinacij izvedb predmeta
-router.get('/predmet/:predmet_id/kombinacija', ctrl.NeodvisniPodatki.Predmet.getKombinacijeIzvajalcev);
-router.get('/predmet/:predmet_id/kombinacija/vse', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.getKombinacijeIzvajalcev);
-router.post('/predmet/:predmet_id/kombinacija', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addKombinacijaIzvajalcev);
-router.delete('/predmet/:predmet_id/kombinacija/:kombinacija_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.izbrisiKombinacijaIzvajalcev);
-router.post('/predmet/:predmet_id/kombinacija/:kombinacija_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.obnoviKombinacijaIzvajalcev);
-router.post('/predmet/:predmet_id/kombinacija/:kombinacija_id/izvajalec', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvajalcaKombinaciji);
-router.delete('/predmet/:predmet_id/kombinacija/:kombinacija_id/izvajalec/:izvajalec_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvajalcaKombinaciji);
-
 // Vzdrževanje izvedb predmeta
 router.post('/predmet/:predmet_id/izvedba', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvedbaPredmeta);
 router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvedbaPredmeta);
-router.post('/predmet/:predmet_id/izvedba/:studijskoLeto_id/kombinacija/:kombinacija_id',
-    auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.dodajKombinacijoIzvedbi
-);
-router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id/kombinacija/:kombinacija_id',
-    auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.odstraniKombinacijoIzvedbi
-);
-
-
-
-
-
+router.post('/predmet/:predmet_id/izvedba/:studijskoLeto_id/izvajalec', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvajalcaIzvedbiPredmeta);
+router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id/izvajalec/:izvajalec_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvajalcaIzvedbiPredmeta);
 
 // Controller Letnik
 router.get('/letnik', ctrl.NeodvisniPodatki.Letnik.getLetnike);
