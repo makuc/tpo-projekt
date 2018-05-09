@@ -32,35 +32,35 @@ module.exports.addIzpit = function(req, res) {
   if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja)
     return res.status(400).json({ message: "Manjkajo podatki za kreiranje izpitnega roka" });
   
-  callNext(req, res, [ validateDatumIzvedbe, validatePredmet, validateStudijskoLeto, validateIzvedboPredmeta, ustvariIzpit, vrniIzpit ]);
+  callNext(req, res, [
+    validateDatumIzvedbe,
+    validatePredmet, validateStudijskoLeto, validateIzvedboPredmeta,
+    
+    // Najdi izvajalce predmeta
+    preveriIzvedboPredmeta,
+    
+    ustvariIzpit, vrniIzpit
+  ]);
 };
 module.exports.editIzpit = function(req, res) {
-  console.log(req.body);
   if(!req.body || (!req.body.datum_izvajanja)) {
     return res.status(400).json({ message: "Nobenega podatka izpita ne spreminjaš" });
   }
   
-  callNext(req, res,[ najdiIzpit, validateDatumIzvedbe, urediIzpit, shraniIzpit, vrniIzpit ]);
+  callNext(req, res,[
+    najdiIzpit, validateDatumIzvedbe,
+    
+    // Najdi izvajalce predmeta
+    preveriIzvedboPredmeta,
+    
+    // Popravi izpit
+    urediIzpit,
+    shraniIzpit, vrniIzpit
+  ]);
 };
 module.exports.delIzpit = function(req, res) {
   callNext(req, res, [ najdiIzpit, izbrisiIzpit, vrniIzpit ]);
 };
-
-module.exports.addIzvajalcaIzpita = function(req, res) {
-  if(!req.body || !req.body.izvajalec) {
-    return res.status(400).json({ message: "Ni podanega izvajatelja za izvedbo predmeta" });
-  }
-  
-  callNext(req, res, [
-    najdiIzpit, validateIzvajalca, preveriIzvajalcaIzpita, dodajIzvajalcaIzpita, shraniIzpit, vrniIzpit
-  ]);
-};
-module.exports.delIzvajalcaIzpita = function(req, res) {
-  callNext(req, res, [
-    najdiIzpit, validateIzvajalca, preveriIzvajalcaIzpita, odstraniIzvajalcaIzpita, shraniIzpit, vrniIzpit
-  ]);
-};
-
 
 // Prijave in odjave na izpite
 module.exports.getMozneIzpiteStudenta = function(req, res) {
@@ -216,6 +216,7 @@ function najdiIzpit(req, res, next) {
       }
       
       req.izpit = izpit;
+      req.predmet = izpit.predmet;
       
       callNext(req, res, next);
     });
@@ -225,7 +226,9 @@ function ustvariIzpit(req, res, next) {
     predmet: req.predmet,
     studijsko_leto: req.studijskoLeto,
     datum_izvajanja: req.datumIzvajanja,
-    opombe: req.body.opombe
+    opombe: req.body.opombe,
+    
+    izvajalci: req.izvedba.izvajalci
   }, function(err, izpit) {
     if(err) {
       console.log(err);
@@ -346,8 +349,8 @@ function validIzvedbaPredmeta(req, res, next) {
 function validateDatumIzvedbe(req, res, next) {
   req.datumIzvajanja = new Date(req.body.datum_izvajanja);
   
-  console.log(req.datumIzvajanja);
-  console.log(req.datumIzvajanja.getDay());
+  //console.log(req.datumIzvajanja);
+  //console.log(req.datumIzvajanja.getDay());
   
   if(req.datumIzvajanja.getDay() == 0 || req.datumIzvajanja.getDay() == 6)
     return res.status(400).json({ message: "Izpit se ne more izvajati na vikend" });
@@ -671,41 +674,6 @@ function pripraviDateDanes(req, res, next) {
   callNext(req, res, next);
 }
 
-function preveriIzvajalcaIzpita(req, res, next) {
-  if(!req.izvajalec) {
-    return res.status(404).json({ message: "Ne najdem izbranega izvajalca"});
-  }
-  
-  for(var i = 0; i < req.izpit.izvajalci.length; i++) {
-    if(req.izpit.izvajalci[i].equals(req.izvajalec)) {
-      req.izvajaIzpit = true;
-    }
-  }
-  
-  callNext(req, res, next);
-}
-function dodajIzvajalcaIzpita(req, res, next) {
-  if(req.izvajaIzpit) {
-    return res.status(400).json({ message: "Ta izvajalec že izvaja izbran izpit"});
-  }
-  if(req.izpit.izvajalci.length >= 3) {
-    return res.status(400).json({ message: "Izpit ima lahko največ 3 izvajalce" });
-  }
-  
-  req.izpit.izvajalci.push(req.izvajalec);
-  
-  callNext(req, res, next);
-}
-function odstraniIzvajalcaIzpita(req, res, next) {
-  if(!req.izvajaIzpit) {
-    return res.status(400).json({ message: "Ta izvajalec ne izvaja izbranega izpita"});
-  }
-  
-  req.izpit.izvajalci.pull(req.izvajalec);
-  
-  callNext(req, res, next);
-}
-
 function preveriPrijavljenNaDrugIzpit(req, res, next) {
   Izpit.findOne({
     predmet: req.izpit.predmet,
@@ -848,4 +816,15 @@ function najdiPrijavljenIzpit(req, res, next) {
       
       callNext(req, res, next);
     });
+}
+
+function preveriIzvedboPredmeta(req, res, next) {
+  req.izvedba = req.predmet.izvedbe_predmeta.id(req.body.izvedba_predmeta);
+  
+  if(!req.izvedba)
+  {
+    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta za ta predmet"});
+  }
+  
+  callNext(req, res, next);
 }
