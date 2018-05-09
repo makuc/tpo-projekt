@@ -17,16 +17,18 @@
         <table ng-show="iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
             <thead>
                 <tr>
-                    <th>Naziv</th>
+                    <td>Zaporedna številka</td>
                     <th>Šifra</th>
+                    <th>Naziv</th>
                     <th>Izvajalci</th>
                     <th>Datum</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran] | filter: iskanje">
-                    <td>{{ x.predmet.naziv }}</td>
+                    <td>#{{$index + 1}}</td>
                     <td>{{ x.predmet.sifra }}</td>
+                    <td>{{ x.predmet.naziv }}</td>
                     <td>
                       <ul>
                           <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
@@ -43,16 +45,18 @@
         <table ng-show="!iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
             <thead>
                 <tr>
-                    <th>Naziv</th>
+                    <td>Zaporedna številka</td>
                     <th>Šifra</th>
+                    <th>Naziv</th>
                     <th>Izvajalci</th>
                     <th>Datum</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran]">
-                    <td>{{ x.predmet.naziv }}</td>
+                    <td>#{{$index + 1}}</td>
                     <td>{{ x.predmet.sifra }}</td>
+                    <td>{{ x.predmet.naziv }}</td>
                     <td>
                       <ul>
                           <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  

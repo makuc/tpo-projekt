@@ -1,15 +1,17 @@
 <header></header>
 
+
+<div class="row">
+    <button class="btn btn-success" id="logout" ng-click="logoutFunc()">Odjava</button>
+</div>
 <!-- Zacetna stran od studenta -->
 <div ng-show="vm.student">
-    <h2>Dobrodošli</h2>
+    <button class="btn btn-success" id="myProf" type="submit" ng-click="myData()" style="top: 109px">Moj profil</button>
+    <h3>Študent</h3>
     <form role="form"  class="form-horizonral"  >
         <div class="col-sm-12">
              <div class="row">
                 <span flex></span>
-                 <button class="btn btn-success" id="myProf" type="submit" ng-click="myData()">Moj profil</button>
-               
-                 <button class="btn btn-success" id="logout" type="submit" ng-click="logoutFunc()">Odjava</button>
             </div>
     
              <div class="row" id="mainEl">
@@ -39,14 +41,21 @@
 </div>
 
 
-<!-- Zacetna stran od zaposlenega -->
-<div ng-show="vm.zaposlen">
-    <div class="row">
-        <button class="btn btn-success" id="logout" ng-click="logoutFunc()">Odjava</button>
-    </div>
-    <h3>Zaposleni</h3>
+<!-- Zacetna stran od profesorja -->
+<div ng-show="vm.predavatelj">
+    <h3>Profesor</h3>
     <button class="btn" type="button" ng-click="vm.izpitniRoki()" id="option">Izpitni roki</button>
     <button class="btn" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
+</div>
+
+<!-- Zacetna stran od referentke -->
+<div ng-show="vm.referentka">
+    <h3>Referentka</h3>
+</div>
+
+<!-- Zacetna stran od skrbnika -->
+<div ng-show="vm.skrbnik">
+    <h3>Skrbnik</h3>
 </div>
 
 
