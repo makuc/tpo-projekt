@@ -101,6 +101,12 @@ module.exports.delZetonStudenta = function(req, res) {
   callNext(req, res, [najdiStudentaId, najdiZetonStudenta, odstraniZetonStudenta ]);
 };
 
+// Pridobivanje popolnega študentovega kartotečnega lista
+module.exports.celotenKartotecniList = function(req, res) {
+  callNext(req, res, [ najdiStudentaId, pripraviOsnutekKartoteke, najdiVseIzpiteStudenta, poveziIzpitePredmetom, vrniStudenta ]);
+};
+
+
 /****************************************/
 /*********** Pomožne funkcije ***********/
 /****************************************/
@@ -174,6 +180,9 @@ function pridobiStudenta(req, res) {
       },
       {
         path: "studijska_leta_studenta.predmeti.predmet"
+      },
+      {
+        path: "studijska_leta_studenta.predmeti.izpit"
       }
     ])
     .exec(
@@ -1163,4 +1172,100 @@ function odstraniZetonStudenta(req, res, next) {
 }
 function vrniZeton(req, res, next) {
   res.status(200).json(req.zeton);
+}
+
+// Pripravi kartotečni list
+function pripraviOsnutekKartoteke(req, res, next) {
+  req.student = req.student.toObject();
+  
+  for(var i = 0; i < req.student.studijska_leta_studenta.length; i++)
+  {
+    var leto = req.student.studijska_leta_studenta[i];
+    
+    for(var j = 0; j < leto.predmeti.length; j++)
+    {
+      leto.predmeti[j].izpiti = [];
+    }
+    
+  }
+  
+  callNext(req, res, next);
+}
+function najdiVseIzpiteStudenta(req, res, next) {
+  models.Izpit
+    .find({
+      polagalci: {
+        $elemMatch: {
+          student: req.student,
+          odjavljen: false,
+          valid: true
+        }
+      }
+    })
+    .populate("izvajalci")
+    .exec(function(err, izpiti) {
+      if(err || !izpiti)
+      {
+        console.log("---najdiVseIzpiteStudenta:\n" + err);
+        return res.status(404).json({ message: "Napaka pri pridobivanju vseh izpitov študenta"});
+      }
+      
+      req.izpiti = izpiti;
+      
+      callNext(req, res, next);
+    });
+}
+function poveziIzpitePredmetom(req, res, next) {
+  console.log("--poveziIzpitePredmetom");
+  while(req.izpiti.length > 0)
+  {// Obdelaj vse pridobljene izpite
+    var izpit = req.izpiti.pop().toObject();
+    
+    izpit = odstraniOstalePolagalce(izpit, req.student);
+    
+    var leta = req.student.studijska_leta_studenta;
+    
+    console.log("Obdelaj izpit... Najdi študijsko leto");
+    
+    for(var i = 0; i < leta.length; i++)
+    {// Najdi ustrezno študijsko leto
+      if(leta[i].studijsko_leto._id.equals(izpit.studijsko_leto))
+      {
+        var leto = leta[i];
+        
+        console.log("Študijsko leto najdeno!");
+        
+        for(var x = 0; x < leto.predmeti.length; x++)
+        {// Najdi ustrezen predmet
+          if(leto.predmeti[x].predmet._id.equals(izpit.predmet))
+          {
+            var predmet = leto.predmeti[x];
+            
+            predmet.izpiti.push(izpit);
+            break;
+          }
+        }
+        
+        break;
+      }
+    }
+    
+  }
+  
+  callNext(req, res, next);
+}
+
+function odstraniOstalePolagalce(izpit, student) {
+  for(var i = 0; i < izpit.polagalci.length; i++)
+  {
+    if(student._id.equals(izpit.polagalci[i].student))
+    {
+      izpit.polaganje = izpit.polagalci[i];
+      izpit.polagalci = undefined;
+      
+      break;
+    }
+  }
+  
+  return izpit;
 }

@@ -66,6 +66,7 @@ router.get('/student', ctrl.student.getStudente);
 router.post('/student', ctrl.student.createStudenta);
 router.post('/student/uvoz-sprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
+router.get('/student/:student_id/cel', ctrl.student.celotenKartotecniList);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
 router.get('/student/:student_id/izpit', ctrl.Izpit.getMozneIzpiteStudenta);
 router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
