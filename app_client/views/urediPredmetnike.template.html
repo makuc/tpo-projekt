@@ -17,6 +17,7 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Študijski program</th>
                     <th>Študijsko leto</th>
                     <th>Letnik</th>
@@ -26,12 +27,13 @@
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.vsiPredmetniki | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{$index + 1}}</td>
                     <td>{{ x.studijski_program.naziv }}</td>
                     <td>{{ x.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ x.letnik.naziv }}</td>
                     <td>{{ x.del_predmetnika.naziv }}</td>
                     <td><ul>
-                          <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}</li>  
+                          <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}, {{ y.KT }} KT</li>  
                     </ul></td>                    
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.urediPredmete(x._id)">Predmeti</button></td>
@@ -45,6 +47,7 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Študijski program</th>
                     <th>Študijsko leto</th>
                     <th>Letnik</th>
@@ -54,12 +57,13 @@
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.predmetnik[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{$index + 1}}</td>
                     <td>{{ x.studijski_program.naziv }}</td>
                     <td>{{ x.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ x.letnik.naziv }}</td>
                     <td>{{ x.del_predmetnika.naziv }}</td>
                     <td><ul>
-                          <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}</li>  
+                          <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}, {{ y.KT }} KT</li>    
                     </ul></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.urediPredmete(x._id)">Predmeti</button></td>
