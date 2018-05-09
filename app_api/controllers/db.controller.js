@@ -965,12 +965,12 @@ var zacetniPodatki = {
     vrsteVpisev: [
 { "_id": ObjectId("5ac8be2a7482291008d3f9f5"), "koda": 1, "naziv": "Prvi vpis v letnik/dodatno leto", "opis": "Vsi letniki in dodatno leto" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f6"), "koda": 2, "naziv": "Ponavljanje letnika", "opis": "V zadnjem letniku in v dodatnem letu ponavljanje ni možno." },
-{ "_id": ObjectId("5ac8be2a7482291008d3f9f7"), "koda": 3, "naziv": "Nadaljevanje letnika", "opis": "Vpis ni več dovoljen", valid: false },
+{ "_id": ObjectId("5ac8be2a7482291008d3f9f7"), "koda": 3, "naziv": "Nadaljevanje letnika", "opis": "Vpis ni več dovoljen", deleted: true },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f8"), "koda": 4, "naziv": "Podaljšanje statusa študenta", "opis": "Vsi letniki, dodatno leto" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f9"), "koda": 5, "naziv": "Vpis po merilih za prehode v višji letnik", "opis": "Vsi letniki razen prvega, dodatno leto ni dovoljeno." },
 { "_id": ObjectId("5ac8be2a7482291008d3f9fa"), "koda": 6, "naziv": "Vpis v semester skupnega št. programa", "opis": "Vsi letniki, samo za skupne študijske programe." },
 { "_id": ObjectId("5ac8be2a7482291008d3f9fb"), "koda": 7, "naziv": "Vpis po merilih za prehode v isti letnik", "opis": "Vsi letniki, dodatno leto ni dovoljeno." },
-{ "_id": ObjectId("5ac8be2a7482291008d3f9fc"), "koda": 98, "naziv": "Vpis za zaključek", "opis": "Zadnji letnik. Namenjeno samo strokovnim delavcem v študentskem referatu.", valid: false },
+{ "_id": ObjectId("5ac8be2a7482291008d3f9fc"), "koda": 98, "naziv": "Vpis za zaključek", "opis": "Zadnji letnik. Namenjeno samo strokovnim delavcem v študentskem referatu.", deleted: true },
     ],
     oblikeStudija: [
 { "_id": ObjectId("5ac8beac24ee18109953514b"), "sifra": 1, "naziv": "na lokaciji" },
@@ -995,8 +995,14 @@ var zacetniPodatki = {
     ],
     
     zaposleni: [
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "test@test.test"},
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as.", email: "test2@test.test" },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "skrbnik@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as.", email: "test1@test.test" },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b260"), "priimek": "Brzoglav", "ime": "Marko", "naziv": "prof. dr.", email: "test2@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b261"), "priimek": "Seloglav", "ime": "Matej", "naziv": "prof. dr.", email: "test3@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b262"), "priimek": "Proglav", "ime": "Smerkus", "naziv": "prof. dr.", email: "test4@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b263"), "priimek": "Freeglav", "ime": "Venus", "naziv": "prof. dr.", email: "test5@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b264"), "priimek": "Prostoglav", "ime": "Lenuh", "naziv": "prof. dr.", email: "test6@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b265"), "priimek": "Referentka", "ime": "Superca", "naziv": "prof. dr.", email: "referentka@test.test", predavatelj: false},
     ],
     
     predmeti: [
@@ -1109,10 +1115,16 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ab"),student: ObjectId("5ac8ca4d36fba41313122306"),email: "am4531@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ac"),student: ObjectId("5ac8ca4d36fba41313122307"),email: "cn4530@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ad"),student: ObjectId("5ac8ca4d36fba41313122308"),email: "nb4531@student.uni-lj.si",password: "qwas123"},
-{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "test@test.test",password: "qwas123", skrbnik: true},
-{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test2@test.test",password: "qwas123"},
-{"_id":ObjectId("5aef36672df3d92098c87f98"),password:"qwas123","student":ObjectId("5aef36672df3d92098c87f96"),"email":"km0000@student.uni-lj.si","valid":true,"skrbnik":false,"__v":0},
-{"_id":ObjectId("5aef49a79958d4255801a972"),"password":"qwas123","student":ObjectId("5aef49a79958d4255801a970"),"opombe":"m9UYc08kNmQl","email":"vv0000@student.uni-lj.si","valid":true,"skrbnik":false,"__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69aa"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "skrbnik@test.test",password: "qwas123", skrbnik: true},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b265"),email: "referentka@test.test",password: "qwas123", referentka: true},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test1@test.test",password: "qwas123", skrbnik: true},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69b0"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b260"),email: "test2@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69b1"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b261"),email: "test3@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69b2"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b262"),email: "test4@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69b3"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b263"),email: "test5@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69b4"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b264"),email: "test6@test.test",password: "qwas123"},
+{"_id":ObjectId("5aef36672df3d92098c87f98"),student:ObjectId("5aef36672df3d92098c87f96"),email:"km0000@student.uni-lj.si",password:"qwas123"},
+{"_id":ObjectId("5aef49a79958d4255801a972"),student:ObjectId("5aef49a79958d4255801a970"),email:"vv0000@student.uni-lj.si",password:"qwas123"},
     ]
 };
 var models = {
@@ -1332,6 +1344,7 @@ function vnosZaposlenih(req, res, next) {
     
     models.Zaposlen.create(zacetniPodatki.zaposleni, function(err, data) {
         if(err) {
+            console.log(err);
             return res.status(409).send({ message: "Napaka pri vnosu Zaposlenih - Si spraznil bazo pred izvedbo klica?" });
         }
         
@@ -1423,6 +1436,7 @@ function vnosUserjev(req, res, next) {
     
     models.User.create(zacetniPodatki.userji, function(err, data) {
         if(err) {
+            console.log(err);
             return res.status(409).send({ message: "Napaka pri vnosu userjev - Si spraznil bazo pred izvedbo klica?" });
         }
         

@@ -63,6 +63,17 @@ module.exports.obnoviStudijskoLeto = function(req, res) {
   callNext(req, res, [ najdiStudijskoLetoId, obnoviStudijskoLeto, vrniStudijskoLeto ]);
 };
 
+module.exports.pridobiTrenutnoStudijskoLeto = function(req, res) {
+  StudijskoLeto.findOne({
+    trenutno: true
+  }, function(err, leto) {
+    if(err || !leto)
+    {
+      console.log("---pridobiTrenutnoStudijskoLeto:\n" + err);
+      return res.status(404).json({ message: "Ne najdem trenutnega študijskega leta"});
+    }
+  });
+};
 module.exports.oznaciTrenutnoStudijskoLeto = function(req, res) {
   if(!req.body || !req.body.studijsko_leto)
     return res.status(400).json({ message: "Ni podanega študijskega leta"});

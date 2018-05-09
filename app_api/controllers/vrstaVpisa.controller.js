@@ -6,7 +6,25 @@ var VrstaVpisa = mongoose.model('VrstaVpisa');
 /* GET home page. */
 module.exports.getVrsteVpisa = function(req, res) {
   VrstaVpisa
-    .find({ valid: true })
+    .find({
+      valid: true,
+      deleted: false
+    })
+    .limit(0)
+    .sort("naziv")
+    .exec(function(err, vrsteVpisa) {
+      if(err || !vrsteVpisa) {
+        return res.status(404).json({ message: "Ne najdem vrst vpisa" });
+      }
+      res.status(200).json(vrsteVpisa);
+    });
+};
+module.exports.getValidVrsteVpisa = function(req, res) {
+  VrstaVpisa
+    .find({
+      valid: false,
+      deleted: false
+    })
     .limit(0)
     .sort("naziv")
     .exec(function(err, vrsteVpisa) {
@@ -30,7 +48,7 @@ module.exports.getVseVrsteVpisa = function(req, res) {
 };
 module.exports.getIzbrisaneVrsteVpisa = function(req, res) {
   VrstaVpisa
-    .find({ valid: false })
+    .find({ deleted: true })
     .limit(0)
     .sort("naziv")
     .exec(function(err, vrsteVpisa) {
@@ -54,14 +72,22 @@ module.exports.editVrstaVpisa = function(req, res) {
     return res.status(400).json({ message: "Nobenega podatka vrste študija ne spreminjaš" });
   }
   
-  callNext(req, res,[ najdiVrstaVpisaId, najdiVrstaVpisaKoda, urediVrstaVpisa, vrniVrstaVpisa ]);
+  callNext(req, res,[ najdiVrstaVpisaId, najdiVrstaVpisaKoda, urediVrstaVpisa, shrani, vrniVrstaVpisa ]);
 };
 module.exports.delVrstaVpisa = function(req, res) {
-  callNext(req, res, [ najdiVrstaVpisaId, izbrisiVrstaVpisa, vrniVrstaVpisa ]);
+  callNext(req, res, [ najdiVrstaVpisaId, izbrisiVrstaVpisa, shrani, vrniVrstaVpisa ]);
 };
 module.exports.obnoviVrstaVpisa = function(req, res) {
-  callNext(req, res, [ najdiVrstaVpisaId, obnoviVrstaVpisa, vrniVrstaVpisa ]);
+  callNext(req, res, [ najdiVrstaVpisaId, obnoviVrstaVpisa, shrani, vrniVrstaVpisa ]);
 };
+
+module.exports.makeValid = function(req, res) {
+  callNext(req, res, [ najdiVrstaVpisaId, valid, shrani, vrniVrstaVpisa ]);
+};
+module.exports.makeInvalid = function(req, res) {
+  callNext(req, res, [ najdiVrstaVpisaId, invalid, shrani, vrniVrstaVpisa ]);
+};
+
 
 
 /* Funkcije */
@@ -114,34 +140,35 @@ function urediVrstaVpisa(req, res, next) {
   if(req.body.opis)
     req.vrstaVpisa.opis = req.body.opis;
   
-  req.vrstaVpisa.save(function(err, vrstaVpisa) {
-    if(err)
-      return res.status(400).json({ message: "Nekaj šlo narobe pri shranjevanju vrste vpisa" });
-    
-    req.vrstaVpisa = vrstaVpisa;
-    
-    callNext(req, res, next);
-  });
+  callNext(req, res, next);
+}
+
+function valid(req, res, next) {
+  req.vrstaVpisa.valid = true;
+  
+  callNext(req, res, next);
+}
+function invalid(req, res, next) {
+  req.vrstaVpisa.valid = false;
+  
+  callNext(req, res, next);
 }
 
 function izbrisiVrstaVpisa(req, res, next) {
-  req.vrstaVpisa.valid = false;
+  req.vrstaVpisa.deleted = false;
   
-  req.vrstaVpisa.save(function(err, vrstaVpisa) {
-    if(err) {
-      //console.log(err);
-      return res.status(400).json({ message: "Nekaj šlo narobe pri brisanju vrste vpisa" });
-    }
-    req.vrstaVpisa = vrstaVpisa;
-    
-    callNext(req, res, next);
-  });
+  callNext(req, res, next);
 }
 function obnoviVrstaVpisa(req, res, next) {
-  req.vrstaVpisa.valid = true;
+  req.vrstaVpisa.deleted = true;
+  
+  callNext(req, res, next);
+}
+
+function shrani(req, res, next) {
   req.vrstaVpisa.save(function(err, vrstaVpisa) {
     if(err)
-      return res.status(400).json({ message: "Nekaj šlo narobe pri obnavljanju vrste vpisa" });
+      return res.status(400).json({ message: "Nekaj šlo narobe pri shranjevanju vrste vpisa" });
     
     req.vrstaVpisa = vrstaVpisa;
     

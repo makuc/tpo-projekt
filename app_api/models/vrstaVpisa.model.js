@@ -6,6 +6,8 @@ var vrstaVpisaSchema = new mongoose.Schema({
     naziv: {type: String, required: true},
     opis: {type: String, required: false},
     
+    deleted: {type: Boolean, "default": false},
+    
     valid: {type: Boolean, "default": true}
 });
 
