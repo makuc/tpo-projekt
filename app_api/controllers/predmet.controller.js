@@ -102,8 +102,8 @@ module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
 };
 
 module.exports.getIzvedbeStudijskegaLeta = function(req, res) {
-  
-}
+  callNext(req, res, [ validateStudijskoLeto, najdiTrenutnoStudijskoLeto, najdiPredmetId, filtrirajIzvedbe, vrniIzvedbe ]);
+};
 
 /* Funkcije */
 function najdiPredmetSifra(req, res, next) {
@@ -227,16 +227,23 @@ function pridobiIzvedbo(req, res) {
 function validateStudijskoLeto(req, res, next) {
   var studijsko_leto = req.params.studijskoLeto_id || req.body.studijsko_leto;
   
-  StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
-    if(err || !studijskoLeto) {
-      //console.log(err);
-      return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
-    }
-    
-    req.studijskoLeto = studijskoLeto;
-    
+  if(studijsko_leto)
+  {
+    StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
+      if(err || !studijskoLeto) {
+        //console.log(err);
+        return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
+      }
+      
+      req.studijskoLeto = studijskoLeto;
+      
+      callNext(req, res, next);
+    });
+  }
+  else
+  {
     callNext(req, res, next);
-  });
+  }
 }
 function najdiIzvedboPredmeta(req, res, next) {
   var izvedbePredmeta = req.predmet.izvedbe_predmeta;
@@ -407,4 +414,43 @@ function odstraniOstalaStudijskaLeta(req, res, next) {
 }
 function vrniPredmete(req, res, next) {
   res.status(200).json(req.predmeti);
+}
+
+function najdiTrenutnoStudijskoLeto(req, res, next) {
+  if(req.leto)
+  {
+    callNext(req, res, next);
+  }
+  else
+  {
+    StudijskoLeto.findOne({
+      trenutno: true
+    }, function(err, leto) {
+      if(err || !leto)
+      {
+        console.log("---pridobiTrenutnoStudijskoLeto:\n" + err);
+        return res.status(404).json({ message: "Ne najdem trenutnega študijskega leta"});
+      }
+      
+      req.leto = leto;
+      
+      callNext(req, res, next);
+    });
+  }
+}
+
+function filtrirajIzvedbe(req, res, next) {
+  req.izvedbe = [];
+  for(var i = 0; i < req.predmet.izvedbe_predmeta.length; i++)
+  {
+    if(req.leto._id.equals(req.predmet.izvedbe_predmeta[i].studijsko_leto._id))
+    {
+      req.izvedbe.push(req.predmet.izvedbe_predmeta[i]);
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function vrniIzvedbe(req, res) {
+  res.status(200).json(req.izvedbe);
 }

@@ -26,7 +26,7 @@ module.exports.getIzpiteStudijskoLetoPredmet = function(req, res) {
 };
 
 module.exports.getIzpit = function(req, res) {
-  callNext(req, res, [ najdiIzpit, filtrirajPrijave, vrniIzpit ]);
+  callNext(req, res, [ najdiIzpit, vrniIzpit ]);
 };
 module.exports.addIzpit = function(req, res) {
   if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja)
