@@ -61,13 +61,8 @@ userSchema.methods.validatePassword = function(password, next) {
 };
 userSchema.methods.genJwt = function(remember) {
     var tokenData = {
-        _id: this._id,
-        student: this.student,
-        zaposlen: this.zaposlen,
-        email: this.email,
         exp: "1h",
         expires: Date.now(),
-        skrbnik: this.skrbnik
     };
     if(remember) {
         tokenData.exp = "31d";
@@ -79,11 +74,13 @@ userSchema.methods.genJwt = function(remember) {
    
     return jwt.sign(
         {
-            _id: tokenData._id,
-            student: tokenData.student,
-            zaposlen: tokenData.zaposlen,
-            email: tokenData.email,
-            expires: tokenData.expires
+            _id: this._id,
+            student: this.student,
+            zaposlen: this.zaposlen,
+            email: this.email,
+            expires: tokenData.expires,
+            skrbnik: this.skrbnik,
+            referentka: this.referentka
         },
         process.env.JWT_SECRET,
         {
