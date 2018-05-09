@@ -71,6 +71,9 @@ module.exports.updateStudenta = function(req, res){
 };
 
 // Manipuliranje z žetoni!
+module.exports.osnutekZetona = function(req, res) {
+  callNext(req, res, [ najdiStudentaId, pridobiNeopravljenePredmete, pripraviObjektZetonaStudentu ]);
+};
 module.exports.addZetonStudentu = function(req, res) {
   if(!req.body || !req.body.studijsko_leto || !req.body.letnik || !req.body.studijski_program ||
           !req.body.studijsko_leto_prvega_vpisa_v_ta_program || !req.body.vrsta_studija || !req.body.vrsta_vpisa ||
@@ -1075,7 +1078,39 @@ function ustvariZetonNovemuStudentu(req, res, next) {
 }
 
 function pripraviObjektZetonaStudentu(req, res, next) {
+  var leto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
   
+  res.status(200).json({
+    studijsko_leto: leto.studijsko_leto,
+    studijski_program: leto.letnik.studijski_program,
+    vrsta_studija: leto.vrsta_studija,
+    vrsta_vpisa: leto.vrsta_vpisa,
+    
+    kraj_izvajanja: leto.kraj_izvajanja,
+    
+    nacin_studija: leto.nacin_studija,
+    oblika_studija: leto.oblika_studija,
+    
+    studijsko_leto_prvega_vpisa_v_ta_program: leto.studijsko_leto,
+    neopravljeni_predmeti: req.neopravljeni_predmeti,
+    
+    prosta_izbira: false
+  });
+}
+function pridobiNeopravljenePredmete(req, res, next) {
+  req.neopravljeni_predmeti = [];
+  
+  var leto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
+  
+  for(var i = 0; i < leto.predmeti.length; i++)
+  {
+    if(leto.predmeti[i].ocena < 6)
+    {
+      req.neopravljeni_predmeti.push(leto.predmeti[i].predmet);
+    }
+  }
+  
+  callNext(req, res, next);
 }
 function dodajZetonStudentu(req, res, next) {
   req.student.zetoni.push({
@@ -1249,7 +1284,6 @@ function poveziIzpitePredmetom(req, res, next) {
         break;
       }
     }
-    
   }
   
   callNext(req, res, next);

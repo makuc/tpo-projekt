@@ -92,6 +92,7 @@ router.post('/zeton/:student_id', ctrl.zeton.ustvariZeton);
 router.get('/zeton/:student_id', ctrl.zeton.pridobiZetoneStudenta);
 router.put('/zeton/:student_id/:zeton_id', ctrl.zeton.urediZeton);
 router.delete('/zeton/:student_id/:zeton_id', ctrl.zeton.izbrisZetona);
+router.get('/student/:student_id/zeton', ctrl.student.osnutekZetona);
 router.post('/student/:student_id/zeton', ctrl.student.addZetonStudentu);
 router.put('/student/:student_id/zeton/:zeton_id', ctrl.student.editZetonStudenta);
 router.delete('/student/:student_id/zeton/:zeton_id', ctrl.student.delZetonStudenta);
