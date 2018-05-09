@@ -16,7 +16,7 @@
         }
         
         function dodajObcino(podatki){
-            return $http.post('/api/v1/obcina');
+            return $http.post('/api/v1/obcina', podatki);
         }
         
         function najdiObcino(obcina_id){

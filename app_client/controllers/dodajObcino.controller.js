@@ -14,16 +14,16 @@
             //console.log("ZAPOSLEN:");
             //console.log(vm.zaposlen);
             var obcina = {
-                ime: vm.obcina.obcina.ime,
-                sifra: vm.obcina.obcina.sifra
-                
+                sifra: vm.obcina.obcina.sifra,
+                ime: vm.obcina.obcina.ime
             };
+            
             ostaloPodatki.dodajObcino(obcina).then(
                 function success(odgovor){
                     $location.path("/urediObcine");
                 },
                 function error(odgovor){
-                    vm.obvestilo = "Napaka";
+                    vm.obvestilo = odgovor.data.message;
                     console.log(odgovor);
                 }
             );

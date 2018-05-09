@@ -23,7 +23,7 @@
                     $location.path("/urediPoste");
                 },
                 function error(odgovor){
-                    vm.obvestilo = "Napaka";
+                    vm.obvestilo = odgovor.data.message;
                     console.log(odgovor);
                 }
             );

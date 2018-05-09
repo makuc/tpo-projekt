@@ -27,7 +27,7 @@
                     $location.path("/urediDrzave");
                 },
                 function error(odgovor){
-                    vm.obvestilo = "Napaka";
+                    vm.obvestilo = odgovor.data.message;
                     console.log(odgovor);
                 }
             );
