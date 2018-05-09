@@ -5,16 +5,17 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Študijsko leto:</label>
-                <select class="form-control" ng-model="vm.izvedba.studijsko_leto" ng-options='vs as vs.studijsko_leto for vs in vm.studijskaLeta track by vs._id'></select>
+                <select class="form-control" ng-model="vm.izvedba.studijsko_leto" ng-options='vs as vs.studijsko_leto for vs in vm.studijskaLeta track by vs._id' ng-disabled="isDisabled"></select>
             </div>
         </div>
         
         <!--IZVAJALCI-->
         <div class="container">
+          <h2>Izvajalci predmeta</h2><br>
           <div class="row">
               <div id="custom-search-input-izvajalci">
                   <div class="input-group col-md-4">
-                      <input type="text" class="search-query form-control" placeholder="IskanjeIzvajalec" ng-model="iskanjeIzvajalcev"/>
+                      <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanjeIzvajalcev"/>
                       <span class="input-group-btn">
                           <button class="btn btn-primary" type="button">
                               <span class="glyphicon glyphicon-search"></span>
@@ -27,6 +28,7 @@
               <table ng-show="!iskanjeIzvajalcev" id="tabela_zaposlenih" class="table table-hover">
                   <thead>
                       <tr>
+                          <th>#</th>
                           <th>Priimek</th>
                           <th>Ime</th>
                           <th>Naziv</th>
@@ -52,6 +54,7 @@
                   </tfoot>
                   <tbody>
                       <tr ng-repeat="izvajalec in vm.izvajalci[vm.trenutnaStranIzvajalci]" ng-class="(izvajalec.valid ? '' : 'alert alert-danger')">
+                          <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stIzvajalcevNaStran) }}</td>
                           <td>{{ izvajalec.priimek }}</td>
                           <td>{{ izvajalec.ime }}</td>
                           <td>{{ izvajalec.naziv }}</td>
@@ -68,6 +71,7 @@
               <table ng-show="iskanjeIzvajalcev" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
                   <thead>
                       <tr>
+                          <th>#</th>
                           <th>Priimek</th>
                           <th>Ime</th>
                           <th>Naziv</th>
@@ -76,7 +80,8 @@
                   </thead>
                   <tbody>
                       <tr ng-repeat="izvajalec in vm.izvajalci[vm.trenutnaStranIzvajalci] | filter: iskanjeIzvajalcev" ng-class="(izvajalec.valid ? '' : 'alert alert-danger')">
-                         <td>{{ izvajalec.priimek }}</td>
+                          <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stIzvajalcevNaStran) }}</td>
+                          <td>{{ izvajalec.priimek }}</td>
                           <td>{{ izvajalec.ime }}</td>
                           <td>{{ izvajalec.naziv }}</td>
                           <td>{{ izvajalec.email }}</td>
@@ -94,6 +99,7 @@
         
         <!-- VSI ZAPOSLENI -->
         <div class="container">
+          <h2>Vsi zaposleni</h2><br>
           <div class="row">
               <div id="custom-search-input">
                   <div class="input-group col-md-4">
@@ -111,6 +117,7 @@
               <table ng-show="!iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
                   <thead>
                       <tr>
+                          <th>#</th>
                           <th>Priimek</th>
                           <th>Ime</th>
                           <th>Naziv</th>
@@ -136,6 +143,7 @@
                   </tfoot>
                   <tbody>
                       <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran]" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
+                          <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                           <td>{{ zaposlen.zaposlen.priimek }}</td>
                           <td>{{ zaposlen.zaposlen.ime }}</td>
                           <td>{{ zaposlen.zaposlen.naziv }}</td>
@@ -151,6 +159,7 @@
               <table ng-show="iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
                   <thead>
                       <tr>
+                          <th>#</th>
                           <th>Priimek</th>
                           <th>Ime</th>
                           <th>Naziv</th>
@@ -159,6 +168,7 @@
                   </thead>
                   <tbody>
                       <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran] | filter: iskanje" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
+                          <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                           <td>{{ zaposlen.zaposlen.priimek }}</td>
                           <td>{{ zaposlen.zaposlen.ime }}</td>
                           <td>{{ zaposlen.zaposlen.naziv }}</td>
@@ -173,11 +183,8 @@
               </table>
           </div>
       </div>
-
         
-        
-        
-        <button class="btn btn-success"  type="submit">Nazaj na izvedbo</button>
+      <button class="btn btn-success"  type="submit">Nazaj na izvedbe</button>
         <!--<button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>-->
     </div>
 </form>

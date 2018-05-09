@@ -17,11 +17,13 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Študijsko leto</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.vsaStudijskaLeta | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.studijsko_leto }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td>
@@ -34,11 +36,13 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Študijsko leto</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.studijskaLeta[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.studijsko_leto }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td>

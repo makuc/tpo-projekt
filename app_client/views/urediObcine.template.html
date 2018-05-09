@@ -17,9 +17,9 @@
         <table ng-show="!iskanje" id="tabela_obcin" class="table table-hover" ng-init="vm.prikaziObcine()">
             <thead>
                 <tr>
-                    <th>Ime</th>
+                    <th>#</th>
                     <th>Šifra</th>
-                    
+                    <th>Ime</th>
                 </tr>
             </thead>
             <tfoot>
@@ -41,8 +41,9 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="obcina in vm.obcine[vm.trenutnaStran]" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
-                    <td>{{ obcina.ime }}</td>
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stObcinNaStran) }}</td>
                     <td>{{ obcina.sifra }}</td>
+                    <td>{{ obcina.ime }}</td>
                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(obcina._id)">Uredi</button></td>
                    
                     <td>
@@ -55,16 +56,17 @@
         <table ng-show="iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziObcine()">
             <thead>
                 <tr>
-                   
-                    <th>Ime</th>
+                    <th>#</th>      
                     <th>Šifra</th>
-                    
+                    <th>Ime</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="obcina in vm.vsiPodatki | filter: iskanje" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
-                     <td>{{ obcina.ime }}</td>
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stObcinNaStran) }}</td>
                     <td>{{ obcina.sifra }}</td>
+                    <td>{{ obcina.ime }}</td>
+                    
                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(obcina._id)">Uredi</button></td>
                    
                     <td>

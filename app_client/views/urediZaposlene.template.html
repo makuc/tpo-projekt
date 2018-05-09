@@ -17,6 +17,7 @@
         <table ng-show="!iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Priimek</th>
                     <th>Ime</th>
                     <th>Naziv</th>
@@ -42,6 +43,7 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran]" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                     <td>{{ zaposlen.zaposlen.priimek }}</td>
                     <td>{{ zaposlen.zaposlen.ime }}</td>
                     <td>{{ zaposlen.zaposlen.naziv }}</td>
@@ -57,6 +59,7 @@
         <table ng-show="iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Priimek</th>
                     <th>Ime</th>
                     <th>Naziv</th>
@@ -65,6 +68,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="zaposlen in vm.vsiPodatki | filter: iskanje" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                     <td>{{ zaposlen.zaposlen.priimek }}</td>
                     <td>{{ zaposlen.zaposlen.ime }}</td>
                     <td>{{ zaposlen.zaposlen.naziv }}</td>

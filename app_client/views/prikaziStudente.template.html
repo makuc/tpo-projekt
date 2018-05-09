@@ -17,10 +17,10 @@
         <table ng-show="!iskanje" id="tabela_obcin" class="table table-hover" ng-init="vm.prikaziStudente()">
             <thead>
                 <tr>
+                    <th>#</th>
+                    <th>Vpisna številka</th>
                     <th>Priimek</th>
                     <th>Ime</th>
-                    <th>Vpisna številka</th>
-                    
                 </tr>
             </thead>
             <tfoot>
@@ -42,9 +42,11 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="student in vm.studenti[vm.trenutnaStran]" >
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
+                    <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>
                     <td>{{ student.ime }}</td>
-                    <td>{{ student.vpisna_stevilka }}</td>
+                    
                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>
                    
              
@@ -54,17 +56,20 @@
         <table ng-show="iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
             <thead>
                 <tr>
-                   
+                    <th>#</th>
+                    <th>Vpisna številka</th>
                     <th>Priimek</th>
                     <th>Ime</th>
-                    <th>Vpisna številka</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="student in vm.vsiPodatki | filter: iskanje" >
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
+                    <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>
                     <td>{{ student.ime }}</td>
-                    <td>{{ student.vpisna_stevilka }}</td>
+                    
                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>
                    
                    

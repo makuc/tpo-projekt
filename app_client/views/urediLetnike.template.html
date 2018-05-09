@@ -17,6 +17,7 @@
         <table ng-show="!iskanje" id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Naziv</th>
                     <th>Študijski program</th>
                     <th>Vrsta študija</th>
@@ -25,6 +26,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="letnik in vm.letniki[vm.trenutnaStran]" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.vrstaStudija.opis }}</td>
@@ -57,6 +59,7 @@
         <table ng-show="iskanje" id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Naziv</th>
                     <th>Študijski program</th>
                     <th>Vrsta študija</th>
@@ -65,6 +68,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="letnik in vm.vsiLetniki | filter: iskanje" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.vrstaStudija.opis }}</td>

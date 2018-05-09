@@ -17,20 +17,22 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
+                    <th>Šifra EVS</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>Vrsta študija</th>
                     <th>Semestri</th>
-                    <th>Šifra EVS</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.vsiStudijskiProgrami | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
+                    <td>{{ x.sifraEVS }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.naziv }}</td>
                     <td>{{ x.vrstaStudija.opis }}</td>
                     <td>{{ x.semestri }}</td>
-                    <td>{{ x.sifraEVS }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td>
                         <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>
@@ -42,20 +44,22 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
+                    <th>Šifra EVS</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>Vrsta študija</th>
                     <th>Semestri</th>
-                    <th>Šifra EVS</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.studijskiProgram[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
+                    <td>{{ x.sifraEVS }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.naziv }}</td>
                     <td>{{ x.vrstaStudija.opis }}</td>
                     <td>{{ x.semestri }}</td>
-                    <td>{{ x.sifraEVS }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td>
                         <button ng-show="{{x.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(x._id)">Izbriši</button>

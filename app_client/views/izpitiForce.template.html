@@ -32,7 +32,7 @@
                           <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
                       </ul>
                     </td>
-                    <td>{{ x.datum_izvajanja | date:'dd.MM.yyyy HH:mm' }}</td>
+                    <td>{{ x.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                     <td>
                         <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
                         <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>

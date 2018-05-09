@@ -14,15 +14,17 @@
     </div>
     <a href="/dodajOblikoStudija" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
     <div class="container table-responsive">
-        <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
+        <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()" >
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.vseOblikeStudija | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.vseOblikeStudija | filter: iskanje | orderBy:'x.sifra':true" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.naziv }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
@@ -36,12 +38,14 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.oblikeStudija[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.oblikeStudija[vm.trenutnaStran] | orderBy:'x.sifra':true" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.naziv }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>

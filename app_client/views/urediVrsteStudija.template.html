@@ -17,6 +17,7 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Opis</th>
                     <th>KlasiusSRV</th>
@@ -25,6 +26,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.vseVrsteStudija | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.opis }}</td>
                     <td>{{ x.klasiusSRV }}</td>
@@ -40,6 +42,7 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Opis</th>
                     <th>KlasiusSRV</th>
@@ -48,6 +51,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="x in vm.vrstaStudija[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.opis }}</td>
                     <td>{{ x.klasiusSRV }}</td>

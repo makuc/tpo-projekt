@@ -17,6 +17,7 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>St. kreditnih točk</th>
@@ -41,6 +42,7 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="predmet in vm.predmeti[vm.trenutnaStran]" ng-class="(predmet.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stPredmetovNaStran) }}</td>
                     <td>{{ predmet.sifra }}</td>
                     <td>{{ predmet.naziv }}</td>
                     <td>{{ predmet.KT }}</td>
@@ -56,6 +58,7 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikaziPredmete()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>St. kreditnih točk</th>
@@ -63,6 +66,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="predmet in vm.vsiPodatki | filter: iskanje" ng-class="(predmet.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stPredmetovNaStran) }}</td>
                     <td>{{ predmet.sifra }}</td>
                     <td>{{ predmet.naziv }}</td>
                     <td>{{ predmet.KT }}</td>

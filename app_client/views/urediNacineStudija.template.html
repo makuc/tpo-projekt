@@ -17,12 +17,14 @@
         <table ng-show="iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="nacinStudija in vm.VsinacinStudija | filter: iskanje" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="nacinStudija in vm.VsinacinStudija | filter: iskanje | orderBy:'nacinStudija.sifra':true" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ nacinStudija.sifra }}</td>
                     <td>{{ nacinStudija.naziv }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(nacinStudija._id)">Uredi</button></td>
@@ -36,12 +38,14 @@
         <table ng-show="!iskanje" id="tabela_predmetov" class="table table-hover" ng-init="vm.prikazi()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="nacinStudija in vm.nacinStudija[vm.trenutnaStran]" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="nacinStudija in vm.nacinStudija[vm.trenutnaStran] | orderBy:'nacinStudija.sifra':true" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ nacinStudija.sifra }}</td>
                     <td>{{ nacinStudija.naziv }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(nacinStudija._id)">Uredi</button></td>

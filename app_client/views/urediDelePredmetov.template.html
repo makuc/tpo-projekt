@@ -17,6 +17,7 @@
         <table ng-show="!iskanje" id="tabela_delovPredmetnika" class="table table-hover" ng-init="vm.prikaziDelePredmetnika()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>Obvezen</th>
@@ -43,6 +44,7 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="delPredmetnika in vm.deliPredmetnika[vm.trenutnaStran]" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDelovPredmetnikaNaStran) }}</td>
                     <td>{{ delPredmetnika.sifra }}</td>
                     <td>{{ delPredmetnika.naziv }}</td>
                     <td>{{ delPredmetnika.obvezen }}</td>
@@ -59,6 +61,7 @@
         <table ng-show="iskanje" id="tabela_delovPredmetnika" class="table table-hover" ng-init="vm.prikaziDelePredmetnika()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Šifra</th>
                     <th>Naziv</th>
                     <th>Obvezen</th>
@@ -68,6 +71,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="delPredmetnika in vm.vsiPodatki | filter: iskanje" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDelovPredmetnikaNaStran) }}</td>
                     <td>{{ delPredmetnika.sifra }}</td>
                     <td>{{ delPredmetnika.naziv }}</td>
                     <td>{{ delPredmetnika.obvezen }}</td>

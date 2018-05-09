@@ -1,14 +1,15 @@
 (function() {
     /* global angular */
     
-    urediIzvedboPredmetaCtrl.$inject = ['$location', 'predmetPodatki', '$routeParams', 'ostaloPodatki'];
+    urediIzvedboPredmetaCtrl.$inject = ['$location', 'predmetPodatki', '$routeParams', 'ostaloPodatki', '$scope'];
     
     
-    function urediIzvedboPredmetaCtrl($location, predmetPodatki, $routeParams, ostaloPodatki){
+    function urediIzvedboPredmetaCtrl($location, predmetPodatki, $routeParams, ostaloPodatki, $scope){
         var vm = this;
         
         vm.predmetId = $routeParams.predmetId;
         vm.izvedbaId = $routeParams.izvedbaId;
+        $scope.isDisabled = true;
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stZaposlenih/10-1){
