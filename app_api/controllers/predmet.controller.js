@@ -63,13 +63,48 @@ module.exports.editPredmet = function(req, res) {
     return res.status(400).json({ message: "Nobenega podatka predmeta ne spreminjaš" });
   }
   
-  callNext(req, res,[ najdiPredmetId, najdiPredmetSifra, urediPredmet, vrniPredmet ]);
+  callNext(req, res,[ najdiPredmetId, najdiPredmetSifra, urediPredmet, shraniPredmet, vrniPredmet ]);
 };
 module.exports.delPredmet = function(req, res) {
-  callNext(req, res, [ najdiPredmetId, izbrisiPredmet, vrniPredmet ]);
+  callNext(req, res, [ najdiPredmetId, izbrisiPredmet, shraniPredmet, vrniPredmet ]);
 };
 module.exports.obnoviPredmet = function(req, res) {
-  callNext(req, res, [ najdiPredmetId, obnoviPredmet, vrniPredmet ]);
+  callNext(req, res, [ najdiPredmetId, obnoviPredmet, shraniPredmet, vrniPredmet ]);
+};
+
+// Manipuliranje kombinacij izvajalcev
+module.exports.getKombinacijeIzvajalcev = function(req, res) {
+  callNext(req, res, [ najdiPredmetId, filtrirajKombinacije, vrniKombinacije ]);
+};
+module.exports.getKombinacijeIzvajalcev = function(req, res) {
+  callNext(req, res, [ najdiPredmetId, vrniKombinacije ]);
+};
+module.exports.addKombinacijaIzvajalcev = function(req, res) {
+  callNext(req, res, [ najdiPredmetId, ustvariKombinacijoIzvajalcev, shraniPredmet, vrniIdKombinacijeIzvajalcev ]);
+};
+module.exports.izbrisiKombinacijaIzvajalcev = function(req, res) {
+  callNext(req, res, [ najdiPredmetId, najdiKombinacijoIzvajalcev, izbrisiKombinacijoIzvajalcev, shraniPredmet, vrniKombinacijaSuccess ]);
+};
+module.exports.obnoviKombinacijaIzvajalcev = function(req, res) {
+  callNext(req, res, [ najdiPredmetId, najdiKombinacijoIzvajalcev, obnoviKombinacijoIzvajalcev, shraniPredmet, vrniKombinacijaSuccess ]);
+};
+module.exports.addIzvajalcaKombinaciji = function(req, res) {
+  if(!req.body || !req.body.izvajalec) {
+    return res.status(400).json({ message: "Ni podanega izvajatelja za izvedbo predmeta" });
+  }
+  
+  callNext(req, res, [
+    najdiPredmetId,
+    validateIzvajalca, najdiKombinacijoIzvajalcev, preveriIzvajalecZeVKombinaciji, dodajIzvajalcaKombinaciji,
+    shraniPredmet, vrniKombinacijaSuccess
+  ]);
+};
+module.exports.delIzvajalcaKombinaciji = function(req, res) {
+  callNext(req, res, [
+    najdiPredmetId,
+    validateIzvajalca, najdiKombinacijoIzvajalcev, odstraniIzvajalcaKombinaciji,
+    shraniPredmet, vrniKombinacijaSuccess
+  ]);
 };
 
 module.exports.addIzvedbaPredmeta = function(req, res) {
@@ -78,28 +113,15 @@ module.exports.addIzvedbaPredmeta = function(req, res) {
   }
   
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, ustvariIzvedboPredmeta, vrniPredmet
+    validateStudijskoLeto, najdiIzvedboPredmeta, ustvariIzvedboPredmeta, shraniPredmet, vrniPredmet
   ]);
 };
 module.exports.delIzvedbaPredmeta = function(req, res) {
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, vrniPredmet
+    validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, shraniPredmet, vrniPredmet
   ]);
 };
-module.exports.addIzvajalcaIzvedbiPredmeta = function(req, res) {
-  if(!req.body || !req.body.izvajalec) {
-    return res.status(400).json({ message: "Ni podanega izvajatelja za izvedbo predmeta" });
-  }
-  
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, preveriIzvajalecZeIzvajaIzvedboPredmeta, dodajIzvajalcaIzvedbiPredmeta, vrniPredmet
-  ]);
-};
-module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
-  najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, odstraniIzvajalcaIzvedbiPredmeta, vrniPredmet
-  ]);
-};
+
 
 /* Funkcije */
 function najdiPredmetSifra(req, res, next) {
@@ -142,7 +164,10 @@ function najdiPredmetId(req, res, next) {
         path: "izvedbe_predmeta.studijsko_leto"
       },
       {
-        path: "izvedbe_predmeta.izvajalci"
+        path: "kombinacije_izvajalcev.izvajalci"
+      },
+      {
+        path: "izvedbe_predmeta.aktivne_kombinacije.izvajalci"
       }
     ])
     .exec(function(err, predmet) {
@@ -167,10 +192,17 @@ function urediPredmet(req, res, next) {
   if(req.body.opis)
     req.predmet.opis = req.body.opis;
   
+  callNext(req, res, next);
+}
+function shraniPredmet(req, res, next) {
+  if(!req.predmet)
+    callNext(req, res, next);
+  
   req.predmet.save(function(err, predmet) {
-    if(err)
-      return res.status(400).json({ message: "Nekaj šlo narobe pri shranjevanju predmeta" });
-    
+    if(err) {
+      //console.log(err);
+      return res.status(400).json({ message: "Napaka pri shranjevanju predmeta" });
+    }
     req.predmet = predmet;
     
     callNext(req, res, next);
@@ -180,26 +212,12 @@ function urediPredmet(req, res, next) {
 function izbrisiPredmet(req, res, next) {
   req.predmet.valid = false;
   
-  req.predmet.save(function(err, predmet) {
-    if(err) {
-      //console.log(err);
-      return res.status(400).json({ message: "Nekaj šlo narobe pri brisanju predmeta" });
-    }
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
+  callNext(req, res, next);
 }
 function obnoviPredmet(req, res, next) {
   req.predmet.valid = true;
-  req.predmet.save(function(err, predmet) {
-    if(err)
-      return res.status(400).json({ message: "Nekaj šlo narobe pri obnavljanju predmeta" });
-    
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
+  
+  callNext(req, res, next);
 }
 
 // Dodatne funkcionalnost
@@ -255,16 +273,8 @@ function ustvariIzvedboPredmeta(req, res, next) {
   req.predmet.izvedbe_predmeta.push({
     studijsko_leto: req.studijskoLeto
   });
-  req.predmet.save(function(err, predmet) {
-    if(err || !predmet) {
-      //console.log(err);
-      return res.status(400).send({ message: "Napaka pri dodajanju izvedbe predmeta" });
-    }
-    
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
+  
+  callNext(req, res, next);
 }
 function odstraniIzvedboPredmeta(req, res, next) {
   if(!req.izvedbaPredmeta) {
@@ -272,85 +282,6 @@ function odstraniIzvedboPredmeta(req, res, next) {
   }
   
   req.izvedbaPredmeta.remove();
-  req.predmet.save(function(err, predmet) {
-    if(err || !predmet) {
-      console.log(err);
-      return res.status(400).json({ message: "Napaka pri odstranjevanju izvedbe predmeta" });
-    }
-    
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
-}
-
-function dodajIzvajalcaIzvedbiPredmeta(req, res, next) {
-  if(!req.izvedbaPredmeta) {
-    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
-  }
-  if(req.izvedbaPredmeta.izvajalci.length >= 3) {
-    return res.status(400).json({ message: "Izvedba predmeta ima lahko največ 3 izvajalce" });
-  }
-  
-  req.izvedbaPredmeta.izvajalci.push(req.izvajalec);
-  
-  req.predmet.save(function(err, predmet) {
-    if(err || !predmet) {
-      return res.status(400).json({ message: "Napaka pri dodajanju izvajalca predmeta" });
-    }
-    
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
-}
-function odstraniIzvajalcaIzvedbiPredmeta(req, res, next) {
-  if(!req.izvedbaPredmeta) {
-    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
-  }
-  if(!req.izvajalec) {
-    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
-  }
-  
-  req.izvedbaPredmeta.izvajalci.pull(req.izvajalec);
-  
-  req.predmet.save(function(err, predmet) {
-    if(err || !predmet) {
-      return res.status(400).json({ message: "Napaka pri odstranjevanju izvajalca predmeta" });
-    }
-    
-    req.predmet = predmet;
-    
-    callNext(req, res, next);
-  });
-}
-function validateIzvajalca(req, res, next) {
-  var izvajalec = req.body.izvajalec || req.params.izvajalec_id;
-  
-  Zaposlen
-    .findById(izvajalec, function(err, izvajalec) {
-      if(err || !izvajalec) {
-        return res.status(404).json({ message: "Ne nadjem izbranega izvajalca" });
-      }
-      
-      req.izvajalec = izvajalec;
-      
-      callNext(req, res, next);
-    });
-}
-function preveriIzvajalecZeIzvajaIzvedboPredmeta(req, res, next) {
-  if(!req.izvedbaPredmeta) {
-    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta" });
-  }
-  if(!req.izvajalec) {
-    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
-  }
-  
-  for(var i = 0; i < req.izvedbaPredmeta.izvajalci.length; i++) {
-    if(req.izvedbaPredmeta.izvajalci[i].equals(req.izvajalec)) {
-      return res.status(400).json({ message: "Ta izvajalec že izvaja ta predmet v izbrani izvedbi predmeta" });
-    }
-  }
   
   callNext(req, res, next);
 }
@@ -362,6 +293,17 @@ function najdiPredmeteZaposlenega(req, res, next) {
       "izvedbe_predmeta.izvajalci": req.user.zaposlen,
       valid: true
     })
+    .populate([
+      {
+        path: "izvedbe_predmeta.studijsko_leto"
+      },
+      {
+        path: "kombinacije_izvajalcev.izvajalci"
+      },
+      {
+        path: "izvedbe_predmeta.aktivne_kombinacije.izvajalci"
+      }
+    ])
     .exec(function(err, predmeti) {
       if(err || !predmeti)
       {
@@ -403,4 +345,101 @@ function odstraniOstalaStudijskaLeta(req, res, next) {
 }
 function vrniPredmete(req, res, next) {
   res.status(200).json(req.predmeti);
+}
+
+// Dodaja novo kombinacijo predavateljev
+function ustvariKombinacijoIzvajalcev(req, res, next) {
+  req.predmet.kombinacije_izvajalcev.push({
+    izvajalci: []
+  });
+  
+  callNext(req, res, next);
+}
+function vrniIdKombinacijeIzvajalcev(req, res, next) {
+  var kombinacija = req.predmet.kombinacije_izvajalcev[req.predmet.kombinacije_izvajalcev.length - 1];
+  
+  return res.status(201).json({ kombinacija_izvajalcev_id: kombinacija._id});
+}
+function najdiKombinacijoIzvajalcev(req, res, next) {
+  req.kombinacija = req.predmet.kombinacije_izvajalcev.id(req.params.kombinacija_id);
+  
+  if(!req.kombinacija)
+    return res.status(404).json({ message: "Ne najdem izbrane kombinacije izvajalcev"});
+  
+  callNext(req, res, next);
+}
+function izbrisiKombinacijoIzvajalcev(req, res, next) {
+  req.kombinacija.valid = false;
+  
+  callNext(req, res, next);
+}
+function obnoviKombinacijoIzvajalcev(req, res, next) {
+  req.kombinacija.valid = true;
+  
+  callNext(req, res, next);
+}
+function filtrirajKombinacije(req, res, next) {
+  for(var i = 0; i < req.predmet.kombinacije_izvajalcev.length; i++)
+  {
+    if(!req.predmet.kombinacije_izvajalcev[i].valid)
+    {
+      req.predmet.kombinacije_izvajalcev.splice(i, 1);
+      i--;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+
+function dodajIzvajalcaKombinaciji(req, res, next) {
+  if(req.kombinacija.izvajalci.length >= 3) {
+    return res.status(400).json({ message: "Kombinacija izvajalcev ima največ 3 izvajalce" });
+  }
+  
+  req.kombinacija.izvajalci.push(req.izvajalec);
+  
+  callNext(req, res, next);
+}
+function odstraniIzvajalcaKombinaciji(req, res, next) {
+  if(!req.izvajalec) {
+    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
+  }
+  
+  req.kombinacija.izvajalci.pull(req.izvajalec);
+  
+  callNext(req, res, next);
+}
+function validateIzvajalca(req, res, next) {
+  var izvajalec = req.body.izvajalec || req.params.izvajalec_id;
+  
+  Zaposlen
+    .findById(izvajalec, function(err, izvajalec) {
+      if(err || !izvajalec) {
+        return res.status(404).json({ message: "Ne nadjem izbranega izvajalca" });
+      }
+      
+      req.izvajalec = izvajalec;
+      
+      callNext(req, res, next);
+    });
+}
+function preveriIzvajalecZeVKombinaciji(req, res, next) {
+  if(!req.izvajalec) {
+    return res.status(404).json({ message: "Ne najdem izbranega izvajalca predmeta" });
+  }
+  
+  for(var i = 0; i < req.kombinacija.izvajalci.length; i++) {
+    if(req.kombinacija.izvajalci[i].equals(req.izvajalec)) {
+      return res.status(400).json({ message: "Ta izvajalec je že v tej kombinaciji izvajanja predmeta" });
+    }
+  }
+  
+  callNext(req, res, next);
+}
+
+function vrniKombinacijaSuccess(req, res) {
+  res.status(200).json({ message: "Kombinacija uspešno posodobljena"});
+}
+function vrniKombinacije(req, res) {
+  res.status(200).json(req.predmet.kombinacije_izvajalcev);
 }
