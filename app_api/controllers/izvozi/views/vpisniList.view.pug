@@ -44,11 +44,12 @@ html
             p.label Državjanstvo
         tr
           td
-            p= vpis.student.datum_rojstva
+            p
+              +formatDate(vpis.student.datum_rojstva)
           td(rowspan="2", colspan="2")
             p= vpis.student.kraj_rojstva
           td(rowspan="2")
-            p #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva}
+            p #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva.ime}
           td(rowspan="2")
             p= vpis.student.drzavljanstvo
         tr
@@ -200,15 +201,19 @@ html
             p.label Število KT
         each predmet in vpis.predmeti
           tr
-            td(style="width: 20%")
+            td.border-top(style="width: 20%")
               ul
                 each izvajalec in predmet.izvedbe_predmeta[predmet.izvedbe_predmeta.length - 1].izvajalci
                   li #{izvajalec.naziv} #{izvajalec.ime} #{izvajalec.priimek}
-            td #{predmet.naziv}
-            td(style="width: 50px") #{predmet.KT}
+            td.border-top #{predmet.naziv}
+            td.border-top(style="width: 50px") #{predmet.KT}
+        tr
+          td(colspan="2")
+            p &nbsp;
+          td(style="border-top:3px double #ddd")
+            p= sumKT
       div(style="margin: 3em 0 1em 0; text-align: right;")
-        p
-          Veljavnost predmetnika potrjuje: _________________________
+        p Veljavnost predmetnika potrjuje: _________________________
             small
               br
               | podpis mentorja/koordinatorja/

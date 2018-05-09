@@ -48,6 +48,10 @@ module.exports.pdfVpisniList = function(req, res) {
               path: "drzava_rojstva",
               select: "slovenski_naziv"
           },
+          {
+              path: "obcina_rojstva",
+              select: "ime"
+          },
           // Stalno bivališče
           {
               path: "stalno_bivalisce_posta"
@@ -122,9 +126,13 @@ module.exports.pdfVpisniList = function(req, res) {
       
       vpis = vpis.toObject();
       
+      var sumKT = 0;
+      
       for(var x = 0; x < vpis.predmeti.length; x++)
       {// Obdelaj vse predmete
         var predmet = vpis.predmeti[x];
+        
+        sumKT += predmet.KT;
         
         // Glej samo zadnjo izvedbo predmeta
         var izvedba = predmet.izvedbe_predmeta[predmet.izvedbe_predmeta.length - 1];
@@ -140,7 +148,8 @@ module.exports.pdfVpisniList = function(req, res) {
       
       var data = {
         vpis: vpis,
-        base: base
+        base: base,
+        sumKT: sumKT
       };
       
       var vpisniList = Pug.renderFile(__dirname + '/views/vpisniList.view.pug', data);
