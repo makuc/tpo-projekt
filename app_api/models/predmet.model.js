@@ -2,19 +2,10 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 
-var kombinacijeIzvajalcevSchema = new mongoose.Schema({
-    izvajalci: [{type: ObjectId, ref: 'Zaposlen'}],
-    valid: {type: Boolean, "default": true}
-});
-
 var izvedbaPredmetaSchema = new mongoose.Schema({
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
-    
-    aktivne_kombinacije: [kombinacijeIzvajalcevSchema],
-    
-    izpiti: [{type: ObjectId, ref: 'Izpit'}],
-    
-    valid: {type: Boolean, "default": true},
+    izvajalci: [{type: ObjectId, ref: 'Zaposlen'}],
+    izpiti: [{type: ObjectId, ref: 'Izpit'}]
 });
 
 var predmetSchema = new mongoose.Schema({
@@ -22,8 +13,6 @@ var predmetSchema = new mongoose.Schema({
     naziv: {type: String, required: true},
     opis: {type: String, "defaule": ""},
     KT: {type: Number, "default": 6},
-    
-    kombinacije_izvajalcev: [kombinacijeIzvajalcevSchema],
     
     izvedbe_predmeta: [izvedbaPredmetaSchema],
     

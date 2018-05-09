@@ -101,6 +101,10 @@ module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
   ]);
 };
 
+module.exports.getIzvedbeStudijskegaLeta = function(req, res) {
+  
+}
+
 /* Funkcije */
 function najdiPredmetSifra(req, res, next) {
   if(!req.body.sifra)
