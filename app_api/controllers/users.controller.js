@@ -183,11 +183,14 @@ function validateStudent(req, res, next) {
 function checkEmailAlreadyExists(req, res, next) {
     // Check if user with this email already exists
     User.findOne({email: req.body.email}, function(err, user) {
-        if(err) {
-            //console.log(err);
+        if(err)
+        {
+            console.log("---checkEmailAlreadyExists:\n" + err);
             return res.status(404).send({ message: "Napaka pri pregledu obstoja tega email naslova" });
         }
-        if(user) return res.status(409).send({ message: "Ta email naslov je že v uporabi" });
+        
+        if(user && !(req.user && user._id.equals(req.user._id)))
+            return res.status(409).send({ message: "Ta email naslov je že v uporabi" });
         
         callNext(req, res, next);
     });

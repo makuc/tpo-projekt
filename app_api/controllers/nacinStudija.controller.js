@@ -71,9 +71,12 @@ function najdiNacinStudijaSifra(req, res, next) {
   
   NacinStudija.findOne({ sifra: req.body.sifra }, function(err, nacinStudija) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiNacinStudijaSifra:\n" + err);
+      return res.status(400).json({ message: "Napaka pri pregledu podvojene šifre"});
+    }
     
-    if(nacinStudija && (req.params && req.params.nacin_id && nacinStudija._id != req.params.nacin_id))
+    if(nacinStudija && !(req.params && req.params.nacin_id && nacinStudija._id.equals(req.params.nacin_id)))
       return res.status(400).json({ message: "Način študija s podano šifro že obstaja" });
     
     callNext(req, res, next);

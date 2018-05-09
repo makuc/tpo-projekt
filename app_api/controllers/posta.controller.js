@@ -69,9 +69,12 @@ function najdiPostaPostnaStevilka(req, res, next) {
   
   Posta.findOne({ postna_stevilka: req.body.postna_stevilka }, function(err, posta) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiPostaPostnaStevilka:\n" + err);
+      return res.status(400).json({ message: "Napaka pri iskanju pošt"});
+    }
     
-    if(posta && (req.params && req.params.posta_id && posta._id != req.params.posta_id))
+    if(posta && !(req.params && req.params.posta_id && posta._id.equals(req.params.posta_id)))
       return res.status(400).json({ message: "Pošta s podano poštno številko že obstaja" });
     
     callNext(req, res, next);

@@ -108,9 +108,12 @@ function najdiPredmetSifra(req, res, next) {
   
   Predmet.findOne({ sifra: req.body.sifra }, function(err, predmet) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiPredmetSifra:\n" + err);
+      return res.status(400).json({ message: "Napaka pri pregled podvojene šifre predmeta"});
+    }
     
-    if(predmet && (req.params && req.params.predmet_id && predmet._id != req.params.predmet_id))
+    if(predmet && !(req.params && req.params.predmet_id && predmet._id.equals(req.params.predmet_id)))
       return res.status(400).json({ message: "Predmet s podano šifro že obstaja" });
     
     callNext(req, res, next);

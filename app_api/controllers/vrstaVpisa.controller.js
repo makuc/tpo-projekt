@@ -97,9 +97,12 @@ function najdiVrstaVpisaKoda(req, res, next) {
   
   VrstaVpisa.findOne({ sifra: req.body.koda }, function(err, vrstaVpisa) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiVrstaVpisaKoda:\n" + err);
+      return res.status(400).json({ message: "Napaka pri pregledu podvojene kode vrste vpisa"});
+    }
     
-    if(vrstaVpisa && (req.params && req.params.vrsta_id && vrstaVpisa._id != req.params.vrsta_id))
+    if(vrstaVpisa && !(req.params && req.params.vrsta_id && vrstaVpisa._id.equals(req.params.vrsta_id)))
       return res.status(400).json({ message: "Vrsta vpisa s podano kodo že obstaja" });
     
     callNext(req, res, next);

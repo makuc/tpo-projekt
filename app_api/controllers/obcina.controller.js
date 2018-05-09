@@ -69,8 +69,11 @@ function najdiObcinaSifra(req, res, next) {
   
   Obcina.findOne({ sifra: req.body.sifra }, function(err, obcina) {
     if(err)
-      return console.log(err);
-    if(obcina && (req.params && req.params.obcina_id && obcina._id != req.params.obcina_id))
+    {
+      console.log("---najdiObcinaSifra:\n" + err);
+      return res.status(400).json({ message: "Napaka pri pregledu podvojene šifre"});
+    }
+    if(obcina && !(req.params && req.params.obcina_id && obcina._id.equals(req.params.obcina_id)))
       return res.status(400).json({ message: "Občina s podano šifro že obstaja" });
     
     callNext(req, res, next);
