@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var auth = require("../controllers/auth/authentication.controller");
 
 var ctrl = {
     izvozi: {
@@ -49,13 +50,14 @@ router.delete('/db', ctrl.db.izbrisBaze);
 // Ostalo
 // Controller Študijsko Leto
 router.get('/leto', ctrl.NeodvisniPodatki.StudijskoLeto.getStudijskaLeta);
-router.get('/leto/vsa', ctrl.NeodvisniPodatki.StudijskoLeto.getVseStudijskaLeta);
+router.get('/leto/vsa', auth.skrbnik, ctrl.NeodvisniPodatki.StudijskoLeto.getVseStudijskaLeta);
 router.get('/leto/izbrisana', ctrl.NeodvisniPodatki.StudijskoLeto.getIzbrisaneStudijskaLeta);
 router.post('/leto', ctrl.NeodvisniPodatki.StudijskoLeto.addStudijskoLeto);
 router.get('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.getStudijskoLeto);
 router.post('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.obnoviStudijskoLeto);
 router.put('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.editStudijskoLeto);
 router.delete('/leto/:leto_id', ctrl.NeodvisniPodatki.StudijskoLeto.delStudijskoLeto);
+router.get('/trenutno-leto', ctrl.NeodvisniPodatki.StudijskoLeto.pridobiTrenutnoStudijskoLeto);
 router.post('/trenutno-leto', ctrl.NeodvisniPodatki.StudijskoLeto.oznaciTrenutnoStudijskoLeto);
 
 // Controller Občina

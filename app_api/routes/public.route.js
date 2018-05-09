@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var auth = require("../controllers/auth/authentication.controller");
+
 var ctrl = {
     izvozi: {
         vpisniList: require("../controllers/izvozi/vpisniList.controller"),
