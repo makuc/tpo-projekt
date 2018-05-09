@@ -86,6 +86,14 @@
         {
             $location.path("/urediIzvedbePredmeta/" + predmetId);
         }
+               
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
         
     }
     

@@ -82,7 +82,14 @@
         vm.uredi = function(prikaziDelePredmetnika){
             $location.path("/urediDelePredmeta/" + prikaziDelePredmetnika);
         };
-        
+               
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
     }
     
     angular

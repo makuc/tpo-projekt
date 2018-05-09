@@ -81,7 +81,14 @@
         vm.uredi = function(Id){
             $location.path("/urediStudijskoLeto/" + Id);
         };
-        
+               
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
     }
     
     angular

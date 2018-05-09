@@ -81,6 +81,13 @@
       vm.uredi = function(obcinaId){
            $location.path("/urediObcino/" + obcinaId);
        };
+              $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
         
     }
     

@@ -18,12 +18,12 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
+                    <th ng-click="orderByMe('naziv')">Šifra</th>
+                    <th ng-click="orderByMe('sifra')">Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="nacinStudija in vm.VsinacinStudija | filter: iskanje | orderBy:'nacinStudija.sifra':true" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="nacinStudija in vm.VsinacinStudija | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ nacinStudija.sifra }}</td>
                     <td>{{ nacinStudija.naziv }}</td>
@@ -39,12 +39,12 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
+                    <th ng-click="orderByMe('naziv')">Šifra</th>
+                    <th ng-click="orderByMe('sifra')">Naziv</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="nacinStudija in vm.nacinStudija[vm.trenutnaStran] | orderBy:'nacinStudija.sifra':true" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="nacinStudija in vm.nacinStudija[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ nacinStudija.sifra }}</td>
                     <td>{{ nacinStudija.naziv }}</td>

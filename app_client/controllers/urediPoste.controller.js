@@ -81,6 +81,15 @@
         vm.uredi = function(postaId){
           $location.path("/urediPosto/" + postaId);
        };
+       
+       
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
         
     }
     

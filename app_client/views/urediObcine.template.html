@@ -18,8 +18,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Ime</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('ime')">Ime</th>
                 </tr>
             </thead>
             <tfoot>
@@ -40,7 +40,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="obcina in vm.obcine[vm.trenutnaStran]" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="obcina in vm.obcine[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stObcinNaStran) }}</td>
                     <td>{{ obcina.sifra }}</td>
                     <td>{{ obcina.ime }}</td>
@@ -57,12 +57,12 @@
             <thead>
                 <tr>
                     <th>#</th>      
-                    <th>Šifra</th>
-                    <th>Ime</th>
+                   <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('ime')">Ime</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="obcina in vm.vsiPodatki | filter: iskanje" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="obcina in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stObcinNaStran) }}</td>
                     <td>{{ obcina.sifra }}</td>
                     <td>{{ obcina.ime }}</td>

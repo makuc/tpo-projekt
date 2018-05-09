@@ -18,15 +18,15 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra EVS</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Vrsta študija</th>
-                    <th>Semestri</th>
+                    <th ng-click="orderByMe('sifraEVS')">Šifra EVS</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('vrstaStudija.opis')">Vrsta študija</th>
+                    <th ng-click="orderByMe('semestri')">Semestri</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.vsiStudijskiProgrami | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.vsiStudijskiProgrami | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifraEVS }}</td>
                     <td>{{ x.sifra }}</td>
@@ -45,15 +45,15 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra EVS</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Vrsta študija</th>
-                    <th>Semestri</th>
+                    <th ng-click="orderByMe('sifraEVS')">Šifra EVS</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('vrstaStudija.opis')">Vrsta študija</th>
+                    <th ng-click="orderByMe('semestri')">Semestri</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.studijskiProgram[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.studijskiProgram[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifraEVS }}</td>
                     <td>{{ x.sifra }}</td>
