@@ -279,6 +279,11 @@
                 controller: 'dodajIzpitniRokCtrl',
                 controllerAs: 'vm'
             })
+            .when('/dodajIzpitniRok/profesor', {
+                templateUrl: 'views/dodajIzpitniRok.template.html',
+                controller: 'dodajIzpitniRokProfesorCtrl',
+                controllerAs: 'vm'
+            })
            .when('/vsiIzpitniRoki', {
                templateUrl: 'views/prikaziIzpitneRoke.template.html',
                controller: 'prikaziVseIzpitneRokeCtrl',
@@ -287,6 +292,16 @@
            .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
                templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
                controller: 'dodajIzvajalcaIzpitCtrl',
+               controllerAs: 'vm'
+           })
+           .when('/dodajIzvajalceIzpitniRok/profesor/:idIzpitnegaRoka', {
+               templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
+               controller: 'dodajIzvajalcaIzpitProfesorCtrl',
+               controllerAs: 'vm'
+           })
+           .when('/izpitniRok/profesor', {
+               templateUrl: 'views/izpitniRokiProfesor.template.html',
+               controller: 'izpitniRokiProfesorCtrl',
                controllerAs: 'vm'
            })
 

@@ -11,7 +11,7 @@
         }
         
         function najdiVseIzpitePredmetaZaStudijskoLeto(idLeta, idPredmeta){
-            return $http.get('/api/v1/izpit/leto/' + idLeta + idPredmeta);
+            return $http.get('/api/v1/izpit/leto/' + idLeta + '/predmet/' + idPredmeta);
         }
         
         function ustvariIzpitniRok(data){
@@ -38,6 +38,10 @@
             return $http.get('/api/v1/izpit/' + izpitId);
         }
         
+        function najdiPredmeteZaposlenega(){
+            return $http.get('/api/v1/predmet/zaposlen');
+        }
+        
         return {
             najdiVseIzpiteZaStudijskoLeto: najdiVseIzpiteZaStudijskoLeto,
             najdiVseIzpiteZaPredmet: najdiVseIzpiteZaPredmet,
@@ -47,7 +51,8 @@
             urediIzpitniRok: urediIzpitniRok,
             dodajIzvajalca: dodajIzvajalca,
             odstraniIzvajalca: odstraniIzvajalca,
-            pridobiIzpitniRok: pridobiIzpitniRok
+            pridobiIzpitniRok: pridobiIzpitniRok,
+            najdiPredmeteZaposlenega: najdiPredmeteZaposlenega
         };
     };
     
