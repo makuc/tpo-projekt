@@ -17,6 +17,7 @@
         <table ng-show="!iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziDrzave()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Naziv</th>
                     <th>ISO naziv</th>
                     <th>Numerična oznaka</th>
@@ -43,6 +44,7 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="drzava in vm.drzave[vm.trenutnaStran]" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDrzavNaStran) }}</td>
                     <td>{{ drzava.slovenski_naziv }}</td>
                     <td>{{ drzava.ISO_naziv }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
@@ -59,6 +61,7 @@
         <table ng-show="iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziDrzave()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Naziv</th>
                     <th>ISO naziv</th>
                     <th>Numerična oznaka</th>
@@ -68,7 +71,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="drzava in vm.vsiPodatki | filter: iskanje" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
-                     <td>{{ drzava.slovenski_naziv }}</td>
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDrzavNaStran) }}</td>
+                    <td>{{ drzava.slovenski_naziv }}</td>
                     <td>{{ drzava.ISO_naziv }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.dvomestna_koda }}</td>

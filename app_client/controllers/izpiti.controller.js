@@ -134,7 +134,7 @@
             if(polagalci[i].student == vm.studentId)
             {
               //console.log(polagalci[i]);
-              if(polagalci[i].odjavljen == false && polagalci[i].veljavnost == true)
+              if(polagalci[i].odjavljen == false && polagalci[i].valid == true)
               {
                 return true;
               }
