@@ -995,8 +995,14 @@ var zacetniPodatki = {
     ],
     
     zaposleni: [
-{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "test@test.test"},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b25e"), "priimek": "Teacher", "ime": "Super", "naziv": "prof. dr.", email: "test@test.test", predavatelj: true},
 { "_id": ObjectId("5ac8daee119e6a1c2ab5b25f"), "priimek": "Assistent", "ime": "Super", "naziv": "as.", email: "test2@test.test" },
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b260"), "priimek": "Brzoglav", "ime": "Marko", "naziv": "prof. dr.", email: "test3@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b261"), "priimek": "Seloglav", "ime": "Matej", "naziv": "prof. dr.", email: "test4@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b262"), "priimek": "Proglav", "ime": "Smerkus", "naziv": "prof. dr.", email: "test5@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b263"), "priimek": "Freeglav", "ime": "Venus", "naziv": "prof. dr.", email: "test6@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b264"), "priimek": "Prostoglav", "ime": "Lenuh", "naziv": "prof. dr.", email: "test7@test.test", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b265"), "priimek": "Referentka", "Superca": "Lenuh", "naziv": "prof. dr.", email: "test0@test.test", predavatelj: false},
     ],
     
     predmeti: [
@@ -1110,9 +1116,15 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ac"),student: ObjectId("5ac8ca4d36fba41313122307"),email: "cn4530@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ad"),student: ObjectId("5ac8ca4d36fba41313122308"),email: "nb4531@student.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25e"),email: "test@test.test",password: "qwas123", skrbnik: true},
-{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test2@test.test",password: "qwas123"},
-{"_id":ObjectId("5aef36672df3d92098c87f98"),password:"qwas123","student":ObjectId("5aef36672df3d92098c87f96"),"email":"km0000@student.uni-lj.si","valid":true,"skrbnik":false,"__v":0},
-{"_id":ObjectId("5aef49a79958d4255801a972"),"password":"qwas123","student":ObjectId("5aef49a79958d4255801a970"),"opombe":"m9UYc08kNmQl","email":"vv0000@student.uni-lj.si","valid":true,"skrbnik":false,"__v":0},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69ae"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b265"),email: "test0@test.test",password: "qwas123", referentka: true},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b25f"),email: "test2@test.test",password: "qwas123", skrbnik: true},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b260"),email: "test3@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b261"),email: "test4@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b262"),email: "test5@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b263"),email: "test6@test.test",password: "qwas123"},
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69af"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b264"),email: "test7@test.test",password: "qwas123"},
+{"_id":ObjectId("5aef36672df3d92098c87f98"),student:ObjectId("5aef36672df3d92098c87f96"),email:"km0000@student.uni-lj.si",password:"qwas123"},
+{"_id":ObjectId("5aef49a79958d4255801a972"),student:ObjectId("5aef49a79958d4255801a970"),email:"vv0000@student.uni-lj.si",password:"qwas123"},
     ]
 };
 var models = {

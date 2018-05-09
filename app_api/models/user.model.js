@@ -11,6 +11,7 @@ var userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true},
     
     skrbnik: {type: Boolean, "default": false},
+    referentka: {type: Boolean, "default": false},
     
     valid: {type: Boolean, "default": true},
     
