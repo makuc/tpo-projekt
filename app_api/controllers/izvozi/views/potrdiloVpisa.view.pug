@@ -66,13 +66,14 @@ html
         tr
           td
             p
-              b= vpis.student.datum_rojstva
+              b
+                +formatDate(vpis.student.datum_rojstva)
           td(rowspan="2", colspan="2")
             p
               b= vpis.student.kraj_rojstva
           td(rowspan="2")
             p
-              b #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva}
+              b #{vpis.student.drzava_rojstva.slovenski_naziv}, #{vpis.student.obcina_rojstva.ime}
           td(rowspan="2")
             p
               b= vpis.student.drzavljanstvo
