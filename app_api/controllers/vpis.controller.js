@@ -51,7 +51,7 @@ module.exports.urediVpisniList = function(req, res) {
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, preveriNeoddan, oddajaVpisnegaLista, vrniVpisniList
+    najdiVpisniListId, najdiStudentaId, preveriNeoddan, oddajaVpisnegaLista, porabiVseZetone, vrniVpisniList
   ]);
 };
 
@@ -639,6 +639,25 @@ function potrdiVpisniList(req, res, next) {
     }
     
     req.vpisniList = vpisniList;
+    
+    callNext(req, res, next);
+  });
+}
+
+function porabiVseZetone(req, res, next) {
+  for(var i = 0; i < req.student.zetoni.length; i++)
+  {
+    req.student.zetoni[i].izkoriscen = true;
+  }
+  
+  req.student.save(function(err, student) {
+    if(err || !student)
+    {
+      console.log("---porabiVseZetone:\n" + err);
+      return res.status(400).json({ message: "Napaka pri shranjevanju študenta"});
+    }
+    
+    req.student = student;
     
     callNext(req, res, next);
   });
