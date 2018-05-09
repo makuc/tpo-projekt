@@ -1,7 +1,7 @@
 (function() {
     /* global angular */
-    mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http', 'studentPodatki'];
-    function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki) {
+    mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http', 'studentPodatki', 'ostaloPodatki'];
+    function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki, ostaloPodatki) {
         var vm = this;
         
             $scope.logoutFunc = function() {
@@ -49,6 +49,23 @@
         
         // vpisan je zaposlen
         if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                    if(odgovor.data.referentka){
+                        vm.referentka = true;
+                    }
+                    if(odgovor.data.skrbnik){
+                        vm.skrbnik = true;
+                    }
+                    if(odgovor.data.zaposlen.predavatelj){
+                        vm.predavatelj = true;
+                    }
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
             vm.zaposlen = true;
             
             vm.izpitniRoki = function() {
