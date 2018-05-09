@@ -438,13 +438,20 @@ function najdiIzvedboPredmeta(req, res, next) {
 }
 function ustvariIzvedboPredmeta(req, res, next) {
   if(req.izvedbaPredmeta) {
-    console.log(req.izvedbaPredmeta);
+    //console.log(req.izvedbaPredmeta);
     return res.status(409).json({ message: "Izvedba predmeta za izbrano šolsko leto že obstaja" });
   }
   
-  req.predmet.izvedbe_predmeta.push({
-    studijsko_leto: req.studijskoLeto
-  });
+  if(req.predmet.izvedbe_predmeta.length > 0)
+  {
+    req.predmet.izvedbe_predmeta.push(req.predmet.izvedbe_predmeta[req.predmet.izvedbe_predmeta.length - 1]);
+  }
+  else
+  {
+    req.predmet.izvedbe_predmeta.push({
+      studijsko_leto: req.studijskoLeto
+    });
+  }
   
   callNext(req, res, next);
 }
