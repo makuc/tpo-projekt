@@ -121,6 +121,20 @@ module.exports.delIzvedbaPredmeta = function(req, res) {
     validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, shraniPredmet, vrniPredmet
   ]);
 };
+module.exports.dodajKombinacijoIzvedbi = function(req, res) {
+  callNext(req, res, [
+    validateStudijskoLeto, najdiPredmetId,
+    najdiKombinacijoIzvajalcev, najdiIzvedboPredmeta, preveriKombinacijaZeVIzvedbi, dodajKombinacijoIzvedbi,
+    shraniPredmet, vrniIzvedbaSuccess
+  ]);
+};
+module.exports.odstraniKombinacijoIzvedbi = function(req, res) {
+  callNext(req, res, [
+    validateStudijskoLeto, najdiPredmetId,
+    najdiKombinacijoIzvajalcev, najdiIzvedboPredmeta, odstraniKombinacijoIzvedbi,
+    shraniPredmet, vrniIzvedbaSuccess
+  ]);
+};
 
 
 /* Funkcije */
@@ -235,55 +249,6 @@ function pridobiIzvedbo(req, res) {
       koncniObject.predmeti = predmeti;
       return res.status(200).json(koncniObject);
   });
-}
-
-// Funkcije za upravljanje izvedb
-function validateStudijskoLeto(req, res, next) {
-  var studijsko_leto = req.params.studijskoLeto_id || req.body.studijsko_leto;
-  
-  StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
-    if(err || !studijskoLeto) {
-      //console.log(err);
-      return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
-    }
-    
-    req.studijskoLeto = studijskoLeto;
-    
-    callNext(req, res, next);
-  });
-}
-function najdiIzvedboPredmeta(req, res, next) {
-  var izvedbePredmeta = req.predmet.izvedbe_predmeta;
-  
-  for(var i = 0; i < izvedbePredmeta.length; i++) {
-    if(izvedbePredmeta[i].studijsko_leto.equals(req.studijskoLeto)) {
-      req.izvedbaPredmeta = izvedbePredmeta[i];
-      break;
-    }
-  }
-  
-  callNext(req, res, next);
-}
-function ustvariIzvedboPredmeta(req, res, next) {
-  if(req.izvedbaPredmeta) {
-    console.log(req.izvedbaPredmeta);
-    return res.status(409).json({ message: "Izvedba predmeta za izbrano šolsko leto že obstaja" });
-  }
-  
-  req.predmet.izvedbe_predmeta.push({
-    studijsko_leto: req.studijskoLeto
-  });
-  
-  callNext(req, res, next);
-}
-function odstraniIzvedboPredmeta(req, res, next) {
-  if(!req.izvedbaPredmeta) {
-    return res.status(404).json({ message: "Ne najdem izvedbe predmeta za želeno študijsko leto" });
-  }
-  
-  req.izvedbaPredmeta.remove();
-  
-  callNext(req, res, next);
 }
 
 // Najde in procesira predmete zaposlenega
@@ -442,4 +407,79 @@ function vrniKombinacijaSuccess(req, res) {
 }
 function vrniKombinacije(req, res) {
   res.status(200).json(req.predmet.kombinacije_izvajalcev);
+}
+
+// Funkcije za upravljanje izvedb
+function validateStudijskoLeto(req, res, next) {
+  var studijsko_leto = req.params.studijskoLeto_id || req.body.studijsko_leto;
+  
+  StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
+    if(err || !studijskoLeto) {
+      //console.log(err);
+      return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
+    }
+    
+    req.studijskoLeto = studijskoLeto;
+    
+    callNext(req, res, next);
+  });
+}
+function najdiIzvedboPredmeta(req, res, next) {
+  var izvedbePredmeta = req.predmet.izvedbe_predmeta;
+  
+  for(var i = 0; i < izvedbePredmeta.length; i++) {
+    if(izvedbePredmeta[i].studijsko_leto.equals(req.studijskoLeto)) {
+      req.izvedbaPredmeta = izvedbePredmeta[i];
+      break;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function ustvariIzvedboPredmeta(req, res, next) {
+  if(req.izvedbaPredmeta) {
+    console.log(req.izvedbaPredmeta);
+    return res.status(409).json({ message: "Izvedba predmeta za izbrano šolsko leto že obstaja" });
+  }
+  
+  req.predmet.izvedbe_predmeta.push({
+    studijsko_leto: req.studijskoLeto
+  });
+  
+  callNext(req, res, next);
+}
+function odstraniIzvedboPredmeta(req, res, next) {
+  if(!req.izvedbaPredmeta) {
+    return res.status(404).json({ message: "Ne najdem izvedbe predmeta za želeno študijsko leto" });
+  }
+  
+  req.izvedbaPredmeta.remove();
+  
+  callNext(req, res, next);
+}
+
+function preveriKombinacijaZeVIzvedbi(req, res, next) {
+  for(var i = 0; i < req.izvedbaPredmeta.aktivne_kombinacije.length; i++)
+  {
+    if(req.izvedbaPredmeta.aktivne_kombinacije[i]._id.equals(req.kombinacija._id))
+    {
+      return res.status(400).json({ message: "Ta kombinacija izvajalcev je že v izbrani izvedbi"});
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function dodajKombinacijoIzvedbi(req, res, next) {
+  req.izvedbaPredmeta.aktivne_kombinacije.push(req.kombinacija);
+  
+  callNext(req, res, next);
+}
+function odstraniKombinacijoIzvedbi(req, res, next) {
+  req.izvedbaPredmeta.aktivne_kombinacije.pull(req.kombinacija);
+  
+  callNext(req, res, next);
+}
+
+function vrniIzvedbaSuccess(req, res, next) {
+  res.status(200).json({ message: "Izvedba predmeta posodobljena"});
 }

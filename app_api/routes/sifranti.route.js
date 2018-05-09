@@ -180,7 +180,12 @@ router.delete('/predmet/:predmet_id/kombinacija/:kombinacija_id/izvajalec/:izvaj
 // Vzdrževanje izvedb predmeta
 router.post('/predmet/:predmet_id/izvedba', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvedbaPredmeta);
 router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvedbaPredmeta);
-
+router.post('/predmet/:predmet_id/izvedba/:studijskoLeto_id/kombinacija/:kombinacija_id',
+    auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.dodajKombinacijoIzvedbi
+);
+router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id/kombinacija/:kombinacija_id',
+    auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.odstraniKombinacijoIzvedbi
+);
 
 
 

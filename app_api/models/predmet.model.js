@@ -12,7 +12,9 @@ var izvedbaPredmetaSchema = new mongoose.Schema({
     
     aktivne_kombinacije: [kombinacijeIzvajalcevSchema],
     
-    izpiti: [{type: ObjectId, ref: 'Izpit'}]
+    izpiti: [{type: ObjectId, ref: 'Izpit'}],
+    
+    valid: {type: Boolean, "default": true},
 });
 
 var predmetSchema = new mongoose.Schema({
