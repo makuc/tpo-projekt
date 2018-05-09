@@ -308,11 +308,11 @@ function validateEmail(req, res, next) {
   
   models.Zaposlen.findOne({ email: req.body.email }, function(err, zaposlen) {
     if(err) {
-      //console.log(err);
-      return res.status(400).send({ message: "Napaka pri preverjanju obstoja e-pošte" });
+      console.log("---validateEmail:\n" + err);
+      return res.status(400).send({ message: "Napaka pri preverjanju podvojene e-pošte" });
     }
     
-    if(zaposlen && (req.params && req.params.zaposlen_id && zaposlen._id != req.params.zaposlen_id))
+    if(zaposlen && !(req.params && req.params.zaposlen_id && zaposlen._id.equals(req.params.zaposlen_id)))
       return res.status(409).json({ message: "Zaposlen s podano e-pošto že obstaja" });
     
     callNext(req, res, next);

@@ -50,6 +50,10 @@ module.exports.pdfPotrdiloVpisa = function(req, res) {
               path: "drzava_rojstva",
               select: "slovenski_naziv"
           },
+          {
+              path: "obcina_rojstva",
+              select: "ime"
+          },
           // Stalno bivališče
           {
               path: "stalno_bivalisce_posta"

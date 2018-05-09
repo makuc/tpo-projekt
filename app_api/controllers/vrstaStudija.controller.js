@@ -71,9 +71,12 @@ function najdiVrstaStudijaSifra(req, res, next) {
   
   VrstaStudija.findOne({ sifra: req.body.sifra }, function(err, vrstaStudija) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiVrstaStudijaSifra:\n" + err);
+      return res.status(400).json({ message: "Napaka pri pregledu podvojene šifre vrste študija"});
+    }
     
-    if(vrstaStudija && (req.params && req.params.vrsta_id && vrstaStudija._id != req.params.vrsta_id))
+    if(vrstaStudija && !(req.params && req.params.vrsta_id && vrstaStudija._id.equals(req.params.vrsta_id)))
       return res.status(400).json({ message: "Vrsta študija s podano šifro že obstaja" });
     
     callNext(req, res, next);

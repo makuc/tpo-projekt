@@ -91,9 +91,12 @@ function najdiStudijskoLetoIme(req, res, next) {
   
   StudijskoLeto.findOne({ studijsko_leto: req.body.studijsko_leto }, function(err, leto) {
     if(err)
-      return console.log(err);
+    {
+      console.log("---najdiStudijskoLetoIme:\n" + err);
+      return res.status(400).json({ message: "Napaka pri preverjanju podvojenega imena študijskega leta"});
+    }
     
-    if(leto && (req.params && req.params.leto_id && leto._id != req.params.leto_id))
+    if(leto && !(req.params && req.params.leto_id && leto._id.equals(req.params.leto_id)))
       return res.status(400).json({ message: "Študijsko leto s podanim imenom že obstaja" });
     
     callNext(req, res, next);

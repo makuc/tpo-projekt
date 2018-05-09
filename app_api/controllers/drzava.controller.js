@@ -76,8 +76,12 @@ function najdiDrzavaDvomestna(req, res, next) {
   
   Drzava.findOne({ dvomestna_koda: req.body.dvomestna_koda }, function(err, drzava) {
     if(err)
-      return console.log(err);
-    if(drzava && (req.params && req.params.drzava_id && drzava._id != req.params.drzava_id))
+    {
+      console.log("---najdiDrzavaDvomestna:\n" + err);
+      return res.status(400).json({ message: "Napaka pri iskanju podvojene dvomestne kode"});
+    }
+    
+    if(drzava && !(req.params && req.params.drzava_id && drzava._id.equals(req.params.drzava_id)))
       return res.status(400).json({ message: "Država s podano dvomestno kodo že obstaja" });
     
     callNext(req, res, next);
@@ -89,8 +93,12 @@ function najdiDrzavaTrimestna(req, res, next) {
   
   Drzava.findOne({ trimestna_koda: req.body.trimestna_koda }, function(err, drzava) {
     if(err)
-      return console.log(err);
-    if(drzava && (req.params && req.params.drzava_id && drzava._id != req.params.drzava_id))
+    {
+      console.log("---najdiDrzavaTrimestna:\n" + err);
+      return res.status(400).json({ message: "Napaka pri iskanju podvojene trimestne kode"});
+    }
+    
+    if(drzava && !(req.params && req.params.drzava_id && drzava._id.equals(req.params.drzava_id)))
       return res.status(400).json({ message: "Država s podano trimestno kodo že obstaja" });
     
     callNext(req, res, next);
@@ -102,8 +110,12 @@ function najdiDrzavaNumericna(req, res, next) {
   
   Drzava.findOne({ numericna_oznaka: req.body.numericna_oznaka }, function(err, drzava) {
     if(err)
-      return console.log(err);
-    if(drzava && (req.params && req.params.drzava_id && drzava._id != req.params.drzava_id))
+    {
+      console.log("---najdiDrzavaNumericna:\n" + err);
+      return res.status(400).json({ message: "Napaka pri iskanju podvojene numerične oznake"});
+    }
+    
+    if(drzava && !(req.params && req.params.drzava_id && drzava._id.equals(req.params.drzava_id)))
       return res.status(400).json({ message: "Država s podano numerično oznako že obstaja" });
     
     callNext(req, res, next);
@@ -115,8 +127,12 @@ function najdiDrzavaISO(req, res, next) {
   
   Drzava.findOne({ ISO_naziv: req.body.ISO_naziv }, function(err, drzava) {
     if(err)
-      return console.log(err);
-    if(drzava && (req.params && req.params.drzava_id && drzava._id != req.params.drzava_id))
+    {
+      console.log("---najdiDrzavaISO:\n" + err);
+      return res.status(400).json({ message: "Napaka pri iskanju podvojenega ISO naziva"});
+    }
+    
+    if(drzava && !(req.params && req.params.drzava_id && drzava._id.equals(req.params.drzava_id)))
       return res.status(400).json({ message: "Država s podanim ISO nazivom že obstaja" });
     
     callNext(req, res, next);
