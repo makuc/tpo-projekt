@@ -23,7 +23,7 @@
         
         vm.shrani = function(){
             var posta = {
-                postna_stevila: vm.posta.postna_stevilka,
+                postna_stevilka: vm.posta.postna_stevilka,
                 naziv: vm.posta.naziv
             };
             ostaloPodatki.urediPosto(vm.idPoste, posta).then(
