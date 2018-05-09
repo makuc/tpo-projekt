@@ -226,6 +226,8 @@ function ustvariIzpit(req, res, next) {
     predmet: req.predmet,
     studijsko_leto: req.studijskoLeto,
     datum_izvajanja: req.datumIzvajanja,
+    
+    lokacija: req.body.lokacija,
     opombe: req.body.opombe,
     
     izvajalci: req.izvedba.izvajalci
@@ -250,6 +252,12 @@ function urediIzpit(req, res, next) {
   if(req.body.opombe)
     req.izpit.opombe = req.body.opombe;
   
+  if(req.izvedba)
+    req.izpit.izvajalci = req.izvedba.izvajalci;
+  
+  if(req.body.lokacija)
+    req.izpit.lokacija = req.body.lokacija;
+  
   callNext(req, res, next);
 }
 function izbrisiIzpit(req, res, next) {
@@ -266,18 +274,6 @@ function izbrisiIzpit(req, res, next) {
     
     callNext(req, res, next);
   });
-}
-function filtrirajPrijave(req, res, next) {
-  req.izpit = req.izpit.toObject();
-  
-  for(var i = 0; i < req.izpit.polagalci.length; i++) {
-    if(req.izpit.polagalci[i].odjavljen) {
-      req.izpit.polagalci.splice(i, 1);
-      i--;
-    }
-  }
-  
-  callNext(req, res, next);
 }
 function vrniIzpit(req, res) {
   res.status(200).json(req.izpit);
@@ -384,22 +380,6 @@ function validateDatumIzvedbe(req, res, next) {
   
   callNext(req, res, next);
 }
-
-function validateIzvajalca(req, res, next) {
-  var izvajalec = req.body.izvajalec || req.params.izvajalec_id;
-  
-  Zaposlen
-    .findById(izvajalec, function(err, izvajalec) {
-      if(err || !izvajalec) {
-        return res.status(404).json({ message: "Ne nadjem izbranega izvajalca" });
-      }
-      
-      req.izvajalec = izvajalec;
-      
-      callNext(req, res, next);
-    });
-}
-
 
 // Prijave/odjave na izpit
 function najdiStudentaId(req, res, next) {

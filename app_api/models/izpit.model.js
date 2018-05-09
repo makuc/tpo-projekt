@@ -24,6 +24,8 @@ var izpitSchema = new mongoose.Schema({
     predmet: {type: ObjectId, ref: 'Predmet', required: true},
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
     datum_izvajanja: {type: Date, required: true},
+    
+    lokacija: {type: String, required: false},
     opombe: {type: String, required: false},
     
     izvajalci: [{type: ObjectId, ref: 'Zaposlen', required: false}],
