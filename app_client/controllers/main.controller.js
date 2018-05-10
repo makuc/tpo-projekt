@@ -18,8 +18,9 @@
         
         // vpisani je student
         if(authentication.currentUser().student){
+            vm.jeStudent = true;
             vm.student = true;
-            
+        
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
                 function success(odgovor){
                     for(var i = 0; i < odgovor.data.zetoni.length; i++){
