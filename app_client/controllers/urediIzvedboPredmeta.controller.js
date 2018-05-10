@@ -93,6 +93,7 @@
                           ostaloPodatki.pridobiVseZaposlene().then(
                             function success(odgovor){
                               console.log("n3");
+                                vm.vsiZaposleni = odgovor.data;
                                 vm.zaposleni = odgovor.data;
                                 //console.log("zaposleni: ", vm.zaposleni);
                                 

@@ -580,6 +580,9 @@ function odjaviPolagalca(req, res, next) {
   
   req.polaganje.odjavljen = true;
   req.polaganje.cas_odjave = Date.now();
+  req.polaganje.tock = -1;
+  req.polaganje.ocena = -1;
+  req.polaganje.koncna_ocena = -1;
   
   if(req.user && req.user.zaposlen)
     req.polaganje.odjavil = req.user.zaposlen;
@@ -718,14 +721,34 @@ function preveriPretekloDovoljDni(req, res, next) {
 // Vnos ocene
 function vnesiOcenoPodIzpit(req, res, next) {
   if(req.body.ocena)
+  {
+    req.body.ocena = parseInt(req.body.ocena, 10);
+    if(req.body.ocena > 100 || req.body.ocena < 0)
+      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med 0 in 10"});
+    
     req.polaganje.ocena = req.body.ocena;
+  }
   if(req.body.tock)
+  {
+    req.body.tock = parseInt(req.body.tock, 10);
+    if(req.body.tock > 100 || req.body.tock < 0)
+      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med 0 in 100"});
+    
     req.polaganje.tock = req.body.tock;
+  }
+  if(req.body.koncna_ocena)
+  {
+    req.body.koncna_ocena = parseInt(req.body.koncna_ocena, 10);
+    if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < 0)
+      return res.status(400).json({ message: "Končna ocena predmeta mora biti med 0 in 10"});
+    
+    req.polaganje.koncna_ocena = req.body.koncna_ocena;
+  }
   
   callNext(req, res, next);
 }
 function vnesiOcenoStudentu(req, res, next) {
-  req.predmet.ocena = req.body.ocena;
+  req.predmet.ocena = req.body.koncna_ocena;
   
   callNext(req, res, next);
 }
