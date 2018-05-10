@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    urediObcineCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    urediObcineCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication'];
     
     
-    function urediObcineCtrl(ostaloPodatki, $scope, $location){
+    function urediObcineCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
+        
+         vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stObcin/10-1){
