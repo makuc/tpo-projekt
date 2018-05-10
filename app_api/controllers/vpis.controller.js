@@ -53,7 +53,7 @@ module.exports.urediVpisniList = function(req, res) {
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, najdiStudentaId, preveriNeoddan, oddajaVpisnegaLista, porabiVseZetone, vrniVpisniList
+    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, oddajaVpisnegaLista, porabiVseZetone, vrniVpisniList
   ]);
 };
 
@@ -331,15 +331,12 @@ function preveriNeoddan(req, res, next) {
 function pripraviPredmetnike(req, res, next) {
   console.log("--pripraviPredmetnike");
   
-  var letnik;
-  if(req.vpisniList)
-    letnik = req.vpisniList.letnik;
-  else
-    letnik = req.zeton.letnik;
+  if(!req.vpisniList)
+    req.vpisniList = req.zeton;
   
   models.Predmetnik
     .find({
-      letnik: letnik
+      letnik: req.vpisniList.letnik._id
     })
     .populate("predmeti del_predmetnika")
     .exec(function(err, predmetniki) {
@@ -581,6 +578,9 @@ function validateModul(req, res, next) {
 }
 
 function dodajSplosniIzbirni(req, res, next) {
+  if(req.splosniIzbirniPredmeti.length == 0 || req.vpisniList.letnik.KT_izbirnihPredmetov <= 0)
+    return res.status(400).json({ message: "Ne moreš izbirati splošnih izbirnih predmetov"});
+  
   for(var i = 0; i < req.splosniIzbirniPredmeti.length; i++)
   {
     if(req.splosniIzbirniPredmeti[i]._id.equals(req.predmet._id))
@@ -611,7 +611,7 @@ function dodajSplosniIzbirni(req, res, next) {
       return;
     }
   }
-  return res.status(400).json({ message: "Ne moreš izbirati splošnih izbirnih predmetov"});
+  return res.status(400).json({ message: "Ne moreš izbrati izbranega splošnega izbirnega predmeta"});
 }
 function odstraniSplosniIzbirni(req, res, next) {
   for(var i = 0; i < req.vpisniList.splosniIzbirniPredmeti.length; i++)
@@ -626,6 +626,9 @@ function odstraniSplosniIzbirni(req, res, next) {
   res.status(400).json({ message: "Ta predmet še ni bil dodan"});
 }
 function dodajStrokovniIzbirni(req, res, next) {
+  if(req.strokovniIzbirniPredmeti.length == 0 || req.vpisniList.letnik.KT_strokovnihIzbirnihPredmetov <= 0)
+    return res.status(400).json({ message: "Ne moreš izbirati strokovnih izbirnih predmetov"});
+  
   for(var i = 0; i < req.strokovniIzbirniPredmeti.length; i++)
   {
     if(req.strokovniIzbirniPredmeti[i]._id.equals(req.predmet._id))
@@ -656,7 +659,7 @@ function dodajStrokovniIzbirni(req, res, next) {
       return;
     }
   }
-  return res.status(400).json({ message: "Ne moreš izbirati strokovnih izbirnih predmetov"});
+  return res.status(400).json({ message: "Ne moreš izbrati izbranega strokovnega izbirnega predmeta"});
 }
 function odstraniStrokovniIzbirni(req, res, next) {
   for(var i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++)
@@ -671,6 +674,9 @@ function odstraniStrokovniIzbirni(req, res, next) {
   res.status(400).json({ message: "Ta predmet še ni bil dodan"});
 }
 function dodajModulniIzbirni(req, res, next) {
+  if(req.modulniPredmeti.length == 0 || req.vpisniList.letnik.st_modulov <= 0 || !req.vpisniList.prosta_izbira)
+    return res.status(400).json({ message: "Ne moreš izbirati modulnih predmetov"});
+  
   for(var i = 0; i < req.modulniPredmeti.length; i++)
   {
     if(req.modulniPredmeti[i]._id.equals(req.predmet._id))
@@ -684,7 +690,7 @@ function dodajModulniIzbirni(req, res, next) {
       }
       
       if(req.vpisniList.modulniPredmeti.length + 1 > req.vpisniList.letnik.st_modulov * 3) {
-        return res.status(400).json({ message: "Prekoračuješ dovoljeno število KT za strokovne izbirne predmete"});
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število modulnih izbirnih predmetov"});
       }
       
       req.vpisniList.modulniPredmeti.push(req.predmet);
@@ -694,7 +700,7 @@ function dodajModulniIzbirni(req, res, next) {
       return;
     }
   }
-  return res.status(400).json({ message: "Ne moreš izbirati strokovnih izbirnih predmetov"});
+  return res.status(400).json({ message: "Ne moreš izbrati izbranega modulnega predmeta"});
 }
 function odstraniModulniIzbirni(req, res, next) {
   for(var i = 0; i < req.vpisniList.modulniPredmeti.length; i++)
@@ -709,6 +715,9 @@ function odstraniModulniIzbirni(req, res, next) {
   res.status(400).json({ message: "Ta predmet še ni bil dodan"});
 }
 function dodajModul(req, res, next) {
+  if(req.moduli.length == 0 || req.vpisniList.letnik.st_modulov <= 0)
+    return res.status(400).json({ message: "Ne moreš izbirati modulnih predmetov"});
+  
   for(var i = 0; i < req.moduli.length; i++)
   {
     if(req.moduli[i]._id.equals(req.modul._id))
@@ -732,7 +741,7 @@ function dodajModul(req, res, next) {
       return;
     }
   }
-  return res.status(400).json({ message: "Ne moreš izbirati modulov"});
+  return res.status(400).json({ message: "Ne moreš izbirti izbranega modula"});
 }
 function odstraniModul(req, res, next) {
   for(var i = 0; i < req.vpisniList.moduli.length; i++)
@@ -769,6 +778,10 @@ function oddajaVpisnegaLista(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+function preveriVeljavnostPredmetov(req, res, next) {
+  
+  callNext(req, res, next);
 }
 
 function prijaviStudenta(req, res, next) {

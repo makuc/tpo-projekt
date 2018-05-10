@@ -82,7 +82,7 @@ module.exports.addZetonStudentu = function(req, res) {
     return res.status(400).json({ message: "Ni dovolj podatkov za kreiranje novega žetona"});
   }
   
-  callNext(req, res, [ najdiStudentaId,
+  callNext(req, res, [ najdiStudentaId, pridobiNeopravljenePredmete,
     validateStudijskoLeto, validateLetnik, validateStudijskiProgram, validateStudijskoLetoPrvegaVpisa, validateVrstaStudija,
     validateVrstaVpisa, validateOblikaStudija, validateNacinStudija, dodajZetonStudentu, vrniZeton
   ]);
@@ -1127,7 +1127,11 @@ function dodajZetonStudentu(req, res, next) {
     
     kraj_izvajanja: req.body.kraj_izvajanja,
     
-    nacin_studija: req.nacinStudija
+    nacin_studija: req.nacinStudija,
+    
+    neopravljeni_predmeti: req.neopravljeni_predmeti,
+    
+    prosta_izbira: req.body.prosta_izbira === 'true'
   });
   
   req.student.save(function(err, student) {
@@ -1171,6 +1175,8 @@ function urediZetonStudenta(req, res, next) {
     req.zeton.oblika_studija = req.oblikaStudija;
   if(req.nacinStudija)
     req.zeton.nacin_studija = req.nacinStudija;
+  if(req.body.prosta_izbira)
+    req.zeton.prosta_izbira = req.body.prosta_izbira === 'true';
   
   if(req.body.usmeritev)
     req.zeton.usmeritev = req.body.usmeritev;
