@@ -1,14 +1,17 @@
 (function() {
     /* global angular */
     
-    prijavljeniKandidatiCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    prijavljeniKandidatiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', '$route'];
     
     
-    function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location){
+    function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location, $route){
         var vm = this;
         
+        vm.izvedbaId = $route.current.pathParams.rokId;
+        //console.log(vm.izvedbaId);
+        
         vm.nextPage = function(){
-            if(vm.trenutnaStran < vm.stZaposlenih/10-1){
+            if(vm.trenutnaStran < vm.stKandidatov/10-1){
                 vm.trenutnaStran++;
             }
         };
@@ -23,33 +26,35 @@
             vm.trenutnaStran = x-1;
         };
         
-        vm.prikaziZaposlene = function(){
-            ostaloPodatki.pridobiVseZaposlene().then(
+        vm.prikaziKandidate = function(){
+            ostaloPodatki.pridobiIzpitniRok(vm.izvedbaId).then(
                 function success(odgovor){
                     //console.log(odgovor.data);
-                    vm.vsiPodatki = odgovor.data;
-                    vm.zaposleni = odgovor.data;
-                    vm.stZaposlenih = vm.zaposleni.length;
-                    vm.stZaposlenihNaStran = 10;
+                    vm.izpitniRok = odgovor.data;
+                    vm.kandidati = vm.izpitniRok.polagalci;
+                    //console.log("kandidati: ", vm.kandidati);
+                    vm.stKandidatov = vm.kandidati.length;
+                    vm.stKandidatovNaStran = 10;
                     vm.trenutnaStran = 0;
                     
                     var array = [setPagingData(1)];
                     
                     vm.strani = [1];
                     
-                    for(var i = 2; i <= (vm.stZaposlenih/10)+1; i++){
+                    for(var i = 2; i <= (vm.stKandidatov/10)+1; i++){
                         array.push(setPagingData(i));
                         vm.strani.push(i);
                     }
                     
                     function setPagingData(page){
-                        var pagedData = vm.zaposleni.slice(
-                            (page - 1) * vm.stZaposlenihNaStran,
-                            page * vm.stZaposlenihNaStran
+                        var pagedData = vm.kandidati.slice(
+                            (page - 1) * vm.stKandidatovNaStran,
+                            page * vm.stKandidatovNaStran
                             );
                         return pagedData;
                     }
-                    vm.zaposleni = array;
+                    vm.kandidati = array;
+                    //console.log(vm.kandidati);
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -57,32 +62,10 @@
             );
         };
         
-        vm.izbris = function(zaposlenId){
-            //console.log("izbris: ", zaposlenId);
-            ostaloPodatki.izbrisiZaposlenega(zaposlenId).then(
-                function success(odgovor){
-                    vm.prikaziZaposlene();
-                },
-                function error(odgovor){
-                    console.log(odgovor);
-                }
-            );
-        };
-        
-        vm.obnovi = function(zaposlenId){
-            ostaloPodatki.obnoviZaposlenega(zaposlenId).then(
-                function success(odgovor){
-                    vm.prikaziZaposlene();
-                },
-                function error(odgovor){
-                    console.log(odgovor);
-                }
-            );
-        };
-        
-        vm.uredi = function(zaposlenId){
-            console.log(zaposlenId);
-            $location.path("/urediZaposlenega/" + zaposlenId);
+        vm.uredi = function(studentId){
+            //console.log(zaposlenId);
+            // /vsiIzpitniRoki/5af174a9267cef0a952d32fa/kandidati
+            $location.path("/vsiIzpitniRoki/" + vm.izvedbaId + '/kandidati/' + studentId);
         };
                
        $scope.orderByMe = function(x) {
