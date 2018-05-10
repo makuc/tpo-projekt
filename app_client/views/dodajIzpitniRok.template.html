@@ -16,7 +16,7 @@
         </div>
         <div ng-show="vm.podatki.predmet" class="row">
             <div class="form-group col-sm-4">
-                <label>Izvedbe predmeta:</label>
+                <label>Izvajalci:</label>
                 <select class="form-control" ng-model="vm.podatki.izvedbe" ng-options='iz as (iz.izvajalci[0].ime + " " + iz.izvajalci[0].priimek + "  " + iz.izvajalci[1].ime + " " + iz.izvajalci[1].priimek + "  " + iz.izvajalci[2].ime + " " + iz.izvajalci[2].priimek) for iz in vm.izvedbe track by iz._id'></select>
             </div>
         </div>

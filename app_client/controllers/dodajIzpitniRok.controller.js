@@ -72,7 +72,7 @@
         
         vm.izbrano = function(){
             vm.predmeti = [];
-            console.log(vm.podatki.studijskoLeto._id);
+            //console.log(vm.podatki.studijskoLeto._id);
             predmetPodatki.izpisiVseVeljavnePredmete().then(
                 function success(odgovor){
                     for(var i = 0; i < odgovor.data.length; i++){
@@ -90,11 +90,11 @@
         };
         
         vm.izbranPredmet = function(){
-            console.log(vm.podatki.predmet._id);
-            console.log(vm.podatki.studijskoLeto._id);
+            //console.log(vm.podatki.predmet);
+            //console.log(vm.podatki.studijskoLeto);
             izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
                 function success(odgovor){
-                    console.log(odgovor.data);
+                    //console.log(odgovor.data);
                     vm.izvedbe = odgovor.data;
                 },
                 function error(odgovor){
@@ -126,6 +126,8 @@
         vm.shrani = function(){
             //preveri veljavnost datuma
             
+            //console.log(vm.podatki.izvedbe);
+
             var datumOk = preveriDatum(vm.podatki.datum);
             
             if(datumOk){
@@ -133,7 +135,7 @@
                 predmet: vm.podatki.predmet,
                 studijsko_leto: vm.podatki.studijskoLeto,
                 datum_izvajanja: vm.podatki.datum,
-                izvajalci: vm.podatki.izvedbe.izvajalci,
+                izvajalci: vm.podatki.izvedbe,
                 lokacija: vm.podatki.lokacija,
                 opis: vm.podatki.maxPrijav
                 };
