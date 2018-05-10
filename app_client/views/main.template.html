@@ -1,12 +1,8 @@
 <header></header>
 
 
-<div class="row">
-    <button class="btn btn-success" id="logout" ng-click="logoutFunc()">Odjava</button>
-</div>
 <!-- Zacetna stran od studenta -->
 <div ng-show="vm.student">
-    <button class="btn btn-success" id="myProf" type="submit" ng-click="myData()" style="top: 109px">Moj profil</button>
     <h3>Študent</h3>
     <form role="form"  class="form-horizonral"  >
         <div class="col-sm-12">
@@ -51,6 +47,10 @@
 <!-- Zacetna stran od referentke -->
 <div ng-show="vm.referentka">
     <h3>Referentka</h3>
+    <a href="/vsiIzpitniRoki" class="btn" type="button" id="option">Uredi izpitne roke</a>
+    <a href="/" class="btn" type="button" id="option">Uredi žetone za vpis</a>
+    <a href="/" class="btn" type="button" id="option">Potrditev vpisa</a>
+    
 </div>
 
 <!-- Zacetna stran od skrbnika -->

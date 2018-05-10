@@ -4,27 +4,31 @@
     function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki, ostaloPodatki) {
         var vm = this;
         
-            $scope.logoutFunc = function() {
-                delTok();
-                return $location.path('/login');
-            };
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
         
         
         function delTok(){
             return authentication.logout();
         }
         
+        vm.vpisan=authentication.currentUser();
+        
         // vpisani je student
         if(authentication.currentUser().student){
             vm.student = true;
             
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
-                function succer(odgovor){
+                function success(odgovor){
                     for(var i = 0; i < odgovor.data.zetoni.length; i++){
                         if(!odgovor.data.zetoni[0].izkoriscen){
                             vm.neizkoriscenZeton = true;
                         }
                     }
+                    vm.ime = odgovor.data.ime;
+                    vm.priimek = odgovor.data.priimek;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -51,7 +55,8 @@
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
-                    console.log(odgovor.data);
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
                     if(odgovor.data.referentka){
                         vm.referentka = true;
                     }

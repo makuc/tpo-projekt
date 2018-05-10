@@ -42,6 +42,10 @@
             return $http.get('/api/v1/predmet/zaposlen');
         }
         
+        function pridobiIzvedbePredmeta(idPredmeta, idStudijskoLeto){
+            return $http.get('/api/v1/predmet/' + idPredmeta + '/izvedba/' + idStudijskoLeto);
+        }
+        
         return {
             najdiVseIzpiteZaStudijskoLeto: najdiVseIzpiteZaStudijskoLeto,
             najdiVseIzpiteZaPredmet: najdiVseIzpiteZaPredmet,
@@ -52,7 +56,8 @@
             dodajIzvajalca: dodajIzvajalca,
             odstraniIzvajalca: odstraniIzvajalca,
             pridobiIzpitniRok: pridobiIzpitniRok,
-            najdiPredmeteZaposlenega: najdiPredmeteZaposlenega
+            najdiPredmeteZaposlenega: najdiPredmeteZaposlenega,
+            pridobiIzvedbePredmeta: pridobiIzvedbePredmeta
         };
     };
     

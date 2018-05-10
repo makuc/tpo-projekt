@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    dodajIzpitniRokCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki', 'izpitniRokPodatki'];
+    dodajIzpitniRokCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki', 'izpitniRokPodatki', 'authentication'];
     
     
-    function dodajIzpitniRokCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki){
+    function dodajIzpitniRokCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki, authentication){
         var vm = this;
+        
+        vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         function preveriDatum(datum){
             var today = new Date();
@@ -46,17 +69,50 @@
                 return false;
             }
         }
-
         
-        predmetPodatki.izpisiVseVeljavnePredmete().then(
-            function success(odgovor){
-                vm.predmeti = odgovor.data;
-            },
-            function error(odgovor){
-                console.log(odgovor);
+        vm.izbrano = function(){
+            vm.predmeti = [];
+            console.log(vm.podatki.studijskoLeto._id);
+            predmetPodatki.izpisiVseVeljavnePredmete().then(
+                function success(odgovor){
+                    for(var i = 0; i < odgovor.data.length; i++){
+                        if(seIzvaja(odgovor.data[i], vm.podatki.studijskoLeto._id)){
+                            vm.predmeti.push(odgovor.data[i]);
+                        }
+                    
+                    }
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        
+        };
+        
+        vm.izbranPredmet = function(){
+            console.log(vm.podatki.predmet._id);
+            console.log(vm.podatki.studijskoLeto._id);
+            izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                    vm.izvedbe = odgovor.data;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            ); 
+        };
+        
+        function seIzvaja(predmet, studijskoLeto){
+            for(var i = 0; i < predmet.izvedbe_predmeta.length; i++){
+                if(predmet.izvedbe_predmeta[i].studijsko_leto == studijskoLeto){
+                    return true;
+                }
             }
-        );
+            return false;
+        }
         
+
         ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then(
             function success(odgovor){
                 vm.studijskaLeta = odgovor.data;
@@ -77,9 +133,12 @@
                 predmet: vm.podatki.predmet,
                 studijsko_leto: vm.podatki.studijskoLeto,
                 datum_izvajanja: vm.podatki.datum,
-                opombe: vm.podatki.opombe
+                izvajalci: vm.podatki.izvedbe.izvajalci,
+                lokacija: vm.podatki.lokacija,
+                opis: vm.podatki.maxPrijav
                 };
     
+                console.log(data);
             
                 izpitniRokPodatki.ustvariIzpitniRok(data).then(
                     function success(odgovor){

@@ -1,2 +1,9 @@
 <!-- tukaj naj bo shranjen pogled za glavo aplikacije-->
-<h1>Studis</h1>
+<a href="/"><h1>Studis</h1></a>
+<div ng-show="vm.vpisan" class="row">
+    <div class="pull-right" style="margin-right: 30px">
+            {{ vm.ime }} {{ vm.priimek }}
+    </div> 
+    <button ng-show="vm.student" class="btn btn-success" id="myProf" type="submit" ng-click="myData()" style="top: 30px">Moj profil</button>
+    <button class="btn btn-success" id="logout" ng-click="vm.logoutFunc()" style="top: 30px">Odjava</button>
+</div>
