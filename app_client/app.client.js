@@ -358,6 +358,11 @@
                 controller: 'izpitiForceCtrl',
                 controllerAs: 'vm'
             })
+            .when('/zetonZaVpis', {
+                templateUrl: 'views/zetonZaVpis.template.html',
+                controller: 'zetonZaVpisCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/student/main'});
             
             $locationProvider.html5Mode(true);
