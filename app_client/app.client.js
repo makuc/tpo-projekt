@@ -294,6 +294,11 @@
                controller: 'prijavljeniKandidatiCtrl',
                controllerAs: 'vm'
            })
+           .when('/vsiIzpitniRoki/:rokId/kandidati/:studentId', {
+               templateUrl: 'views/urediOcenoIzpita.template.html',
+               controller: 'urediOcenoIzpitaCtrl',
+               controllerAs: 'vm'
+           })
            .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
                templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
                controller: 'dodajIzvajalcaIzpitCtrl',
@@ -356,6 +361,11 @@
             .when('/izpitiForce/:studentId', {
                 templateUrl: 'views/izpitiForce.template.html',
                 controller: 'izpitiForceCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/zetonZaVpis', {
+                templateUrl: 'views/zetonZaVpis.template.html',
+                controller: 'zetonZaVpisCtrl',
                 controllerAs: 'vm'
             })
             .otherwise({redirectTo: '/student/main'});
