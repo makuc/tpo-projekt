@@ -491,6 +491,19 @@
         {
             return $http.delete('/api/v1/izpit/' + izpitId + '/odjava/' + studentId + '/force');
         }
+        
+        // Izpitni rok - izvedba - prijavljeni kandidati
+        
+        function pridobiIzpitniRok(rokId)
+        {
+            return $http.get('/api/v1/izpit/' + rokId);
+        }
+        
+        function posodobiOceno(rokId, studentId, data)
+        {
+            // /api/v1/student/5aef49a79958d4255801a970/izpit/5af174a9267cef0a952d32fa
+            return $http.post('/api/v1/student/' + studentId + '/izpit/' + rokId, data);
+        }
 
         return {
             uvoziStudente: uvoziStudente,
@@ -622,7 +635,9 @@
             odjaviOdRoka: odjaviOdRoka,
             
             prijaviNaRokForce: prijaviNaRokForce,
-            odjaviOdRokaForce: odjaviOdRokaForce
+            odjaviOdRokaForce: odjaviOdRokaForce,
+            pridobiIzpitniRok: pridobiIzpitniRok,
+            posodobiOceno: posodobiOceno
         };
     };
     

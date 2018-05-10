@@ -294,6 +294,11 @@
                controller: 'prijavljeniKandidatiCtrl',
                controllerAs: 'vm'
            })
+           .when('/vsiIzpitniRoki/:rokId/kandidati/:studentId', {
+               templateUrl: 'views/urediOcenoIzpita.template.html',
+               controller: 'urediOcenoIzpitaCtrl',
+               controllerAs: 'vm'
+           })
            .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
                templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
                controller: 'dodajIzvajalcaIzpitCtrl',
