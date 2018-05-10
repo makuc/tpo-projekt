@@ -16,7 +16,9 @@ module.exports.getPredmetnike = function(req, res) {
     .populate([
       {
         path: "studijski_program",
-        populate: "vrstaStudija"
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         path: "studijsko_leto"
@@ -25,7 +27,10 @@ module.exports.getPredmetnike = function(req, res) {
         path: "letnik"
       },
       {
-        path: "del_predmetnika predmeti"
+        path: "del_predmetnika"
+      },
+      {
+        path: "predmeti"
       }
     ])
     .exec(function(err, predmetniki) {
@@ -42,7 +47,9 @@ module.exports.getVsePredmetnike = function(req, res) {
     .populate([
       {
         path: "studijski_program",
-        populate: "vrstaStudija"
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         path: "studijsko_leto"
@@ -51,7 +58,10 @@ module.exports.getVsePredmetnike = function(req, res) {
         path: "letnik"
       },
       {
-        path: "del_predmetnika predmeti"
+        path: "del_predmetnika"
+      },
+      {
+        path: "predmeti"
       }
     ])
     .exec(function(err, predmetniki) {
@@ -68,7 +78,9 @@ module.exports.getIzbrisanePredmetnike = function(req, res) {
     .populate([
       {
         path: "studijski_program",
-        populate: "vrstaStudija"
+        populate: {
+          path: "vrstaStudija"
+        }
       },
       {
         path: "studijsko_leto"
@@ -77,7 +89,10 @@ module.exports.getIzbrisanePredmetnike = function(req, res) {
         path: "letnik"
       },
       {
-        path: "del_predmetnika predmeti"
+        path: "del_predmetnika"
+      },
+      {
+        path: "predmeti"
       }
     ])
     .exec(function(err, predmetniki) {
