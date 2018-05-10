@@ -34,7 +34,10 @@ module.exports.pripraviVpisniList = function(req, res) {
   if(!req.body || !req.body.zeton)
     return res.status(400).json({ message: "Ni izbranega žetona"});
   callNext(req, res, [
-    najdiStudentaId, izberiZeton, pripraviVpisniList, porabiZeton, vrniVpisniListId ]);
+    najdiStudentaId, izberiZeton, pridobiVseOpravljanePredmete, pripraviPredmetnike, pripraviVpisniList, porabiZeton,
+    vrniVpisniListId
+    //vrniVpisniList
+  ]);
 };
 module.exports.najdiVpisniList = function(req, res) {
   callNext(req, res, [ najdiStudentaId, najdiVpisniListId, pridobiVseOpravljanePredmete, pripraviPredmetnike, vrniVpisniList ]);
@@ -44,8 +47,7 @@ module.exports.urediVpisniList = function(req, res) {
     return res.status(400).json({ message: "Ni vseh potrebnih podatkov"});
   }
   callNext(req, res, [
-    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
-    validateOblikaStudija, validateObveznePredmete, validateStrokovneIzbirnePredmete,
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, validateOblikaStudija, urediVpisniList,
     shraniVpisniList, vrniVpisniList
   ]);
 };
@@ -91,6 +93,78 @@ module.exports.potrdiVpis = function(req, res) {
   ]);
 };
 
+module.exports.dodajSplosniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    validatePredmet, dodajSplosniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.odstraniSplosniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    odstraniSplosniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.dodajStrokovniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    validatePredmet, dodajStrokovniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.odstraniStrokovniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    odstraniStrokovniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.dodajModulniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    validatePredmet, dodajModulniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.odstraniModulniIzbirni = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    odstraniModulniIzbirni,
+    
+    shraniVpisniList, vrniPredmetiPosodobljeni
+  ]);
+};
+module.exports.dodajModul = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    validateModul, dodajModul,
+    
+    shraniVpisniList, vrniModuliPosodobljeni
+  ]);
+};
+module.exports.odstraniModul = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    odstraniModul,
+    
+    shraniVpisniList, vrniModuliPosodobljeni
+  ]);
+};
 
 /* Funkcije kontrolerja */
 function najdiStudentaId(req, res, next) {
@@ -104,6 +178,7 @@ function najdiStudentaId(req, res, next) {
   
   models.Student
     .findById(student_id)
+    .populate("zetoni.letnik")
     .exec(function(err, student) {
       if(err || !student) {
         return res.status(404).json({ message: "Izbrani študent ne obstaja"});
@@ -145,7 +220,10 @@ function pripraviVpisniList(req, res, next) {
     nacin_studija: req.zeton.nacin_studija,
     oblika_studija: req.zeton.oblika_studija,
     
+    
     neopravljeni_predmeti: req.zeton.neopravljeni_predmeti,
+    obvezniPredmeti: req.obvezniPredmeti,
+    
     
     prosta_izbira: req.zeton.prosta_izbira,
     
@@ -239,6 +317,11 @@ function najdiVpisniListId(req, res, next) {
       callNext(req, res, next);
     });
 }
+function urediVpisniList(req, res, next) {
+  req.vpisniList.oblika_studija = req.oblikaStudija;
+  
+  callNext(req, res, next);
+}
 function preveriNeoddan(req, res, next) {
   if(req.vpisniList.valid)
     return res.status(403).json({ message: "Ta vpis je že bil oddan - ureja lahko samo skrbnik"});
@@ -247,9 +330,16 @@ function preveriNeoddan(req, res, next) {
 }
 function pripraviPredmetnike(req, res, next) {
   console.log("--pripraviPredmetnike");
+  
+  var letnik;
+  if(req.vpisniList)
+    letnik = req.vpisniList.letnik;
+  else
+    letnik = req.zeton.letnik;
+  
   models.Predmetnik
     .find({
-      letnik: req.vpisniList.letnik
+      letnik: letnik
     })
     .populate("predmeti del_predmetnika")
     .exec(function(err, predmetniki) {
@@ -279,9 +369,13 @@ function pripraviPredmetnike(req, res, next) {
           while(predmet.izvedbe_predmeta.length > 0) {
             var izvedba = predmet.izvedbe_predmeta.shift();
             
-            console.log(izvedba.studijsko_leto);
+            var studijsko_leto;
+            if(req.vpisniList)
+              studijsko_leto = req.vpisniList.studijsko_leto._id;
+            else
+              studijsko_leto = req.zeton.studijsko_leto;
             
-            if(izvedba.studijsko_leto.equals(req.vpisniList.studijsko_leto._id)) {
+            if(izvedba.studijsko_leto.equals(studijsko_leto)) {
               // Če obstaja, pobriši vse ostale izvedbe predmeta in shrani samo izbrano
               predmet.izvedba_predmeta = izvedba;
               predmet.izvedbe_predmeta = undefined;
@@ -291,11 +385,11 @@ function pripraviPredmetnike(req, res, next) {
           
           // Poglej, če si našel veljavno izvedbo predmeta, drugače izbriši predmet
           if(!predmet.izvedba_predmeta) {
-            console.log("### Brišem predmet: " + predmet.naziv);
+            //console.log("### Brišem predmet: " + predmet.naziv);
             predmetnik.predmeti.splice(i, 1);
             i--;
           } else {
-            console.log("Predmet OK");
+            //console.log("Predmet OK");
           }
         }
         
@@ -338,7 +432,7 @@ function pripraviPredmetnike(req, res, next) {
                 predmetnik.predmeti.splice(i, 1);
               }
             }
-            req.moduliPredmetniki.push(predmetnik);
+            req.moduli.push(predmetnik);
           }
         }
         else if(predmetnik.del_predmetnika.strokovni) {
@@ -370,12 +464,6 @@ function pripraviPredmetnike(req, res, next) {
 }
 
 function shraniVpisniList(req, res, next) {
-  req.vpisniList.obvezniPredmeti = req.obvezniPredmeti;
-  req.vpisniList.strokovniIzbirniPredmeti = req.strokovniIzbirniPredmeti;
-  req.vpisniList.splosniIzbirniPredmeti = req.splosniIzbirniPredmeti;
-  req.vpisniList.moduli = req.moduli;
-  req.vpisniList.modulniPredmeti = req.modulniPredmeti;
-  
   req.vpisniList.save(function(err, vpisniList) {
     if(err || !vpisniList)
     {
@@ -403,7 +491,6 @@ function vrniVpisniList(req, res, next) {
   res.status(200).json({
     vpisniList: req.vpisniList,
     
-    obvezniPredmeti: req.obvezniPredmeti,
     strokovniIzbirniPredmeti: req.strokovniIzbirniPredmeti,
     splosniIzbirniPredmeti: req.splosniIzbirniPredmeti,
     moduli: req.moduli,
@@ -412,12 +499,6 @@ function vrniVpisniList(req, res, next) {
 }
 
 // Izpolnjevanje vpisnega lista
-/*
-modulniPredmeti
-strokovniIzbirniPredmeti
-splosniIzbirniPredmeti
-obvezniPredmeti
-*/
 function validateOblikaStudija(req, res, next) {
   models.OblikaStudija
     .findById(req.body.oblika_studija)
@@ -431,73 +512,6 @@ function validateOblikaStudija(req, res, next) {
       callNext(req, res, next);
     });
 }
-function validateObveznePredmete(req, res, next) {
-  if(!Array.isArray(req.body.obvezniPredmeti))
-    return res.status(400).json({ message: "Obvezni predmeti niso pravilno posredovani"});
-  if(req.obvezniPredmeti.length != req.body.obvezniPredmeti.length)
-    return res.status(400).json({ message: "Niso izbrani vsi potrebnih obvezni predmeti"});
-  
-  var predmet;
-  
-  for(var i = 0; i < req.body.obvezniPredmeti.length; i++)
-    {
-      for(var j = 0; j < req.obvezniPredmeti.length; j++)
-      {
-        predmet = req.obvezniPredmeti[i];
-        if(predmet._id.equals(req.body.obvezniPredmeti[i]))
-        {
-          req.body.obvezniPredmeti[i] = predmet;
-          break;
-        }
-      }
-      
-      if(!req.body.obvezniPredmeti[i]._id)
-        return res.status(400).json({ message: "Izbran neveljaven obvezen predmet"});
-      
-    }
-  
-  req.obvezniPredmeti = req.body.obvezniPredmeti;
-  
-  callNext(req, res, next);
-}
-function validateStrokovneIzbirnePredmete(req, res, next) {
-  if(req.vpisniList.letnik.KT_strokovnihIzbirnihPredmetov > 0)
-  {
-    if(!Array.isArray(req.body.strokovniIzbirniPredmeti))
-      return res.status(400).json({ message: "Strokovni izbirni predmeti niso pravilno posredovani"});
-    
-    var sumKT = 0, predmet;
-    
-    for(var i = 0; i < req.body.strokovniIzbirniPredmeti.length; i++)
-    {
-      for(var j = 0; j < req.strokovniIzbirniPredmeti.length; j++)
-      {
-        predmet = req.strokovniIzbirniPredmeti[i];
-        if(predmet._id.equals(req.body.strokovniIzbirniPredmeti[i]))
-        {
-          req.body.strokovniIzbirniPredmeti[i] = predmet;
-          break;
-        }
-      }
-      
-      if(!req.body.strokovniIzbirniPredmeti[i]._id)
-        return res.status(400).json({ message: "Izbran neveljaven strokovni izbirni predmet"});
-      
-      sumKT += predmet.KT;
-    }
-    
-    if(sumKT != req.vpisniList.letnik.KT_strokovnihIzbirnihPredmetov)
-      return res.status(400).json({ message: "Izbrani predmeti z napačno vsoto kreditnih točk"});
-    
-    req.strokovniIzbirniPredmeti = req.body.strokovniIzbirniPredmeti;
-  }
-  else
-  {
-    req.strokovniIzbirniPredmeti = [];
-  }
-  callNext(req, res, next);
-}
-
 function pridobiVseOpravljanePredmete(req, res, next) {
   console.log("--pridobiVseOpravljanePredmete");
   req.opravljaniPredmeti = [];
@@ -515,7 +529,7 @@ function pridobiVseOpravljanePredmete(req, res, next) {
       for(var k = 0; k < req.opravljaniPredmeti.length; k++)
       {// Dodaj predmet na seznam, v kolikor le-ta še ni na njem
         if(req.opravljaniPredmeti[k].equals(predmet)) {
-          console.log("Že opravljal ta predmet");
+          //console.log("Že opravljal ta predmet");
           break;
         }
       }
@@ -524,7 +538,6 @@ function pridobiVseOpravljanePredmete(req, res, next) {
   
   callNext(req, res, next);
 }
-
 function opravljalPredmet(predmet, opravljaniPredmeti) {
   for(var i = 0; i < opravljaniPredmeti.length; i++)
   {
@@ -534,6 +547,211 @@ function opravljalPredmet(predmet, opravljaniPredmeti) {
     }
   }
   return false;
+}
+
+function validatePredmet(req, res, next) {
+  models.Predmet
+    .findById(req.body.predmet)
+    .exec(function(err, predmet) {
+      if(err || !predmet)
+      {
+        console.log("---validatePredmet:\n" + err);
+        return res.status(404).json({ message: "Ne najdem izbranega predmeta"});
+      }
+      
+      req.predmet = predmet;
+      
+      callNext(req, res, next);
+    });
+}
+function validateModul(req, res, next) {
+  models.Predmetnik
+    .findById(req.body.modul)
+    .exec(function(err, modul) {
+      if(err || !modul)
+      {
+        console.log("---validatePredmetnik:\n" + err);
+        return res.status(404).json({ message: "Ne najdem izbranega modula"});
+      }
+      
+      req.modul = modul;
+      
+      callNext(req, res, next);
+    });
+}
+
+function dodajSplosniIzbirni(req, res, next) {
+  for(var i = 0; i < req.splosniIzbirniPredmeti.length; i++)
+  {
+    if(req.splosniIzbirniPredmeti[i]._id.equals(req.predmet._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.splosniIzbirniPredmeti.length; j++)
+      {
+        if(req.vpisniList.splosniIzbirniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je že bil dodan"});
+      }
+      
+      var sumKT = 0;
+      
+      for(j = 0; j < req.vpisniList.splosniIzbirniPredmeti.length; j++)
+      {// Poglej skupno vsoto KT splošnih izbirnih predmetov
+        sumKT += req.vpisniList.splosniIzbirniPredmeti[j].KT;
+      }
+      
+      if(sumKT + req.predmet.KT > req.vpisniList.letnik.KT_izbirnihPredmetov) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število KT za splošne izbirne predmete"});
+      }
+      
+      req.vpisniList.splosniIzbirniPredmeti.push(req.predmet);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  return res.status(400).json({ message: "Ne moreš izbirati splošnih izbirnih predmetov"});
+}
+function odstraniSplosniIzbirni(req, res, next) {
+  for(var i = 0; i < req.vpisniList.splosniIzbirniPredmeti.length; i++)
+  {
+    if(req.vpisniList.splosniIzbirniPredmeti[i]._id.equals(req.params.predmet_id))
+    {
+      req.vpisniList.splosniIzbirniPredmeti.pull(req.params.predmet_id);
+      callNext(req, res, next);
+      return;
+    }
+  }
+  res.status(400).json({ message: "Ta predmet še ni bil dodan"});
+}
+function dodajStrokovniIzbirni(req, res, next) {
+  for(var i = 0; i < req.strokovniIzbirniPredmeti.length; i++)
+  {
+    if(req.strokovniIzbirniPredmeti[i]._id.equals(req.predmet._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.strokovniIzbirniPredmeti.length; j++)
+      {
+        if(req.vpisniList.strokovniIzbirniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je že bil dodan"});
+      }
+      
+      var sumKT = 0;
+      
+      for(j = 0; j < req.vpisniList.strokovniIzbirniPredmeti.length; j++)
+      {// Poglej skupno vsoto KT splošnih izbirnih predmetov
+        sumKT += req.vpisniList.strokovniIzbirniPredmeti[j].KT;
+      }
+      
+      if(sumKT + req.predmet.KT > req.vpisniList.letnik.KT_strokovnihIzbirnihPredmetov) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število KT za strokovne izbirne predmete"});
+      }
+      
+      req.vpisniList.strokovniIzbirniPredmeti.push(req.predmet);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  return res.status(400).json({ message: "Ne moreš izbirati strokovnih izbirnih predmetov"});
+}
+function odstraniStrokovniIzbirni(req, res, next) {
+  for(var i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++)
+  {
+    if(req.vpisniList.strokovniIzbirniPredmeti[i]._id.equals(req.params.predmet_id))
+    {
+      req.vpisniList.strokovniIzbirniPredmeti.pull(req.params.predmet_id);
+      callNext(req, res, next);
+      return;
+    }
+  }
+  res.status(400).json({ message: "Ta predmet še ni bil dodan"});
+}
+function dodajModulniIzbirni(req, res, next) {
+  for(var i = 0; i < req.modulniPredmeti.length; i++)
+  {
+    if(req.modulniPredmeti[i]._id.equals(req.predmet._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.modulniPredmeti.length; j++)
+      {
+        if(req.vpisniList.modulniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je že bil dodan"});
+      }
+      
+      if(req.vpisniList.modulniPredmeti.length + 1 > req.vpisniList.letnik.st_modulov * 3) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število KT za strokovne izbirne predmete"});
+      }
+      
+      req.vpisniList.modulniPredmeti.push(req.predmet);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  return res.status(400).json({ message: "Ne moreš izbirati strokovnih izbirnih predmetov"});
+}
+function odstraniModulniIzbirni(req, res, next) {
+  for(var i = 0; i < req.vpisniList.modulniPredmeti.length; i++)
+  {
+    if(req.vpisniList.modulniPredmeti[i]._id.equals(req.params.predmet_id))
+    {
+      req.vpisniList.modulniPredmeti.pull(req.params.predmet_id);
+      callNext(req, res, next);
+      return;
+    }
+  }
+  res.status(400).json({ message: "Ta predmet še ni bil dodan"});
+}
+function dodajModul(req, res, next) {
+  for(var i = 0; i < req.moduli.length; i++)
+  {
+    if(req.moduli[i]._id.equals(req.modul._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.moduli.length; j++)
+      {
+        if(req.vpisniList.moduli[j]._id.equals(req.modul._id))
+          return res.status(400).json({ message: "Ta modul je že bil dodan"});
+      }
+      
+      if(req.vpisniList.moduli.length + 1 > req.vpisniList.letnik.st_modulov) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število modulov"});
+      }
+      
+      req.vpisniList.moduli.push(req.modul);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  return res.status(400).json({ message: "Ne moreš izbirati modulov"});
+}
+function odstraniModul(req, res, next) {
+  for(var i = 0; i < req.vpisniList.moduli.length; i++)
+  {
+    if(req.vpisniList.moduli[i]._id.equals(req.params.modul_id))
+    {
+      req.vpisniList.moduli.pull(req.params.modul_id);
+      callNext(req, res, next);
+      return;
+    }
+  }
+  res.status(400).json({ message: "Ta modul še ni bil dodan"});
+}
+
+function vrniPredmetiPosodobljeni(req, res, next) {
+  res.status(200).json({ message: "Predmeti uspešno posodobljeni"});
+}
+function vrniModuliPosodobljeni(req, res, next) {
+  res.status(200).json({ message: "Moduli uspešno posodobljeni"});
 }
 
 // Oddaj vpisni list

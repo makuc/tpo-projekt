@@ -103,8 +103,18 @@ router.post('/vpis/zeton', ctrl.vpis.pripraviVpisniList);
 router.get('/vpis/:vpisniList_id', ctrl.vpis.najdiVpisniList);
 router.put('/vpis/:vpisniList_id', ctrl.vpis.urediVpisniList);
 router.post('/vpis/:vpisniList_id', ctrl.vpis.oddajVpisniList);
-
-
+// Upravljanje splošnih izbirnih predmetov
+router.post('/vpis/:vpisniList_id/splosni-izbirni', ctrl.vpis.dodajSplosniIzbirni);
+router.delete('/vpis/:vpisniList_id/splosni-izbirni/:predmet_id', ctrl.vpis.odstraniSplosniIzbirni);
+// Upravljanje strokovnih izbirnih predmetov
+router.post('/vpis/:vpisniList_id/strokovni-izbirni', ctrl.vpis.dodajStrokovniIzbirni);
+router.delete('/vpis/:vpisniList_id/strokovni-izbirni/:predmet_id', ctrl.vpis.odstraniStrokovniIzbirni);
+// Upravljanje modulnih izbirnih predmetov
+router.post('/vpis/:vpisniList_id/modulni-izbirni', ctrl.vpis.dodajModulniIzbirni);
+router.delete('/vpis/:vpisniList_id/modulni-izbirni/:predmet_id', ctrl.vpis.odstraniModulniIzbirni);
+// Upravljanje modulov
+router.post('/vpis/:vpisniList_id/moduli', ctrl.vpis.dodajModul);
+router.delete('/vpis/:vpisniList_id/moduli/:modul_id', ctrl.vpis.odstraniModul);
 
 
 /* IZPISI */
