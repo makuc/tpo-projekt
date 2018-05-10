@@ -80,6 +80,14 @@
         vm.uredi = function(letnikId){
             $location.path("/urediLetnike/" + letnikId);
         };
+               
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
         
     }
     

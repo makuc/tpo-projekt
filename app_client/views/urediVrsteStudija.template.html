@@ -18,14 +18,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Opis</th>
-                    <th>KlasiusSRV</th>
-                    <th>Predpona</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('opis')">Opis</th>
+                    <th ng-click="orderByMe('klasiusSRV')">KlasiusSRV</th>
+                    <th ng-click="orderByMe('predpone')">Predpona</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.vseVrsteStudija | filter: iskanje" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.vseVrsteStudija | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.opis }}</td>
@@ -43,14 +43,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Opis</th>
-                    <th>KlasiusSRV</th>
-                    <th>Predpona</th>
+                     <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('opis')">Opis</th>
+                    <th ng-click="orderByMe('klasiusSRV')">KlasiusSRV</th>
+                    <th ng-click="orderByMe('predpone')">Predpona</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.vrstaStudija[vm.trenutnaStran]" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in vm.vrstaStudija[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ x.sifra }}</td>
                     <td>{{ x.opis }}</td>

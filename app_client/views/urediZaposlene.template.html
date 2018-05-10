@@ -18,10 +18,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Priimek</th>
-                    <th>Ime</th>
-                    <th>Naziv</th>
-                    <th>Email</th>
+                    <th ng-click="orderByMe('zaposlen.priimek')">Priimek</th>
+                    <th ng-click="orderByMe('zaposlen.ime')">Ime</th>
+                    <th ng-click="orderByMe('zaposlen.naziv')">Naziv</th>
+                    <th ng-click="orderByMe('zaposlen.email')">Email</th>
                 </tr>
             </thead>
             <tfoot>
@@ -42,7 +42,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran]" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                     <td>{{ zaposlen.zaposlen.priimek }}</td>
                     <td>{{ zaposlen.zaposlen.ime }}</td>
@@ -60,14 +60,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Priimek</th>
-                    <th>Ime</th>
-                    <th>Naziv</th>
-                    <th>Email</th>
+                   <th ng-click="orderByMe('zaposlen.priimek')">Priimek</th>
+                    <th ng-click="orderByMe('zaposlen.ime')">Ime</th>
+                    <th ng-click="orderByMe('zaposlen.naziv')">Naziv</th>
+                    <th ng-click="orderByMe('zaposlen.email')">Email</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="zaposlen in vm.vsiPodatki | filter: iskanje" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="zaposlen in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(zaposlen.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                     <td>{{ zaposlen.zaposlen.priimek }}</td>
                     <td>{{ zaposlen.zaposlen.ime }}</td>

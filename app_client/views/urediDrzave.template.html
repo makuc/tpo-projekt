@@ -18,11 +18,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Numerična oznaka</th>
-                    <th>Naziv</th>
-                    <th>ISO naziv</th>
-                    <th>Dvomestna koda</th>
-                    <th>Trimestna koda</th>
+                    <th ng-click="orderByMe('numericna_oznaka')">Numerična oznaka</th>
+                    <th ng-click="orderByMe('slovenski_naziv')">Naziv</th>
+                    <th ng-click="orderByMe('ISO_naziv')">ISO naziv</th>
+                    <th ng-click="orderByMe('dvomestna_koda')">Dvomestna koda</th>
+                    <th ng-click="orderByMe('trimestna_koda')">Trimestna koda</th>
                 </tr>
             </thead>
             <tfoot>
@@ -43,7 +43,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="drzava in vm.drzave[vm.trenutnaStran]" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="drzava in vm.drzave[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDrzavNaStran) }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.slovenski_naziv }}</td>
@@ -62,15 +62,15 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Numerična oznaka</th>
-                    <th>Naziv</th>
-                    <th>ISO naziv</th>
-                    <th>Dvomestna koda</th>
-                    <th>Trimestna koda</th>
+                    <th ng-click="orderByMe('numericna_oznaka')">Numerična oznaka</th>
+                    <th ng-click="orderByMe('slovenski_naziv')">Naziv</th>
+                    <th ng-click="orderByMe('ISO_naziv')">ISO naziv</th>
+                    <th ng-click="orderByMe('dvomestna_koda')">Dvomestna koda</th>
+                    <th ng-click="orderByMe('trimestna_koda')">Trimestna koda</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="drzava in vm.vsiPodatki | filter: iskanje" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="drzava in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDrzavNaStran) }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.slovenski_naziv }}</td>

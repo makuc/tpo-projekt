@@ -45,7 +45,7 @@
             </div>
         </div>
         
-        <div>Podatki o vseh vpisih:</div>
+        <h3>Podatki o vseh vpisih:</h3>
         
             <div class="container table-responsive">
         <table ng-show="!iskanje" id="tabela_studijskih_let" class="table table-hover" >
@@ -63,8 +63,8 @@
                 <tr ng-repeat="leto in vm.student.studijska_leta_studenta" >
                     <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ leto.letnik.naziv }}</td>
-                    <td>{{ leto.letnik.studijskiProgram.sifra }} / {{ leto.letnik.studijskiProgram.sifraEVS }}</td>
-                     <td>{{ leto.vrsta_vpisa.naziv }}</td>
+                    <td> {{ leto.letnik.studijskiProgram.sifraEVS }} / {{ leto.letnik.studijskiProgram.sifra }} </td>
+                     <td>{{ leto.vrsta_vpisa.koda }} / {{ leto.vrsta_vpisa.naziv }}</td>
                     <td>{{ leto.nacin_studija.naziv }}</td>
                     
                 </tr>
@@ -84,8 +84,8 @@
                 <tr ng-repeat="leto in  vm.student.studijska_leta_studenta | filter: iskanje" >
                      <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ leto.letnik.naziv }}</td>
-                   <td>{{ leto.letnik.studijskiProgram.sifra }} / {{ leto.letnik.studijskiProgram.sifraEVS }}</td>
-                    <td>{{ leto.vrsta_vpisa.naziv }}</td>
+                   <td> {{ leto.letnik.studijskiProgram.sifraEVS }} / {{ leto.letnik.studijskiProgram.sifra }} </td>
+                    <td>{{ leto.vrsta_vpisa.koda }} / {{ leto.vrsta_vpisa.naziv }}</td>
                     <td>{{ leto.nacin_studija.naziv }}</td>
                     
                 </tr>

@@ -18,11 +18,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Obvezen</th>
-                    <th>Strokovni</th>
-                    <th>Modul</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('obvezen')">Obvezen</th>
+                    <th ng-click="orderByMe('strokovni')">Strokovni</th>
+                    <th ng-click="orderByMe('modul')">Modul</th>
                 </tr>
             </thead>
             <tfoot>
@@ -43,7 +43,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="delPredmetnika in vm.deliPredmetnika[vm.trenutnaStran]" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="delPredmetnika in vm.deliPredmetnika[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDelovPredmetnikaNaStran) }}</td>
                     <td>{{ delPredmetnika.sifra }}</td>
                     <td>{{ delPredmetnika.naziv }}</td>
@@ -62,15 +62,15 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Obvezen</th>
-                    <th>Strokovni</th>
-                    <th>Modul</th>
+                    <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('obvezen')">Obvezen</th>
+                    <th ng-click="orderByMe('strokovni')">Strokovni</th>
+                    <th ng-click="orderByMe('modul')">Modul</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="delPredmetnika in vm.vsiPodatki | filter: iskanje" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="delPredmetnika in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stDelovPredmetnikaNaStran) }}</td>
                     <td>{{ delPredmetnika.sifra }}</td>
                     <td>{{ delPredmetnika.naziv }}</td>

@@ -18,14 +18,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Naziv</th>
-                    <th>Študijski program</th>
-                    <th>Vrsta študija</th>
-                    <th>Pogoj</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('studijskiProgram.naziv')">Študijski program</th>
+                    <th ng-click="orderByMe('studijskiProgram.vrstaStudija.opis')">Vrsta študija</th>
+                    <th  ng-click="orderByMe('pogoj_letnik.naziv')">Pogoj</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="letnik in vm.letniki[vm.trenutnaStran]" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="letnik in vm.letniki[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>
@@ -60,14 +60,14 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Naziv</th>
-                    <th>Študijski program</th>
-                    <th>Vrsta študija</th>
-                    <th>Pogoj</th>
+                     <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('studijskiProgram.naziv')">Študijski program</th>
+                    <th ng-click="orderByMe('studijskiProgram.vrstaStudija.opis')">Vrsta študija</th>
+                    <th  ng-click="orderByMe('pogoj_letnik.naziv')">Pogoj</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="letnik in vm.vsiLetniki | filter: iskanje" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="letnik in vm.vsiLetniki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>

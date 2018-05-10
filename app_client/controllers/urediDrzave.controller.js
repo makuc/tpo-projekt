@@ -6,7 +6,8 @@
     
     function urediDrzaveCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
-        
+       
+         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stDrzav/10-1){
                 vm.trenutnaStran++;
@@ -81,6 +82,14 @@
         vm.uredi = function(drzavaId){
            $location.path("/urediDrzavo/" + drzavaId);
        };
+       
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
         
     }
     

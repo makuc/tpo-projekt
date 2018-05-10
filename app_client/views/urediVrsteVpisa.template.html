@@ -18,9 +18,9 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Koda</th>
-                    <th>Naziv</th>
-                    <th>Opis</th>
+                    <th ng-click="orderByMe('koda')">Koda</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('opis')">Opis</th>
                 </tr>
             </thead>
             <tfoot>
@@ -41,7 +41,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="vrstaVpisa in vm.vrsteVpisa[vm.trenutnaStran]" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="vrstaVpisa in vm.vrsteVpisa[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stVrstVpisaNaStran) }}</td>
                     <td>{{ vrstaVpisa.koda }}</td>
                     <td>{{ vrstaVpisa.naziv }}</td>
@@ -58,13 +58,13 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Koda</th>
-                    <th>Naziv</th>
-                    <th>Opis</th>
+                     <th ng-click="orderByMe('koda')">Koda</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('opis')">Opis</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="vrstaVpisa in vm.vsiPodatki | filter: iskanje" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="vrstaVpisa in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stVrstVpisaNaStran) }}</td>
                     <td>{{ vrstaVpisa.koda }}</td>
                     <td>{{ vrstaVpisa.naziv }}</td>

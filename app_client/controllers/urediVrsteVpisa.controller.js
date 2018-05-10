@@ -82,7 +82,14 @@
         vm.uredi = function(vrstaVpisaId){
             $location.path("/urediVrstoVpisa/" + vrstaVpisaId);
         };
-        
+               
+       $scope.orderByMe = function(x) {
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
+        }
     }
     
     angular
