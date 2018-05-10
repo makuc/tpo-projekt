@@ -8,6 +8,8 @@ var predmetnikSchema = new mongoose.Schema({
     del_predmetnika: {type: ObjectId, ref: 'DelPredmetnika', required: true},
     predmeti: [{type: ObjectId, ref: 'Predmet', required: true}],
     
+    ime: {type: String, "default": "-"},
+    
     valid: {type: Boolean, "default": true}
 });
 
