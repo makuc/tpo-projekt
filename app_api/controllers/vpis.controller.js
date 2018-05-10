@@ -53,7 +53,7 @@ module.exports.urediVpisniList = function(req, res) {
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, oddajaVpisnegaLista, porabiVseZetone, vrniVpisniList
+    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, oddajaVpisnegaLista, porabiVseZetone, vrniUspesnoOddano
   ]);
 };
 
@@ -780,6 +780,44 @@ function oddajaVpisnegaLista(req, res, next) {
   });
 }
 function preveriVeljavnostPredmetov(req, res, next) {
+  var KTSplosnihPredmetov = 0;
+  var KTStrokovnihPredmetov = 0;
+  
+  var STModulov = req.vpisniList.moduli.length;
+  var STModulnihPredmetov = req.vpisniList.modulniPredmeti.length;
+  
+  var i;
+  for(i = 0; i < req.vpisniList.splosniIzbirniPredmeti.length; i++)
+  {// Seštej KT splođnih izbirnih predmetov
+    KTSplosnihPredmetov += req.vpisniList.splosniIzbirniPredmeti[i].KT;
+  }
+  
+  if(KTSplosnihPredmetov < req.vpisniList.letnik.KT_izbirnihPredmetov)
+    return res.status(400).json({ message: "Izbrani splošni izbirni predmeti ne dosegajo dovolj kreditnih točk"});
+  
+  
+  for(i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++)
+  {// Seštej KT splođnih izbirnih predmetov
+    KTStrokovnihPredmetov += req.vpisniList.strokovniIzbirniPredmeti[i].KT;
+  }
+  
+  if(KTStrokovnihPredmetov < req.vpisniList.letnik.KT_strokovnihIzbirnihPredmetov)
+    return res.status(400).json({ message: "Izbrani strokovni izbirni predmeti ne dosegajo dovolj kreditnih točk"});
+  
+  if(req.vpisniList.prosta_izbira)
+  {
+    if(STModulnihPredmetov / 3 < req.vpisniList.letnik.st_modulov)
+    {
+      return res.status(400).json({ message: "Ni izbranih dovolj modulnih predmetov"});
+    }
+  }
+  else
+  {
+    if(STModulov < req.vpisniList.letnik.st_modulov)
+    {
+      return res.status(400).json({ message: "Ni izbranih dovolj modulov"});
+    }
+  }
   
   callNext(req, res, next);
 }
@@ -892,4 +930,7 @@ function porabiVseZetone(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+function vrniUspesnoOddano(req, res) {
+  res.status(201).json({ message: "Vpisnica uspešno oddana"});
 }
