@@ -23,6 +23,7 @@
         <table ng-show="iskanje" class="table table-hover">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Predmet</th>
                     <th>Datum</th>
                     <th>Opis</th>
@@ -31,8 +32,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="rok in vm.VsiRoki | filter:iskanje" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ rok.predmet.sifra }}, {{ rok.predmet.naziv }}</td>
-                    <td>{{ rok.datum_izvajanja | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ rok.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                     <td>{{ rok.opombe }}</td>
                     <td>
                         <ul>
@@ -40,6 +42,7 @@
                         </ul>
                     </td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.izvajalci(rok._id)">Uredi izvajalce</button></td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.kandidati(rok._id)">Prijavljeni kandidati</button></td>
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi()">Uredi</button></td>-->
                 </tr> 
             </tbody>
@@ -47,6 +50,7 @@
         <table ng-show="!iskanje" class="table table-hover">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Predmet</th>
                     <th>Datum</th>
                     <th>Opis</th>
@@ -55,8 +59,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="rok in vm.izpitniRoki[vm.trenutnaStran]" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
                     <td>{{ rok.predmet.sifra }}, {{ rok.predmet.naziv }}</td>
-                    <td>{{ rok.datum_izvajanja | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ rok.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                     <td>{{ rok.opombe }}</td>
                     <td>
                         <ul>
@@ -64,6 +69,7 @@
                         </ul>
                     </td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.izvajalci(rok._id)">Uredi izvajalce</button></td>
+                     <td><button class="btn btn-primary" type="button" ng-click="vm.kandidati(rok._id)">Prijavljeni kandidati</button></td>
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi()">Uredi</button></td>-->
                 </tr> 
             </tbody>

@@ -167,7 +167,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="zaposlen in vm.zaposleni[vm.trenutnaStran] | filter: iskanje" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
+                      <tr ng-repeat="zaposlen in vm.vsiZaposleni | filter: iskanje" ng-class="(!vm.jeIzvajalec(zaposlen.zaposlen._id) ? '' : 'alert alert-success')">
                           <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZaposlenihNaStran) }}</td>
                           <td>{{ zaposlen.zaposlen.priimek }}</td>
                           <td>{{ zaposlen.zaposlen.ime }}</td>

@@ -97,6 +97,10 @@
     vm.izvajalci = function(id_rok){
        $location.path('/dodajIzvajalceIzpitniRok/' + id_rok); 
     };
+    
+    vm.kandidati = function(rokId){
+        $location.path('/vsiIzpitniRoki/' + rokId + '/kandidati')  
+    };
         
     }
     
