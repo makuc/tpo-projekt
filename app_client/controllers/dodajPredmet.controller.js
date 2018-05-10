@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    dodajPredmetCtrl.$inject = ['$location', 'predmetPodatki', '$routeParams'];
+    dodajPredmetCtrl.$inject = ['$location', 'predmetPodatki', '$routeParams', 'authentication', 'ostaloPodatki'];
     
     
-    function dodajPredmetCtrl($location, predmetPodatki, $routeParams){
+    function dodajPredmetCtrl($location, predmetPodatki, $routeParams, authentication, ostaloPodatki){
         var vm = this;
+        
+        vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.opcijeKT = [1,2,3,4,5,6];
         

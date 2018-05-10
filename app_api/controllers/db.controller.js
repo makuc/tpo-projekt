@@ -1047,6 +1047,7 @@ var zacetniPodatki = {
 { "_id": ObjectId("5ac8daee119e6a1c2ab5b289"), "priimek": "Klavžar", "ime": "Sandi", "naziv": "prof. dr.", email: "sandi.klavzar@fri.uni-lj.si", predavatelj: true},
 { "_id": ObjectId("5ac8daee119e6a1c2ab5b28a"), "priimek": "Drnovšek", "ime": "Roman", "naziv": "prof. dr.", email: "roman.drnovsek@fmf.uni-lj.si", predavatelj: true},
 { "_id": ObjectId("5ac8daee119e6a1c2ab5b28b"), "priimek": "Škraba", "ime": "Igor", "naziv": "prof. dr.", email: "igor.skraba@fri.uni-lj.si", predavatelj: true},
+{ "_id": ObjectId("5ac8daee119e6a1c2ab5b28c"), "priimek": "Administrator", "ime": "Janez", "naziv": "", email: "janez.administrator@fri.uni-lj.si"},
     ],
     
     predmeti: [
@@ -1216,7 +1217,7 @@ var zacetniPodatki = {
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69df"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b289"),email: "sandi.klavzar@fri.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69e0"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b28a"),email: "roman.drnovsek@fri.uni-lj.si",password: "qwas123"},
 {"_id":ObjectId("5ac8fb5a62edab3a6c5b69e1"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b28b"),email: "igor.skraba@fri.uni-lj.si",password: "qwas123"},
-
+{"_id":ObjectId("5ac8fb5a62edab3a6c5b69e2"),zaposlen: ObjectId("5ac8daee119e6a1c2ab5b28c"),email: "janez.administrator@fri.uni-lj.si",password: "qwas123", skrbnik: true},
     ]
 };
 var models = {

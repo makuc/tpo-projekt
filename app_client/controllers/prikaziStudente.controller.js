@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location'];
+    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
     
     
-    function prikaziStudenteCtrl(studentPodatki, $scope, $location){
+    function prikaziStudenteCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki){
         var vm = this;
+        
+         vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stStudentov/10-1){

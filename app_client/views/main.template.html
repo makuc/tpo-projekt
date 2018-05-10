@@ -42,6 +42,7 @@
     <h3>Profesor</h3>
     <button class="btn" type="button" ng-click="vm.izpitniRoki()" id="option">Izpitni roki</button>
     <button class="btn" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
+    <a href="/prikaziStudente" class="btn" type="button" id="option">Študenti</a>
 </div>
 
 <!-- Zacetna stran od referentke -->
@@ -50,12 +51,17 @@
     <a href="/vsiIzpitniRoki" class="btn" type="button" id="option">Uredi izpitne roke</a>
     <a href="/zetonZaVpis" class="btn" type="button" id="option">Uredi žetone za vpis</a>
     <a href="/" class="btn" type="button" id="option">Potrditev vpisa</a>
+    <a href="/prikaziStudente" class="btn" type="button" id="option">Študenti</a>
     
 </div>
 
 <!-- Zacetna stran od skrbnika -->
 <div ng-show="vm.skrbnik">
     <h3>Skrbnik</h3>
+    <a href="/import" class="btn" type="button" id="option">Uvoz kandidatov</a>
+    <a href="/urediPredmete" class="btn" type="button" id="option">Uredi šifrante</a>
+    <a href="/urediPredmetnike" class="btn" type="button" id="option">Uredi predmetnik</a>
+    <a href="/" class="btn" type="button" id="option">Generiranje izpitnih rokov</a>
 </div>
 
 
