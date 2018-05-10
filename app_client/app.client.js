@@ -289,6 +289,11 @@
                controller: 'prikaziVseIzpitneRokeCtrl',
                controllerAs: 'vm'
            })
+           .when('/vsiIzpitniRoki/:rokId/kandidati', {
+               templateUrl: 'views/prijavljeniKandidati.template.html',
+               controller: 'prijavljeniKandidatiCtrl',
+               controllerAs: 'vm'
+           })
            .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
                templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
                controller: 'dodajIzvajalcaIzpitCtrl',
