@@ -147,6 +147,24 @@ module.exports.odstraniModulniIzbirni = function(req, res) {
     shraniVpisniList, vrniPredmetiPosodobljeni
   ]);
 };
+module.exports.dodajModul = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    validateModul, dodajModul,
+    
+    shraniVpisniList, vrniModuliPosodobljeni
+  ]);
+};
+module.exports.odstraniModul = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, najdiVpisniListId, preveriNeoddan, pridobiVseOpravljanePredmete, pripraviPredmetnike,
+    
+    odstraniModul,
+    
+    shraniVpisniList, vrniModuliPosodobljeni
+  ]);
+};
 
 /* Funkcije kontrolerja */
 function najdiStudentaId(req, res, next) {
@@ -414,7 +432,7 @@ function pripraviPredmetnike(req, res, next) {
                 predmetnik.predmeti.splice(i, 1);
               }
             }
-            req.moduliPredmetniki.push(predmetnik);
+            req.moduli.push(predmetnik);
           }
         }
         else if(predmetnik.del_predmetnika.strokovni) {
@@ -546,6 +564,22 @@ function validatePredmet(req, res, next) {
       callNext(req, res, next);
     });
 }
+function validateModul(req, res, next) {
+  models.Predmetnik
+    .findById(req.body.modul)
+    .exec(function(err, modul) {
+      if(err || !modul)
+      {
+        console.log("---validatePredmetnik:\n" + err);
+        return res.status(404).json({ message: "Ne najdem izbranega modula"});
+      }
+      
+      req.modul = modul;
+      
+      callNext(req, res, next);
+    });
+}
+
 function dodajSplosniIzbirni(req, res, next) {
   for(var i = 0; i < req.splosniIzbirniPredmeti.length; i++)
   {
@@ -674,9 +708,50 @@ function odstraniModulniIzbirni(req, res, next) {
   }
   res.status(400).json({ message: "Ta predmet še ni bil dodan"});
 }
+function dodajModul(req, res, next) {
+  for(var i = 0; i < req.moduli.length; i++)
+  {
+    if(req.moduli[i]._id.equals(req.modul._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.moduli.length; j++)
+      {
+        if(req.vpisniList.moduli[j]._id.equals(req.modul._id))
+          return res.status(400).json({ message: "Ta modul je že bil dodan"});
+      }
+      
+      if(req.vpisniList.moduli.length + 1 > req.vpisniList.letnik.st_modulov) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število modulov"});
+      }
+      
+      req.vpisniList.moduli.push(req.modul);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  return res.status(400).json({ message: "Ne moreš izbirati modulov"});
+}
+function odstraniModul(req, res, next) {
+  for(var i = 0; i < req.vpisniList.moduli.length; i++)
+  {
+    if(req.vpisniList.moduli[i]._id.equals(req.params.modul_id))
+    {
+      req.vpisniList.moduli.pull(req.params.modul_id);
+      callNext(req, res, next);
+      return;
+    }
+  }
+  res.status(400).json({ message: "Ta modul še ni bil dodan"});
+}
 
 function vrniPredmetiPosodobljeni(req, res, next) {
   res.status(200).json({ message: "Predmeti uspešno posodobljeni"});
+}
+function vrniModuliPosodobljeni(req, res, next) {
+  res.status(200).json({ message: "Moduli uspešno posodobljeni"});
 }
 
 // Oddaj vpisni list

@@ -112,7 +112,9 @@ router.delete('/vpis/:vpisniList_id/strokovni-izbirni/:predmet_id', ctrl.vpis.od
 // Upravljanje modulnih izbirnih predmetov
 router.post('/vpis/:vpisniList_id/modulni-izbirni', ctrl.vpis.dodajModulniIzbirni);
 router.delete('/vpis/:vpisniList_id/modulni-izbirni/:predmet_id', ctrl.vpis.odstraniModulniIzbirni);
-
+// Upravljanje modulov
+router.post('/vpis/:vpisniList_id/moduli', ctrl.vpis.dodajModul);
+router.delete('/vpis/:vpisniList_id/moduli/:modul_id', ctrl.vpis.odstraniModul);
 
 
 /* IZPISI */
