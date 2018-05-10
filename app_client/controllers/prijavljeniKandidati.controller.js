@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    urediZaposleneCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    prijavljeniKandidatiCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
     
     
-    function urediZaposleneCtrl(ostaloPodatki, $scope, $location){
+    function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location){
         var vm = this;
         
         vm.nextPage = function(){
@@ -96,6 +96,6 @@
     
     angular
         .module('tpo')
-        .controller('urediZaposleneCtrl', urediZaposleneCtrl);
+        .controller('prijavljeniKandidatiCtrl', prijavljeniKandidatiCtrl);
     
 })();

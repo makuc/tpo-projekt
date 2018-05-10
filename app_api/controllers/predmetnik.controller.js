@@ -55,7 +55,7 @@ module.exports.addPredmetnik = function(req, res) {
   callNext(req, res, [ validateStudijskiProgram, validateLetnik, validateDelPredmetnika, validateStudijskoLeto, createPredmetnik ]);
 };
 module.exports.editPredmetnik = function(req, res) {
-  if(!req.body || (!req.body.studijski_program && !req.body.studijsko_leto && !req.body.letnik && ! req.body.del_predmetnika)) {
+  if(!req.body || (!req.body.studijski_program && !req.body.studijsko_leto && !req.body.letnik && ! req.body.del_predmetnika || !req.body.ime)) {
     return res.status(400).json({ message: "Nobenega podatka predmetnika ne spreminjaš" });
   }
   
@@ -90,7 +90,9 @@ function createPredmetnik(req, res, next) {
     studijsko_leto: req.studijskoLeto,
     studijski_program: req.studijskiProgram,
     letnik: req.letnik,
-    del_predmetnika: req.delPredmetnika
+    del_predmetnika: req.delPredmetnika,
+    
+    ime: req.body.ime
   }, function(err, predmetnik) {
     if(err) {
       //console.log(err);
@@ -125,6 +127,8 @@ function urediPredmetnik(req, res, next) {
     req.predmetnik.studijsko_leto = req.studijskoLeto;
   if(req.delPredmetnika)
     req.predmetnik.del_predmetnika = req.delPredmetnika;
+  if(req.body.ime)
+    req.predmetnik.ime = req.body.ime;
   
   req.predmetnik.save(function(err, predmetnik) {
     if(err)

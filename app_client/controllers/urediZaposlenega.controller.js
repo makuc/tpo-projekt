@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.idZaposlenega = $routeParams.idZaposlenega;
+        console.log(vm.idZaposlenega);
 
         vm.pridobiZaposlenega = function(){
             ostaloPodatki.najdiZaposlenega(vm.idZaposlenega).then(
