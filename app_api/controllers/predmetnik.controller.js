@@ -13,7 +13,21 @@ module.exports.getPredmetnike = function(req, res) {
   Predmetnik
     .find({ valid: true })
     .limit(0)
-    .populate("studijski_program studijsko_leto letnik del_predmetnika predmeti")
+    .populate([
+      {
+        path: "studijski_program",
+        populate: "vrstaStudija"
+      },
+      {
+        path: "studijsko_leto"
+      },
+      {
+        path: "letnik"
+      },
+      {
+        path: "del_predmetnika predmeti"
+      }
+    ])
     .exec(function(err, predmetniki) {
       if(err || !predmetniki) {
         return res.status(404).json({ message: "Ne najdem predmetnikov" });
@@ -25,7 +39,21 @@ module.exports.getVsePredmetnike = function(req, res) {
   Predmetnik
     .find()
     .limit(0)
-    .populate("studijski_program studijsko_leto letnik del_predmetnika predmeti")
+    .populate([
+      {
+        path: "studijski_program",
+        populate: "vrstaStudija"
+      },
+      {
+        path: "studijsko_leto"
+      },
+      {
+        path: "letnik"
+      },
+      {
+        path: "del_predmetnika predmeti"
+      }
+    ])
     .exec(function(err, predmetniki) {
       if(err || !predmetniki) {
         return res.status(404).json({ message: "Ne najdem predmetnikov" });
@@ -37,7 +65,21 @@ module.exports.getIzbrisanePredmetnike = function(req, res) {
   Predmetnik
     .find({ valid: false })
     .limit(0)
-    .populate("studijski_program studijsko_leto letnik del_predmetnika predmeti")
+    .populate([
+      {
+        path: "studijski_program",
+        populate: "vrstaStudija"
+      },
+      {
+        path: "studijsko_leto"
+      },
+      {
+        path: "letnik"
+      },
+      {
+        path: "del_predmetnika predmeti"
+      }
+    ])
     .exec(function(err, predmetniki) {
       if(err || !predmetniki) {
         return res.status(404).json({ message: "Ne najdem predmetnikov" });
