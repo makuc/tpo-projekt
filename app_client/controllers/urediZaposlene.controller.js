@@ -81,6 +81,7 @@
         };
         
         vm.uredi = function(zaposlenId){
+            console.log(zaposlenId);
             $location.path("/urediZaposlenega/" + zaposlenId);
         };
                
