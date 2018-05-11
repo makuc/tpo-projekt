@@ -8,12 +8,18 @@
                 <input class="form-control" type="text" value="{{vm.kandidat.tock}}" ng-model="vm.kandidat.tock">
             </div>
         </div>
-        <!--<div class="row">
+        <div class="row">
             <div class="form-group col-sm-4">
-                <label>Število kreditnih točk</label>
-                <select class="form-control" value="{{vm.predmet.KT}}" ng-model="vm.predmet.KT" ng-options="kt for kt in vm.opcijeKT"></select>
+                <label>Ocena izpita</label>
+                <select class="form-control" value="{{vm.kandidat.ocena}}" ng-model="vm.kandidat.ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
             </div>
-        </div>-->
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Končna ocena</label>
+                <select class="form-control" value="{{vm.kandidat.koncna_ocena}}" ng-model="vm.kandidat.koncna_ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
+            </div>
+        </div>
         <button class="btn btn-success"  type="submit">Shrani</button>
         <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
     </div>

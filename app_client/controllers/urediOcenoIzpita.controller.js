@@ -38,8 +38,8 @@
         vm.shrani = function(){
             var data = {
                 tock: vm.kandidat.tock,
-                ocena: 5,//vm.kandidat.ocena,
-                koncna_ocena: 5//vm.kandidat.koncna_ocena
+                ocena: vm.kandidat.ocena,
+                koncna_ocena: vm.kandidat.koncna_ocena
             };
             ostaloPodatki.posodobiOceno(vm.izvedbaId, vm.studentId, data).then(
                 function success(odgovor){
