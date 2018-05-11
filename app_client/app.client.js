@@ -374,6 +374,11 @@
                 controller: 'urediZetoneCtrl',
                 controllerAs: 'vm'
             })
+            .when('/prikaziStudente/:studentId/zetoni/ustvariZeton', {
+                templateUrl: 'views/urediZeton.template.html',
+                controller: 'ustvariZetonCtrl',
+                controllerAs: 'vm'
+            })
             .when('/prikaziStudente/:studentId/zetoni/:zetonId', {
                 templateUrl: 'views/urediZeton.template.html',
                 controller: 'urediZetonCtrl',
