@@ -60,7 +60,7 @@
           function success(res) {
             if(authentication.auth()){
             $location.search('page', null);
-            $location.path("/student/main");
+            $location.path("/main");
             }else{
                vm.formError = "Uporabnika ni v bazi";
               

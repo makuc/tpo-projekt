@@ -14,7 +14,7 @@
                 controller: 'vpisniListCtrl',
                 controllerAs: 'vm'
             })
-               .when('/student/main', {
+               .when('/main', {
                 templateUrl: 'views/main.template.html',
                 controller: 'mainCtrl',
                 controllerAs: 'vm'
@@ -363,7 +363,12 @@
                 controller: 'izpitiForceCtrl',
                 controllerAs: 'vm'
             })
-            .otherwise({redirectTo: '/student/main'});
+            .when('/zetonZaVpis', {
+                templateUrl: 'views/zetonZaVpis.template.html',
+                controller: 'zetonZaVpisCtrl',
+                controllerAs: 'vm'
+            })
+            .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
     }

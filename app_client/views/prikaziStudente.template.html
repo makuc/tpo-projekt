@@ -1,4 +1,4 @@
-<navigation></navigation>
+<header style="margin-bottom: 15px"></header>
 <div class="container">
     <div class="row">
         <div id="custom-search-input">
@@ -13,7 +13,8 @@
         </div>
     </div>
    
-    <div class="container table-responsive">
+
+    <div id = "exportable" class="container table-responsive">
         <table ng-show="!iskanje" id="tabela_obcin" class="table table-hover" ng-init="vm.prikaziStudente()">
             <thead>
                 <tr>
@@ -25,6 +26,8 @@
             </thead>
             <tfoot>
                 <td colspan="6">
+                    <button ng-click="exportDataCSV()">Export CSV</button>
+                    <button ng-click="exportDataPDF()">Export PDF</button>
                     <div class="pull-right">
                         <ul class="pagination">
                             <li ng-class="{disabled: vm.trenutnaStran == 0}">

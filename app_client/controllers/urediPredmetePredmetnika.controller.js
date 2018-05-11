@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    urediPredmetePredmetnikaCtrl.$inject = ['ostaloPodatki', 'predmetPodatki', '$scope', '$location', '$routeParams'];
+    urediPredmetePredmetnikaCtrl.$inject = ['ostaloPodatki', 'predmetPodatki', '$scope', '$location', '$routeParams', 'authentication'];
     
     
-    function urediPredmetePredmetnikaCtrl(ostaloPodatki, predmetPodatki, $scope, $location, $routeParams){
+    function urediPredmetePredmetnikaCtrl(ostaloPodatki, predmetPodatki, $scope, $location, $routeParams, authentication){
         var vm = this;
+        
+        vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.idPredmetnika = $routeParams.idPredmetnika;
 

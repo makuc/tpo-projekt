@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    urediVrsteStudijaCtrl.$inject = ['ostaloPodatki', '$scope', '$location'];
+    urediVrsteStudijaCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication'];
     
     
-    function urediVrsteStudijaCtrl(ostaloPodatki, $scope, $location){
+    function urediVrsteStudijaCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
+        
+        vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stVseh/10-1){

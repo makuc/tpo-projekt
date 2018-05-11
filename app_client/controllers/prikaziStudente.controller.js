@@ -1,11 +1,34 @@
 (function() {
     /* global angular */
     
-    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location'];
+    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
     
     
-    function prikaziStudenteCtrl(studentPodatki, $scope, $location){
+    function prikaziStudenteCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki){
         var vm = this;
+        
+         vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stStudentov/10-1){
@@ -64,8 +87,28 @@
         $scope.myOrderBy = x;
         }
         
+            $scope.exportDataPDF= function(){
+        html2canvas(document.getElementById('exportable'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("test.pdf");
+            }
+        });
+            }
+        $scope.exportDataCSV = function () {
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: "text/csv;charset=utf-8"
+        });
+        saveAs(blob, "Report Example.xls");
+    };
+    
 
-        
       vm.uredi = function(studentID){
            $location.path("/podrobnostiStudenta/" + studentID);
        };

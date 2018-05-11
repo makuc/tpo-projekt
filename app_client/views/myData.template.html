@@ -1,3 +1,4 @@
+<header style="margin-bottom: 15px"></header>
 <div ng-init="vm.najdiMe()"></div>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
 <form role ="form"  class="form-horizonral">
@@ -19,7 +20,7 @@
             </div>
             <div class="form-group col-sm-4">
                 <label>Datum rojstva:</label>
-                <div class="form-control" type="text" value="{{vm.student.datum_rojstva}}" ng-model="vm.student.datum_rojstva">{{vm.student.datum_rojstva}} </div>
+                <div class="form-control" type="text" value="{{vm.student.datum_rojstva}}" ng-model="vm.student.datum_rojstva">{{vm.student.datum_rojstva | date:'dd. MM. yyyy'}} </div>
             </div>
             <div class="form-group col-sm-4">
                 <label>Kraj rojstva:</label>
