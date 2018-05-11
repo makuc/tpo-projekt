@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, html2canvas, pdfMake, Blob, saveAs */
     
     prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
     
@@ -105,7 +105,7 @@
         var blob = new Blob([document.getElementById('exportable').innerHTML], {
             type: "text/csv;charset=utf-8"
         });
-        saveAs(blob, "Report Example.xls");
+        saveAs(blob, "Report Example.csv");
     };
     
 
