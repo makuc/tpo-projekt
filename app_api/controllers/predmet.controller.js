@@ -78,12 +78,12 @@ module.exports.addIzvedbaPredmeta = function(req, res) {
   }
   
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, ustvariIzvedboPredmeta, vrniPredmet
+    validateStudijskoLeto, ustvariIzvedboPredmeta, vrniPredmet
   ]);
 };
 module.exports.delIzvedbaPredmeta = function(req, res) {
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, najdiIzvedboPredmeta, odstraniIzvedboPredmeta, vrniPredmet
+    najdiIzvedboPredmeta, odstraniIzvedboPredmeta, vrniPredmet
   ]);
 };
 module.exports.addIzvajalcaIzvedbiPredmeta = function(req, res) {
@@ -92,12 +92,12 @@ module.exports.addIzvajalcaIzvedbiPredmeta = function(req, res) {
   }
   
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, preveriIzvajalecZeIzvajaIzvedboPredmeta, dodajIzvajalcaIzvedbiPredmeta, vrniPredmet
+    validateIzvajalca, najdiIzvedboPredmeta, preveriIzvajalecZeIzvajaIzvedboPredmeta, dodajIzvajalcaIzvedbiPredmeta, vrniPredmet
   ]);
 };
 module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
   najdiPredmetId(req, res, [
-    validateStudijskoLeto, validateIzvajalca, najdiIzvedboPredmeta, odstraniIzvajalcaIzvedbiPredmeta, vrniPredmet
+    validateIzvajalca, najdiIzvedboPredmeta, odstraniIzvajalcaIzvedbiPredmeta, vrniPredmet
   ]);
 };
 
@@ -246,14 +246,18 @@ function validateStudijskoLeto(req, res, next) {
   }
 }
 function najdiIzvedboPredmeta(req, res, next) {
-  var izvedbePredmeta = req.predmet.izvedbe_predmeta;
-  
+  req.izvedbaPredmeta = req.predmet.izvedbe_predmeta.id(req.params.izvedba_id);
+  /*
   for(var i = 0; i < izvedbePredmeta.length; i++) {
     if(izvedbePredmeta[i].studijsko_leto.equals(req.studijskoLeto)) {
       req.izvedbaPredmeta = izvedbePredmeta[i];
       break;
     }
   }
+  */
+  console.log("Izvedba: " + req.params.izvedba_id + "\n" + req.izvedbaPredmeta);
+  if(!req.izvedbaPredmeta)
+    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta"});
   
   callNext(req, res, next);
 }

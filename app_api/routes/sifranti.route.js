@@ -167,9 +167,9 @@ router.delete('/predmet/:predmet_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predme
 router.get('/predmet/:predmet_id/izvedba', ctrl.NeodvisniPodatki.Predmet.getIzvedbeStudijskegaLeta);
 router.get('/predmet/:predmet_id/izvedba/:studijskoLeto_id', ctrl.NeodvisniPodatki.Predmet.getIzvedbeStudijskegaLeta);
 router.post('/predmet/:predmet_id/izvedba', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvedbaPredmeta);
-router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvedbaPredmeta);
-router.post('/predmet/:predmet_id/izvedba/:studijskoLeto_id/izvajalec', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvajalcaIzvedbiPredmeta);
-router.delete('/predmet/:predmet_id/izvedba/:studijskoLeto_id/izvajalec/:izvajalec_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvajalcaIzvedbiPredmeta);
+router.delete('/predmet/:predmet_id/izvedba/:izvedba_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvedbaPredmeta);
+router.post('/predmet/:predmet_id/izvedba/:izvedba_id/izvajalec', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.addIzvajalcaIzvedbiPredmeta);
+router.delete('/predmet/:predmet_id/izvedba/:izvedba_id/izvajalec/:izvajalec_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvajalcaIzvedbiPredmeta);
 
 
 // Controller Letnik

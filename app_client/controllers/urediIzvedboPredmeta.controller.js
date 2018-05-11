@@ -163,7 +163,7 @@
         {
           //console.log("odstrani izvajalca id: ", izvajalecId);
           //return predmetPodatki.odstraniIzvajalcaIzvedbiPredmeta()
-          predmetPodatki.odstraniIzvajalcaIzvedbiPredmeta(vm.predmetId, vm.izvedba.studijsko_leto._id, izvajalecId).then(
+          predmetPodatki.odstraniIzvajalcaIzvedbiPredmeta(vm.predmetId, vm.izvedba._id, izvajalecId).then(
             function success(odgovor){
                 //console.log(odgovor);
                 vm.pridobiPredmet();
@@ -191,7 +191,7 @@
           var data = {
             izvajalec: izvajalecId
           };
-          predmetPodatki.dodajIzvajalcaIzvedbePredmeta(vm.predmetId, vm.izvedba.studijsko_leto._id, data).then(
+          predmetPodatki.dodajIzvajalcaIzvedbePredmeta(vm.predmetId, vm.izvedba._id, data).then(
             function success(odgovor){
                 //console.log(odgovor);
                 vm.pridobiPredmet();

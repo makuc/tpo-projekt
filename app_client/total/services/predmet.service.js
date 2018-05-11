@@ -34,15 +34,15 @@
             return $http.put('api/v1/predmet/' + predmet_id, podatki);
         };
         
-        var dodajIzvajalcaIzvedbePredmeta = function(predmetId, studijskoLetoId, podatki)
+        var dodajIzvajalcaIzvedbePredmeta = function(predmetId, izvedbaId, podatki)
         {
-            return $http.post('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec", podatki);
+            return $http.post('api/v1/predmet/' + predmetId + '/izvedba/' + izvedbaId + "/izvajalec", podatki);
         };
         
-        var odstraniIzvajalcaIzvedbiPredmeta = function(predmetId, studijskoLetoId, izvajalecId)
+        var odstraniIzvajalcaIzvedbiPredmeta = function(predmetId, izvedbaId, izvajalecId)
         {
             //console.log("address: ", 'api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec/" + izvajalecId);
-            return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId + "/izvajalec/" + izvajalecId);
+            return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + izvedbaId + "/izvajalec/" + izvajalecId);
         };
         
         var dodajIzvedboPredmetu = function(predmetId, data)
@@ -51,10 +51,10 @@
             return $http.post('api/v1/predmet/' + predmetId + '/izvedba', data);
         };
         
-        var odstraniIzvedboPredmeta = function(predmetId, studijskoLetoId)
+        var odstraniIzvedboPredmeta = function(predmetId, izvedbaId)
         {
             // /api/v1/predmet/:predmet_id/izvedba/:studijskoLeto_id 
-            return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId);
+            return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + izvedbaId);
         };
         
         return {

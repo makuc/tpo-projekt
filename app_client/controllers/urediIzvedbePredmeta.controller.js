@@ -197,9 +197,9 @@
             });
         };
         
-        vm.izbrisiIzvedbo = function(studijskoLetoId)
+        vm.izbrisiIzvedbo = function(izvedbaId)
         {
-            predmetPodatki.odstraniIzvedboPredmeta(vm.predmetId, studijskoLetoId).then(
+            predmetPodatki.odstraniIzvedboPredmeta(vm.predmetId, izvedbaId).then(
             function success(odgovor){
                     vm.prikaziIzvedbe();
             },
