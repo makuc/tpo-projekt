@@ -179,7 +179,6 @@
                 nacin_studija: vm.zeton.nacin_studija._id,
                 oblika_studija: vm.zeton.oblika_studija._id,
                 prosta_izbira: vm.zeton.prosta_izbira,
-                
                 studijsko_leto: "5ac3c4553f0fb21a058ff3d8",
                 studijsko_leto_prvega_vpisa_v_ta_program: "5ac3c4553f0fb21a058ff3d8",
                 vrsta_studija: "5ac8bb39c3e49f0ee16a8b36",
