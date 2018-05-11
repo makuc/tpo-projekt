@@ -368,6 +368,17 @@
                 controller: 'zetonZaVpisCtrl',
                 controllerAs: 'vm'
             })
+            // zetoni za vpis
+            .when('/prikaziStudente/:studentId/zetoni', {
+                templateUrl: 'views/urediZetone.template.html',
+                controller: 'urediZetoneCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/prikaziStudente/:studentId/zetoni/:zetonId', {
+                templateUrl: 'views/urediZeton.template.html',
+                controller: 'urediZetonCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);

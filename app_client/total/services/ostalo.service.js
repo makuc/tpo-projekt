@@ -504,6 +504,19 @@
             // /api/v1/student/5aef49a79958d4255801a970/izpit/5af174a9267cef0a952d32fa
             return $http.post('/api/v1/student/' + studentId + '/izpit/' + rokId, data);
         }
+        
+        // Zeton
+        
+        function izbrisiZetonStudentu(studentId, zetonId)
+        {
+            // /api/v1/student/5ac8ca4d36fba41313122307/zeton/5af1a8f970975116696d097a
+            return $http.delete('/api/v1/student/' + studentId + '/zeton/' + zetonId);
+        }
+        
+        function urediZetonStudenta(studentId, zetonId, data)
+        {
+            return $http.put('/api/v1/student/' + studentId + '/zeton/' + zetonId, data);
+        }
 
         return {
             uvoziStudente: uvoziStudente,
@@ -637,7 +650,10 @@
             prijaviNaRokForce: prijaviNaRokForce,
             odjaviOdRokaForce: odjaviOdRokaForce,
             pridobiIzpitniRok: pridobiIzpitniRok,
-            posodobiOceno: posodobiOceno
+            posodobiOceno: posodobiOceno,
+            
+            izbrisiZetonStudentu: izbrisiZetonStudentu,
+            urediZetonStudenta: urediZetonStudenta
         };
     };
     
