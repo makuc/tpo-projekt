@@ -27,6 +27,12 @@
                 <select class="form-control" ng-model="vm.podatki.del_predmetnika" ng-options='dp as (dp.naziv) for dp in vm.deliPredmetnika track by dp._id'></select>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Ime modula:</label>
+                <input type="text" class="form-control" ng-model="vm.podatki.ime"></input>
+            </div>
+        </div>
         <button class="btn btn-success"  type="submit">Shrani</button>
         <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
     </div>

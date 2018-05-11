@@ -85,7 +85,8 @@
                 studijski_program: vm.podatki.studijski_program,
                 studijsko_leto: vm.podatki.studijsko_leto,
                 letnik: vm.podatki.letnik,
-                del_predmetnika: vm.podatki.del_predmetnika
+                del_predmetnika: vm.podatki.del_predmetnika,
+                ime: vm.podatki.ime
             };
             ostaloPodatki.dodajPredmetnik(data).then(
                 function success(odgovor){
