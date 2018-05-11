@@ -75,6 +75,28 @@
            
         $scope.myOrderBy = x;
         }
+        
+                
+            $scope.exportDataPDF= function(){
+        html2canvas(document.getElementById('exportable'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("test.pdf");
+            }
+        });
+            }
+        $scope.exportDataCSV = function () {
+        var blob = new Blob([document.getElementById('exportable').innerHTML], {
+            type: "text/csv;charset=utf-8"
+        });
+        saveAs(blob, "Report Example.csv");
+    };
     }
     
     angular

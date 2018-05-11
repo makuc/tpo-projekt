@@ -14,7 +14,7 @@
         </div>
     </div>
     <br>
-    <div class="container table-responsive">
+    <div id = "exportable" class="container table-responsive">
         <table ng-show="!iskanje" id="tabela_kandidatov" class="table table-hover" ng-init="vm.prikaziKandidate()">
             <thead>
                 <tr>
@@ -50,6 +50,8 @@
             </tbody>
             <tfoot>
                 <td colspan="6">
+                    <button ng-click="exportDataCSV()">Export CSV</button>
+                    <button ng-click="exportDataPDF()">Export PDF</button>
                     <div class="pull-right">
                         <ul class="pagination">
                             <li ng-class="{disabled: vm.trenutnaStran == 0}">
