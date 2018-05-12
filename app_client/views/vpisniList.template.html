@@ -5,7 +5,7 @@
 
 </style>
 
-<!--vnosna polja pri vpisnem listu -->
+<header></header>
 <h1>VPISNI LIST</h1>
 <div class="alert alert-success" role="alert" ng-show="vm.uspesnoShranjeno">{{vm.uspesnoShranjeno}}</div>
 <div class="alert alert-danger" role="alert" ng-show="vm.napacenEmso">{{vm.napacenEmso}}</div>
@@ -170,7 +170,7 @@
             </div>
             <div class="form-group col-sm-4">
                 <label>Najvišje dosežena izobrazba</label>
-                <select class="form-control" type="text" ng-model="vm.student.predhodna_izobrazba.najvisje_dosezena_izobrazba"
+                <select class="form-control" ng-model="vm.student.predhodna_izobrazba.najvisja_dosezena_izobrazba"
                     ng-options="izobrazba as izobrazba.opis for izobrazba in vm.vrstaStudija track by izobrazba._id"></select>
             </div>
         </div>

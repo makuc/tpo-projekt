@@ -6,6 +6,29 @@
     function vpisniListCtrl(predmetPodatki, studentPodatki, $routeParams, authentication, ostaloPodatki, $location) {
         var vm = this;
         
+        vm.vpisan=authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.logoutFunc = function() {
+            delTok();
+            return $location.path('/login');
+        };
+        
+        function delTok(){
+            return authentication.logout();
+        }
+        
         vm.idStudenta = $routeParams.idStudenta;
         
         vm.meseci = ["01","02","03","04","05","06","07","08","09","10","11","12"];
@@ -172,7 +195,7 @@
                 izo_uspeh: vm.student.predhodna_izobrazba.uspeh,
                 izo_smer_strokovna_izobrazba: vm.student.predhodna_izobrazba.smer_strokovna_izobrazba,
                 izo_nacin_koncanja: vm.student.predhodna_izobrazba.nacin_koncanja,
-                izo_najvisja_dosezena_izobrazba: vm.student.predhodna_izobrazba.najvisje_dosezena_izobrazba
+                izo_najvisja_dosezena_izobrazba: vm.student.predhodna_izobrazba.najvisja_dosezena_izobrazba
             };
             
             studentPodatki.urediStudenta(vm.idStudenta, student).then(
