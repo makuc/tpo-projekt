@@ -49,6 +49,7 @@
         vm.prikazi = function(){
             ostaloPodatki.pridobiVsePredmetnike().then(
                 function success(odgovor){
+                    console.log(odgovor.data);
                     vm.predmetnik = odgovor.data;
                     vm.vsiPredmetniki = odgovor.data;
                     vm.stVseh = vm.predmetnik.length;

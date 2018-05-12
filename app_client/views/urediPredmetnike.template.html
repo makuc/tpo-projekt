@@ -29,7 +29,7 @@
             <tbody> <!--orderBy:['group','sub']-->
                 <tr ng-repeat="x in vm.vsiPredmetniki | filter: iskanje | orderBy:['-studijsko_leto.studijsko_leto', 'letnik.naziv'] | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
-                    <td>{{ x.studijski_program.naziv }}</td>
+                    <td>{{ x.studijski_program.naziv }}, {{ x.studijski_program.vrstaStudija.opis }}</td>
                     <td>{{ x.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ x.letnik.naziv }}</td>
                     <td>{{ x.del_predmetnika.naziv }}</td>
@@ -59,7 +59,7 @@
             <tbody>
                 <tr ng-repeat="x in vm.predmetnik[vm.trenutnaStran] | orderBy:['-studijsko_leto.studijsko_leto', 'letnik.naziv'] | orderBy:myOrderBy:bool" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
-                    <td>{{ x.studijski_program.naziv }}</td>
+                    <td>{{ x.studijski_program.naziv }}, {{ x.studijski_program.vrstaStudija.opis }}</td>
                     <td>{{ x.studijsko_leto.studijsko_leto }}</td>
                     <td>{{ x.letnik.naziv }}</td>
                     <td>{{ x.del_predmetnika.naziv }}</td>

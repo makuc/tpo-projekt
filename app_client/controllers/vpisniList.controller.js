@@ -8,9 +8,69 @@
         
         vm.idStudenta = $routeParams.idStudenta;
         
-        vm.preklici = function() {
-            $location.path('/student/main');
-        };
+        vm.meseci = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+        
+        vm.dnevi = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"];
+        
+        vm.leta = ["2018","2017","2016","2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","1997","1996","1995","1994","1993","1992","1991","1990","1989","1988","1987","1986","1985","1984","1983","1982","1981","1980","1979","1978","1977","1976","1975","1974","1973","1972","1971","1970","1969","1968","1967","1966","1965","1964","1963","1962","1961","1960","1959","1958","1957","1956","1955","1954","1953","1952","1951","1950"];
+        
+        ostaloPodatki.pridobiVseVeljavneObcine().then(
+            function success(odgovor) {
+                vm.obcine = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju občin: " + odgovor);
+            }
+        );
+        ostaloPodatki.pridobiVseVeljavneDrzave().then(
+            function success(odgovor) {
+                vm.drzave = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju drćav: " + odgovor);
+            }
+        );
+        ostaloPodatki.pridobiVseVeljavnePoste().then(
+            function success(odgovor) {
+                vm.poste = odgovor.data;
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju pošt: " + odgovor);
+            }
+        );
+        
+        ostaloPodatki.pridobiVseVeljavneVrsteStudije().then(
+            function success(odgovor){
+                vm.vrstaStudija = odgovor.data;
+                //console.log(vm.vrstaStudija);
+            },
+            function error(odgovor) {
+                console.log("Prišlo do napake pri pridobivanju vrst študija:" + odgovor);
+            }
+        );
+        
+        studentPodatki.izpisStudenta(vm.idStudenta).then(
+            function success(odgovor) {
+                //doloceni podatki, se ze predizpolnjejo
+                vm.student = odgovor.data;
+                console.log(vm.student);
+                prikaziDatumRojstva();
+            },
+            function error(odgovor) {
+                console.log("Pripetila se je napaka: " + odgovor);
+            }
+        );
+        
+        
+        
+        function prikaziDatumRojstva(){
+            if(vm.student.datum_rojstva){
+                vm.letnica = vm.student.datum_rojstva.substring(0,4);
+                vm.mesec = vm.student.datum_rojstva.substring(5,7);
+                vm.dan = vm.student.datum_rojstva.substring(8,10);
+                console.log(vm.letnica);
+            }
+        }
         
         vm.veljavnostEMSO = function() {
             //logika za prevernjanje pravilnosti EMSA
@@ -19,11 +79,11 @@
                 //console.log("je EMSO");
                 //console.log(vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7));
                 vm.napacenEmso="";
-                if(vm.student.emso.substring(4,7) > 900){
+                /*if(vm.student.emso.substring(4,7) > 900){
                     vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7);
                 } else {
                     vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".2" + vm.student.emso.substring(4,7);
-                }
+                }*/
             } else {
                 //console.log("ni EMSO");
                 vm.napacenEmso = "Ponovno preverite vnos EMSA";
@@ -70,7 +130,16 @@
             }
         };
         
+        function shraniDatum(){
+            //console.log(vm.student.datum_rojstva);
+            //console.log(vm.letnica + "-" + vm.mesec + "-" + vm.dan + "T" + "00:00:00.000Z");
+            vm.student.datum_rojstva = vm.letnica + "-" + vm.mesec + "-" + vm.dan + "T" + "00:00:00.000Z";
+        }
+        
         vm.shrani = function() {
+            
+            shraniDatum();
+
             var student = {
                 vpisna_stevilka: vm.student.vpisna_stevilka,
                 priimek: vm.student.priimek,
@@ -94,7 +163,16 @@
                 zacasno_bivalisce_posta: vm.student.zacasno_bivalisce_posta,
                 zacasno_bivalisce_obcina: vm.student.zacasno_bivalisce_obcina,
                 zacasno_bivalisce_drzava: vm.student.zacasno_bivalisce_drzava,
-                zacasno_bivalisce_vrocanje: vm.student.zacasno_bivalisce_vrocanje
+                zacasno_bivalisce_vrocanje: vm.student.zacasno_bivalisce_vrocanje,
+                izo_zavod: vm.student.predhodna_izobrazba.zavod,
+                izo_kraj: vm.student.predhodna_izobrazba.kraj,
+                izo_drzava: vm.student.predhodna_izobrazba.drzava,
+                izo_program: vm.student.predhodna_izobrazba.program,
+                izo_leto_zakljucka: vm.student.predhodna_izobrazba.leto_zakljucka,
+                izo_uspeh: vm.student.predhodna_izobrazba.uspeh,
+                izo_smer_strokovna_izobrazba: vm.student.predhodna_izobrazba.smer_strokovna_izobrazba,
+                izo_nacin_koncanja: vm.student.predhodna_izobrazba.nacin_koncanja,
+                izo_najvisja_dosezena_izobrazba: vm.student.predhodna_izobrazba.najvisje_dosezena_izobrazba
             };
             
             studentPodatki.urediStudenta(vm.idStudenta, student).then(
@@ -113,40 +191,6 @@
             //porabi zeton in preusmeri na izbiro predmeta
         };
         
-        studentPodatki.izpisStudenta(vm.idStudenta).then(
-            function success(odgovor) {
-                //doloceni podatki, se ze predizpolnjejo
-                vm.student = odgovor.data;
-                console.log(vm.student);
-            },
-            function error(odgovor) {
-                console.log("Pripetila se je napaka: " + odgovor);
-            }
-        );
-        ostaloPodatki.pridobiVseVeljavneObcine().then(
-            function success(odgovor) {
-                vm.obcine = odgovor.data;
-            },
-            function error(odgovor) {
-                console.log("Prišlo do napake pri pridobivanju občin: " + odgovor);
-            }
-        );
-        ostaloPodatki.pridobiVseVeljavneDrzave().then(
-            function success(odgovor) {
-                vm.drzave = odgovor.data;
-            },
-            function error(odgovor) {
-                console.log("Prišlo do napake pri pridobivanju drćav: " + odgovor);
-            }
-        );
-        ostaloPodatki.pridobiVseVeljavnePoste().then(
-            function success(odgovor) {
-                vm.poste = odgovor.data;
-            },
-            function error(odgovor) {
-                console.log("Prišlo do napake pri pridobivanju pošt: " + odgovor);
-            }
-        );
         
         vm.izbiraPredmetov = function(){
             var letnik = 2;
