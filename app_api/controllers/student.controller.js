@@ -46,7 +46,7 @@ module.exports.getStudente = function(req, res) {
   pridobiStudente(req, res);
 };
 module.exports.getStudenta = function(req, res) {
-  pridobiStudenta(req, res);
+  callNext(req, res, [ najdiStudentaId, vrniStudenta ]);
 };
 module.exports.createStudenta = function(req, res) {
   if(!req.body || !req.body.vpisna_stevilka || !req.body.priimek || !req.body.ime || !req.body.email)
@@ -126,77 +126,6 @@ function pridobiStudente(req, res) {
       return res.status(200).json(studenti);
     });
 }
-function pridobiStudenta(req, res) {
-  models.Student
-    .findById(req.params.student_id)
-    .populate([
-      {
-        path: "drzava_rojstva",
-        select: "slovenski_naziv"
-      },
-      // Stalno bivališče
-      {
-        path: "stalno_bivalisce_posta",
-        select: "naziv"
-      },
-      {
-        path: "stalno_bivalisce_obcina",
-        select: "ime"
-      },
-      {
-        path: "stalno_bivalisce_drzava",
-        select: "slovenski_naziv"
-      },
-      // Začasno bivališče
-      {
-        path: "zacasno_bivalisce_posta",
-        select: "naziv"
-      },
-      {
-        path: "zacasno_bivalisce_obcina",
-        select: "ime"
-      },
-      {
-        path: "zacasno_bivalisce_drzava",
-        select: "slovenski_naziv"
-      },
-      {
-        path: "studijska_leta_studenta.studijsko_leto"
-      },
-      {
-        path: "studijska_leta_studenta.letnik",
-        populate: {
-          path: "studijskiProgram"
-        }
-      },
-      {
-        path: "studijska_leta_studenta.vrsta_studija"
-      },
-      {
-        path: "studijska_leta_studenta.vrsta_vpisa"
-      },
-      {
-        path: "studijska_leta_studenta.nacin_studija"
-      },
-      {
-        path: "studijska_leta_studenta.oblika_studija"
-      },
-      {
-        path: "studijska_leta_studenta.predmeti.predmet"
-      },
-      {
-        path: "studijska_leta_studenta.predmeti.izpit"
-      }
-    ])
-    .exec(
-      function(err, student) {
-        if(err || !student){
-          return res.status(404).json({ "message": "Ni študenta s tem ID"});
-        }
-        res.status(200).json(student);
-      }
-    );
-}
 function najdiStudentaId(req, res, next) {
   models.Student
     .findById(req.params.student_id)
@@ -205,6 +134,10 @@ function najdiStudentaId(req, res, next) {
         path: "drzava_rojstva",
         select: "slovenski_naziv"
       },
+      {
+        path: "obcina_rojstva",
+        select: "ime"
+      },
       // Stalno bivališče
       {
         path: "stalno_bivalisce_posta",
@@ -232,28 +165,46 @@ function najdiStudentaId(req, res, next) {
         select: "slovenski_naziv"
       },
       {
-        path: "studijska_leta_studenta.studijsko_leto"
+        path: "studijska_leta_studenta.studijsko_leto",
+        select: "studijsko_leto"
       },
       {
         path: "studijska_leta_studenta.letnik",
         populate: {
-          path: "studijskiProgram"
+          path: "studijskiProgram",
+          select: "sifra naziv sifraEVS"
         }
       },
       {
-        path: "studijska_leta_studenta.vrsta_studija"
+        path: "studijska_leta_studenta.vrsta_studija",
+        select: "sifra opis klasiusSRV predpona"
       },
       {
-        path: "studijska_leta_studenta.vrsta_vpisa"
+        path: "studijska_leta_studenta.vrsta_vpisa",
+        select: "koda naziv opis"
       },
       {
-        path: "studijska_leta_studenta.nacin_studija"
+        path: "studijska_leta_studenta.nacin_studija",
+        select: "sifra naziv"
       },
       {
-        path: "studijska_leta_studenta.oblika_studija"
+        path: "studijska_leta_studenta.oblika_studija",
+        select: "sifra naziv"
       },
       {
-        path: "studijska_leta_studenta.predmeti.predmet"
+        path: "studijska_leta_studenta.predmeti.predmet",
+        select: "sifra naziv opis KT izvedbe_predmeta"
+      },
+      {
+        path: "studijska_leta_studenta.predmeti.izpit"
+      },
+      {
+        path: "predhodna_izobrazba.drzava",
+        select: "slovenski_naziv"
+      },
+      {
+        path: "predhodna_izobrazba.najvisja_dosezena_izobrazba",
+        select: "opis"
       }
     ])
     .exec(
