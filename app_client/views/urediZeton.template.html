@@ -1,0 +1,48 @@
+<header></header>
+<div ng-init="vm.prikaziZeton()"></div>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<h2>Urejanje žetona</h2><br>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Študijski program</label>
+                <select class="form-control" value="{{vm.zeton.studijski_program}}" ng-model="vm.zeton.studijski_program" ng-options="x as (x.naziv + ', ' + x.sifra) for x in vm.sifranti.studijski_programi track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Letnik</label>
+                <select class="form-control" value="{{vm.zeton.letnik}}" ng-model="vm.zeton.letnik" ng-options="x as (x.naziv + ', ' + x.studijskiProgram.sifra) for x in vm.sifranti.letniki track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Vrsta vpisa</label>
+                <select class="form-control" value="{{vm.zeton.vrsta_vpisa}}" ng-model="vm.zeton.vrsta_vpisa" ng-options="x as (x.naziv) for x in vm.sifranti.vrste_vpisa track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Način študija</label>
+                <select class="form-control" value="{{vm.zeton.nacin_studija}}" ng-model="vm.zeton.nacin_studija" ng-options="x as (x.naziv) for x in vm.sifranti.nacini_studija track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Oblika študija</label>
+                <select class="form-control" value="{{vm.zeton.oblika_studija}}" ng-model="vm.zeton.oblika_studija" ng-options="x as (x.naziv) for x in vm.sifranti.oblike_studija track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Prosta izbira predmetov v 3. letniku</label>
+                <select class="form-control" value="{{vm.zeton.prosta_izbira}}" ng-model="vm.zeton.prosta_izbira" ng-options="x as (x) for x in vm.opcijeBool track by x" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
+      
+        <br>
+        <button class="btn btn-success"  type="submit" style="margin-right:20px;">Shrani</button>
+        <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>

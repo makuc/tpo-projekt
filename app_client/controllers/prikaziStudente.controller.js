@@ -112,6 +112,12 @@
       vm.uredi = function(studentID){
            $location.path("/podrobnostiStudenta/" + studentID);
        };
+       
+       vm.zetoni = function(studentId)
+       {
+           console.log("prikaziStudente/" + studentId + "/zetoni");
+         $location.path("prikaziStudente/" + studentId + "/zetoni");  
+       };
         
     }
     
