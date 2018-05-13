@@ -22,17 +22,17 @@
             return $http.post('/api/v1/vpis/zeton', zeton_id);
         };
         
-        var pridobiPodatkeVpisnice = function(student_id){
-            return $http.get('/api/v1/vpis/' + student_id);
+        var pridobiPodatkeVpisnice = function(vpisnica_id){
+            return $http.get('/api/v1/vpis/' + vpisnica_id);
         };
         
-        var oddajaVpisnice = function(student_id){
-            return $http.put('/api/v1/vpis/' + student_id);
+        var oddajaVpisnice = function(vpisnica_id, data){
+            return $http.put('/api/v1/vpis/' + vpisnica_id, data);
         };
         
-        var zakljucekVpisa = function(student_id){
-            return $http.post('/api/v1/vpis' + student_id)
-        }
+        var zakljucekVpisa = function(vpisnica_id){
+            return $http.post('/api/v1/vpis' + vpisnica_id);
+        };
         
         return {
             dodajStudenta: dodajStudenta,

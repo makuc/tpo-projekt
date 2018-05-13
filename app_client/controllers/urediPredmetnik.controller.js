@@ -7,7 +7,8 @@
     function urediPredmetnikCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, authentication){
         var vm = this;
         
-         vm.vpisan=authentication.currentUser();
+        
+        vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
@@ -35,6 +36,7 @@
         ostaloPodatki.pridobiVseVeljavneStudijskePrograme().then(
             function success(odgovor){
                 vm.studijskiProgrami = odgovor.data;
+                getLetniki();
             },
             function error(odgovor){
                 console.log(odgovor);
@@ -68,14 +70,39 @@
             }
         );
         
-        predmetPodatki.izpisiVseVeljavnePredmete().then(
-            function success(odgovor){
-                vm.predmeti = odgovor.data;
-            },
-            function error(odgovor){
-                console.log(odgovor);
-            }
-        );
+        function getLetniki(){
+            ostaloPodatki.pridobiVseVeljavneLetnike().then(
+                function success(odgovor){
+                    vm.letniki = [];
+                    //console.log(odgovor.data);
+                    if(vm.podatki.studijski_program.sifra == "VT"){
+                        //uni
+                        for(var i = 0; i < odgovor.data.length; i++){
+                            //console.log(odgovor.data[i]);
+                            if(odgovor.data[i].studijskiProgram.sifra == "VT"){
+                                vm.letniki.push(odgovor.data[i]);
+                            }
+                        }
+                    }
+                    if(vm.podatki.studijski_program.sifra == "VU"){
+                        //vs
+                        for(var j = 0; j < odgovor.data.length; j++){
+                            //console.log(odgovor.data[i]);
+                            if(odgovor.data[j].studijskiProgram.sifra == "VU"){
+                                vm.letniki.push(odgovor.data[j]);
+                            }
+                        }
+                    }
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+       vm.pridobiLetnike = function(){
+            getLetniki();
+        };
         
         vm.pridobi = function(){
             ostaloPodatki.najdiPredmetnik(vm.id).then(

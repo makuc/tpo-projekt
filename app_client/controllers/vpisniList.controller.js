@@ -72,12 +72,22 @@
             }
         );
         
+        
         studentPodatki.izpisStudenta(vm.idStudenta).then(
             function success(odgovor) {
                 //doloceni podatki, se ze predizpolnjejo
                 vm.student = odgovor.data;
                 console.log(vm.student);
                 prikaziDatumRojstva();
+                
+                for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                    if(!odgovor.data.zetoni[i].izkoriscen){
+                        vm.neizkoriscenZeton = odgovor.data.zetoni[i];
+                        console.log(vm.neizkoriscenZeton);
+                    }
+                }
+                vm.ime = odgovor.data.ime;
+                vm.priimek = odgovor.data.priimek;
             },
             function error(odgovor) {
                 console.log("Pripetila se je napaka: " + odgovor);
@@ -211,7 +221,22 @@
         
         vm.shraniPodatke = function() {
             vm.shrani();
-            //porabi zeton in preusmeri na izbiro predmeta
+            
+            var data = {
+                zeton: vm.neizkoriscenZeton._id
+            };
+            console.log(data);
+            studentPodatki.kreiranjeNovegaVpisa(data).then(
+              function success(odgovor){
+                  console.log(odgovor.data.vpisniList_id);
+                  //$location.path("/main");
+              },
+              function error(odgovor){
+                  console.log(odgovor);
+              }
+            );
+            
+            
         };
         
         

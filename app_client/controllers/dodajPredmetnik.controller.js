@@ -59,14 +59,35 @@
             }
         );
         
-        ostaloPodatki.pridobiVseVeljavneLetnike().then(
-            function success(odgovor){
-                vm.letniki = odgovor.data;
-            },
-            function error(odgovor){
-                console.log(odgovor);
-            }
-        );
+        vm.pridobiLetnike = function(){
+            ostaloPodatki.pridobiVseVeljavneLetnike().then(
+                function success(odgovor){
+                    vm.letniki = [];
+                    //console.log(odgovor.data);
+                    if(vm.podatki.studijski_program.sifra == "VT"){
+                        //uni
+                        for(var i = 0; i < odgovor.data.length; i++){
+                            //console.log(odgovor.data[i]);
+                            if(odgovor.data[i].studijskiProgram.sifra == "VT"){
+                                vm.letniki.push(odgovor.data[i]);
+                            }
+                        }
+                    }
+                    if(vm.podatki.studijski_program.sifra == "VU"){
+                        //vs
+                        for(var j = 0; j < odgovor.data.length; j++){
+                            //console.log(odgovor.data[i]);
+                            if(odgovor.data[j].studijskiProgram.sifra == "VU"){
+                                vm.letniki.push(odgovor.data[j]);
+                            }
+                        }
+                    }
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
         
         predmetPodatki.izpisiVseVeljavnePredmete().then(
             function success(odgovor){

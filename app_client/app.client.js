@@ -9,12 +9,8 @@
                 controller: 'loginCtrl',
                 controllerAs: 'vm'
             })
-            .when('/vpis/:idStudenta/podatkiStudenta', {
-                templateUrl: 'views/vpisniList.template.html',
-                controller: 'vpisniListCtrl',
-                controllerAs: 'vm'
-            })
-               .when('/main', {
+            
+            .when('/main', {
                 templateUrl: 'views/main.template.html',
                 controller: 'mainCtrl',
                 controllerAs: 'vm'
@@ -384,6 +380,20 @@
                 controller: 'urediZetonCtrl',
                 controllerAs: 'vm'
             })
+            
+            
+            // vpis studenta v letnik         
+            .when('/vpis/:idStudenta/podatkiStudenta', {
+                templateUrl: 'views/vpisniList.template.html',
+                controller: 'vpisniListCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/vpis/:idVpisnice/izbiraPredmeta', {
+                templateUrl: 'views/vpisniListPredmeti.template.html',
+                controller: 'vpisniListPredmetiCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
