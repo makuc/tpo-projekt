@@ -110,13 +110,14 @@
             if(vm.isEMSO(vm.student.emso)){
                 //je emso, izloci datum rojstva
                 //console.log("je EMSO");
-                //console.log(vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7));
+                //console.log(vm.student.emso.substring(4,7) + " " + vm.letnica.substring(1,4));
+                console.log(vm.student.emso.substring(0,2) + "."+ vm.dan + "   "  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7));
                 vm.napacenEmso="";
-                /*if(vm.student.emso.substring(4,7) > 900){
-                    vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".1" + vm.student.emso.substring(4,7);
+                if(vm.dan != vm.student.emso.substring(0,2) || vm.mesec != vm.student.emso.substring(2,4) || !vm.letnica || vm.letnica.substring(1,4) != vm.student.emso.substring(4,7)){
+                    vm.napacenEmso = "Datum rojstva in EMSO se ne ujemata";
                 } else {
-                    vm.student.datum_rojstva = vm.student.emso.substring(0,2) + "."  + vm.student.emso.substring(2,4) + ".2" + vm.student.emso.substring(4,7);
-                }*/
+                    vm.napacenEmso = "";
+                }
             } else {
                 //console.log("ni EMSO");
                 vm.napacenEmso = "Ponovno preverite vnos EMSA";
@@ -229,7 +230,7 @@
             studentPodatki.kreiranjeNovegaVpisa(data).then(
               function success(odgovor){
                   console.log(odgovor.data.vpisniList_id);
-                  //$location.path("/main");
+                  $location.path("/vpis/" + odgovor.data.vpisniList_id + "/izbiraPredmeta");
               },
               function error(odgovor){
                   console.log(odgovor);
@@ -239,54 +240,6 @@
             
         };
         
-        
-        vm.izbiraPredmetov = function(){
-            var letnik = 2;
-            if(letnik == 1){
-                predmetPodatki.pridobiPredmet("1").then(
-                    function success(odgovor) {
-                        vm.redniPredmeti = odgovor.data;
-                    },
-                    function error(odgovor) {
-                        console.log(odgovor);
-                    }
-                );
-
-            }
-            if(letnik == 2){
-                vm.izbirci = "true";
-                predmetPodatki.pridobiPredmet("1").then(
-                    function success(odgovor) {
-                        vm.redniPredmeti = odgovor.data;
-                    },
-                    function error(odgovor) {
-                        console.log(odgovor);
-                    }
-                );
-                
-                predmetPodatki.pridobiPredmet("1").then(
-                    function success(odgovor) {
-                        vm.izbirniPredmeti = odgovor.data;
-                    },
-                    function error(odgovor) {
-                        console.log(odgovor);
-                    }
-                );
-            }
-            
-            if(letnik == 3){
-                vm.izbirci = "true";
-                vm.moduli = "true";
-                predmetPodatki.pridobiPredmet().then(
-                    function success(odgovor) {
-                        vm.redniPredmeti = odgovor.data;
-                    },
-                    function error(odgovor) {
-                        console.log(odgovor);
-                    }
-                );
-            }
-        };
     }
     
     

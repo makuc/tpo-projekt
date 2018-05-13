@@ -3,11 +3,17 @@
 
 <h3>Obvezni predmeti</h3>
 
-
+<ul>
+    <li ng-repeat="x in vm.obvezniPredmeti">{{x.sifra}}, {{x.naziv}}, {{x.KT}} KT</li>
+</ul>
 
 <h3 ng-show="vm.moduli">Moduli</h3>
 
-<h3 ng-show="vm.izbirniPredmeti">Izbirni predmeti</h3>
+<h3 ng-show="vm.strokovnoIzbirniPredmeti">Strokovno izbirni predmeti</h3>
 
+<ul>
+    <li ng-repeat="x in vm.strokovnoIzbirniPredmeti">{{x.sifra}}, {{x.naziv}}, {{x.KT}} KT</li>
+</ul>
 
+<button class="btn btn-success pull-right" type="button" ng-click="vm.naslednjiKorak()">Naprej</button>
 

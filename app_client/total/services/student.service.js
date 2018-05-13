@@ -31,7 +31,32 @@
         };
         
         var zakljucekVpisa = function(vpisnica_id){
-            return $http.post('/api/v1/vpis' + vpisnica_id);
+            return $http.post('/api/v1/vpis/' + vpisnica_id);
+        };
+        
+        var dodajSplosnoIzbirniPredmet = function(vpisnica_id, predmet_id){
+            return $http.post('/api/v1/vpis/' + vpisnica_id + '/splosni-izbirni', predmet_id);
+        };
+        
+        var odstraniSplosnoIzbirniPredmet = function(vpisnica_id, predmet_id){
+            return $http.delete('/api/v1/vpis/' + vpisnica_id + '/splosni-izbirni/' + predmet_id);
+        };
+        
+        var dodajStrokovnoIzbirniPredmet = function(vpisnica_id, predmet_id){
+            return $http.post('/api/v1/vpis/' + vpisnica_id + '/strokovni-izbirni', predmet_id);
+        };
+        
+        var odstraniStrokovnoIzbirniPredmet = function(vpisnica_id, predmet_id){
+            return $http.delete('api/v1/vpis/' + vpisnica_id + '/strokovni-izbirni/' + predmet_id);
+        };
+        
+        var dodajModulniPredmet = function(vpisnica_id, predmet_id){
+            return $http.post('/api/v1/vpis/' + vpisnica_id + '/modulni-izbirni', predmet_id);
+        };
+        
+        
+        var odstraniModulniPredmet = function(vpisnica_id, predmet_id){
+            return $http.delete('api/v1/vpis/' + vpisnica_id + '/moduli/' + predmet_id);
         };
         
         return {
@@ -42,7 +67,13 @@
             kreiranjeNovegaVpisa: kreiranjeNovegaVpisa,
             pridobiPodatkeVpisnice: pridobiPodatkeVpisnice,
             oddajaVpisnice: oddajaVpisnice,
-            zakljucekVpisa: zakljucekVpisa
+            zakljucekVpisa: zakljucekVpisa,
+            dodajSplosnoIzbirniPredmet: dodajSplosnoIzbirniPredmet,
+            odstraniSplosnoIzbirniPredmet: odstraniSplosnoIzbirniPredmet,
+            dodajStrokovnoIzbirniPredmet: dodajStrokovnoIzbirniPredmet,
+            odstraniStrokovnoIzbirniPredmet: odstraniStrokovnoIzbirniPredmet,
+            dodajModulniPredmet: dodajModulniPredmet,
+            odstraniModulniPredmet: odstraniModulniPredmet
         };
     };
     
