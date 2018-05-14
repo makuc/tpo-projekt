@@ -17,23 +17,44 @@
                     vm.student = odgovor.data;
                     console.log("Student: ", vm.student);
                     
-                    /*vm.zetoni = vm.student.zetoni;
-                    
-                    // Napolni zeton s podatki
-                    console.log("Student:", vm.student);
-                    for (var i = 0; i < vm.zetoni.length; i++) 
-                    {
-                      if(vm.zetoni[i]._id == vm.zetonId)
+                    ostaloPodatki.pridobiOsnutekZetona(vm.student._id).then(
+                      function success(odgovor)
                       {
-                        vm.pridobiPodatkeZetona(vm.zetoni[i]);
-                        vm.zeton = vm.zetoni[i];
-                        break;
+                        /*vm.zetoni = vm.student.zetoni;
+                        
+                        // Napolni zeton s podatki
+                        console.log("Student:", vm.student);
+                        for (var i = 0; i < vm.zetoni.length; i++) 
+                        {
+                          if(vm.zetoni[i]._id == vm.zetonId)
+                          {
+                            vm.pridobiPodatkeZetona(vm.zetoni[i]);
+                            vm.zeton = vm.zetoni[i];
+                            break;
+                          }
+                        }
+                        console.log("Zeton", vm.zeton);*/
+
+                        vm.zeton = odgovor.data;
+                        
+                        /*vm.zeton.studijski_program = vm.zeton.studijski_program._id,
+                        vm.zeton.letnik = vm.zeton.letnik._id,
+                        vm.zeton.vrsta_vpisa = vm.zeton.vrsta_vpisa._id,
+                        vm.zeton.nacin_studija = vm.zeton.nacin_studija._id,
+                        vm.zeton.oblika_studija = vm.zeton.oblika_studija._id,*/
+                        vm.zeton.studijski_program = vm.zeton.studijski_program._id;
+                        
+                        vm.pridobiPodatkeZetona(vm.zeton);
+                        
+                        console.log("Osnutek zeton: ", vm.zeton);
+                        
+                        vm.pridobiPodatkeSifrantov();
+                      },
+                      function error(odgovor)
+                      {
+                        console.log(odgovor);
                       }
-                    }
-                    console.log("Zeton", vm.zeton);*/
-                    vm.zeton = {};
-                    
-                    vm.pridobiPodatkeSifrantov();
+                    );
                 },
                 function error(odgovor){
                     console.log(odgovor);

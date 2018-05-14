@@ -524,6 +524,13 @@
             console.log("Service data: ", data);
             return $http.post('api/v1/student/' + studentId + '/zeton', data);
         }
+        
+        function pridobiOsnutekZetona(studentId)
+        {
+            // /api/v1/student/5aef49a79958d4255801a970/zeton
+            console.log("Osnutek studentId: ", studentId);
+            return $http.get('/api/v1/student/' + studentId + '/zeton');
+        }
 
         return {
             uvoziStudente: uvoziStudente,
@@ -661,7 +668,8 @@
             
             izbrisiZetonStudentu: izbrisiZetonStudentu,
             urediZetonStudenta: urediZetonStudenta,
-            dodajZetonStudentu: dodajZetonStudentu
+            dodajZetonStudentu: dodajZetonStudentu,
+            pridobiOsnutekZetona: pridobiOsnutekZetona
         };
     };
     
