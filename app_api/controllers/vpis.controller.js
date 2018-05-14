@@ -581,6 +581,7 @@ function dodajSplosniIzbirni(req, res, next) {
   if(req.splosniIzbirniPredmeti.length == 0 || req.vpisniList.letnik.KT_izbirnihPredmetov <= 0)
     return res.status(400).json({ message: "Ne moreš izbirati splošnih izbirnih predmetov"});
   
+  // Preveri med splošnimi izbirnimi predmeti
   for(var i = 0; i < req.splosniIzbirniPredmeti.length; i++)
   {
     if(req.splosniIzbirniPredmeti[i]._id.equals(req.predmet._id))
@@ -591,6 +592,43 @@ function dodajSplosniIzbirni(req, res, next) {
       {
         if(req.vpisniList.splosniIzbirniPredmeti[j]._id.equals(req.predmet._id))
           return res.status(400).json({ message: "Ta predmet je že bil dodan"});
+      }
+      
+      var sumKT = 0;
+      
+      for(j = 0; j < req.vpisniList.splosniIzbirniPredmeti.length; j++)
+      {// Poglej skupno vsoto KT splošnih izbirnih predmetov
+        sumKT += req.vpisniList.splosniIzbirniPredmeti[j].KT;
+      }
+      
+      if(sumKT + req.predmet.KT > req.vpisniList.letnik.KT_izbirnihPredmetov) {
+        return res.status(400).json({ message: "Prekoračuješ dovoljeno število KT za splošne izbirne predmete"});
+      }
+      
+      req.vpisniList.splosniIzbirniPredmeti.push(req.predmet);
+      
+      callNext(req, res, next);
+      
+      return;
+    }
+  }
+  
+  // Preveri med strokovnimi izbirnimi predmeti
+  for(var i = 0; i < req.strokovniIzbirniPredmeti.length; i++)
+  {
+    if(req.strokovniIzbirniPredmeti[i]._id.equals(req.predmet._id))
+    {// Predmet najden
+      
+      var j;
+      for(j = 0; j < req.vpisniList.splosniIzbirniPredmeti.length; j++)
+      {// Preveri, če že bil dodan splošnim izbirnim predmetom
+        if(req.vpisniList.splosniIzbirniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je izbran kot splošni izbirni predmet"});
+      }
+      for(j = 0; j < req.vpisniList.strokovniIzbirniPredmeti.length; j++)
+      {// Preveri, če že bil dodan strokovnim izbirnim predmetom
+        if(req.vpisniList.strokovniIzbirniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je že izbran kot strokovni izbirni predmet"});
       }
       
       var sumKT = 0;
@@ -635,10 +673,15 @@ function dodajStrokovniIzbirni(req, res, next) {
     {// Predmet najden
       
       var j;
+      for(j = 0; j < req.vpisniList.splosniIzbirniPredmeti.length; j++)
+      {// Preveri, če je že bil dodan splošnim izbirnim predmetom
+        if(req.vpisniList.splosniIzbirniPredmeti[j]._id.equals(req.predmet._id))
+          return res.status(400).json({ message: "Ta predmet je izbran kot splošni izbirni predmet"});
+      }
       for(j = 0; j < req.vpisniList.strokovniIzbirniPredmeti.length; j++)
-      {
+      {// Preveri, če je že bil dodan strokovnim izbirnim predmetom
         if(req.vpisniList.strokovniIzbirniPredmeti[j]._id.equals(req.predmet._id))
-          return res.status(400).json({ message: "Ta predmet je že bil dodan"});
+          return res.status(400).json({ message: "Ta predmet je že izbran kot strokovni izbirni predmet"});
       }
       
       var sumKT = 0;
