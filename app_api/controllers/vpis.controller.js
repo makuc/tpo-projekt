@@ -784,7 +784,7 @@ function dodajModul(req, res, next) {
       return;
     }
   }
-  return res.status(400).json({ message: "Ne moreš izbirti izbranega modula"});
+  return res.status(400).json({ message: "Ne moreš izbrati izbranega modula"});
 }
 function odstraniModul(req, res, next) {
   for(var i = 0; i < req.vpisniList.moduli.length; i++)

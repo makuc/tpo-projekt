@@ -1031,23 +1031,46 @@ function ustvariZetonNovemuStudentu(req, res, next) {
 function pripraviObjektZetonaStudentu(req, res, next) {
   var leto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
   
-  res.status(200).json({
-    studijsko_leto: leto.studijsko_leto._id,
-    letnik: leto.letnik._id,
-    studijski_program: leto.letnik.studijskiProgram,
-    vrsta_studija: leto.vrsta_studija._id,
-    vrsta_vpisa: leto.vrsta_vpisa._id,
-    
-    kraj_izvajanja: leto.kraj_izvajanja,
-    
-    nacin_studija: leto.nacin_studija._id,
-    oblika_studija: leto.oblika_studija._id,
-    
-    studijsko_leto_prvega_vpisa_v_ta_program: leto.studijsko_leto._id,
-    neopravljeni_predmeti: req.neopravljeni_predmeti,
-    
-    prosta_izbira: false
-  });
+  if(leto)
+  {
+    res.status(200).json({
+      studijsko_leto: leto.studijsko_leto._id,
+      letnik: leto.letnik._id,
+      studijski_program: leto.letnik.studijskiProgram,
+      vrsta_studija: leto.vrsta_studija._id,
+      vrsta_vpisa: leto.vrsta_vpisa._id,
+      
+      kraj_izvajanja: leto.kraj_izvajanja,
+      
+      nacin_studija: leto.nacin_studija._id,
+      oblika_studija: leto.oblika_studija._id,
+      
+      studijsko_leto_prvega_vpisa_v_ta_program: leto.studijsko_leto._id,
+      neopravljeni_predmeti: req.neopravljeni_predmeti,
+      
+      prosta_izbira: false
+    });
+  }
+  else
+  {
+    res.status(200).json({
+      studijsko_leto: "",
+      letnik: "",
+      studijski_program: "",
+      vrsta_studija: "",
+      vrsta_vpisa: "",
+      
+      kraj_izvajanja: "",
+      
+      nacin_studija: "",
+      oblika_studija: "",
+      
+      studijsko_leto_prvega_vpisa_v_ta_program: "",
+      neopravljeni_predmeti: [],
+      
+      prosta_izbira: false
+    });
+  }
 }
 function pridobiNeopravljenePredmete(req, res, next) {
   req.neopravljeni_predmeti = [];
