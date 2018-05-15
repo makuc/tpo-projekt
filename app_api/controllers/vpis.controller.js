@@ -339,12 +339,24 @@ function pripraviPredmetnike(req, res, next) {
       letnik: req.vpisniList.letnik._id,
       studijsko_leto: req.vpisniList.studijsko_leto
     })
-    .populate("predmeti del_predmetnika")
+    .populate([
+      {
+        path: "predmeti",
+        populate: {
+          path: "izvedbe_predmeta.izvajalci"
+        }
+      },
+      {
+        path: "del_predmetnika"
+      }
+    ])
     .exec(function(err, predmetniki) {
       if(err || !predmetniki) {
         console.log("---pripraviPredmetnike [error]:\n" + err);
         return res.status(404).json({ message: "Ne najdem potrebnih predmetnikov"});
       }
+      
+      console.log(predmetniki[0]);
       
       req.obvezniPredmeti = [];
       req.splosniIzbirniPredmeti = [];
