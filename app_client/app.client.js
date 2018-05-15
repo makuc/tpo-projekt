@@ -393,6 +393,11 @@
                 controller: 'vpisniListPredmetiCtrl',
                 controllerAs: 'vm'
             })
+            .when('/vpis/:idVpisnice/pregled', {
+                templateUrl: 'views/vpisniListPregled.template.html',
+                controller: 'vpisniListPregledCtrl',
+                controllerAs: 'vm'
+            })
             
             .otherwise({redirectTo: '/main'});
             

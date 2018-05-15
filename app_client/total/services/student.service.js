@@ -47,7 +47,15 @@
         };
         
         var odstraniStrokovnoIzbirniPredmet = function(vpisnica_id, predmet_id){
-            return $http.delete('api/v1/vpis/' + vpisnica_id + '/strokovni-izbirni/' + predmet_id);
+            return $http.delete('/api/v1/vpis/' + vpisnica_id + '/strokovni-izbirni/' + predmet_id);
+        };
+        
+        var dodajModul = function(vpisnica_id, predmet_id){
+            return $http.post('/api/v1/vpis/'+ vpisnica_id + '/moduli', predmet_id);
+        };
+        
+        var odstraniModul = function(vpisnica_id, predmet_id){
+            return $http.delete('/api/v1/vpis/' + vpisnica_id + '/moduli/' + predmet_id);
         };
         
         var dodajModulniPredmet = function(vpisnica_id, predmet_id){
@@ -73,7 +81,9 @@
             dodajStrokovnoIzbirniPredmet: dodajStrokovnoIzbirniPredmet,
             odstraniStrokovnoIzbirniPredmet: odstraniStrokovnoIzbirniPredmet,
             dodajModulniPredmet: dodajModulniPredmet,
-            odstraniModulniPredmet: odstraniModulniPredmet
+            odstraniModulniPredmet: odstraniModulniPredmet,
+            dodajModul: dodajModul,
+            odstraniModul: odstraniModul
         };
     };
     
