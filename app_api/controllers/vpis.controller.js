@@ -200,14 +200,13 @@ function izberiZeton(req, res, next) {
     }
     else if(req.zeton.izkoriscen)
     {
-      //return res.status(404).json({ message: "Ta žeton je že bil izkoriščen"});
+      return res.status(404).json({ message: "Ta žeton je že bil izkoriščen"});
     }
     
     callNext(req, res, next);
   }
 }
 function pripraviVpisniList(req, res, next) {
-  console.log(req.obvezniPredmeti);
   models.Vpis.create({
     
     student: req.student,
@@ -384,26 +383,24 @@ function pripraviPredmetnike(req, res, next) {
             //console.log("### Brišem predmet: " + predmet.naziv);
             predmetnik.predmeti.splice(i, 1);
             i--;
-          } else {
-            //console.log("Predmet OK");
           }
+          
         }
         
         // Prerazporedi predmete iz predmetnikov v ustrezne kategorije!
         if(predmetnik.del_predmetnika.obvezen)
         {// Obvezni predmeti
-          console.log(predmetnik);
+          
           while(predmetnik.predmeti.length > 0)
           {// Obdelaj vse predmete
             predmet = predmetnik.predmeti.shift();
-            
-            console.log("Predmeti:\n" + predmet);
             
             if(!opravljalPredmet(predmet, req.opravljaniPredmeti))
             {// Predmeta še ni opravljal, dodaj ga na seznam
               req.obvezniPredmeti.push(predmet);
             }
           }
+          
         }
         else if(predmetnik.del_predmetnika.modul)
         {// To je modul
