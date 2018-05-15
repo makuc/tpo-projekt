@@ -336,7 +336,8 @@ function pripraviPredmetnike(req, res, next) {
   
   models.Predmetnik
     .find({
-      letnik: req.vpisniList.letnik._id
+      letnik: req.vpisniList.letnik._id,
+      studijsko_leto: req.vpisniList.studijsko_leto
     })
     .populate("predmeti del_predmetnika")
     .exec(function(err, predmetniki) {
