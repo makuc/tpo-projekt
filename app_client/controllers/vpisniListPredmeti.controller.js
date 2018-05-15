@@ -43,7 +43,7 @@
                 function success(odgovor){
                     console.log(odgovor.data);
                     vm.obvezniPredmeti = [];
-                    for(var i = 0; i < odgovor.data.length; i++){
+                    /*for(var i = 0; i < odgovor.data.length; i++){
                         /*if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                             odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
                             odgovor.data[i].del_predmetnika.naziv  ==  "obvezni predmeti" &&
@@ -51,7 +51,7 @@
                                 vm.obvezniPredmeti = odgovor.data[i].predmeti;
                         }*/
                         
-                        if(vm.drugiLetnik){
+                       /* if(vm.drugiLetnik){
                             if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                                 odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
                                 odgovor.data[i].del_predmetnika.naziv  ==  "splošni izbirni" &&
@@ -80,7 +80,7 @@
                             
                         }
                         
-                    }
+                    }*/
                     
                     vm.podatkiVpisnice.vpisniList.predmeti = vm.obvezniPredmeti;
                         
@@ -157,13 +157,15 @@
         };
         
         vm.izbranModul = function(idModula){
-            if(vm.podatkiVpisnice.vpisniList.moduli){
+            if(vm.podatkiVpisnice.vpisniList){
                 for(var i = 0; i < vm.podatkiVpisnice.vpisniList.moduli.length; i++){
-                    if(vm.podatkiVpisnice.vpisniList.moduli[0]._id == idModula){
+                    console.log(vm.podatkiVpisnice.vpisniList.moduli[i]._id == idModula);
+                    if(vm.podatkiVpisnice.vpisniList.moduli[i]._id == idModula){
                         return true;
                     }
                 }
-            }  
+            }
+
             
             return false;
         };
@@ -176,9 +178,11 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
              
@@ -189,9 +193,11 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
                 
@@ -206,9 +212,11 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
         };
@@ -218,9 +226,11 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
         };
@@ -233,6 +243,7 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -247,9 +258,11 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
                 
@@ -263,6 +276,7 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -277,16 +291,19 @@
                 function success(odgovor){
                     console.log(odgovor);
                     pridobiObveznePredmete();
+                    vm.sporocilo="";
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
                 
         };
-
+        
 
         vm.naslednjiKorak = function() {
+                
             var data = {
                 oblika_studija: "5ac8beac24ee18109953514b",
                 obvezniPredmeti: vm.obvezniPredmeti
@@ -299,6 +316,7 @@
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );    
             

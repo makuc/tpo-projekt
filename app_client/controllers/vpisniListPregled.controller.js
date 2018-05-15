@@ -72,6 +72,7 @@
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
         };
