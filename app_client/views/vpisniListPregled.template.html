@@ -51,7 +51,7 @@
         </div>
         <div class="row">
             <label>Država, občina rojstva:</label>
-            {{vm.podatkiVpisnice.student.drzava_rojstva}}, {{vm.obcina_rojstva}}
+            {{vm.podatkiStudenta.drzava_rojstva.slovenski_naziv}}, {{vm.podatkiStudenta.obcina_rojstva.ime}}
         </div>
         <div class="row">
             <label>Državljanstvo:</label>
@@ -79,19 +79,25 @@
         </div>
         <div class="row">
             <label>Stalno bivališče:</label>
-            {{vm.podatkiVpisnice.student.stalno_bivalisce_naslov}}, {{vm.podatkiVpisnice.student.stalno_bivalisce_obcina}}, {{vm.podatkiVpisnice.student.stalno_bivalisce_posta}}, {{vm.podatkiVpisnice.student.stalno_bivalisce_drzava}}, {{vm.podatkiVpisnice.student.stalno_bivalisce_vrocanje}}
+            {{vm.podatkiStudenta.stalno_bivalisce_naslov}}, {{vm.podatkiStudenta.stalno_bivalisce_obcina.ime}}, {{vm.podatkiStudenta.stalno_bivalisce_posta.naziv}}, {{vm.podatkiStudenta.stalno_bivalisce_drzava.slovenski_naziv}}, Vročanje: {{vm.podatkiStudenta.stalno_bivalisce_vrocanje}}
         </div>
-        <div ng-show="vm.podatki.student.zacasno_bivalisce_naslov" class="row">
+        <div ng-show="vm.podatkiVpisnice.student.zacasno_bivalisce_naslov" class="row">
             <label>Začasno bivališče:</label>
-            {{vm.podatkiVpisnice.student.zacasno_bivalisce_naslov}}, {{vm.podatkiVpisnice.student.zacasno_bivalisce_obcina}}, {{vm.podatkiVpisnice.student.zacasno_bivalisce_posta}}, {{vm.podatkiVpisnice.student.zacasno_bivalisce_drzava}}, {{vm.podatkiVpisnice.student.zacasno_bivalisce_vrocanje}}
+            {{vm.podatkiStudenta.zacasno_bivalisce_naslov}}, {{vm.podatkiStudenta.zacasno_bivalisce_obcina.ime}}, {{vm.podatkiStudenta.zacasno_bivalisce_posta.naziv}}, {{vm.podatkiStudenta.zacasno_bivalisce_drzava.slovenski_naziv}}, Vročanje: {{vm.podatkiStudenta.zacasno_bivalisce_vrocanje}}
         </div>
     </div>
     
     <h3>Predmetnik</h3>
     <div class="container" style="margin-left: 15px">
-        <ul>
-            <li ng-repeat="x in vm.podatkiVpisnice.predmeti"></li>
-        </ul>
+        <table class="table table-hover">
+            <tbody>
+                <tr ng-repeat="x in vm.podatkiVpisnice.obvezniPredmeti">
+                    <td>{{x.sifra}}</td>
+                    <td>{{x.naziv}}</td>
+                    <td>{{x.KT}} KT</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <h3>Predhodno dosežena izobrazba</h3>
@@ -102,27 +108,35 @@
         </div>
         <div class="row">
             <label>Kraj:</label>
+            {{vm.podatkiVpisnice.student.predhodna_izobrazba.kraj}}
         </div>
         <div class="row">
             <label>Država:</label>
+             {{vm.podatkiStudenta.predhodna_izobrazba.drzava.slovenski_naziv}}
         </div>
         <div class="row">
             <label>Program:</label>
+             {{vm.podatkiVpisnice.student.predhodna_izobrazba.program}}
         </div>
         <div class="row">
             <label>Leto zaključka:</label>
+             {{vm.podatkiVpisnice.student.predhodna_izobrazba.leto_zakljucka}}
         </div>
         <div class="row">
             <label>Uspeh:</label>
+             {{vm.podatkiVpisnice.student.predhodna_izobrazba.uspeh}}
         </div>
         <div class="row">
             <label>Smer/naziv strokovne izobrazbe:</label>
+             {{vm.podatkiVpisnice.student.predhodna_izobrazba.smer_strokovna_izobrazba}}
         </div>
         <div class="row">
             <label>Način končanja srednje šole:</label>
+             {{vm.podatkiVpisnice.student.predhodna_izobrazba.nacin_koncanja}}
         </div>
         <div class="row">
             <label>Najvišja dosežena izobrazba:</label>
+             {{vm.podatkiStudenta.predhodna_izobrazba.najvisja_dosezena_izobrazba.opis}}
         </div>
     </div>
     

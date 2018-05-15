@@ -44,12 +44,12 @@
                     console.log(odgovor.data);
                     vm.obvezniPredmeti = [];
                     for(var i = 0; i < odgovor.data.length; i++){
-                        if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
+                        /*if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                             odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
                             odgovor.data[i].del_predmetnika.naziv  ==  "obvezni predmeti" &&
                             odgovor.data[i].studijsko_leto._id == vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
                                 vm.obvezniPredmeti = odgovor.data[i].predmeti;
-                        }
+                        }*/
                         
                         if(vm.drugiLetnik){
                             if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
