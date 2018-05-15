@@ -1,19 +1,66 @@
 <header></header>
 <h2>Vpis v {{vm.podatkiVpisnice.vpisniList.letnik.naziv}}</h2>
-
+<div role="alert" class="alert alert-danger" ng-show="vm.sporocilo">{{vm.sporocilo}}</div>
 <h3>Obvezni predmeti</h3>
 
-<ul>
-    <li ng-repeat="x in vm.obvezniPredmeti">{{x.sifra}}, {{x.naziv}}, {{x.KT}} KT</li>
-</ul>
+<table class="table table-hover">
+    <tbody>
+        <tr ng-repeat="x in vm.obvezniPredmeti">
+            <td>{{x.sifra}}</td>
+            <td>{{x.naziv}}</td>
+            <td>{{x.KT}} KT</td>
+        </tr>
+    </tbody>
+</table>
 
-<h3 ng-show="vm.moduli">Moduli</h3>
+<h3 ng-show="vm.modulniPredmeti">Moduli</h3>
+
+<table class="table table-hover" ng-show="vm.modulniPredmeti">
+    <tbody>
+        <tr ng-repeat="x in vm.modulniPredmeti">
+            <td>{{x.ime}}</td>
+            <td>
+                <ul>
+                    <li ng-repeat="y in x.predmeti">{{y.sifra}}, {{y.naziv}}, {{y.KT}} KT</li>
+                </ul>
+            </td>
+            <td>
+                <button class="btn btn-success" type="button" ng-hide="vm.izbranModul(x._id)" ng-click="vm.dodajModul(x)">Izberi</button>
+                <button class="btn btn-danger" type="button" ng-hide="!vm.izbranModul(x_id)" ng-click="vm.odstraniModul(x)">Odstrani</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <h3 ng-show="vm.strokovnoIzbirniPredmeti">Strokovno izbirni predmeti</h3>
 
-<ul>
-    <li ng-repeat="x in vm.strokovnoIzbirniPredmeti">{{x.sifra}}, {{x.naziv}}, {{x.KT}} KT</li>
-</ul>
+<table class="table table-hover" ng-show="vm.strokovnoIzbirniPredmeti">
+    <tbody>
+        <tr ng-repeat="x in vm.strokovnoIzbirniPredmeti">
+            <td>{{x.sifra}}</td>
+            <td>{{x.naziv}}</td>
+            <td>{{x.KT}} KT</td>
+            <td><button ng-hide="vm.izbran(x._id)" class="btn btn-success" type="button" ng-click="vm.dodajStrokovnoIzbirni(x._id)">Izberi</button>
+                <button ng-hide="!vm.izbran(x._id)" class="btn btn-danger" type="button" ng-click="vm.odstraniStrokovnoIzbirni(x._id)">Odstrani</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 ng-show="vm.splosnoIzbirniPredmeti">Splošno izbirni predmeti</h3>
+
+<table class="table table-hover" ng-show="vm.splosnoIzbirniPredmeti">
+    <tbody>
+        <tr ng-repeat="x in vm.splosnoIzbirniPredmeti">
+            <td>{{x.sifra}}</td>
+            <td>{{x.naziv}}</td>
+            <td>{{x.KT}} KT</td>
+            <td><button ng-hide="vm.izbran(x._id)" class="btn btn-success" type="button" ng-click="vm.dodajSplosnoIzbirni(x._id)">Izberi</button>
+                <button ng-hide="!vm.izbran(x._id)" class="btn btn-danger" type="button" ng-click="vm.odstraniSplosnoIzbirni(x._id)">Odstrani</button></td>
+        </tr>
+    </tbody>
+</table>
+
+
 
 <button class="btn btn-success pull-right" type="button" ng-click="vm.naslednjiKorak()">Naprej</button>
 

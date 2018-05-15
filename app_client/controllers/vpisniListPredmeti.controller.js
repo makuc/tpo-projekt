@@ -11,16 +11,8 @@
         vm.idVpisnice = $routeParams.idVpisnice;
         
         console.log(vm.idVpisnice);
-        studentPodatki.pridobiPodatkeVpisnice(vm.idVpisnice).then(
-            function success(odgovor){
-                console.log(odgovor.data);
-                vm.podatkiVpisnice = odgovor.data;
-                predizpolni();
-            },
-            function error(odgovor){
-                console.log(odgovor);
-            }
-        );
+        
+        pridobiObveznePredmete();
         
         
         vm.vpisan=authentication.currentUser();
@@ -46,22 +38,8 @@
             return authentication.logout();
         }
         
-        function predizpolni() {
-            if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "1. letnik"){
-                vm.prviLetnik = true;
-                pridobiObveznePredmete();
-            } else if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "2. letnik"){
-                vm.izbirniPredmeti = true;
-                vm.drugiLetnik = true;
-            } else if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "3. letnik"){
-                vm.izbirniPredmeti = true;
-                vm.moduli = true;
-                vm.tretjiLetnik = true;
-            }
-        }
-        
-        function pridobiObveznePredmete() {
-            ostaloPodatki.pridobiVseVeljavnePredmetnike().then(
+        function pridobiVseOstalo(){
+             ostaloPodatki.pridobiVseVeljavnePredmetnike().then(
                 function success(odgovor){
                     console.log(odgovor.data);
                     vm.obvezniPredmeti = [];
@@ -76,46 +54,141 @@
                         if(vm.drugiLetnik){
                             if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                                 odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
-                                odgovor.data[i].del_predmetnika.naziv  ==  "splošno izbirni" &&
+                                odgovor.data[i].del_predmetnika.naziv  ==  "splošni izbirni" &&
                                 odgovor.data[i].studijsko_leto._id == vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
                                 vm.splosnoIzbirniPredmeti = odgovor.data[i].predmeti;
+                                console.log(vm.splosnoIzbirniPredmeti);
                             }
                             
                             if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                                 odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
-                                odgovor.data[i].del_predmetnika.naziv  ==  "strokovno izbirni" &&
+                                odgovor.data[i].del_predmetnika.naziv  ==  "strokovni izbirni" &&
                                 odgovor.data[i].studijsko_leto._id == vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
                                 vm.strokovnoIzbirniPredmeti = odgovor.data[i].predmeti;
+                                console.log(vm.strokovnoIzbirniPredmeti);
                             }
                         }
                         
                         if(vm.tretjiLetnik){
                             if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
                                 odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
-                                odgovor.data[i].del_predmetnika.naziv  ==  "splošno izbirni" &&
+                                odgovor.data[i].del_predmetnika.naziv  ==  "splošni izbirni" &&
                                 odgovor.data[i].studijsko_leto._id == vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
                                 vm.splosnoIzbirniPredmeti = odgovor.data[i].predmeti;
+                                console.log(vm.splosnoIzbirniPredmeti);
                             }
-                            if(odgovor.data[i].letnik.naziv == vm.podatkiVpisnice.vpisniList.letnik.naziv &&
-                                odgovor.data[i].studijski_program.sifra == vm.podatkiVpisnice.vpisniList.studijski_program.sifra &&
-                                odgovor.data[i].del_predmetnika.naziv  ==  "moduli" &&
-                                odgovor.data[i].studijsko_leto._id == vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
-                                vm.moduliPredmeti = odgovor.data[i].predmeti;
-                            }
+                            
                         }
                         
                     }
+                    
+                    vm.podatkiVpisnice.vpisniList.predmeti = vm.obvezniPredmeti;
+                        
+                    console.log(vm.podatkiVpisnice);
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+                );
+                
+                if(vm.tretjiLetnik){
+                    vm.modulniPredmeti = [];
+                    for(var i = 0; i < vm.podatkiVpisnice.moduli.length; i++){
+                        if(vm.podatkiVpisnice.moduli[i].studijsko_leto ==  vm.podatkiVpisnice.vpisniList.studijsko_leto._id){
+                            vm.modulniPredmeti.push(vm.podatkiVpisnice.moduli[i]);
+                        }
+                    }
+                }
+                console.log(vm.modulniPredmeti);
+        }
+        
+        function pridobiObveznePredmete() {
+            studentPodatki.pridobiPodatkeVpisnice(vm.idVpisnice).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                    vm.podatkiVpisnice = odgovor.data;
+                    if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "1. letnik"){
+                        vm.prviLetnik = true;
+                    } else if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "2. letnik"){
+                        vm.izbirniPredmeti = true;
+                        vm.drugiLetnik = true;
+                    } else if(vm.podatkiVpisnice.vpisniList.letnik.naziv == "3. letnik"){
+                        vm.izbirniPredmeti = true;
+                        vm.moduli = true;
+                        vm.tretjiLetnik = true;
+                    }
+                    pridobiVseOstalo();
                 },
                 function error(odgovor){
                     console.log(odgovor);
                 }
             );
+            
+            
+            
         }
         
-        vm.dodajModul = function(idPredmeta){
-            studentPodatki.dodajModulniPredmet(vm.idVpisnice, idPredmeta).then(
+        vm.izbran = function(idPredmeta){
+            for(var i = 0; i < vm.podatkiVpisnice.vpisniList.predmeti.length; i++){
+                if(vm.podatkiVpisnice.vpisniList.predmeti[i]._id == idPredmeta){
+                    return true;
+                }
+            }
+            
+            if(vm.podatkiVpisnice.vpisniList.splosniIzbirniPredmeti){
+                for(var j = 0; j < vm.podatkiVpisnice.vpisniList.splosniIzbirniPredmeti.length; j++){
+                    if(vm.podatkiVpisnice.vpisniList.splosniIzbirniPredmeti[j]._id == idPredmeta){
+                        return true;
+                    }
+                }
+            }
+            
+            //console.log(vm.podatkiVpisnice.vpisniList.strokovniIzbirniPredmeti);
+            if(vm.podatkiVpisnice.vpisniList.strokovniIzbirniPredmeti){
+                for(var k = 0; k < vm.podatkiVpisnice.vpisniList.strokovniIzbirniPredmeti.length; k++){
+                    //console.log(vm.podatkiVpisnice.vpisniList.strokovniIzbirniPredmeti[k]._id + " == " + idPredmeta);
+                    if(vm.podatkiVpisnice.vpisniList.strokovniIzbirniPredmeti[k]._id == idPredmeta){
+                        return true;
+                    }
+                }
+            }
+        
+            return false;
+        };
+        
+        vm.izbranModul = function(idModula){
+            if(vm.podatkiVpisnice.vpisniList.moduli){
+                for(var i = 0; i < vm.podatkiVpisnice.vpisniList.moduli.length; i++){
+                    if(vm.podatkiVpisnice.vpisniList.moduli[0]._id == idModula){
+                        return true;
+                    }
+                }
+            }  
+            
+            return false;
+        };
+        
+        vm.dodajModul = function(modul){
+            var data =  {
+                modul: modul
+            };
+            studentPodatki.dodajModul(vm.idVpisnice, data).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+             
+        };
+        
+        vm.odstraniModul = function(idModula){
+            studentPodatki.odstraniModul(vm.idVpisnice, idModula).then(
+                function success(odgovor){
+                    console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -124,25 +197,46 @@
                 
         };
         
-        vm.odstraniModul = function(idPredmeta){
+        vm.dodajModulniPredmet = function(idPredmeta){
+            var data = {
+                predmet: idPredmeta
+            };
+            
+            studentPodatki.dodajModulniPredmet(vm.idVpisnice, data).then(
+                function success(odgovor){
+                    console.log(odgovor);
+                    pridobiObveznePredmete();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.odstraniModulniOPredmet = function(idPredmeta){
             studentPodatki.odstraniModulniPredmet(vm.idVpisnice, idPredmeta).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
                 }
             );
-                
         };
         
-        vm.dodajStokovnoIzbirni = function(idPredmeta){
-            studentPodatki.dodajStokovnoIzbirniPredmet(vm.idVpisnice, idPredmeta).then(
+        vm.dodajStrokovnoIzbirni = function(idPredmeta){
+            var data = {
+                predmet: idPredmeta
+            };
+            studentPodatki.dodajStrokovnoIzbirniPredmet(vm.idVpisnice, data).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.dodajSplosnoIzbirni(idPredmeta);
                 }
             );
                 
@@ -152,6 +246,7 @@
             studentPodatki.odstraniStrokovnoIzbirniPredmet(vm.idVpisnice, idPredmeta).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -161,12 +256,17 @@
         };
         
         vm.dodajSplosnoIzbirni = function(idPredmeta){
-            studentPodatki.dodajSplosnoIzbirniPredmet(vm.idVpisnice, idPredmeta).then(
+            var data = {
+                predmet : idPredmeta
+            };
+            studentPodatki.dodajSplosnoIzbirniPredmet(vm.idVpisnice, data).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
                 
@@ -176,6 +276,7 @@
             studentPodatki.odstraniSplosnoIzbirniPredmet(vm.idVpisnice, idPredmeta).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    pridobiObveznePredmete();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -194,6 +295,7 @@
             studentPodatki.oddajaVpisnice(vm.idVpisnice, data).then(
                 function success(odgovor){
                     console.log(odgovor);
+                    $location.path('/vpis/' + vm.idVpisnice + '/pregled');
                 },
                 function error(odgovor){
                     console.log(odgovor);
