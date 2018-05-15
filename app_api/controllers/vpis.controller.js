@@ -200,13 +200,14 @@ function izberiZeton(req, res, next) {
     }
     else if(req.zeton.izkoriscen)
     {
-      return res.status(404).json({ message: "Ta žeton je že bil izkoriščen"});
+      //return res.status(404).json({ message: "Ta žeton je že bil izkoriščen"});
     }
     
     callNext(req, res, next);
   }
 }
 function pripraviVpisniList(req, res, next) {
+  console.log(req.obvezniPredmeti);
   models.Vpis.create({
     
     student: req.student,
@@ -366,11 +367,9 @@ function pripraviPredmetnike(req, res, next) {
           while(predmet.izvedbe_predmeta.length > 0) {
             var izvedba = predmet.izvedbe_predmeta.shift();
             
-            var studijsko_leto;
-            if(req.vpisniList)
-              studijsko_leto = req.vpisniList.studijsko_leto._id;
-            else
-              studijsko_leto = req.zeton.studijsko_leto;
+            var studijsko_leto = req.vpisniList.studijsko_leto;
+            if(studijsko_leto._id)
+              studijsko_leto = studijsko_leto._id;
             
             if(izvedba.studijsko_leto.equals(studijsko_leto)) {
               // Če obstaja, pobriši vse ostale izvedbe predmeta in shrani samo izbrano
@@ -390,13 +389,15 @@ function pripraviPredmetnike(req, res, next) {
           }
         }
         
-        
         // Prerazporedi predmete iz predmetnikov v ustrezne kategorije!
         if(predmetnik.del_predmetnika.obvezen)
         {// Obvezni predmeti
+          console.log(predmetnik);
           while(predmetnik.predmeti.length > 0)
           {// Obdelaj vse predmete
             predmet = predmetnik.predmeti.shift();
+            
+            console.log("Predmeti:\n" + predmet);
             
             if(!opravljalPredmet(predmet, req.opravljaniPredmeti))
             {// Predmeta še ni opravljal, dodaj ga na seznam
