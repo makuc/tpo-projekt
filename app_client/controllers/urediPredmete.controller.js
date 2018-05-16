@@ -14,6 +14,7 @@
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
+                    vm.vpisan.zaposlen = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -47,36 +48,112 @@
         };
         
         vm.prikaziPredmete = function(){
-            predmetPodatki.izpisiVsePredmete().then(
-                function success(odgovor){
-                    vm.vsiPodatki = odgovor.data;
-                    vm.predmeti = odgovor.data;
-                    vm.stPredmetov = vm.predmeti.length;
-                    vm.stPredmetovNaStran = 10;
-                    vm.trenutnaStran = 0;
-                    
-                    var array = [setPagingData(1)];
-                    
-                    vm.strani = [1];
-                    
-                    for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
-                        array.push(setPagingData(i));
-                        vm.strani.push(i);
+            if(vm.vpisan.skrbnik == false && vm.vpisan.referentka == false)
+            {
+                vm.vpisan.predavatelj = true;
+            }
+            
+            if(vm.vpisan.skrbnik == true)
+            {
+                predmetPodatki.izpisiVsePredmete().then(
+                    function success(odgovor){
+                        vm.vsiPodatki = odgovor.data;
+                        vm.predmeti = odgovor.data;
+                        vm.stPredmetov = vm.predmeti.length;
+                        vm.stPredmetovNaStran = 10;
+                        vm.trenutnaStran = 0;
+                        
+                        var array = [setPagingData(1)];
+                        
+                        vm.strani = [1];
+                        
+                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
+                            array.push(setPagingData(i));
+                            vm.strani.push(i);
+                        }
+                        
+                        function setPagingData(page){
+                            var pagedData = vm.predmeti.slice(
+                                (page - 1) * vm.stPredmetovNaStran,
+                                page * vm.stPredmetovNaStran
+                                );
+                            return pagedData;
+                        }
+                        vm.predmeti = array;
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
                     }
-                    
-                    function setPagingData(page){
-                        var pagedData = vm.predmeti.slice(
-                            (page - 1) * vm.stPredmetovNaStran,
-                            page * vm.stPredmetovNaStran
-                            );
-                        return pagedData;
+                );
+            }
+            else if(vm.vpisan.referentka == true)
+            {
+                console.log("referentka");
+                predmetPodatki.izpisiVseVeljavnePredmete().then(
+                    function success(odgovor){
+                        vm.vsiPodatki = odgovor.data;
+                        vm.predmeti = odgovor.data;
+                        vm.stPredmetov = vm.predmeti.length;
+                        vm.stPredmetovNaStran = 10;
+                        vm.trenutnaStran = 0;
+                        
+                        var array = [setPagingData(1)];
+                        
+                        vm.strani = [1];
+                        
+                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
+                            array.push(setPagingData(i));
+                            vm.strani.push(i);
+                        }
+                        
+                        function setPagingData(page){
+                            var pagedData = vm.predmeti.slice(
+                                (page - 1) * vm.stPredmetovNaStran,
+                                page * vm.stPredmetovNaStran
+                                );
+                            return pagedData;
+                        }
+                        vm.predmeti = array;
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
                     }
-                    vm.predmeti = array;
-                },
-                function error(odgovor){
-                    console.log(odgovor);
-                }
-            );
+                );
+            }
+            else if(vm.vpisan.predavatelj == true)
+            {
+                console.log("predavatelj");
+                predmetPodatki.najdiPredmeteIzvajalca().then(
+                    function success(odgovor){
+                        vm.vsiPodatki = odgovor.data;
+                        vm.predmeti = odgovor.data;
+                        vm.stPredmetov = vm.predmeti.length;
+                        vm.stPredmetovNaStran = 10;
+                        vm.trenutnaStran = 0;
+                        
+                        var array = [setPagingData(1)];
+                        
+                        vm.strani = [1];
+                        
+                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
+                            array.push(setPagingData(i));
+                            vm.strani.push(i);
+                        }
+                        
+                        function setPagingData(page){
+                            var pagedData = vm.predmeti.slice(
+                                (page - 1) * vm.stPredmetovNaStran,
+                                page * vm.stPredmetovNaStran
+                                );
+                            return pagedData;
+                        }
+                        vm.predmeti = array;
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
+                    }
+                );
+            }
         };
         
         vm.izbris = function(predmetId){

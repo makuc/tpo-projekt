@@ -208,6 +208,11 @@
             });
         };
         
+        vm.pokaziVpisane = function(studijskoLetoId)
+        {
+            $location.path("/urediIzvedbePredmeta/" + vm.predmetId + "/studijsko_leto/" + studijskoLetoId);
+        };
+        
     };
     
     
