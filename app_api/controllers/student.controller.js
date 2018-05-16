@@ -75,6 +75,9 @@ module.exports.osnutekZetona = function(req, res) {
   callNext(req, res, [ najdiStudentaId, pridobiNeopravljenePredmete, pripraviObjektZetonaStudentu ]);
 };
 module.exports.addZetonStudentu = function(req, res) {
+  
+  console.log(req.body);
+  
   if(!req.body || !req.body.studijsko_leto || !req.body.letnik || !req.body.studijski_program ||
           !req.body.studijsko_leto_prvega_vpisa_v_ta_program || !req.body.vrsta_studija || !req.body.vrsta_vpisa ||
           !req.body.oblika_studija || !req.body.usmeritev || !req.body.izbirna_skupina || !req.body.kraj_izvajanja || !req.body.nacin_studija)

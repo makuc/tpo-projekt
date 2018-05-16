@@ -61,7 +61,7 @@
                     {
                       vm.sifranti.vrste_vpisa = odgovor.data;
                       // nacini studija
-                      ostaloPodatki./*pridobiVseVeljavneNacineStudija*/pridobiVseVeljavne().then
+                      ostaloPodatki.pridobiVseVeljavneNacineStudija().then
                       (
                         function success(odgovor)
                         {

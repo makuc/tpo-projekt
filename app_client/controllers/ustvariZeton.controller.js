@@ -44,7 +44,7 @@
                         vm.zeton.oblika_studija = vm.zeton.oblika_studija._id,*/
                         vm.zeton.studijski_program = vm.zeton.studijski_program._id;
                         
-                        //vm.pridobiPodatkeZetona(vm.zeton);
+                        vm.pridobiPodatkeZetona(vm.zeton);
                         
                         console.log("Osnutek zeton: ", vm.zeton);
                         
@@ -84,11 +84,7 @@
                     {
                       vm.sifranti.vrste_vpisa = odgovor.data;
                       // nacini studija
-<<<<<<< HEAD
-                      ostaloPodatki./*pridobiVseVeljavneNacineStudija*/pridobiVseVeljavne().then
-=======
                       ostaloPodatki.pridobiVseVeljavneNacineStudija().then
->>>>>>> 16004cdc994332a8b155d7914db7ced0e77b46f6
                       (
                         function success(odgovor)
                         {
@@ -131,7 +127,7 @@
             }
           );
         };
-        /*
+        
         vm.pridobiPodatkeZetona = function(zeton)
         {
           // studijski program
@@ -195,7 +191,7 @@
             }
           );
         };
-        */
+        
         vm.shrani = function(){
             var data = {
                 studijski_program: vm.zeton.studijski_program._id,
