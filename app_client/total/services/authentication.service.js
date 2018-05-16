@@ -72,7 +72,8 @@
           student: content.student,
           zaposlen: content.zaposlen,
           opombe: content.opombe,
-          skrbnik: content.skrbnik
+          skrbnik: content.skrbnik,
+          referentka: content.referentka
         };
       } else
         return {
