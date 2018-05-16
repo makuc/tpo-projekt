@@ -104,7 +104,7 @@
             studentPodatki.zakljucekVpisa(vm.idVpisnice).then(
                 function success(odgovor){
                     console.log(odgovor);
-                    //$location.path('/main');
+                    $location.path('/main');
                 },
                 function error(odgovor){
                     console.log(odgovor);
