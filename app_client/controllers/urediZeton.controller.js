@@ -43,36 +43,36 @@
         {
           vm.sifranti = {};
           // studijski programi
-          ostaloPodatki.pridobiVseStudijskePrograme().then
+          ostaloPodatki.pridobiVseVeljavneStudijskePrograme().then
           (
             function success(odgovor)
             {
               vm.sifranti.studijski_programi = odgovor.data;
               // letniki
-              ostaloPodatki.pridobiVseLetnike().then
+              ostaloPodatki.pridobiVseVeljavneLetnike().then
               (
                 function success(odgovor)
                 {
                   vm.sifranti.letniki = odgovor.data;
                   // vrste vpisa
-                  ostaloPodatki.pridobiVseVrsteVpisa().then
+                  ostaloPodatki.pridobiVseVeljavneVrsteVpisa().then
                   (
                     function success(odgovor)
                     {
                       vm.sifranti.vrste_vpisa = odgovor.data;
                       // nacini studija
-                      ostaloPodatki.pridobiVseNacineStudija().then
+                      ostaloPodatki./*pridobiVseVeljavneNacineStudija*/pridobiVseVeljavne().then
                       (
                         function success(odgovor)
                         {
                           vm.sifranti.nacini_studija = odgovor.data;
                           // oblike studija
-                          ostaloPodatki.pridobiVseOblikeStudija().then
+                          ostaloPodatki.pridobiVseVeljavneOblikeStudija().then
                           (
                             function success(odgovor)
                             {
                               vm.sifranti.oblike_studija = odgovor.data;
-                              console.log("Sifranti: ", vm.sifranti);
+                              //console.log("Sifranti: ", vm.sifranti);
                             },
                             function error(odgovor)
                             {
