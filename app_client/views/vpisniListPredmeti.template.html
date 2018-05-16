@@ -13,7 +13,7 @@
     </tbody>
 </table>
 
-<h3 ng-show="vm.podatkiVpisnice.moduli">Moduli</h3>
+<h3 ng-show="!vm.podatkiVpisnice.vpisniList.prosta_izbira && vm.tretjiLetnik">Moduli</h3>
 
 <table class="table table-hover" ng-show="vm.podatkiVpisnice.moduli">
     <tbody>
@@ -27,6 +27,22 @@
             <td>
                 <button ng-hide="vm.izbranModul(x._id)" class="btn btn-success" type="button"  ng-click="vm.dodajModul(x)">Izberi</button>
                 <button ng-hide="!vm.izbranModul(x._id)" class="btn btn-danger" type="button"  ng-click="vm.odstraniModul(x._id)">Odstrani</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 ng-show="vm.podatkiVpisnice.modulniPredmeti">Modulni predmeti</h3>
+
+<table class="table table-hover" ng-show="vm.podatkiVpisnice.modulniPredmeti">
+    <tbody>
+        <tr ng-repeat="x in vm.podatkiVpisnice.modulniPredmeti">
+            <td>{{x.sifra}}</td>
+            <td>{{x.naziv}}</td>
+            <td>{{x.KT}} KT</td>
+            <td>
+                <button ng-hide="vm.izbran(x._id)" class="btn btn-success" type="button"  ng-click="vm.dodajModulniPredmet(x._id)">Izberi</button>
+                <button ng-hide="!vm.izbran(x._id)" class="btn btn-danger" type="button"  ng-click="vm.odstraniModulniPredmet(x._id)">Odstrani</button>
             </td>
         </tr>
     </tbody>

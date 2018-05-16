@@ -7,15 +7,15 @@
     <div class="container" style="margin-left: 15px">
         <div class="row">
             <label>Študijski program:</label>
-            {{vm.podatkiVpisnice.studijski_program.naziv}}
+            {{vm.podatkiVpisnice.studijski_program.sifra}}, {{vm.podatkiVpisnice.studijski_program.naziv}}
         </div>
         <div class="row">
             <label>Vrsta študija:</label> 
-            {{vm.podatkiVpisnice.vrsta_studija.sifra}} {{vm.podatkiVpisnice.vrsta_studija.opis}}
+            {{vm.podatkiVpisnice.vrsta_studija.sifra}}, {{vm.podatkiVpisnice.vrsta_studija.opis}}
         </div>
         <div class="row">
            <label>Vrsta vpisa:</label> 
-           {{vm.podatkiVpisnice.vrsta_vpisa.naziv}}
+           {{vm.podatkiVpisnice.vrsta_vpisa.koda}}, {{vm.podatkiVpisnice.vrsta_vpisa.naziv}}
         </div>
         <div class="row">
             <label>Letnik:</label>
@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <label>Način študija:</label>
-            {{vm.podatkiVpisnice.nacin_studija.naziv}}
+            {{vm.podatkiVpisnice.nacin_studija.sifra}}, {{vm.podatkiVpisnice.nacin_studija.naziv}}
         </div>
         <div class="row">
             <label>Študijsko leto:</label>
@@ -91,12 +91,19 @@
     <div class="container" style="margin-left: 15px">
         <table class="table table-hover">
             <tbody>
-                <tr ng-repeat="x in vm.podatkiVpisnice.obvezniPredmeti">
+                <tr ng-repeat="x in vm.vsiPredmeti">
                     <td>{{x.sifra}}</td>
                     <td>{{x.naziv}}</td>
                     <td>{{x.KT}} KT</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <td colspan="3">
+                    <div class="pull-right">
+                        Vsota kreditnih točk: {{vm.vsotaKT}} KT
+                    </div>
+                </td>
+            </tfoot>
         </table>
     </div>
 

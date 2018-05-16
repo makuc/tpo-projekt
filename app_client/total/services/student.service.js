@@ -31,7 +31,7 @@
         };
         
         var zakljucekVpisa = function(vpisnica_id){
-            return $http.post('/api/v1/vpis/' + vpisnica_id);
+            return $http.post('api/v1/vpis/' + vpisnica_id);
         };
         
         var dodajSplosnoIzbirniPredmet = function(vpisnica_id, predmet_id){
@@ -64,7 +64,7 @@
         
         
         var odstraniModulniPredmet = function(vpisnica_id, predmet_id){
-            return $http.delete('api/v1/vpis/' + vpisnica_id + '/moduli/' + predmet_id);
+            return $http.delete('/api/v1/vpis/' + vpisnica_id + '/modulni-izbirni/' + predmet_id);
         };
         
         return {
