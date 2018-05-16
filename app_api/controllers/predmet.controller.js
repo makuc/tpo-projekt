@@ -4,6 +4,7 @@ var callNext = require("./_include/callNext");
 var Predmet = mongoose.model('Predmet');
 var StudijskoLeto = mongoose.model('StudijskoLeto');
 var Zaposlen = mongoose.model('Zaposlen');
+var Student = mongoose.model('Student');
 
 
 /* GET home page. */
@@ -103,6 +104,15 @@ module.exports.delIzvajalcaIzvedbiPredmeta = function(req, res) {
 
 module.exports.getIzvedbeStudijskegaLeta = function(req, res) {
   callNext(req, res, [ validateStudijskoLeto, najdiTrenutnoStudijskoLeto, najdiPredmetId, filtrirajIzvedbe, vrniIzvedbe ]);
+};
+module.exports.getStudenteStudijskegaLeta = function(req, res) {
+  callNext(req, res, [
+    validateStudijskoLeto, najdiTrenutnoStudijskoLeto, najdiPredmetId,
+    
+    najdiStudentePredmeta,
+    
+    vrniPredmet
+  ]);
 };
 
 /* Funkcije */
@@ -457,4 +467,65 @@ function filtrirajIzvedbe(req, res, next) {
 }
 function vrniIzvedbe(req, res) {
   res.status(200).json(req.izvedbe);
+}
+
+// Iskanje študentov predmeta
+function najdiStudentePredmeta(req, res, next) {
+  Student
+    .find({
+      "studijska_leta_studenta.studijsko_leto": req.studijskoLeto,
+      "studijska_leta_studenta.predmeti.predmet": req.predmet
+    })
+    .populate()
+    .exec(function(err, studenti) {
+      if(err || !studenti)
+      {
+        console.log("---najdiStudentePredmeta:\n" + err);
+        return res.status(404).json({ message: "Ne najdem študentov za izbrano leto"});
+      }
+      
+      
+      var obdelani = [];
+      
+      
+      req.predmet = req.predmet.toObject();
+      
+      for(var i = 0; i < studenti.length; i++)
+      {
+        var student = studenti[i].toObject();
+        for(var j = 0; j < student.studijska_leta_studenta.length; j++)
+        {
+          var leto = student.studijska_leta_studenta[j];
+          if(leto.studijsko_leto.equals(req.studijskoLeto._id))
+          {
+            // Študijsko leto je pravo, zdej samo še odstrani ostale predmete
+            for(var k = 0; k < leto.predmeti.length; k++)
+            {
+              var predmet = leto.predmeti[k];
+              
+              if(!predmet.predmet.equals(req.predmet._id))
+              {
+                leto.predmeti.splice(k, 1);
+                k--;
+              }
+            }
+            
+          }
+          else
+          {
+            student.studijska_leta_studenta.splice(j, 1);
+            j--;
+          }
+        }
+        
+        obdelani.push(student);
+      }
+      
+      req.predmet.vpisani = {
+        studenti: obdelani,
+        studijsko_leto: req.studijskoLeto
+      };
+      
+      callNext(req, res, next);
+    });
 }
