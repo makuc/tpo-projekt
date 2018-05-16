@@ -46,6 +46,20 @@
                 return false;
             }
         }
+        
+        vm.izbranPredmet = function(){
+            //console.log(vm.podatki.predmet);
+            console.log(vm.podatki.studijskoLeto);
+            izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                    vm.izvedbe = odgovor.data;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            ); 
+        };
 
         
         izpitniRokPodatki.najdiPredmeteZaposlenega().then(
@@ -77,14 +91,16 @@
                 predmet: vm.podatki.predmet,
                 studijsko_leto: vm.podatki.studijskoLeto,
                 datum_izvajanja: vm.podatki.datum,
-                opombe: vm.podatki.opombe
+                izvedba_predmeta: vm.podatki.izvedbe,
+                lokacija: vm.podatki.lokacija,
+                opis: vm.podatki.maxPrijav
                 };
     
             
                 izpitniRokPodatki.ustvariIzpitniRok(data).then(
                     function success(odgovor){
                         console.log(odgovor);
-                        $location.path("/dodajIzvajalceIzpitniRok/profesor/" + odgovor.data._id);
+                        $location.path("/izpitniRok/profesor");
                     },
                     function error(odgovor){
                         vm.obvestilo = odgovor.data.message;
@@ -98,7 +114,7 @@
         };
         
         vm.preklici = function(){
-            $location.path("/vsiIzpitniRoki");
+            $location.path("/izpitniRok/profesor");
         };
     }
     

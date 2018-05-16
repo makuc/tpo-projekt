@@ -68,6 +68,11 @@
                 controller: 'dodajIzvedboPredmetaCtrl',
                 controllerAs: 'vm'   
             })
+            .when('/urediIzvedbePredmeta/:predmetId/studijsko_leto/:studijskoLetoId',{
+                templateUrl: 'views/seznamVpisanih.template.html',
+                controller: 'seznamVpisanihCtrl',
+                controllerAs: 'vm'   
+            })
             .when('/urediLetnike', {
                 templateUrl: 'views/urediLetnike.template.html',
                 controller: 'urediLetnikeCtrl',

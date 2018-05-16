@@ -57,6 +57,20 @@
             return $http.delete('api/v1/predmet/' + predmetId + '/izvedba/' + studijskoLetoId);
         };
         
+        var najdiPredmeteIzvajalca = function()
+        {
+            // https://tpo-1-robert-barachini.c9users.io/api/v1/predmet/zaposlen
+            return $http.get('api/v1/predmet/zaposlen');
+        };
+        
+        var najdiVpisaneVPredmet = function(predmetId, studijskoLetoId)
+        {
+            // /api/v1/predmet/:predmet_id/:studijskoLeto_id
+            //console.log("predmetId: ", predmetId);
+            //console.log("studijskoLetoId: ", studijskoLetoId);
+            return $http.get('api/v1/predmet/' + predmetId + '/leto/' + studijskoLetoId);
+        };
+        
         return {
             pridobiPredmet: pridobiPredmet,
             izpisiVsePredmete: izpisiVsePredmete,
@@ -69,7 +83,9 @@
             dodajIzvajalcaIzvedbePredmeta: dodajIzvajalcaIzvedbePredmeta,
             odstraniIzvajalcaIzvedbiPredmeta: odstraniIzvajalcaIzvedbiPredmeta,
             dodajIzvedboPredmetu: dodajIzvedboPredmetu,
-            odstraniIzvedboPredmeta: odstraniIzvedboPredmeta
+            odstraniIzvedboPredmeta: odstraniIzvedboPredmeta,
+            najdiPredmeteIzvajalca: najdiPredmeteIzvajalca,
+            najdiVpisaneVPredmet: najdiVpisaneVPredmet
         };
     };
     
