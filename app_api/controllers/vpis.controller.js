@@ -53,7 +53,7 @@ module.exports.urediVpisniList = function(req, res) {
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, najdiStudentaId, preveriVeljavnostPredmetov, zdruziPredmete, oddajaVpisnegaLista, porabiVseZetone, vrniUspesnoOddano
+    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, zdruziPredmete, oddajaVpisnegaLista, porabiVseZetone, vrniUspesnoOddano
   ]);
 };
 
