@@ -152,6 +152,14 @@
                     }
                 }
             }
+            
+            if(vm.podatkiVpisnice.vpisniList.modulniPredmeti){
+                for(var m = 0; m < vm.podatkiVpisnice.vpisniList.modulniPredmeti.length; m++){
+                    if(vm.podatkiVpisnice.vpisniList.modulniPredmeti[m]._id == idPredmeta){
+                        return true;
+                    }
+                }
+            }
         
             return false;
         };
@@ -221,7 +229,8 @@
             );
         };
         
-        vm.odstraniModulniOPredmet = function(idPredmeta){
+        vm.odstraniModulniPredmet = function(idPredmeta){
+            console.log(vm.idVpisnice + " " + idPredmeta);
             studentPodatki.odstraniModulniPredmet(vm.idVpisnice, idPredmeta).then(
                 function success(odgovor){
                     console.log(odgovor);
@@ -262,7 +271,7 @@
                 },
                 function error(odgovor){
                     console.log(odgovor);
-                    vm.sporocilo = odgovor.data.message;
+                    vm.odstraniSplosnoIzbirni(idPredmeta);
                 }
             );
                 
