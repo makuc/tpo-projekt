@@ -115,12 +115,15 @@
                 vm.napacenEmso="";
                 if(vm.dan != vm.student.emso.substring(0,2) || vm.mesec != vm.student.emso.substring(2,4) || !vm.letnica || vm.letnica.substring(1,4) != vm.student.emso.substring(4,7)){
                     vm.napacenEmso = "Datum rojstva in EMSO se ne ujemata";
+                    return false;
                 } else {
                     vm.napacenEmso = "";
+                    return true;
                 }
             } else {
                 //console.log("ni EMSO");
                 vm.napacenEmso = "Ponovno preverite vnos EMSA";
+                return false;
             }
         };
         
@@ -150,6 +153,21 @@
             }
             return false;
         };
+        
+        function jeDavncaStevilka(davnca){
+            var isnum = /^\d+$/.test(davnca);
+            if(isnum){
+                if(davnca.length == 8){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        
+        
         vm.izbranNaslov = function(stalno) {
             if(stalno) {
                 if(vm.student.stalno_bivalisce_vrocanje)
@@ -172,8 +190,8 @@
         
         vm.shrani = function() {
             
+                
             shraniDatum();
-
             var student = {
                 vpisna_stevilka: vm.student.vpisna_stevilka,
                 priimek: vm.student.priimek,
@@ -221,21 +239,59 @@
         };
         
         vm.shraniPodatke = function() {
-            vm.shrani();
             
-            var data = {
-                zeton: vm.neizkoriscenZeton._id
-            };
-            console.log(data);
-            studentPodatki.kreiranjeNovegaVpisa(data).then(
-              function success(odgovor){
-                  console.log(odgovor.data.vpisniList_id);
-                  $location.path("/vpis/" + odgovor.data.vpisniList_id + "/izbiraPredmeta");
-              },
-              function error(odgovor){
-                  console.log(odgovor);
-              }
-            );
+            if(vm.student.vpisna_stevilka && vm.student.priimek && vm.student.ime && vm.student.kraj_rojstva && vm.student.drzava_rojstva
+                && vm.student.obcina_rojstva && vm.student.drzavljanstvo && vm.student.spol && vm.student.emso && vm.student.davcna_stevilka && vm.student.email
+                && vm.student.prenosni_telefon && vm.student.stalno_bivalisce_naslov && vm.student.stalno_bivalisce_posta && vm.student.stalno_bivalisce_obcina
+                && vm.student.stalno_bivalisce_drzava && vm.student.predhodna_izobrazba.zavod && vm.student.predhodna_izobrazba.kraj
+                && vm.student.predhodna_izobrazba.drzava && vm.student.predhodna_izobrazba.program && vm.student.predhodna_izobrazba.leto_zakljucka
+                && vm.student.predhodna_izobrazba.uspeh && vm.student.predhodna_izobrazba.smer_strokovna_izobrazba && vm.student.predhodna_izobrazba.nacin_koncanja
+                && vm.student.predhodna_izobrazba.najvisja_dosezena_izobrazba){
+                
+                vm.napacenEmso = "";
+                
+                if(vm.student.stalno_bivalisce_vrocanje || ( vm.student.zacasno_bivalisce_drzava && vm.student.zacasno_bivalisce_naslov && vm.student.zacasno_bivalisce_obcina 
+                    && vm.student.zacasno_bivalisce_posta && vm.student.zacasno_bivalisce_vrocanje)){
+                    
+                    if(jeDavncaStevilka(vm.student.davcna_stevilka)){
+                        if(vm.veljavnostEMSO(vm.student.emso)){
+                            
+                            vm.shrani();
+                
+                            var data = {
+                                zeton: vm.neizkoriscenZeton._id
+                            };
+                            console.log(data);
+                            studentPodatki.kreiranjeNovegaVpisa(data).then(
+                              function success(odgovor){
+                                  console.log(odgovor.data.vpisniList_id);
+                                  $location.path("/vpis/" + odgovor.data.vpisniList_id + "/izbiraPredmeta");
+                              },
+                              function error(odgovor){
+                                  console.log(odgovor);
+                              }
+                            );
+                            
+                        }
+                        
+                    } else {
+                        vm.napacenEmso = "Ponovno preverite vnos davčne številke";
+                    }
+                        
+                    
+                    
+                } else {
+                    vm.napacenEmso = "Vnesite informacije o začasnem bivališču ali pa izberite drug način prejemanja pošte.";
+                }
+                
+                
+           
+            } else {
+                vm.napacenEmso = "Vnesite vse potrebne podatke";
+            }
+            
+            
+           
             
             
         };

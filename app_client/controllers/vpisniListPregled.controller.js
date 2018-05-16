@@ -40,11 +40,24 @@
             function success(odgovor) {
                 console.log(odgovor.data);
                 vm.podatkiVpisnice = odgovor.data.vpisniList;
+                
+                studentPodatki.izpisStudenta(vm.podatkiVpisnice.student._id).then(
+                    function success(odgovor){
+                        console.log(odgovor.data);
+                        vm.podatkiStudenta = odgovor.data;
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
+                    }
+                );
+            
             },
             function error(odgovor){
                 console.log(odgovor);
             }
         );
+        
+
         
         
         vm.nazaj = function(){
@@ -59,6 +72,7 @@
                 },
                 function error(odgovor){
                     console.log(odgovor);
+                    vm.sporocilo = odgovor.data.message;
                 }
             );
         };

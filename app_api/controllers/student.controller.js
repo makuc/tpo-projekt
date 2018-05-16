@@ -1054,18 +1054,18 @@ function pripraviObjektZetonaStudentu(req, res, next) {
   else
   {
     res.status(200).json({
-      studijsko_leto: "",
-      letnik: "",
-      studijski_program: "",
-      vrsta_studija: "",
-      vrsta_vpisa: "",
+      studijsko_leto: "5ac3c4553f0fb21a058ff3d8",
+      letnik: "5ac8d21c962f7b1a105fd312",
+      studijski_program: "5ac8c4739a223311d219b718",
+      vrsta_studija: "5ac8bb39c3e49f0ee16a8b36",
+      vrsta_vpisa: "5ac8be2a7482291008d3f9f5",
       
-      kraj_izvajanja: "",
+      kraj_izvajanja: "Ljubljana",
       
-      nacin_studija: "",
-      oblika_studija: "",
+      nacin_studija: "5ac8bef1477ab810cd9647f4",
+      oblika_studija: "5ac8beac24ee18109953514b",
       
-      studijsko_leto_prvega_vpisa_v_ta_program: "",
+      studijsko_leto_prvega_vpisa_v_ta_program: "5ac3c4553f0fb21a058ff3d8",
       neopravljeni_predmeti: [],
       
       prosta_izbira: false

@@ -53,7 +53,7 @@ module.exports.urediVpisniList = function(req, res) {
 };
 module.exports.oddajVpisniList = function(req, res) {
   callNext(req, res, [
-    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, oddajaVpisnegaLista, porabiVseZetone, vrniUspesnoOddano
+    najdiVpisniListId, najdiStudentaId, preveriNeoddan, preveriVeljavnostPredmetov, zdruziPredmete, oddajaVpisnegaLista, porabiVseZetone, vrniUspesnoOddano
   ]);
 };
 
@@ -339,12 +339,24 @@ function pripraviPredmetnike(req, res, next) {
       letnik: req.vpisniList.letnik._id,
       studijsko_leto: req.vpisniList.studijsko_leto
     })
-    .populate("predmeti del_predmetnika")
+    .populate([
+      {
+        path: "predmeti",
+        populate: {
+          path: "izvedbe_predmeta.izvajalci"
+        }
+      },
+      {
+        path: "del_predmetnika"
+      }
+    ])
     .exec(function(err, predmetniki) {
       if(err || !predmetniki) {
         console.log("---pripraviPredmetnike [error]:\n" + err);
         return res.status(404).json({ message: "Ne najdem potrebnih predmetnikov"});
       }
+      
+      console.log(predmetniki[0]);
       
       req.obvezniPredmeti = [];
       req.splosniIzbirniPredmeti = [];
@@ -860,6 +872,45 @@ function preveriVeljavnostPredmetov(req, res, next) {
       return res.status(400).json({ message: "Ni izbranih dovolj modulov"});
     }
   }
+  
+  callNext(req, res, next);
+}
+function zdruziPredmete(req, res, next) {
+  req.skupnoPredmetiStudenta = [];
+  req.skupnoPredmeti = [];
+  
+  var i;
+  
+  // Dodaj obvetne predmete
+  for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
+    req.skupnoPredmeti.push(req.vpisniList.obvezniPredmeti[i]);
+  }
+  
+  // Dodaj strokovne izbirne predmete
+  for(i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++) {
+    req.skupnoPredmeti.push(req.vpisniList.strokovniIzbirniPredmeti[i]);
+  }
+  
+  // Dodaj splošne izbirne predmete
+  for(i = 0; i < req.vpisniList.splosniIzbirniPredmeti.length; i++) {
+    req.skupnoPredmeti.push(req.vpisniList.splosniIzbirniPredmeti[i]);
+  }
+  
+  // Dodaj modulne predmete (če ima prosto izbiro predmetov)
+  for(i = 0; i < req.vpisniList.modulniPredmeti.length; i++) {
+    req.skupnoPredmeti.push(req.vpisniList.modulniPredmeti[i]);
+  }
+  
+  // Še moduli v samostojne predmete in jih dodaj
+  for(i = 0; i < req.vpisniList.moduli.length; i++) {
+    var modul = req.vpisniList.moduli[i];
+    
+    for(var j = 0; j < modul.predmeti.length; j++) {
+      req.skupnoPredmeti.push(modul.predmeti[i]);
+    }
+  }
+  
+  req.vpisniList.predmeti = req.skupnoPredmeti;
   
   callNext(req, res, next);
 }
