@@ -7,7 +7,7 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Študijski program</label>
-                <select class="form-control" ng-model="vm.zeton.studijski_program" ng-options="sp._id as (sp.sifraEVS + ' ' + sp.naziv) for sp in vm.sifranti.studijski_programi track by sp._id" ng-disabled="vm.zeton.izkoriscen"></select>
+                <select class="form-control" ng-model="vm.zeton.studijski_program" ng-options="sp as (sp.sifraEVS + ' ' + sp.naziv) for sp in vm.sifranti.studijski_programi track by sp._id" ng-disabled="vm.zeton.izkoriscen"></select>
             </div>
         </div>
         <div class="row">
