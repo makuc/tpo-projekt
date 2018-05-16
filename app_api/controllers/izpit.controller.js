@@ -29,7 +29,7 @@ module.exports.getIzpit = function(req, res) {
   callNext(req, res, [ najdiIzpit, vrniIzpit ]);
 };
 module.exports.addIzpit = function(req, res) {
-  if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja)
+  if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja || !req.body.izvedba_predmeta)
     return res.status(400).json({ message: "Manjkajo podatki za kreiranje izpitnega roka" });
   
   callNext(req, res, [
@@ -43,25 +43,36 @@ module.exports.addIzpit = function(req, res) {
   ]);
 };
 module.exports.editIzpit = function(req, res) {
-  if(!req.body || (!req.body.datum_izvajanja)) {
+  if(!req.body || (!req.body.datum_izvajanja && !req.body.lokacija && !req.body.izvedba_predmeta && !req.body.opombe)) {
     return res.status(400).json({ message: "Nobenega podatka izpita ne spreminjaš" });
   }
   
+  req.sprememba = 1;
+  
   callNext(req, res,[
-    najdiIzpit, validateDatumIzvedbe, preveriIzvedboPredmeta,
+    najdiIzpit, preveriLahkoUreja, validateDatumIzvedbe, preveriIzvedboPredmeta,
     
     // Popravi izpit
-    preveriStrinjanje, spremeniIzpit,
+    nastaviSpremembo, shraniIzpit, preveriStrinjanje, spremeniIzpit,
     
-    shraniIzpit, vrniIzpit
+    vrniIzpit
   ]);
 };
 module.exports.delIzpit = function(req, res) {
-  callNext(req, res, [ najdiIzpit, preveriStrinjanje, spremeniIzpit, vrniIzpit ]);
+  
+  req.sprememba = 2;
+  
+  callNext(req, res, [ najdiIzpit, preveriLahkoUreja, nastaviSpremembo, shraniIzpit, preveriStrinjanje, spremeniIzpit, vrniIzpit ]);
 };
 module.exports.potrdiSpremembo = function(req, res) {
   callNext(req, res, [
-    najdiIzpit, 
+    najdiIzpit, najdiStudentaId, najdiPolaganje, potrdiStrinjanje, preveriStrinjanje, spremeniIzpit, vrniIzpit
+  ]);
+};
+
+module.exports.pridobiZahtevke = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiAktualneSpremembe, vrniIzpite
   ]);
 };
 
@@ -245,6 +256,42 @@ function ustvariIzpit(req, res, next) {
     callNext(req, res, next);
   });
 }
+function nastaviSpremembo(req, res, next) {
+  req.izpit.obdelava = true;
+  req.izpit.sprememba = req.sprememba;
+  
+  
+  if(req.body.datum_izvajanja) {
+    if(req.datumIzvajanja < req.izpit.datum_izvajanja)
+      return res.status(400).json({ message: "Izpitni datum se lahko spremeni samo na kasnejsi datum" });
+    
+    req.izpit.datum_izvajanja = req.datumIzvajanja;
+  }
+  
+  var izvajalci, datumIzvajanja;
+  if(req.izvedba)
+    izvajalci = req.izvedba.izvajalci;
+  if(req.datumIzvajanja)
+    datumIzvajanja = req.datumIzvajanja;
+  
+  req.izpit.spremembe = {
+    datum_izvajanja: datumIzvajanja,
+    izvajalci: izvajalci,
+    opombe: req.body.opombe,
+    lokacija: req.body.lokacija
+  };
+  
+  if(req.user)
+    req.izpit.spremenil = req.user.zaposlen;
+  
+  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  {
+    // Ponastavi soglasja vseh študentov
+    req.izpit.polagalci[i].strinjanje = false;
+  }
+  
+  callNext(req, res, next);
+}
 function spremeniIzpit(req, res, next) {
   if(!req.odobritev)
   {
@@ -252,6 +299,8 @@ function spremeniIzpit(req, res, next) {
   }
   else if(req.izpit.sprememba == 1)
   {
+    req.izpit.obdelava = false;
+    next.unshift(shraniIzpit);
     urediIzpit(req, res, next);
   }
   else
@@ -260,20 +309,22 @@ function spremeniIzpit(req, res, next) {
   }
 }
 function urediIzpit(req, res, next) {
-  if(req.body.datum_izvajanja) {
-    if(req.datumIzvajanja < req.izpit.datum_izvajanja)
-      return res.status(400).json({ message: "Izpitni datum se lahko spremeni samo na kasnejsi datum" });
+  if(req.izpit.spremembe.datum_izvajanja)
+    req.izpit.datum_izvajanja = req.izpit.spremembe.datum_izvajanja;
     
-    req.izpit.datum_izvajanja = req.datumIzvajanja;
-  }
-  if(req.body.opombe)
-    req.izpit.opombe = req.body.opombe;
+  if(req.izpit.spremembe.opombe)
+    req.izpit.opombe = req.izpit.spremembe.opombe;
   
-  if(req.izvedba)
+  if(req.izpit.spremembe.izvajalci)
     req.izpit.izvajalci = req.izvedba.izvajalci;
   
-  if(req.body.lokacija)
-    req.izpit.lokacija = req.body.lokacija;
+  if(req.izpit.spremembe.lokacija)
+    req.izpit.lokacija = req.izpit.spremembe.lokacija;
+  
+  req.izpit.spremembe.opombe = undefined;
+  req.izpit.spremembe.izvajalci = undefined;
+  req.izpit.spremembe.lokacija = undefined;
+  req.izpit.spremembe.datum_izvajanja = undefined;
   
   callNext(req, res, next);
 }
@@ -281,17 +332,38 @@ function izbrisiIzpit(req, res, next) {
   if(next)
   {
     req.myNext = next;
+    req.force = true;
+    req.opozorila = [];
     req.polagalci = req.izpit.polagalci.slice(0);
   }
   
   if(req.polagalci.length > 0)
   {
-    callNext(req, res, [
-      req.student = req.izpit.polagalci.pop()
-    ]);
+    // Odjavi vse študente !!!
+    var polagalec;
+    
+    do {
+      polagalec = req.izpit.polagalci.pop();
+    }
+    while(polagalec.odjavljen && req.polagalci.length > 0);
+    
+    if(!polagalec.odjavljen)
+    {
+      req.student = polagalec.student;
+      
+      callNext(req, res, [
+        pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca,
+        nizajZaporedniPoskus, shraniIzpit, shraniStudenta
+      ]);
+    }
+    else
+    {
+      izbrisiIzpit(req, res);
+    }
   }
   else
   {
+    req.opozorila = undefined;
     req.izpit.remove(function(err, izpit) {
       if(err) {
         //console.log(err);
@@ -310,6 +382,14 @@ function vrniIzpit(req, res) {
   res.status(200).json(req.izpit);
 }
 
+function potrdiStrinjanje(req, res, next) {
+  if(req.polaganje)
+  {
+    req.polaganje.strinjanje = true;
+  }
+  
+  callNext(req, res, next);
+}
 function preveriStrinjanje(req, res, next) {
   req.odobritev = true;
   
@@ -319,7 +399,62 @@ function preveriStrinjanje(req, res, next) {
     if(!polaganje.odjavljen)
     {
       // Študent je prijavljen
-      req.odobritev = false;
+      if(!polaganje.strinjanje)
+        req.odobritev = false;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function najdiAktualneSpremembe(req, res, next) {
+  var predmeti = [];
+  for(var i = 0; i < req.neopravljeniPredmeti.length; i++) {
+    predmeti.push(req.neopravljeniPredmeti[i].predmet);
+  }
+  
+  Izpit
+    .find({
+      predmet: { $in: predmeti },
+      datum_izvajanja: { $gt: new Date(Date.now()) },
+      obdelava: true,
+      polagalci: {
+        $elemMatch: {
+          student: req.student,
+          odjavljen: false
+        }
+      }
+    })
+    .populate()
+    .exec(function(err, izpiti) {
+      if(err || !izpiti)
+      {
+        console.log("---najdiAktualneSpremembe:\n" + err);
+        return res.status(404).json({ message: "Ne najdem nobenih obvestil"});
+      }
+      
+      var izp = [];
+      
+      for(var i = 0; i < izpiti.length; i++)
+      {
+        var izpit = izpiti[i].toObject();
+        izpit.polagalci = undefined;
+        
+        izp.push(izpit);
+      }
+      
+      req.izpiti = izp;
+      
+      callNext(req, res, next);
+    });
+}
+function preveriLahkoUreja(req, res, next) {
+  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  {
+    // Preveri za vse polagalce
+    var polagalec = req.izpit.polagalci[i];
+    if(polagalec.tock > 0 || polagalec.ocena > 0 || polagalec.koncna_ocena > 0)
+    {
+      return res.status(404).json({ message: "Izpit ima že vnešene ocene, urejanje prepovedano"});
     }
   }
   
@@ -390,40 +525,44 @@ function validIzvedbaPredmeta(req, res, next) {
 }
 
 function validateDatumIzvedbe(req, res, next) {
-  req.datumIzvajanja = new Date(req.body.datum_izvajanja);
-  
-  //console.log(req.datumIzvajanja);
-  //console.log(req.datumIzvajanja.getDay());
-  
-  if(req.datumIzvajanja.getDay() == 0 || req.datumIzvajanja.getDay() == 6)
-    return res.status(400).json({ message: "Izpit se ne more izvajati na vikend" });
-  
-  // Preveri, ce je praznik ali dela prost dan
-  var praznik = false;
-  if(req.datumIzvajanja.getMonth() == 0 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 1 && (req.datumIzvajanja.getDate() == 7))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 3 && (req.datumIzvajanja.getDate() == 26))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 4 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 5 && (req.datumIzvajanja.getDate() == 7 || req.datumIzvajanja.getDate() == 24))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 7 && (req.datumIzvajanja.getDate() == 16 || req.datumIzvajanja.getDate() == 14))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 8 && (req.datumIzvajanja.getDate() == 14))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 9 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 30))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 10 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 22))
-    praznik = true;
-  if(req.datumIzvajanja.getMonth() == 11 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 25))
-    praznik = true;
-  
-  
-  if(praznik)
-    return res.status(400).json({ message: "Izpit se ne more izvajati na praznik ali dela prost dan" });
+  if(req.body.datum_izvajanja)
+  {
+    req.datumIzvajanja = new Date(req.body.datum_izvajanja);
+    
+    //console.log(req.datumIzvajanja);
+    //console.log(req.datumIzvajanja.getDay());
+    
+    if(req.datumIzvajanja.getDay() == 0 || req.datumIzvajanja.getDay() == 6)
+      return res.status(400).json({ message: "Izpit se ne more izvajati na vikend" });
+    
+    // Preveri, ce je praznik ali dela prost dan
+    var praznik = false;
+    if(req.datumIzvajanja.getMonth() == 0 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 1 && (req.datumIzvajanja.getDate() == 7))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 3 && (req.datumIzvajanja.getDate() == 26))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 4 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 5 && (req.datumIzvajanja.getDate() == 7 || req.datumIzvajanja.getDate() == 24))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 7 && (req.datumIzvajanja.getDate() == 16 || req.datumIzvajanja.getDate() == 14))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 8 && (req.datumIzvajanja.getDate() == 14))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 9 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 30))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 10 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 22))
+      praznik = true;
+    if(req.datumIzvajanja.getMonth() == 11 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 25))
+      praznik = true;
+    
+    
+    if(praznik)
+      return res.status(400).json({ message: "Izpit se ne more izvajati na praznik ali dela prost dan" });
+    
+  }
   
   callNext(req, res, next);
 }
@@ -669,7 +808,8 @@ function shraniIzpit(req, res, next) {
   
   req.izpit.save(function(err, izpit) {
     if(err || !izpit) {
-      return res.status(400).json({ message: "Napaka pri odstranjevanju izvajalca izpita" });
+      console.log("---shraniIzpit:\n" + err);
+      return res.status(400).json({ message: "Napaka pri spreminjanju izpita" });
     }
     
     req.izpit = izpit;
@@ -850,12 +990,19 @@ function najdiPrijavljenIzpit(req, res, next) {
 }
 
 function preveriIzvedboPredmeta(req, res, next) {
-  req.izvedba = req.predmet.izvedbe_predmeta.id(req.body.izvedba_predmeta);
-  
-  if(!req.izvedba)
+  if(!req.body || !req.body.izvedba_predmeta)
   {
-    return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta za ta predmet"});
+    callNext(req, res, next);
   }
-  
-  callNext(req, res, next);
+  else
+  {
+    req.izvedba = req.predmet.izvedbe_predmeta.id(req.body.izvedba_predmeta);
+    
+    if(!req.izvedba)
+    {
+      return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta za ta predmet"});
+    }
+    
+    callNext(req, res, next);
+  }
 }

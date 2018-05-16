@@ -17,7 +17,9 @@ var polagalecSchema = new mongoose.Schema({
     
     odjavljen: {type: Boolean, "default": false},
     odavil: {type: ObjectId, ref: 'Zaposlen', required: false},
-    cas_odjave: {type: Date, required: false}
+    cas_odjave: {type: Date, required: false},
+    
+    strinjanje: {type: Boolean, "default": false}
 });
 
 var izpitSchema = new mongoose.Schema({
@@ -34,7 +36,15 @@ var izpitSchema = new mongoose.Schema({
     valid: {type: Boolean, "default": true},
     
     obdelava: {type: Boolean, "default": false},
-    sprememba: {type: Number, "default": 0, min: 0, max: 2} // 1 = urejanje, 2 = brisanje
+    sprememba: {type: Number, "default": 0, min: 0, max: 2}, // 1 = urejanje, 2 = brisanje
+    spremenil: {type: ObjectId, ref: 'Zaposlen', required: false},
+    
+    spremembe: {
+        datum_izvajanja: {type: Date, required: false},
+        lokacija: {type: String, required: false},
+        opombe: {type: String, required: false},
+        izvajalci: [{type: ObjectId, ref: 'Zaposlen', required: false}]
+    }
 });
 
 // Save this Scheme as a model

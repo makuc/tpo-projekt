@@ -68,9 +68,14 @@ router.post('/student/uvoz-sprejetih', ctrl.student.uvoziStudente);
 router.get('/student/:student_id', ctrl.student.getStudenta);
 router.get('/student/:student_id/cel', ctrl.student.celotenKartotecniList);
 router.put('/student/:student_id', ctrl.student.updateStudenta);
+// Odobritev spremembe izpita
+router.get('/student/:student_id/izpit/spremembe', ctrl.Izpit.pridobiZahtevke);
+router.post('/student/:student_id/izpit/:izpit_id/strinjam', ctrl.Izpit.potrdiSpremembo);
+// Razno izpiri
 router.get('/student/:student_id/izpit', ctrl.Izpit.getMozneIzpiteStudenta);
 router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
 //router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
+
 
 // Controller Izpiti
 router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
@@ -85,8 +90,7 @@ router.post('/izpit/:izpit_id/prijava', ctrl.Izpit.prijavaNaIzpitStudent);
 router.delete('/izpit/:izpit_id/odjava/:student_id', ctrl.Izpit.odjavaIzIzpitaStudent);
 router.post('/izpit/:izpit_id/prijava/force', ctrl.Izpit.prijavaNaIzpitForce);
 router.delete('/izpit/:izpit_id/odjava/:student_id/force', ctrl.Izpit.odjavaIzIzpitaForce);
-// Odobritev spremembe
-router.post('/izpit/:izpit_id/potrdi', ctrl.Izpit.potrdiSpremembo);
+
 
 // Žetoni
 router.post('/zeton', ctrl.zeton.ustvariZetone);
