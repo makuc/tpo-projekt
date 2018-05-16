@@ -5,13 +5,13 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Študijsko leto:</label>
-                <select ng-click="vm.izbrano()" class="form-control" ng-model="vm.podatki.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
+                <select ng-change="vm.izbrano()" class="form-control" ng-model="vm.podatki.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
             </div>
         </div>
         <div ng-show="vm.podatki.studijskoLeto" class="row">
             <div class="form-group col-sm-4">
                 <label>Predmet:</label>
-                <select ng-click="vm.izbranPredmet()" class="form-control" ng-model="vm.podatki.predmet" ng-options='pr as (pr.sifra + ", " + pr.naziv) for pr in vm.predmeti track by pr._id'></select>
+                <select ng-change="vm.izbranPredmet()" class="form-control" ng-model="vm.podatki.predmet" ng-options='pr as (pr.sifra + ", " + pr.naziv) for pr in vm.predmeti track by pr._id'></select>
             </div>
         </div>
         <div ng-show="vm.podatki.predmet" class="row">
