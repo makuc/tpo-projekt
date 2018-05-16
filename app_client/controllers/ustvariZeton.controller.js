@@ -15,7 +15,7 @@
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
                     vm.student = odgovor.data;
-                    console.log("Student: ", vm.student);
+                    //console.log("Student: ", vm.student);
                     
                     ostaloPodatki.pridobiOsnutekZetona(vm.student._id).then(
                       function success(odgovor)
@@ -44,7 +44,7 @@
                         vm.zeton.oblika_studija = vm.zeton.oblika_studija._id,*/
                         vm.zeton.studijski_program = vm.zeton.studijski_program._id;
                         
-                        vm.pridobiPodatkeZetona(vm.zeton);
+                        //vm.pridobiPodatkeZetona(vm.zeton);
                         
                         console.log("Osnutek zeton: ", vm.zeton);
                         
@@ -66,31 +66,31 @@
         {
           vm.sifranti = {};
           // studijski programi
-          ostaloPodatki.pridobiVseStudijskePrograme().then
+          ostaloPodatki.pridobiVseVeljavneStudijskePrograme().then
           (
             function success(odgovor)
             {
               vm.sifranti.studijski_programi = odgovor.data;
               // letniki
-              ostaloPodatki.pridobiVseLetnike().then
+              ostaloPodatki.pridobiVseVeljavneLetnike().then
               (
                 function success(odgovor)
                 {
                   vm.sifranti.letniki = odgovor.data;
                   // vrste vpisa
-                  ostaloPodatki.pridobiVseVrsteVpisa().then
+                  ostaloPodatki.pridobiVseVeljavneVrsteVpisa().then
                   (
                     function success(odgovor)
                     {
                       vm.sifranti.vrste_vpisa = odgovor.data;
                       // nacini studija
-                      ostaloPodatki.pridobiVseNacineStudija().then
+                      ostaloPodatki.pridobiVseVeljavneNacineStudija().then
                       (
                         function success(odgovor)
                         {
                           vm.sifranti.nacini_studija = odgovor.data;
                           // oblike studija
-                          ostaloPodatki.pridobiVseOblikeStudija().then
+                          ostaloPodatki.pridobiVseVeljavneOblikeStudija().then
                           (
                             function success(odgovor)
                             {
@@ -127,7 +127,7 @@
             }
           );
         };
-        
+        /*
         vm.pridobiPodatkeZetona = function(zeton)
         {
           // studijski program
@@ -191,7 +191,7 @@
             }
           );
         };
-        
+        */
         vm.shrani = function(){
             var data = {
                 studijski_program: vm.zeton.studijski_program._id,

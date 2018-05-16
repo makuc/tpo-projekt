@@ -590,7 +590,7 @@
             urediOblikoStudija: urediOblikoStudija,
             
             pridobiVseNacineStudija: pridobiVseNacineStudija,
-            pridobiVseVeljavne: pridobiVseVeljavneNacineStudija,
+            pridobiVseVeljavneNacineStudija: pridobiVseVeljavneNacineStudija,
             pridobiVseIzbrisaneNacineStudija: pridobiVseIzbrisaneNacineStudija,
             dodajNacinStudija: dodajNacinStudija,
             najdiNacinStudija: najdiNacinStudija,
