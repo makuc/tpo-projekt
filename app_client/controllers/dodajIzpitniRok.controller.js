@@ -76,6 +76,7 @@
             predmetPodatki.izpisiVseVeljavnePredmete().then(
                 function success(odgovor){
                     for(var i = 0; i < odgovor.data.length; i++){
+                        //console.log(odgovor.data[i] + " " + vm.podatki.studijskoLeto._id);
                         if(seIzvaja(odgovor.data[i], vm.podatki.studijskoLeto._id)){
                             vm.predmeti.push(odgovor.data[i]);
                         }
@@ -91,10 +92,10 @@
         
         vm.izbranPredmet = function(){
             //console.log(vm.podatki.predmet);
-            //console.log(vm.podatki.studijskoLeto);
+            console.log(vm.podatki.studijskoLeto);
             izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
                 function success(odgovor){
-                    //console.log(odgovor.data);
+                    console.log(odgovor.data);
                     vm.izvedbe = odgovor.data;
                 },
                 function error(odgovor){
@@ -135,7 +136,7 @@
                 predmet: vm.podatki.predmet,
                 studijsko_leto: vm.podatki.studijskoLeto,
                 datum_izvajanja: vm.podatki.datum,
-                izvajalci: vm.podatki.izvedbe,
+                izvedba_predmeta: vm.podatki.izvedbe,
                 lokacija: vm.podatki.lokacija,
                 opis: vm.podatki.maxPrijav
                 };
@@ -145,7 +146,7 @@
                 izpitniRokPodatki.ustvariIzpitniRok(data).then(
                     function success(odgovor){
                         console.log(odgovor);
-                        $location.path("/dodajIzvajalceIzpitniRok/" + odgovor.data._id);
+                        $location.path("/vsiIzpitniRoki");
                     },
                     function error(odgovor){
                         vm.obvestilo = odgovor.data.message;

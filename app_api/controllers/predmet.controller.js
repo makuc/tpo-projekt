@@ -455,6 +455,10 @@ function najdiTrenutnoStudijskoLeto(req, res, next) {
 
 function filtrirajIzvedbe(req, res, next) {
   req.izvedbe = [];
+  
+  if(req.studijskoLeto)
+    req.leto = req.studijskoLeto;
+  
   for(var i = 0; i < req.predmet.izvedbe_predmeta.length; i++)
   {
     if(req.leto._id.equals(req.predmet.izvedbe_predmeta[i].studijsko_leto._id))
