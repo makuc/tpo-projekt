@@ -48,18 +48,21 @@ module.exports.editIzpit = function(req, res) {
   }
   
   callNext(req, res,[
-    najdiIzpit, validateDatumIzvedbe,
-    
-    // Najdi izvajalce predmeta
-    preveriIzvedboPredmeta,
+    najdiIzpit, validateDatumIzvedbe, preveriIzvedboPredmeta,
     
     // Popravi izpit
-    urediIzpit,
+    preveriStrinjanje, spremeniIzpit,
+    
     shraniIzpit, vrniIzpit
   ]);
 };
 module.exports.delIzpit = function(req, res) {
-  callNext(req, res, [ najdiIzpit, izbrisiIzpit, vrniIzpit ]);
+  callNext(req, res, [ najdiIzpit, preveriStrinjanje, spremeniIzpit, vrniIzpit ]);
+};
+module.exports.potrdiSpremembo = function(req, res) {
+  callNext(req, res, [
+    najdiIzpit, 
+  ]);
 };
 
 // Prijave in odjave na izpite
@@ -99,7 +102,7 @@ module.exports.prijavaNaIzpitForce = function(req, res) {
     
     // Opravi prijavo
     najdiIzpit, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet,
-    najdiPolaganje, preveriPrijavljenNaDrugIzpit, preveriPretekloDovoljDni, dodajPolagalca, visajZaporedniPoskus, shraniIzpit, shraniStudenta,
+    preveriPrijavljenNaDrugIzpit, preveriPretekloDovoljDni, dodajPolagalca, visajZaporedniPoskus, shraniIzpit, shraniStudenta,
     prijavaUspesna
   ]);
 };
@@ -242,6 +245,20 @@ function ustvariIzpit(req, res, next) {
     callNext(req, res, next);
   });
 }
+function spremeniIzpit(req, res, next) {
+  if(!req.odobritev)
+  {
+    callNext(req, res, next);
+  }
+  else if(req.izpit.sprememba == 1)
+  {
+    urediIzpit(req, res, next);
+  }
+  else
+  {
+    izbrisiIzpit(req, res, next);
+  }
+}
 function urediIzpit(req, res, next) {
   if(req.body.datum_izvajanja) {
     if(req.datumIzvajanja < req.izpit.datum_izvajanja)
@@ -261,22 +278,52 @@ function urediIzpit(req, res, next) {
   callNext(req, res, next);
 }
 function izbrisiIzpit(req, res, next) {
-  if(req.izpit.polagalci.length > 0) {
-    return res.status(400).json({ message: "Obstajajo prijavljeni polagalci izpita" });
+  if(next)
+  {
+    req.myNext = next;
+    req.polagalci = req.izpit.polagalci.slice(0);
   }
   
-  req.izpit.remove(function(err, izpit) {
-    if(err) {
-      //console.log(err);
-      return res.status(400).json({ message: "Nekaj šlo narobe pri brisanju izpita" });
-    }
-    req.izpit = undefined;
-    
-    callNext(req, res, next);
-  });
+  if(req.polagalci.length > 0)
+  {
+    callNext(req, res, [
+      req.student = req.izpit.polagalci.pop()
+    ]);
+  }
+  else
+  {
+    req.izpit.remove(function(err, izpit) {
+      if(err) {
+        //console.log(err);
+        return res.status(400).json({ message: "Nekaj šlo narobe pri brisanju izpita" });
+      }
+      req.izpit = undefined;
+      
+      next = req.myNext;
+      req.myNext = undefined;
+      
+      callNext(req, res, next);
+    });
+  }
 }
 function vrniIzpit(req, res) {
   res.status(200).json(req.izpit);
+}
+
+function preveriStrinjanje(req, res, next) {
+  req.odobritev = true;
+  
+  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  {
+    var polaganje = req.izpit.polagalci[i];
+    if(!polaganje.odjavljen)
+    {
+      // Študent je prijavljen
+      req.odobritev = false;
+    }
+  }
+  
+  callNext(req, res, next);
 }
 
 // Funkcije za upravljanje
@@ -498,7 +545,7 @@ function najdiPolaganje(req, res, next) {
     return callNext(req, res, next);
   
   for(var i = 0; i < req.izpit.polagalci.length; i++) {
-    if(req.izpit.polagalci[i].student._id.equals(req.student._id))
+    if(req.izpit.polagalci[i].student._id.equals(req.student._id) && !req.izpit.polagalci[i].odjavljen)
     {
       req.polaganje = req.izpit.polagalci[i];
       break;
@@ -527,6 +574,7 @@ function dodajPolagalca(req, res, next) {
       return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
     req.opozorila.push("Izpitov za ta predmet ne more več opravljati");
   }
+  
   if(req.predmet.zaporedni_poskus +1 > 3)
   {
     if(!req.force)
@@ -534,35 +582,15 @@ function dodajPolagalca(req, res, next) {
     req.opozorila.push("Izpit za ta predmet je že opravljal 3x");
   }
   
-  if(!req.polaganje) {
-    req.izpit.polagalci.push({
-      student: req.student,
-      zaporedni_poskus: req.predmet.zaporedni_poskus + 1,
-      zaporedni_poskus_skupaj: req.predmet.zaporedni_poskus_skupaj + 1,
-      
-      placano: req.placano,
-    });
+  req.izpit.polagalci.push({
+    student: req.student,
+    zaporedni_poskus: req.predmet.zaporedni_poskus + 1,
+    zaporedni_poskus_skupaj: req.predmet.zaporedni_poskus_skupaj + 1,
     
-    callNext(req, res, next);
-  }
-  else {
-    if(!req.polaganje.odjavljen) {
-      if(!req.force)
-        return res.status(400).json({ message: "Izbrani študent že prijavljen na izbran izpit"});
-      req.opozorila.push("Izbrani študent že prijavljen na izbran predmet");
-      req.predmet.zaporedni_poskus--;
-      req.predmet.zaporedni_poskus_skupaj--;
-    }
-    
-    req.polaganje.odjavljen = false;
-    req.polaganje.odjavil = undefined;
-    req.polaganje.cas_odjave = undefined;
-    req.polaganje.zaporedni_poskus = req.predmet.zaporedni_poskus + 1;
-    req.polaganje.zaporedni_poskus_skupaj = req.predmet.zaporedni_poskus_skupaj + 1;
-    req.polaganje.placano = req.placano;
-    
-    callNext(req, res, next);
-  }
+    placano: req.placano,
+  });
+  
+  callNext(req, res, next);
 }
 function odjaviPolagalca(req, res, next) {
   if(!req.izpit)

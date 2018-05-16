@@ -85,6 +85,8 @@ router.post('/izpit/:izpit_id/prijava', ctrl.Izpit.prijavaNaIzpitStudent);
 router.delete('/izpit/:izpit_id/odjava/:student_id', ctrl.Izpit.odjavaIzIzpitaStudent);
 router.post('/izpit/:izpit_id/prijava/force', ctrl.Izpit.prijavaNaIzpitForce);
 router.delete('/izpit/:izpit_id/odjava/:student_id/force', ctrl.Izpit.odjavaIzIzpitaForce);
+// Odobritev spremembe
+router.post('/izpit/:izpit_id/potrdi', ctrl.Izpit.potrdiSpremembo);
 
 // Žetoni
 router.post('/zeton', ctrl.zeton.ustvariZetone);

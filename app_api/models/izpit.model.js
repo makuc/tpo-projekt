@@ -31,7 +31,10 @@ var izpitSchema = new mongoose.Schema({
     izvajalci: [{type: ObjectId, ref: 'Zaposlen', required: false}],
     polagalci: [polagalecSchema],
     
-    valid: {type: Boolean, "default": true}
+    valid: {type: Boolean, "default": true},
+    
+    obdelava: {type: Boolean, "default": false},
+    sprememba: {type: Number, "default": 0, min: 0, max: 2} // 1 = urejanje, 2 = brisanje
 });
 
 // Save this Scheme as a model

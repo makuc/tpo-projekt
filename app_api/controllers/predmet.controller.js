@@ -480,7 +480,7 @@ function najdiStudentePredmeta(req, res, next) {
       "studijska_leta_studenta.studijsko_leto": req.studijskoLeto,
       "studijska_leta_studenta.predmeti.predmet": req.predmet
     })
-    .populate()
+    .populate("studijska_leta_studenta.vrsta_vpisa")
     .exec(function(err, studenti) {
       if(err || !studenti)
       {
