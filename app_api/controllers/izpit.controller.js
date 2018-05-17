@@ -218,8 +218,10 @@ function vrniIzpite(req, res) {
 }
 
 function najdiIzpit(req, res, next) {
-  if(req.izpit)
-    return callNext(req, res, next);
+  if(req.izpit) {
+    callNext(req, res, next);
+    return;
+  }
   
   Izpit
     .findById(req.params.izpit_id)
@@ -672,7 +674,8 @@ function najdiStudentovPredmet(req, res, next) {
       
       req.predmet = req.neopravljeniPredmeti[i];
       
-      return callNext(req, res, next);
+      callNext(req, res, next);
+      return;
     }
   }
   
@@ -680,8 +683,10 @@ function najdiStudentovPredmet(req, res, next) {
 }
 
 function najdiPolaganje(req, res, next) {
-  if(!req.izpit)
-    return callNext(req, res, next);
+  if(!req.izpit) {
+    callNext(req, res, next);
+    return;
+  }
   
   for(var i = 0; i < req.izpit.polagalci.length; i++) {
     if(req.izpit.polagalci[i].student._id.equals(req.student._id) && !req.izpit.polagalci[i].odjavljen)
@@ -732,8 +737,10 @@ function dodajPolagalca(req, res, next) {
   callNext(req, res, next);
 }
 function odjaviPolagalca(req, res, next) {
-  if(!req.izpit)
-    return callNext(req, res, next);
+  if(!req.izpit) {
+    callNext(req, res, next);
+    return
+  }
   
   if(req.danes > req.izpit.datum_izvajanja) {
     if(!req.force)
@@ -780,7 +787,8 @@ function visajZaporedniPoskus(req, res, next) {
 }
 function nizajZaporedniPoskus(req, res, next) {
   if(!req.izpit) {
-    return callNext(req, res, next);
+    callNext(req, res, next);
+    return;
   }
   
   req.predmet.zaporedni_poskus--;
@@ -803,8 +811,10 @@ function shraniStudenta(req, res, next) {
   });
 }
 function shraniIzpit(req, res, next) {
-  if(!req.izpit)
-    return callNext(req, res, next);
+  if(!req.izpit) {
+    callNext(req, res, next);
+    return;
+  }
   
   req.izpit.save(function(err, izpit) {
     if(err || !izpit) {
