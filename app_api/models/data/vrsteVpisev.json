@@ -1,4 +1,5 @@
 [
+{ "_id": ObjectId("5ac8be2a7482291008d3f9f5"), "koda": 0, "naziv": "Pavziranje", "opis": "Vsi letniki" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f5"), "koda": 1, "naziv": "Prvi vpis v letnik/dodatno leto", "opis": "Vsi letniki in dodatno leto" },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f6"), "koda": 2, "naziv": "Ponavljanje letnika", "opis": "V zadnjem letniku in v dodatnem letu ponavljanje ni možno." },
 { "_id": ObjectId("5ac8be2a7482291008d3f9f7"), "koda": 3, "naziv": "Nadaljevanje letnika", "opis": "Vpis ni več dovoljen" },

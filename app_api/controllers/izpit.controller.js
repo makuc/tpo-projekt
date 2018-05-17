@@ -624,6 +624,8 @@ function najdiNeopravljenePredmete(req, res, next) {
     }
   }
   
+  console.log(req.neopravljeniPredmeti);
+  
   callNext(req, res, next);
 }
 function najdiMozneIzpiteStudenta(req, res, next) {
@@ -656,11 +658,13 @@ function najdiMozneIzpiteStudenta(req, res, next) {
           predmet: { $in: predmeti },
           valid: true,
           polagalci: {
-            $elemMatch: {
-              student: req.student,
-              ocena: {$lte: 0},
-              odjavljen: false,
-              valid: true
+            $ne: {
+              $elemMatch: {
+                student: req.student,
+                koncna_ocena: {$lte: 0},
+                odjavljen: false,
+                valid: true
+              }
             }
           }
         }
@@ -989,6 +993,9 @@ function vnesiOcenoStudentu(req, res, next) {
   console.log("--vnesiOcenoStudentu");
   
   req.predmet.ocena = req.body.koncna_ocena;
+  req.predmet.izpit = req.izpit;
+  
+  //console.log(req.predmet);
   
   callNext(req, res, next);
 }
@@ -1009,6 +1016,7 @@ function izberiStudijskoLeto(req, res, next) {
   });
 }
 function izberiPredmet(req, res, next) {
+  console.log("--izberiPredmet");
   for(var i = 0; i < req.student.studijska_leta_studenta.length; i++)
   {
     if(req.student.studijska_leta_studenta[i].studijsko_leto.equals(req.izpit.studijsko_leto))
@@ -1017,10 +1025,9 @@ function izberiPredmet(req, res, next) {
       
       for(var j = 0; j < leto.predmeti.length; j++)
       {
-        console.log("Primerjaj: " + leto.predmeti[i].predmet + " | " + req.izpit.predmet._id);
-        if(leto.predmeti[i].predmet.equals(req.izpit.predmet._id))
+        if(leto.predmeti[j].predmet.equals(req.izpit.predmet._id))
         {
-          req.predmet = leto.predmeti[i];
+          req.predmet = leto.predmeti[j];
           break;
         }
       }
