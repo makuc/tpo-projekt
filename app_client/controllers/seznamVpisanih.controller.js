@@ -52,9 +52,18 @@
         vm.prikaziStudente = function(){
             predmetPodatki.najdiVpisaneVPredmet(vm.predmetId, vm.studijskoLetoId).then(
                 function success(odgovor){
-                    console.log("Odgovor: ", odgovor.data);
+                    console.log("Odgovor: ", odgovor.data.vpisani.studenti);
                     vm.vsiPodatki = odgovor.data.vpisani.studenti;
-                    vm.studenti = odgovor.data.vpisani.studenti;
+                    for (var i = 0; i < vm.vsiPodatki.length; i++) {
+                      for (var j = 0; j < vm.vsiPodatki[i].studijska_leta_studenta.length; j++) {
+                        if(vm.vsiPodatki[i].studijska_leta_studenta[j].studijsko_leto == vm.studijskoLetoId)
+                        {
+                          vm.vsiPodatki[i].vrstaVpisa = vm.vsiPodatki[i].studijska_leta_studenta[j].vrsta_vpisa.naziv;
+                          //console.log("Vrsta vpisa: ", vm.vsiPodatki[i].vrstaVpisa);
+                        }
+                      }
+                    }
+                    vm.studenti = vm.vsiPodatki;
                     vm.stStudentov = vm.studenti.length;
                     vm.stStudentovNaStran = 10;
                     vm.trenutnaStran = 0;
