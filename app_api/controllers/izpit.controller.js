@@ -684,7 +684,7 @@ function filtrirajPolaganja(req, res, next) {
   var izpiti = [];
   while(req.izpiti.length > 0)
   {
-    var izpit = req.izpiti.pop().toObject();
+    var izpit = req.izpiti.shift().toObject();
     var polaganje = undefined;
     for(var i = 0; i < izpit.polagalci.length; i++)
     {
