@@ -381,6 +381,7 @@ function izbrisiIzpit(req, res, next) {
   }
 }
 function vrniIzpit(req, res) {
+  console.log("--vrniIzpit");
   res.status(200).json(req.izpit);
 }
 
@@ -683,6 +684,7 @@ function najdiStudentovPredmet(req, res, next) {
 }
 
 function najdiPolaganje(req, res, next) {
+  console.log("--najdiPolaganje");
   if(!req.izpit) {
     callNext(req, res, next);
     return;
@@ -700,39 +702,44 @@ function najdiPolaganje(req, res, next) {
 }
 
 function dodajPolagalca(req, res, next) {
-  if(req.danes > req.izpit.datum_izvajanja) {
-    if(!req.force)
-      return res.status(403).json({ message: "Rok za prijavo potekel"});
-    req.opozorila.push("Rok za prijavo je potekel");
-  }
+  console.log("--dodajPolagalca");
   
-  req.placano = true;
-  
-  if(req.predmet.zaporedni_poskus_skupaj + 1 > 3)
-  {
-    req.placano = false;
-  }
-  else if(req.predmet.zaporedni_poskus_skupaj + 1 > 6)
-  {
-    if(!req.force)
-      return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
-    req.opozorila.push("Izpitov za ta predmet ne more več opravljati");
-  }
-  
-  if(req.predmet.zaporedni_poskus +1 > 3)
-  {
-    if(!req.force)
-      return res.status(400).json({ message: "Izpit za ta predmet si že opravljal 3x"});
-    req.opozorila.push("Izpit za ta predmet je že opravljal 3x");
-  }
-  
-  req.izpit.polagalci.push({
-    student: req.student,
-    zaporedni_poskus: req.predmet.zaporedni_poskus + 1,
-    zaporedni_poskus_skupaj: req.predmet.zaporedni_poskus_skupaj + 1,
+  if(!req.polaganje) {
     
-    placano: req.placano,
-  });
+    if(req.danes > req.izpit.datum_izvajanja) {
+      if(!req.force)
+        return res.status(403).json({ message: "Rok za prijavo potekel"});
+      req.opozorila.push("Rok za prijavo je potekel");
+    }
+    
+    req.placano = true;
+    
+    if(req.predmet.zaporedni_poskus_skupaj + 1 > 3)
+    {
+      req.placano = false;
+    }
+    else if(req.predmet.zaporedni_poskus_skupaj + 1 > 6)
+    {
+      if(!req.force)
+        return res.status(400).json({ message: "Izpitov za ta predmet ne moreš več opravljati"});
+      req.opozorila.push("Izpitov za ta predmet ne more več opravljati");
+    }
+    
+    if(req.predmet.zaporedni_poskus +1 > 3)
+    {
+      if(!req.force)
+        return res.status(400).json({ message: "Izpit za ta predmet si že opravljal 3x"});
+      req.opozorila.push("Izpit za ta predmet je že opravljal 3x");
+    }
+    
+    req.izpit.polagalci.push({
+      student: req.student,
+      zaporedni_poskus: req.predmet.zaporedni_poskus + 1,
+      zaporedni_poskus_skupaj: req.predmet.zaporedni_poskus_skupaj + 1,
+      
+      placano: req.placano,
+    });
+  }
   
   callNext(req, res, next);
 }
@@ -779,6 +786,8 @@ function odjavaUspesna(req, res) {
 }
 
 function visajZaporedniPoskus(req, res, next) {
+  console.log("--visajZaporedniPoskus");
+  
   req.predmet.zaporedni_poskus++;
   req.predmet.zaporedni_poskus_skupaj++;
   req.predmet.izpit = req.izpit;
@@ -799,6 +808,8 @@ function nizajZaporedniPoskus(req, res, next) {
   callNext(req, res, next);
 }
 function shraniStudenta(req, res, next) {
+  console.log("--shraniStudenta");
+  
   req.student.save(function(err, student) {
     if(err || !student) {
       console.log("---shraniStudenta:\n" + err);
@@ -811,6 +822,7 @@ function shraniStudenta(req, res, next) {
   });
 }
 function shraniIzpit(req, res, next) {
+  console.log("--shraniIzpit");
   if(!req.izpit) {
     callNext(req, res, next);
     return;
@@ -898,6 +910,8 @@ function preveriPretekloDovoljDni(req, res, next) {
 
 // Vnos ocene
 function vnesiOcenoPodIzpit(req, res, next) {
+  console.log("--vnesiOcenoPodIzpit");
+  
   if(req.body.ocena)
   {
     req.body.ocena = parseInt(req.body.ocena, 10);
@@ -926,6 +940,8 @@ function vnesiOcenoPodIzpit(req, res, next) {
   callNext(req, res, next);
 }
 function vnesiOcenoStudentu(req, res, next) {
+  console.log("--vnesiOcenoStudentu");
+  
   req.predmet.ocena = req.body.koncna_ocena;
   
   callNext(req, res, next);
