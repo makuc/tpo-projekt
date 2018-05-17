@@ -39,6 +39,7 @@ var ctrl = {
     
     student: require("../controllers/student.controller"),
     Sklep: require("../controllers/sklep.controller"),
+    Narocilo: require("../controllers/narocilo.controller"),
     
     zeton: require("../controllers/zeton.controller.js"),
     vpis: require("../controllers/vpis.controller")
@@ -134,5 +135,9 @@ router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 router.get('/potrdilo-vpisa/:vpisnica_id', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
 //router.get('/potrdilo-vpisa/:vpisnica_id/:N', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
 
+/* Naročila potrdil o vpisu */
+router.post('/narocilo', ctrl.Narocilo.naroci);
+router.get('/narocilo', ctrl.Narocilo.getNarocila);
+router.post('/narocilo/:narocilo', ctrl.Narocilo.potrdi);
 
 module.exports = router;
