@@ -69,6 +69,16 @@ module.exports.potrdiSpremembo = function(req, res) {
     najdiIzpit, najdiStudentaId, najdiPolaganje, potrdiStrinjanje, preveriStrinjanje, spremeniIzpit, vrniIzpit
   ]);
 };
+module.exports.pocistiSpremembo = function(req, res) {
+  callNext(req, res,[
+    najdiIzpit,
+    
+    // Popravi izpit
+    pocistiSpremembo, shraniIzpit,
+    
+    vrniIzpit
+  ]);
+};
 
 module.exports.pridobiZahtevke = function(req, res) {
   callNext(req, res, [
@@ -379,6 +389,21 @@ function izbrisiIzpit(req, res, next) {
       callNext(req, res, next);
     });
   }
+}
+function pocistiSpremembo(req, res, next) {
+  req.izpit.spremembe.opombe = undefined;
+  req.izpit.spremembe.izvajalci = undefined;
+  req.izpit.spremembe.lokacija = undefined;
+  req.izpit.spremembe.datum_izvajanja = undefined;
+  req.izpit.obdelava = false;
+  req.izpit.spremenil = undefined;
+  
+  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  {
+    req.izpit.polagalci[i].strinjanje = false;
+  }
+  
+  callNext(req, res, next);
 }
 function vrniIzpit(req, res) {
   console.log("--vrniIzpit");
