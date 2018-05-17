@@ -79,7 +79,7 @@ module.exports.pridobiZahtevke = function(req, res) {
 // Prijave in odjave na izpite
 module.exports.getMozneIzpiteStudenta = function(req, res) {
   callNext(req, res, [
-    najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, vrniIzpite
+    najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, filtrirajPolaganja, vrniIzpite
   ]);
 };
 module.exports.prijavaNaIzpitStudent = function(req, res) {
@@ -638,7 +638,19 @@ function najdiMozneIzpiteStudenta(req, res, next) {
         {
           predmet: { $in: predmeti },
           datum_izvajanja: { $gt: req.danes },
-          valid: true
+          valid: true,
+          polagalci: {
+            $elemMatch: {
+              student: req.student,
+              koncna_ocena: {$lte: 0}
+            }
+          }
+        },
+        {
+          predmet: { $in: predmeti },
+          datum_izvajanja: { $gt: req.danes },
+          valid: true,
+          "polagalci.student": {$ne: req.student._id}
         },
         {
           predmet: { $in: predmeti },
@@ -646,7 +658,7 @@ function najdiMozneIzpiteStudenta(req, res, next) {
           polagalci: {
             $elemMatch: {
               student: req.student,
-              ocena: 0,
+              ocena: {$lte: 0},
               odjavljen: false,
               valid: true
             }
@@ -666,6 +678,41 @@ function najdiMozneIzpiteStudenta(req, res, next) {
       
       callNext(req, res, next);
     });
+}
+function filtrirajPolaganja(req, res, next) {
+  console.log("--filtrirajPolaganja");
+  var izpiti = [];
+  while(req.izpiti.length > 0)
+  {
+    var izpit = req.izpiti.pop().toObject();
+    var polaganje = undefined;
+    for(var i = 0; i < izpit.polagalci.length; i++)
+    {
+      // Obdelaj vse polagalce
+      if(req.student._id.equals(izpit.polagalci[i].student) && !izpit.polagalci[i].odjavljen)
+      {
+        polaganje = izpit.polagalci[i];
+        break;
+      }
+    }
+    
+    if(polaganje)
+    {
+      // To je veljavno polaganje tega študenta
+      izpit.polagalci = [ polaganje ];
+      izpit.prijavljen = true;
+    }
+    else
+    {
+      izpit.polagalci = [];
+      izpit.prijavljen = false;
+    }
+    izpiti.push(izpit);
+  }
+  
+  req.izpiti = izpiti;
+  
+  callNext(req, res, next);
 }
 
 function najdiStudentovPredmet(req, res, next) {
