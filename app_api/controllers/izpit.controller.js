@@ -703,7 +703,6 @@ function najdiPolaganje(req, res, next) {
 
 function dodajPolagalca(req, res, next) {
   console.log("--dodajPolagalca");
-  
   if(!req.polaganje) {
     
     if(req.danes > req.izpit.datum_izvajanja) {
