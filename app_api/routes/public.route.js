@@ -38,6 +38,7 @@ var ctrl = {
     Izpit: require('../controllers/izpit.controller.js'),
     
     student: require("../controllers/student.controller"),
+    Sklep: require("../controllers/sklep.controller"),
     
     zeton: require("../controllers/zeton.controller.js"),
     vpis: require("../controllers/vpis.controller")
@@ -71,10 +72,14 @@ router.put('/student/:student_id', ctrl.student.updateStudenta);
 // Odobritev spremembe izpita
 router.get('/student/:student_id/izpit/spremembe', ctrl.Izpit.pridobiZahtevke);
 router.post('/student/:student_id/izpit/:izpit_id/strinjam', ctrl.Izpit.potrdiSpremembo);
-// Razno izpiri
+// Razno izpiti
 router.get('/student/:student_id/izpit', ctrl.Izpit.getMozneIzpiteStudenta);
 router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
 //router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu);
+// Vzdrževanje Sklepov
+router.post('/student/:student_id/sklep', ctrl.Sklep.dodaj);
+router.put('/student/:student_id/sklep/:sklep', ctrl.Sklep.uredi);
+router.delete('/student/:student_id/sklep/:sklep', ctrl.Sklep.izbrisi);
 
 
 // Controller Izpiti

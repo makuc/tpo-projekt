@@ -45,6 +45,13 @@ var studijskoLetoStudenta = new mongoose.Schema({
     opravil: {type: Boolean, "default": false}
 });
 
+var sklepScheme = new mongoose.Schema({
+    organ: {type: String, required: true},
+    besedilo: {type: String, required: true},
+    
+    datum: {type: Date, "default": Date.now()}
+});
+
 var studentSchema = new mongoose.Schema({
     vpisna_stevilka: {type: String, required: true, unique: true},
     priimek: {type: String, required: true},
@@ -86,6 +93,8 @@ var studentSchema = new mongoose.Schema({
     
     // Dodatni podatki - Združena tabela !!
     studijska_leta_studenta: [studijskoLetoStudenta],
+    
+    sklepi: [sklepScheme],
     
     zetoni: [zetonSchema]
 });
