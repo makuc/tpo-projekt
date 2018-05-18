@@ -616,14 +616,12 @@ function obdelajPredmete(req, res, next) {
   }
 }
 function nStudentovPredmetaZaLetnikStudijskoLeto(req, res, next) {
-  console.log("Predmet: " + req.predmet.naziv);
   Student
     .find({
       studijska_leta_studenta: {
         $elemMatch: {
           studijsko_leto: req.studijskoLeto,
-          letnik: req.letnik,
-          predmeti: {$in: [req.predmet._id]}
+          letnik: req.letnik
         }
       }
     })
@@ -631,11 +629,39 @@ function nStudentovPredmetaZaLetnikStudijskoLeto(req, res, next) {
       if(err || !studenti)
       {
         console.log("---seznamPredmetovZaLetnikStudijskoLeto:\n" + err);
-        res.status(404).json({ message: "Ne najdem števila študentov za predmete za izbrana letnik in študijski program"});
+        res.status(404).json({ message: "Ne najdem števila študentov za predmete za izbran letnik in študijski program"});
       }
       else
       {
-        req.predmet.nStudentov = studenti.length;
+        var N = 0;
+        for(var i = 0; i < studenti.length; i++)
+        {
+          var student = studenti[i];
+          // Obdelaj vse študente
+          for(var j = student.studijska_leta_studenta.length - 1; j >= 0 ; j--)
+          {
+            var leto = student.studijska_leta_studenta[j];
+            // Najdi ustrezno študijsko leto
+            if(req.studijskoLeto._id.equals(leto.studijsko_leto))
+            {
+              // Študijsko leto najdeno, najdi predmet
+              
+              for(var k = 0; k < leto.predmeti.length; k++)
+              {
+                var predmet = leto.predmeti[k].predmet;
+                if(req.predmet._id.equals(predmet))
+                {
+                  N++;
+                  break;
+                }
+              }
+              
+              break;
+            }
+          }
+        }
+        
+        req.predmet.nStudentov = N;
         
         req.predmeti.push(req.predmet);
         
