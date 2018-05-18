@@ -43,7 +43,7 @@
         console.log("Prišlo do napake pri pridobivanju študijskih let: " + odgovor);
       }
     );
-    ostaloPodatki.pridobiVseVeljavneVrsteVpisa().then(
+    ostaloPodatki.pridobiVseVeljavneNacineStudija().then(
       function success(odgovor) {
         vm.naciniStudija = odgovor.data;
       },
