@@ -8,7 +8,7 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
-        
+
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
@@ -57,18 +57,29 @@
         };
         
         vm.prikazi = function(){
-            if(vm.vpisan.skrbnik == false && vm.vpisan.referentka == false)
+            if(/*vm.vpisan.skrbnik == false &&*/ vm.vpisan.referentka == false)
             {
                 vm.vpisan.predavatelj = true;
             }
             
             if(vm.vpisan.predavatelj == true)
             {
+                console.log("predavatelj: ", vm.vpisan);
                 // CHANGE THIS
                 izpitniRokPodatki.najdiVseIzpiteZaStudijskoLeto(vm.studijskoLeto._id).then(
                     function success(odgovor){
                         vm.VsiRoki = odgovor.data;
-                        vm.izpitniRoki = odgovor.data;
+                        console.log(vm.VsiRoki);
+                        vm.izpitniRoki = [];
+                        for (var i = 0; i < vm.VsiRoki.length; i++) {
+                            for (var j = 0; j < vm.VsiRoki[i].izvajalci.length; j++) {
+                                if(vm.VsiRoki[i].izvajalci[j]._id == vm.vpisan.zaposlen)
+                                {
+                                    vm.izpitniRoki.push(vm.VsiRoki[i]);
+                                }
+                            }
+                        }
+                        vm.VsiRoki = vm.izpitniRoki;
                         vm.stVseh = vm.izpitniRoki.length;
                         vm.stNaStran = 10;
                         vm.trenutnaStran = 0;
@@ -90,7 +101,7 @@
                             return pagedData;
                         }
                         vm.izpitniRoki = array;
-                        console.log(vm.izpitniRoki[0]);
+                        //console.log(vm.izpitniRoki[0]);
                     },
                     function error(odgovor){
                         console.log(odgovor);
