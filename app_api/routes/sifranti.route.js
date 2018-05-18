@@ -172,6 +172,7 @@ router.post('/predmet/:predmet_id/izvedba/:izvedba_id/izvajalec', auth.skrbnik, 
 router.delete('/predmet/:predmet_id/izvedba/:izvedba_id/izvajalec/:izvajalec_id', auth.skrbnik, ctrl.NeodvisniPodatki.Predmet.delIzvajalcaIzvedbiPredmeta);
 
 router.get('/predmet/:predmet_id/leto/:studijskoLeto_id', ctrl.NeodvisniPodatki.Predmet.getStudenteStudijskegaLeta);
+router.get('/predmet/program/:program_id/leto/:studijskoLeto_id/letnik/:letnik_id', ctrl.NeodvisniPodatki.Predmet.seznamPredmetovNStudentov);
 
 // Controller Letnik
 router.get('/letnik', ctrl.NeodvisniPodatki.Letnik.getLetnike);
