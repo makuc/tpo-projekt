@@ -404,6 +404,13 @@
                 controllerAs: 'vm'
             })
             
+            // Generiranje žetonov
+            .when('/generiraj-zetone', {
+                templateUrl: 'views/generirajZetone.template.html',
+                controller: 'generirajZetoneCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);

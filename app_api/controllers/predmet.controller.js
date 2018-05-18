@@ -2,7 +2,10 @@ var mongoose = require("mongoose");
 var callNext = require("./_include/callNext");
 
 var Predmet = mongoose.model('Predmet');
+let Predmetnik = mongoose.model('Predmetnik');
 var StudijskoLeto = mongoose.model('StudijskoLeto');
+let StudijskiProgram = mongoose.model('StudijskiProgram');
+let Letnik= mongoose.model('Letnik');
 var Zaposlen = mongoose.model('Zaposlen');
 var Student = mongoose.model('Student');
 
@@ -112,6 +115,12 @@ module.exports.getStudenteStudijskegaLeta = function(req, res) {
     najdiStudentePredmeta,
     
     vrniPredmet
+  ]);
+};
+module.exports.seznamPredmetovNStudentov = function(req, res) {
+  callNext(req, res, [
+    validateLetnik, validateStudijskoLeto, validateStudijskiProgram,
+    najdiPredmeteZaLetnikStudijskoLeto, obdelajPredmete, vrniPredmete
   ]);
 };
 
@@ -532,4 +541,156 @@ function najdiStudentePredmeta(req, res, next) {
       
       callNext(req, res, next);
     });
+}
+function najdiPredmeteZaLetnikStudijskoLeto(req, res, next) {
+  req.predmeti = [];
+  
+  Predmetnik
+    .find({
+      studijski_program: req.studijskiProgram,
+      studijsko_leto: req.studijskoLeto,
+      letnik: req.letnik
+    })
+    .populate({
+      path: "predmeti",
+      select: "-valid -izvedbe_predmeta"
+    })
+    .exec(function(err, predmetniki) {
+      if(err || !predmetniki)
+      {
+        console.log("---najdiPredmeteZaLetnikStudijskoLeto:\n" + err);
+        res.status(404).json({ message: "Ne najdem predmetov za izbrano študijsko leto, letnik in študijski program"});
+      }
+      else
+      {
+        while(predmetniki.length > 0)
+        {
+          var predmetnik = predmetniki.shift().toObject();
+          
+          while(predmetnik.predmeti.length > 0)
+          {
+            var predmet = predmetnik.predmeti.shift();
+            var obstaja = false;
+            for(var i = 0; i < req.predmeti.length; i++)
+            {
+              // Poglej, če je izbran predmet bil že dodan na seznam...
+              if(req.predmeti[i]._id.equals(predmet._id))
+              {
+                obstaja = true;
+                break;
+              }
+            }
+            
+            if(!obstaja)
+            {
+              req.predmeti.push(predmet);
+            }
+          }
+        }
+        
+        callNext(req, res, next);
+      }
+    });
+}
+function obdelajPredmete(req, res, next) {
+  if(next)
+  {
+    req.myNext = next;
+    req.neobdelani = req.predmeti;
+    req.predmeti = [];
+  }
+  
+  if(req.neobdelani.length > 0)
+  {
+    req.predmet = req.neobdelani.shift();
+    callNext(req, res, [ nStudentovPredmetaZaLetnikStudijskoLeto, obdelajPredmete ]);
+  }
+  else
+  {
+    next = req.myNext;
+    req.myNext = undefined;
+    
+    req.neobdelani = undefined;
+    
+    callNext(req, res, next);
+  }
+}
+function nStudentovPredmetaZaLetnikStudijskoLeto(req, res, next) {
+  Student
+    .find({
+      studijska_leta_studenta: {
+        $elemMatch: {
+          studijsko_leto: req.studijskoLeto,
+          letnik: req.letnik
+        }
+      }
+    })
+    .exec(function(err, studenti) {
+      if(err || !studenti)
+      {
+        console.log("---seznamPredmetovZaLetnikStudijskoLeto:\n" + err);
+        res.status(404).json({ message: "Ne najdem števila študentov za predmete za izbran letnik in študijski program"});
+      }
+      else
+      {
+        var N = 0;
+        for(var i = 0; i < studenti.length; i++)
+        {
+          var student = studenti[i];
+          // Obdelaj vse študente
+          for(var j = student.studijska_leta_studenta.length - 1; j >= 0 ; j--)
+          {
+            var leto = student.studijska_leta_studenta[j];
+            // Najdi ustrezno študijsko leto
+            if(req.studijskoLeto._id.equals(leto.studijsko_leto))
+            {
+              // Študijsko leto najdeno, najdi predmet
+              
+              for(var k = 0; k < leto.predmeti.length; k++)
+              {
+                var predmet = leto.predmeti[k].predmet;
+                if(req.predmet._id.equals(predmet))
+                {
+                  N++;
+                  break;
+                }
+              }
+              
+              break;
+            }
+          }
+        }
+        
+        req.predmet.nStudentov = N;
+        
+        req.predmeti.push(req.predmet);
+        
+        callNext(req, res, next);
+      }
+    });
+}
+
+function validateLetnik(req, res, next) {
+  Letnik.findById(req.params.letnik_id, function(err, letnik) {
+    if(err || !letnik) {
+      //console.log(err);
+      return res.status(400).json({ message: "Izbrani letnik ne obstaja" });
+    }
+    
+    req.letnik = letnik;
+    
+    callNext(req, res, next);
+  });
+}
+function validateStudijskiProgram(req, res, next) {
+  StudijskiProgram.findById(req.params.program_id, function(err, studijskiProgram) {
+    if(err || !studijskiProgram) {
+      //console.log(err);
+      return res.status(400).json({ message: "Izbrani študijski program ne obstaja" });
+    }
+    
+    req.studijskiProgram = studijskiProgram;
+    
+    callNext(req, res, next);
+  });
 }

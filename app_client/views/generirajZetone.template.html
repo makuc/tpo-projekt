@@ -1,0 +1,118 @@
+<style>
+#gen th {
+  padding: 0.5em 0 0.5em 0;
+  text-align: center;
+}
+#gen td {
+  padding: 0.4em 0.3em 0.4em 0.3em;
+}
+#gen h3 {
+  background-color: inherit;
+  border: none;
+}
+#gen .index {
+  text-align: right;
+  width: 3.5em;
+}
+#gen .vpisna {
+  width: 5.5em;
+  text-align: center;
+}
+.custom {
+  width: 20em;
+}
+</style>
+
+<header></header>
+
+<div>
+  <div class="alert alert-danger" role="alert" ng-show="vm.napaka">{{vm.napaka}}</div>
+  <div class="alert alert-success" role="alert" ng-show="vm.message">{{vm.message}}</div>
+  <h3>Generiranje žetonov za vpis</h3>
+  <form role="form"  ng-submit="vm.generiraj()" class="form-horizonral"  >
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p style="margin-bottom: 0px">
+              <label>Izberi letnik</label>
+          </p>
+          <select class="form-control" type="text" ng-model="vm.data.letnik"  
+            ng-options="letnik as (letnik.naziv + ', ' + letnik.studijskiProgram.sifraEVS + ' ' + letnik.studijskiProgram.naziv) for letnik in vm.letniki track by letnik._id" required=""></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p style="margin-bottom: 0px">
+              <label>Izberi trenutno študijsko leto</label>
+          </p>
+          <select class="form-control" type="text" ng-model="vm.data.trenutno_leto"  
+            ng-options="leto as (leto.studijsko_leto) for leto in vm.studijskaLeta track by leto._id" required=""></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p style="margin-bottom: 0px">
+              <label>Izberi naslednje študijsko leto</label>
+          </p>
+          <select class="form-control" type="text" ng-model="vm.data.naslednje_leto"  
+            ng-options="leto as (leto.studijsko_leto) for leto in vm.studijskaLeta track by leto._id" required=""></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <p style="margin-bottom: 0px">
+              <label>Vnesi minimalno KT za napredovanj</label>
+          </p>
+          <input class="form-control" type="number" min="0" max="60" ng-model="vm.data.minimalno_KT" required="" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4" style="margin-bottom: 15px">
+          <a href="/main" type="button" class="btn btn-danger">Prekliči</a>
+          <button class="btn btn-success pull-right" type="submit">Generiraj</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div ng-show="vm.studenti">
+  <div id="gen" class="row">
+    <div class="col" ng-hide="vm.studenti.length > 0">
+      <h3 class="alert-danger">Generiranje žetonov ni vplivalo na nobenega študenta</h3>
+    </div>
+    <div class="col" ng-show="vm.studenti.length > 0">
+      <h3 class="alert-success">Obdelani študentje</h3>
+      <div style="overflow-x: auto">
+        <table border="1" width="100%" class="alert-success">
+          <tr>
+            <th>#</th>
+            <th>Vpisna št.</th>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>Generirani žetoni</th>
+          </tr>
+          <tr ng-repeat="student in vm.studenti">
+            <td class="index">{{ $index }}</td>
+            <td class="vpisna">{{ student.vpisna_stevilka }}</td>
+            <td>{{ student.ime }}</td>
+            <td>{{ student.priimek }}</td>
+            <td>
+              <ul ng-show="student.zetoni.length > 0">
+                <li ng-repeat="zeton in student.zetoni">
+                  {{
+                    vm.najdiVrstoVpisa(zeton.vrsta_vpisa) + ": " + zeton.letnik.naziv
+                  }}
+                </li>
+              </ul>
+              <ul ng-hide="student.zetoni.length > 0">
+                <li>Ni generiranih žetonov</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>

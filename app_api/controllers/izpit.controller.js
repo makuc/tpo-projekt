@@ -140,7 +140,7 @@ module.exports.odjavaIzIzpitaForce = function(req, res) {
 
 // Vnos ocen
 module.exports.addOcenoStudentu = function(req, res) {
-  if(!req.body || (!req.body.ocena && !req.body.tock))
+  if(!req.body || (!req.body.ocena && !req.body.tock && !req.body.koncna_ocena))
   {
     return res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
   }
