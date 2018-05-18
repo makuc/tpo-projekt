@@ -33,6 +33,12 @@
                     //console.log(odgovor.data);
                     vm.izpitniRok = odgovor.data;
                     vm.kandidati = vm.izpitniRok.polagalci;
+                    for (var i = 0; i < vm.kandidati.length; i++) {
+                        if(vm.kandidati[i].tock < 0)
+                        {
+                            vm.kandidati[i].tock = "";
+                        }
+                    }
                     console.log(vm.kandidati);
                    
                     //console.log("kandidati: ", vm.kandidati);
@@ -69,6 +75,10 @@
             for (var i = 0; i < vm.kandidati[vm.trenutnaStran].length; i++) 
             {
                 var kandidat = vm.kandidati[vm.trenutnaStran][i];
+                if(kandidat.odjavljen == true)
+                {
+                    continue;
+                }
                 //console.log(kandidat);
                 var data = {
                     tock: kandidat.tock,
