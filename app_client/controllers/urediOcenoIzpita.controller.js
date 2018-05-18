@@ -24,6 +24,10 @@
                       if(vm.kandidati[i].student._id == vm.studentId)
                       {
                         vm.kandidat = vm.kandidati[i];
+                        if(vm.kandidat.tock < 0)
+                        {
+                            vm.kandidat.tock = "";
+                        }
                         break;
                       }
                     }

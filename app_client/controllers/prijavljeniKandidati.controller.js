@@ -9,6 +9,7 @@
         
         vm.izvedbaId = $route.current.pathParams.rokId;
         //console.log(vm.izvedbaId);
+        vm.opcijeOcen = [1,2,3,4,5,6,7,8,9,10];
         
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stKandidatov/10-1){
@@ -32,6 +33,8 @@
                     //console.log(odgovor.data);
                     vm.izpitniRok = odgovor.data;
                     vm.kandidati = vm.izpitniRok.polagalci;
+                    console.log(vm.kandidati);
+                   
                     //console.log("kandidati: ", vm.kandidati);
                     vm.stKandidatov = vm.kandidati.length;
                     vm.stKandidatovNaStran = 10;
@@ -62,10 +65,68 @@
             );
         };
         
+        vm.shraniVse = function(){
+            for (var i = 0; i < vm.kandidati[vm.trenutnaStran].length; i++) 
+            {
+                var kandidat = vm.kandidati[vm.trenutnaStran][i];
+                //console.log(kandidat);
+                var data = {
+                    tock: kandidat.tock,
+                    ocena: kandidat.ocena,
+                    koncna_ocena: kandidat.koncna_ocena
+                };
+                ostaloPodatki.posodobiOceno(vm.izvedbaId, kandidat.student._id, data).then(
+                    function success(odgovor){
+                        //$location.path("/vsiIzpitniRoki/" + vm.izvedbaId + "/kandidati");
+                        vm.prikaziKandidate();
+                        vm.uspeh = "Podatki so bili uspešno shranjeni.";
+                        vm.obvestilo = "";
+                    },
+                    function error(odgovor){
+                        vm.uspeh = "";
+                        vm.obvestilo = "Neveljavni podatki - preverite vnešene ocene.";
+                        console.log(odgovor);
+                    }
+                );
+            }
+        };
+        
+        vm.shraniStudenta = function(kandidat){
+            var data = {
+                tock: kandidat.tock,
+                ocena: kandidat.ocena,
+                koncna_ocena: kandidat.koncna_ocena
+            };
+            ostaloPodatki.posodobiOceno(vm.izvedbaId, kandidat.student._id, data).then(
+                function success(odgovor){
+                    //$location.path("/vsiIzpitniRoki/" + vm.izvedbaId + "/kandidati");
+                    vm.prikaziKandidate();
+                    vm.uspeh = "Podatki so bili uspešno shranjeni.";
+                    vm.obvestilo = "";
+                },
+                function error(odgovor){
+                    vm.uspeh = "";
+                    vm.obvestilo = "Neveljavni podatki - preverite vnešene ocene.";
+                    console.log(odgovor);
+                }
+            );
+        };
+        
         vm.uredi = function(studentId){
             //console.log(zaposlenId);
             // /vsiIzpitniRoki/5af174a9267cef0a952d32fa/kandidati
             $location.path("/vsiIzpitniRoki/" + vm.izvedbaId + '/kandidati/' + studentId);
+        };
+        
+        vm.odjavi = function(studentId)
+        {
+          ostaloPodatki.odjaviOdRokaForce(vm.izvedbaId, studentId).then(
+            function success(odgovor){
+                vm.prikaziKandidate();
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            });
         };
                
        $scope.orderByMe = function(x) {

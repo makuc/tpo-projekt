@@ -92,6 +92,7 @@
                 predmetPodatki.izpisiVseVeljavnePredmete().then(
                     function success(odgovor){
                         vm.vsiPodatki = odgovor.data;
+                        console.log("Vsi podatki: ", vm.vsiPodatki);
                         vm.predmeti = odgovor.data;
                         vm.stPredmetov = vm.predmeti.length;
                         vm.stPredmetovNaStran = 10;
