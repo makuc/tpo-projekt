@@ -990,24 +990,24 @@ function vnesiOcenoPodIzpit(req, res, next) {
   if(req.body.ocena)
   {
     req.body.ocena = parseInt(req.body.ocena, 10);
-    if(req.body.ocena > 100 || req.body.ocena < 0)
-      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med 0 in 10"});
+    if(req.body.ocena > 100 || req.body.ocena < -1)
+      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med -1 in 10"});
     
     req.polaganje.ocena = req.body.ocena;
   }
   if(req.body.tock)
   {
     req.body.tock = parseInt(req.body.tock, 10);
-    if(req.body.tock > 100 || req.body.tock < 0)
-      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med 0 in 100"});
+    if(req.body.tock > 100 || req.body.tock < -1)
+      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med -1 in 100"});
     
     req.polaganje.tock = req.body.tock;
   }
   if(req.body.koncna_ocena)
   {
     req.body.koncna_ocena = parseInt(req.body.koncna_ocena, 10);
-    if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < 0)
-      return res.status(400).json({ message: "Končna ocena predmeta mora biti med 0 in 10"});
+    if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < -1)
+      return res.status(400).json({ message: "Končna ocena predmeta mora biti med -1 in 10"});
     
     req.polaganje.koncna_ocena = req.body.koncna_ocena;
   }
