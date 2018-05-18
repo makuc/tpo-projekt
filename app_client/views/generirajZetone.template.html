@@ -97,12 +97,15 @@
             <td>{{ student.ime }}</td>
             <td>{{ student.priimek }}</td>
             <td>
-              <ul>
+              <ul ng-show="student.zetoni.length > 0">
                 <li ng-repeat="zeton in student.zetoni">
                   {{
                     vm.najdiVrstoVpisa(zeton.vrsta_vpisa) + ": " + zeton.letnik.naziv
                   }}
                 </li>
+              </ul>
+              <ul ng-hide="student.zetoni.length > 0">
+                <li>Ni generiranih žetonov</li>
               </ul>
             </td>
           </tr>
