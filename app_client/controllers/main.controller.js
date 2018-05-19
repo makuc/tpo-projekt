@@ -23,6 +23,7 @@
             
             izpitniRokPodatki.pridobiZahtevkeZaSpremembeIzpita(authentication.currentUser().student).then(
                 function success(odgovor){
+                    vm.zahtevki = odgovor.data;
                     console.log(odgovor.data);
                 },
                 function error(odgovor){

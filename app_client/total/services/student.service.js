@@ -67,6 +67,11 @@
             return $http.delete('/api/v1/vpis/' + vpisnica_id + '/modulni-izbirni/' + predmet_id);
         };
         
+        var pridobiPDFVpisnegaLista = function(vpisniListID){
+            return $http.get('/api/v1/vpisni-list/' + vpisniListID);
+        };
+       
+        
         return {
             dodajStudenta: dodajStudenta,
             izpisStudentov: izpisStudentov,
@@ -83,7 +88,8 @@
             dodajModulniPredmet: dodajModulniPredmet,
             odstraniModulniPredmet: odstraniModulniPredmet,
             dodajModul: dodajModul,
-            odstraniModul: odstraniModul
+            odstraniModul: odstraniModul,
+            pridobiPDFVpisnegaLista: pridobiPDFVpisnegaLista
         };
     };
     
