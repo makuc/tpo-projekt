@@ -13,37 +13,22 @@
         </div>
     </div>
     <!--<a href="/dodajZaposlenega" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>-->
-    <a href="/poglejVpise" class="btn" ng-show="vm.oddani">Poglej vse vpise</a>
-    <a href="/potrdiVpise" class="btn" ng-hide="vm.oddani">Poglej oddane vpise</a>
+    <a href="/poglejVpise" class="btn btn-primary dodaj" ng-show="vm.oddani">Poglej vse vpise</a>
+    <a href="/potrdiVpise" class="btn btn-primary dodaj" ng-hide="vm.oddani">Poglej oddane vpise</a>
     <div class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_nepotrjeniVpisov" class="table table-hover" ng-init="vm.pridobiVseVpise()">
+        <table id="tabela_nepotrjeniVpisov" class="table table-hover" ng-init="vm.pridobiVseVpise()">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Priimek</th>
                     <th>Ime</th>
                     <th>Vpisna številka</th>
                     <th>Email</th>
                 </tr>
             </thead>
-            <tfoot>
-                <td colspan="6">
-                    <div class="pull-right">
-                        <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
-                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
-                            </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
-                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
-                            </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.nepotrjeniVpisi.length - 1}">
-                                <a href ng-click="vm.nextPage()">Naslednja >></a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tfoot>
             <tbody>
-                <tr ng-repeat="nepotrjenVpis in vm.nepotrjeniVpisi[vm.trenutnaStran]">
+                <tr ng-repeat="nepotrjenVpis in vm.nepotrjeniVpisi | filter: iskanje | limitTo:vm.naStran:vm.stran*vm.naStran">
+                    <td>{{ $index + 1 + vm.stran*vm.naStran }}</td>
                     <td>{{ nepotrjenVpis.student.priimek }}</td>
                     <td>{{ nepotrjenVpis.student.ime }}</td>
                     <td>{{ nepotrjenVpis.student.vpisna_stevilka }}</td>
@@ -52,43 +37,23 @@
                     <td><button class="btn btn-success" type="button" ng-click="vm.potrdiVpis(nepotrjenVpis._id)" ng-show="vm.oddani">Potrdi vpis</button></td>
                 </tr>
             </tbody>
-        </table>
-        <table ng-show="iskanje" id="tabela_nepotrjeniVpisov" class="table table-hover" ng-init="vm.pridobiVseVpise()">
-            <thead>
-                <tr>
-                    <th>Priimek</th>
-                    <th>Ime</th>
-                    <th>Vpisna številka</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
             <tfoot>
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.nepotrjeniVpisi.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>
                     </div>
                 </td>
             </tfoot>
-            <tbody>
-                <tr ng-repeat="nepotrjenVpis in vm.nepotrjeniVpisi[vm.trenutnaStran] | filter: iskanje">
-                    <td>{{ nepotrjenVpis.student.priimek }}</td>
-                    <td>{{ nepotrjenVpis.student.ime }}</td>
-                    <td>{{ nepotrjenVpis.student.vpisna_stevilka }}</td>
-                    <td>{{ nepotrjenVpis.student.email }}</td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.prikaziVpisniList(nepotrjenVpis._id)">Vpisni list</button></td>
-                    <td><button class="btn btn-success" type="button" ng-click="vm.potrdiVpis(nepotrjenVpis._id)" ng-show="vm.oddani">Potrdi vpis</button></td>
-                </tr>
-            </tbody>
         </table>
     </div>
 </div>

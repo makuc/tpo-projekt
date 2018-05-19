@@ -34,7 +34,6 @@
         vm.naStran = 10.0;
         vm.stran = 0;
         vm.strani = [1];
-        
         vm.nextPage = function(){
             if(vm.stran < vm.strani.length -1){
                 vm.stran++;
@@ -54,15 +53,26 @@
                 vm.stran = vm.strani.length;
         };
         function pripraviStrani() {
-            var max = Math.ceil(vm.data.length / vm.naStran);
-            vm.strani = [];
-            if(vm.data.length > 0)
-            {
-                for(var i = 0; i <= max; i++) {
-                  vm.strani.push(i + 1);
+            setTimeout(function() {
+                vm.strani = [1];
+                if($scope.query)
+                {
+                    var max = Math.ceil($scope.query.length / vm.naStran);
+                    console.log($scope.query.length + " - " + max);
+                    for(var i = 1; i < max; i++) {
+                        vm.strani.push(i + 1);
+                    }
+                    
+                    vm.setPage(0);
                 }
-            }
-        };
+                
+                vm.n = vm.strani.length-1;
+                $scope.$apply();
+            }, 500);
+        }
+        $scope.$watch('iskanje', function() {
+            pripraviStrani()
+        });
         
         vm.prikaziPredmete = function(){
             if(vm.vpisan.skrbnik == false && vm.vpisan.referentka == false)
@@ -76,7 +86,6 @@
                     function success(odgovor){
                         vm.data = odgovor.data;
                         pripraviStrani();
-                        console.log(vm.predmeti);
                     },
                     function error(odgovor){
                         console.log(odgovor);

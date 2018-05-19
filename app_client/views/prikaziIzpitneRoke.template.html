@@ -18,9 +18,9 @@
             </div>
         </div>
     </div>
-    <a href="/dodajIzpitniRok" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <a href="/dodajIzpitniRok" class="btn btn-primary"><div class="glyphicon glyphicon-plus-sign"></div> Dodaj</a>
     <div class="container table-responsive">
-        <table ng-show="iskanje" class="table table-hover">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -31,8 +31,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="rok in vm.VsiRoki | filter:iskanje" ng-class="(rok.valid ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
+                <tr ng-repeat="rok in query = (vm.izpitniRoki | filter:iskanje) | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ rok.predmet.sifra }}, {{ rok.predmet.naziv }}</td>
                     <td>{{ rok.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                     <td>{{ rok.lokacija }}</td>
@@ -45,6 +45,7 @@
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi()">Uredi</button></td>
                 </tr> 
             </tbody>
+<<<<<<< HEAD
         </table>
         <table ng-show="!iskanje" class="table table-hover">
             <thead>
@@ -71,17 +72,19 @@
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(rok._id)">Uredi</button></td>
                 </tr> 
             </tbody>
+=======
+>>>>>>> 562e65a61c4d0cbf019125e2b0b15b4ff8405312
             <tfoot>
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.izpitniRoki.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>

@@ -25,7 +25,6 @@
             delTok();
             return $location.path('/login');
         };
-        
         function delTok(){
             return authentication.logout();
         }
@@ -49,44 +48,54 @@
           
         }
         
+        vm.naStran = 10.0;
+        vm.stran = 0;
+        vm.strani = [1];
         vm.nextPage = function(){
-            vm.trenutnaStran++;
+            if(vm.stran < vm.strani.length -1){
+                vm.stran++;
+            }
         };
-        
         vm.prevPage = function(){
-            vm.trenutnaStran--;
+            if(vm.stran > 0){
+                vm.stran--;
+            }
         };
-        
         vm.setPage = function(x){
-            vm.trenutnaStran = x-1;
+            vm.stran = x - 1;
+            
+            if(vm.stran < 0)
+                vm.stran = 0;
+            else if(vm.stran > vm.strani.length)
+                vm.stran = vm.strani.length;
         };
+        function pripraviStrani() {
+            setTimeout(function() {
+                vm.strani = [1];
+                if($scope.query)
+                {
+                    var max = Math.ceil($scope.query.length / vm.naStran);
+                    console.log($scope.query.length + " - " + max);
+                    for(var i = 1; i < max; i++) {
+                        vm.strani.push(i + 1);
+                    }
+                    
+                    vm.setPage(0);
+                }
+                
+                vm.n = vm.strani.length-1;
+                $scope.$apply();
+            }, 500);
+        }
+        $scope.$watch('iskanje', function() {
+            pripraviStrani();
+        });
         
         vm.prikaziPredmete = function(){
             predmetPodatki.izpisiVseVeljavnePredmete().then(
                 function success(odgovor){
-                    vm.vsiPodatki = odgovor.data;
                     vm.predmeti = odgovor.data;
-                    vm.stPredmetov = vm.predmeti.length;
-                    vm.stPredmetovNaStran = 10;
-                    vm.trenutnaStran = 0;
-                    
-                    var array = [setPagingData(1)];
-                    
-                    vm.strani = [1];
-                    
-                    for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
-                        array.push(setPagingData(i));
-                        vm.strani.push(i);
-                    }
-                    
-                    function setPagingData(page){
-                        var pagedData = vm.predmeti.slice(
-                            (page - 1) * vm.stPredmetovNaStran,
-                            page * vm.stPredmetovNaStran
-                            );
-                        return pagedData;
-                    }
-                    vm.predmeti = array;
+                    pripraviStrani();
                 },
                 function error(odgovor){
                     console.log(odgovor);

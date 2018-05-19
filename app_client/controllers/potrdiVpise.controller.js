@@ -8,57 +8,55 @@
         var vm = this;
         
         vm.oddani = true;
+        
+        vm.naStran = 10.0;
+        vm.stran = 0;
+        vm.strani = [1];
         vm.nextPage = function(){
-            if(vm.trenutnaStran < vm.stNepotrjenihVpisov/10-1){
-                vm.trenutnaStran++;
+            if(vm.stran < vm.strani.length -1){
+                vm.stran++;
             }
         };
-        
         vm.prevPage = function(){
-            if(vm.trenutnaStran > 0){
-                vm.trenutnaStran--;
+            if(vm.stran > 0){
+                vm.stran--;
             }
         };
-        
         vm.setPage = function(x){
-            vm.trenutnaStran = x-1;
+            vm.stran = x - 1;
+            
+            if(vm.stran < 0)
+                vm.stran = 0;
+            else if(vm.stran > vm.strani.length)
+                vm.stran = vm.strani.length;
         };
+        function pripraviStrani() {
+            setTimeout(function() {
+                vm.strani = [1];
+                if($scope.query)
+                {
+                    var max = Math.ceil($scope.query.length / vm.naStran);
+                    console.log($scope.query.length + " - " + max);
+                    for(var i = 1; i < max; i++) {
+                        vm.strani.push(i + 1);
+                    }
+                    
+                    vm.setPage(0);
+                }
+                
+                vm.n = vm.strani.length-1;
+                $scope.$apply();
+            }, 500);
+        }
+        $scope.$watch('iskanje', function() {
+            pripraviStrani();
+        });
         
         vm.pridobiVseVpise = function(){
             ostaloPodatki.najdiOddaneVpise().then(
                 function success(odgovor){
-                    vm.vsiVpisi = odgovor.data;
-                    vm.nepotrjeniVpisi = [];
-                    
-                    for (var i = 0; i < vm.vsiVpisi.length; i++) {
-                      if(vm.vsiVpisi[i].potrjen == false) // pravilno je false, samo ni se primerov za false
-                      {
-                        vm.nepotrjeniVpisi.push(vm.vsiVpisi[i]);
-                      }
-                    }
-                    console.log(vm.nepotrjeniVpisi);
-                    
-                    vm.stNepotrjenihVpisov = vm.nepotrjeniVpisi.length;
-                    vm.stNepotrjenihVpisovNaStran = 10;
-                    vm.trenutnaStran = 0;
-                    
-                    var array = [setPagingData(1)];
-                    
-                    vm.strani = [1];
-                    
-                    for(var i = 2; i <= (vm.stNepotrjenihVpisov/10)+1; i++){
-                        array.push(setPagingData(i));
-                        vm.strani.push(i);
-                    }
-                    
-                    function setPagingData(page){
-                        var pagedData = vm.nepotrjeniVpisi.slice(
-                            (page - 1) * vm.stNepotrjenihVpisovNaStran,
-                            page * vm.stNepotrjenihVpisovNaStran
-                            );
-                        return pagedData;
-                    }
-                    vm.nepotrjeniVpisi = array;
+                    vm.nepotrjeniVpisi = odgovor.data;
+                    pripraviStrani();
                 },
                 function error(odgovor){
                     console.log(odgovor);

@@ -17,57 +17,7 @@
     <a href="/dodajIzvedboPredmeta/{{vm.predmetId}}/izvedba" class="btn" ng-show="vm.vpisan.skrbnik == true"><div class="glyphicon glyphicon-plus-sign"></div></a>
     <br>
     <div class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Študijsko leto</th>
-                    <th>Izpiti</th>
-                    <th>Izvajalci</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <td colspan="6">
-                    <div class="pull-right">
-                        <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
-                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
-                            </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
-                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
-                            </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.izvedbe.length - 1}">
-                                <a href ng-click="vm.nextPage()">Naslednja >></a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tfoot>
-            <tbody>
-                <tr ng-repeat="izvedba in vm.izvedbe_predmeta[vm.trenutnaStran]">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stIzvedbNaStran) }}</td>
-                    <td>{{ izvedba.studijsko_leto.studijsko_leto }}</td>
-                    <!--<td>
-                      <ul>
-                        <li ng-repeat="izpit in izvedba.izpiti">/</li>  
-                      </ul>
-                    </td>-->
-                    <td>/</td>
-                    <td>
-                      <ul>
-                          <li ng-repeat="izvajalec in izvedba.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
-                      </ul>
-                    </td>
-                    
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvedbo(izvedba._id)" ng-show="vm.vpisan.skrbnik == true">Uredi</button></td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.pokaziVpisane(izvedba.studijsko_leto._id)">Seznam vpisanih</button></td>
-                    <td><button class="btn btn-danger" type="button" ng-click="vm.izbrisiIzvedbo(izvedba._id)" ng-show="vm.vpisan.skrbnik == true">Izbriši</button></td>
-                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izpiti</button></td>-->
-                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izvajalci</button></td>-->
-                </tr>
-            </tbody>
-        </table>
-        <table ng-show="iskanje" id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
+        <table id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
             <thead>
                 <tr>
                     <th>#</th>
@@ -77,8 +27,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="izvedba in vm.izvedbe_predmeta[vm.trenutnaStran] | filter: iskanje">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stIzvedbNaStran) }}</td>
+                <tr ng-repeat="izvedba in query = (vm.izvedbe_predmeta | filter: iskanje) | limitTo:vm.naStran:vm.stran*vm.naStran">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ izvedba.studijsko_leto.studijsko_leto }}</td>
                     <!--<td>
                       <ul>
@@ -100,6 +50,23 @@
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.urediIzvajalce(izvedba._id)">Izvajalci</button></td>-->
                 </tr>
             </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.stran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
         </table>
     </div>
     
