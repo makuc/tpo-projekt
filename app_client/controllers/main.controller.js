@@ -1,7 +1,7 @@
 (function() {
     /* global angular */
-    mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http', 'studentPodatki', 'ostaloPodatki'];
-    function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki, ostaloPodatki) {
+    mainCtrl.$inject = ['$location', 'authentication', '$scope','$route','$window','$http', 'studentPodatki', 'ostaloPodatki', 'izpitniRokPodatki'];
+    function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki, ostaloPodatki, izpitniRokPodatki) {
         var vm = this;
         
         vm.logoutFunc = function() {
@@ -20,6 +20,15 @@
         if(authentication.currentUser().student){
             vm.jeStudent = true;
             vm.student = true;
+            
+            izpitniRokPodatki.pridobiZahtevkeZaSpremembeIzpita(authentication.currentUser().student).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
         
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
                 function success(odgovor){

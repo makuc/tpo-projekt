@@ -138,7 +138,7 @@
                 datum_izvajanja: vm.podatki.datum,
                 izvedba_predmeta: vm.podatki.izvedbe,
                 lokacija: vm.podatki.lokacija,
-                opis: vm.podatki.maxPrijav
+                opombe: vm.podatki.maxPrijav
                 };
     
                 console.log(data);

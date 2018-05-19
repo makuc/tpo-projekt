@@ -65,8 +65,9 @@
             );
         };
         
-        vm.izvajalci = function(id_rok){
-            $location.path('/dodajIzvajalceIzpitniRok/profesor/' + id_rok); 
+        vm.uredi = function(id_rok){
+            //console.log(id_rok);
+            $location.path('/izpitniRok/profesor/uredi/' + id_rok); 
         };
         
     }

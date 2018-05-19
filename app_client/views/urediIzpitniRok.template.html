@@ -1,0 +1,60 @@
+<style type="text/css">
+    .vEniVrsti {
+        display:inline-block;
+    }
+</style>
+
+<header style="margin-bottom: 15px"></header>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Študijsko leto:</label>
+                {{vm.podatki.studijsko_leto.studijsko_leto}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Predmet:</label>
+                {{vm.podatki.predmet.sifra}}, {{vm.podatki.predmet.naziv}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Izvajalci:</label>
+                {{vm.podatki.izvajalci[0].ime}} {{vm.podatki.izvajalci[0].priimek}} <div ng-show="vm.podatki.izvajalci[1]">,{{vm.podatki.izvajalci[1].ime}} {{vm.podatki.izvajalci[1].priimek}}</div> <div ng-show = "vm.podatki.izvajalci[2]">,{{vm.podatki.izvajalci[2].ime}} {{vm.podatki.izvajalci[2].priimek</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <p style="margin-bottom: 0px"><label>Datum izvajanja:</label></p>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.dan" style="width:50px"/>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.mesec" style="width:50px"/>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.leto" style="width:80px"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <p style="margin-bottom: 0px"><label>Ura izvajanja:</label></p>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.ura" style="width:50px"/><h3 class="vEniVrsti" style="margin-top: 0px">:</h3>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.minuta" style="width:50px"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Lokacija:</label>
+                <input class="form-control" type="text" ng-model="vm.podatki.lokacija"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Maksimalno število prijav:</label>
+                <input class="form-control" type="text" ng-model="vm.podatki.opombe"/>
+            </div>
+        </div>
+
+        <button class="btn btn-success"  type="submit">Shrani</button>
+        <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
+    </div>
+</form>

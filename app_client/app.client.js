@@ -300,22 +300,20 @@
                controller: 'urediOcenoIzpitaCtrl',
                controllerAs: 'vm'
            })
-           .when('/dodajIzvajalceIzpitniRok/:idIzpitnegaRoka', {
-               templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
-               controller: 'dodajIzvajalcaIzpitCtrl',
-               controllerAs: 'vm'
-           })
-           .when('/dodajIzvajalceIzpitniRok/profesor/:idIzpitnegaRoka', {
-               templateUrl: 'views/dodajIzvajalceIzpitnegaRoka.template.html',
-               controller: 'dodajIzvajalcaIzpitProfesorCtrl',
-               controllerAs: 'vm'
-           })
            .when('/izpitniRok/profesor', {
                templateUrl: 'views/izpitniRokiProfesor.template.html',
                controller: 'izpitniRokiProfesorCtrl',
                controllerAs: 'vm'
            })
-
+           .when('/izpitniRok/profesor/uredi/:rokId', {
+               templateUrl: 'views/urediIzpitniRok.template.html',
+               controller: 'urejanjeIzpitniRokProfesorCtrl',
+               controllerAs: 'vm'
+           })
+           
+           
+           
+            //urejanje sifrantov
             .when('/urediDrzavo/:idDrzave', {
                 templateUrl: 'views/urediDrzavo.template.html',
                 controller: 'urediDrzavoCtrl',

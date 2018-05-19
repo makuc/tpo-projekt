@@ -46,6 +46,10 @@
             return $http.get('/api/v1/predmet/' + idPredmeta + '/izvedba/' + idStudijskoLeto);
         }
         
+        function pridobiZahtevkeZaSpremembeIzpita(studentId){
+            return $http.get('api/v1/student/' + studentId + '/izpit/spremembe');
+        }
+        
         return {
             najdiVseIzpiteZaStudijskoLeto: najdiVseIzpiteZaStudijskoLeto,
             najdiVseIzpiteZaPredmet: najdiVseIzpiteZaPredmet,
@@ -57,7 +61,8 @@
             odstraniIzvajalca: odstraniIzvajalca,
             pridobiIzpitniRok: pridobiIzpitniRok,
             najdiPredmeteZaposlenega: najdiPredmeteZaposlenega,
-            pridobiIzvedbePredmeta: pridobiIzvedbePredmeta
+            pridobiIzvedbePredmeta: pridobiIzvedbePredmeta,
+            pridobiZahtevkeZaSpremembeIzpita: pridobiZahtevkeZaSpremembeIzpita
         };
     };
     

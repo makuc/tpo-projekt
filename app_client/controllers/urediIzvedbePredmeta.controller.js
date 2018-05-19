@@ -63,8 +63,7 @@
         vm.prikaziIzvedbe = function(){
             predmetPodatki.pridobiPredmet(vm.predmetId).then(
                 function success(odgovor){
-                    console.log(odgovor.data)
-                    vm.predmet = odgovor.data;
+                    //vm.predmet = odgovor.data;
                     vm.izvedbe_predmeta = vm.predmet.izvedbe_predmeta;
                     console.log("Izvedbe: ", vm.izvedbe_predmeta);
                     vm.stIzvedb = vm.izvedbe_predmeta.length;
