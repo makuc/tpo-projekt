@@ -351,6 +351,11 @@
                 controller: 'potrdiVpiseCtrl',
                 controllerAs: 'vm'
             })
+            .when('/poglejVpise', {
+                templateUrl: 'views/potrdiVpise.template.html',
+                controller: 'poglejVpiseCtrl',
+                controllerAs: 'vm'
+            })
             
             // izpiti student - prijava / odjava
             .when('/izpiti', {
