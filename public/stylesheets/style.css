@@ -9,7 +9,9 @@ body {
   */background-attachment: fixed;
   background-color: #c6ffb3;
 }
-
+.dodaj {
+  margin: 1em;
+}
 a {
   color: #00B7FF;
 }

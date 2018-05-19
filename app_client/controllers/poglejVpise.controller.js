@@ -1,13 +1,12 @@
 (function() {
     /* global angular */
     
-    potrdiVpiseCtrl.$inject = ['ostaloPodatki', '$scope', '$location', '$route', '$window'];
+    poglejVpiseCtrl.$inject = ['ostaloPodatki', '$scope', '$location', '$route', '$window'];
     
     
-    function potrdiVpiseCtrl(ostaloPodatki, $scope, $location, $route, $window){
+    function poglejVpiseCtrl(ostaloPodatki, $scope, $location, $route, $window){
         var vm = this;
         
-        vm.oddani = true;
         vm.nextPage = function(){
             if(vm.trenutnaStran < vm.stNepotrjenihVpisov/10-1){
                 vm.trenutnaStran++;
@@ -25,7 +24,7 @@
         };
         
         vm.pridobiVseVpise = function(){
-            ostaloPodatki.najdiOddaneVpise().then(
+            ostaloPodatki.najdiVseVpise().then(
                 function success(odgovor){
                     vm.vsiVpisi = odgovor.data;
                     vm.nepotrjeniVpisi = [];
@@ -112,12 +111,12 @@
         vm.prikaziVpisniList = function(vpisniListId)
         {
           $window.open("/api/v1/vpisni-list/" + vpisniListId, '_blank');
-        }
+        };
         
     }
     
     angular
         .module('tpo')
-        .controller('potrdiVpiseCtrl', potrdiVpiseCtrl);
+        .controller('poglejVpiseCtrl', poglejVpiseCtrl);
     
 })();

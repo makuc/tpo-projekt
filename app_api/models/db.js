@@ -25,6 +25,8 @@ require("./izpit.model");
 require("./neveljavnaPrijava.model");
 require("./user.model");
 
+require("./narocilo.model.js")
+
 
 /*  Poveži se s podatkovno bazo  */
 var dbURI = process.env.DB_HOST_DEV;

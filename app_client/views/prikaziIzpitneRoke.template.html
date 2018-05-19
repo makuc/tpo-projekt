@@ -2,9 +2,9 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-             <select class="form-control" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
+             <select class="form-control" ng-change="vm.prikazi()" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
         </div>
-        <button class="btn btn-primary" ng-click="vm.prikazi()">Prikaži</button>
+        <!--<button class="btn btn-primary" ng-click="vm.prikazi()">Prikaži</button>-->
     </div>
     <div class="row" style="margin-left: 0px; margin-top:20px">
         <div id="custom-search-input">

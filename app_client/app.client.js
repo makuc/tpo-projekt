@@ -349,6 +349,11 @@
                 controller: 'potrdiVpiseCtrl',
                 controllerAs: 'vm'
             })
+            .when('/poglejVpise', {
+                templateUrl: 'views/potrdiVpise.template.html',
+                controller: 'poglejVpiseCtrl',
+                controllerAs: 'vm'
+            })
             
             // izpiti student - prijava / odjava
             .when('/izpiti', {
@@ -399,6 +404,13 @@
             .when('/vpis/:idVpisnice/pregled', {
                 templateUrl: 'views/vpisniListPregled.template.html',
                 controller: 'vpisniListPregledCtrl',
+                controllerAs: 'vm'
+            })
+            
+            // Generiranje žetonov
+            .when('/generiraj-zetone', {
+                templateUrl: 'views/generirajZetone.template.html',
+                controller: 'generirajZetoneCtrl',
                 controllerAs: 'vm'
             })
             

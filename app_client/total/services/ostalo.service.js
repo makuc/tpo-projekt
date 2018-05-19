@@ -453,6 +453,11 @@
         
         // Vpis / Referentka
         
+        function najdiOddaneVpise()
+        {
+            return $http.get('/api/v1/vpis');
+        }
+        
         function najdiVseVpise()
         {
             return $http.get('/api/v1/vpis/vsi');
@@ -654,6 +659,7 @@
             obnoviZaposlenega: obnoviZaposlenega,
             urediZaposlenega: urediZaposlenega,
             
+            najdiOddaneVpise: najdiOddaneVpise,
             najdiVseVpise: najdiVseVpise,
             potrdiVpis: potrdiVpis,
             

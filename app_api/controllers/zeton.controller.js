@@ -93,7 +93,7 @@ function najdiStudente(req, res, next) {
     .find({
       "studijska_leta_studenta.letnik": req.body.letnik
     })
-    .populate("studijska_leta_studenta.predmeti.predmet")
+    .populate("studijska_leta_studenta.predmeti.predmet studijska_leta_studenta.vrsta_vpisa")
     .exec(function(err, studenti) {
       if(err || !studenti)
       {
@@ -136,9 +136,9 @@ function obdelajStudente(req, res, next) {
     req.student.zetoni = [];
     
     callNext(req, res, [
-      pridobiNeopravljenePredmete,
+      pridobiNeopravljenePredmete, odstejPrejsnjaRednaPolaganja,
       preveriPonavljanjeLetnika, ustvariZetonPonavljanje,
-      ustvariZetonNaslednjiLetnik,
+      pridobiNeopravljenePredmete, ustvariZetonNaslednjiLetnik,
       shraniStudenta,
       obdelajStudente
     ]);
@@ -216,6 +216,50 @@ function pridobiNeopravljenePredmete(req, res, next) {
         req.opravljenoPredmetov++;
       }
       
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function odstejPrejsnjaRednaPolaganja(req, res, next) {
+  // Zdej pa še odštej polaganja, ki jih je opravil redno (v kolikor ponavlja letnik)
+  var x,y,z;
+  
+  var neopravljeni_predmeti = req.neopravljeni_predmeti.slice(0);
+  req.neopravljeni_predmeti = [];
+  
+  for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
+  {
+    var leto = req.student.studijska_leta_studenta[x];
+    
+    if(leto.vrsta_vpisa.koda == 1)
+    {
+      // Pojdi skozi vse predmete, ki jih je opravljal v tem študijskem letu
+      for(y = 0; y < leto.predmeti.length && neopravljeni_predmeti.length > 0; y++)
+      {
+        var predmet = leto.predmeti[y];
+        
+        //Zdej pa vsak predmet primerjaj še z Neopravljenimi predmeti
+        for(z = 0; z < neopravljeni_predmeti.length; z++)
+        {
+          var neopr = neopravljeni_predmeti[z];
+          
+          // Zdej pa najdi predmet
+          if(neopr.predmet._id.equals(predmet.predmet._id))
+          {
+            req.neopravljeni_predmeti.push({
+              predmet: neopr.predmet,
+              ocena: neopr.ocena,
+              izpit: neopr.izpit,
+              zaporedni_poskus: 0,
+              zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj - predmet.zaporedni_poskus
+            });
+            
+            neopravljeni_predmeti.splice(z, 1);
+            break;
+          }
+        }
+      }
     }
   }
   

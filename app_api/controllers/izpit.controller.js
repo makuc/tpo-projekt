@@ -69,6 +69,16 @@ module.exports.potrdiSpremembo = function(req, res) {
     najdiIzpit, najdiStudentaId, najdiPolaganje, potrdiStrinjanje, preveriStrinjanje, spremeniIzpit, vrniIzpit
   ]);
 };
+module.exports.pocistiSpremembo = function(req, res) {
+  callNext(req, res,[
+    najdiIzpit,
+    
+    // Popravi izpit
+    pocistiSpremembo, shraniIzpit,
+    
+    vrniIzpit
+  ]);
+};
 
 module.exports.pridobiZahtevke = function(req, res) {
   callNext(req, res, [
@@ -130,7 +140,7 @@ module.exports.odjavaIzIzpitaForce = function(req, res) {
 
 // Vnos ocen
 module.exports.addOcenoStudentu = function(req, res) {
-  if(!req.body || (!req.body.ocena && !req.body.tock))
+  if(!req.body || (!req.body.ocena && !req.body.tock && !req.body.koncna_ocena))
   {
     return res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
   }
@@ -380,6 +390,21 @@ function izbrisiIzpit(req, res, next) {
     });
   }
 }
+function pocistiSpremembo(req, res, next) {
+  req.izpit.spremembe.opombe = undefined;
+  req.izpit.spremembe.izvajalci = undefined;
+  req.izpit.spremembe.lokacija = undefined;
+  req.izpit.spremembe.datum_izvajanja = undefined;
+  req.izpit.obdelava = false;
+  req.izpit.spremenil = undefined;
+  
+  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  {
+    req.izpit.polagalci[i].strinjanje = false;
+  }
+  
+  callNext(req, res, next);
+}
 function vrniIzpit(req, res) {
   console.log("--vrniIzpit");
   res.status(200).json(req.izpit);
@@ -624,6 +649,8 @@ function najdiNeopravljenePredmete(req, res, next) {
     }
   }
   
+  console.log(req.neopravljeniPredmeti);
+  
   callNext(req, res, next);
 }
 function najdiMozneIzpiteStudenta(req, res, next) {
@@ -656,11 +683,13 @@ function najdiMozneIzpiteStudenta(req, res, next) {
           predmet: { $in: predmeti },
           valid: true,
           polagalci: {
-            $elemMatch: {
-              student: req.student,
-              ocena: {$lte: 0},
-              odjavljen: false,
-              valid: true
+            $ne: {
+              $elemMatch: {
+                student: req.student,
+                koncna_ocena: {$lte: 0},
+                odjavljen: false,
+                valid: true
+              }
             }
           }
         }
@@ -961,24 +990,24 @@ function vnesiOcenoPodIzpit(req, res, next) {
   if(req.body.ocena)
   {
     req.body.ocena = parseInt(req.body.ocena, 10);
-    if(req.body.ocena > 100 || req.body.ocena < 0)
-      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med 0 in 10"});
+    if(req.body.ocena > 100 || req.body.ocena < -1)
+      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med -1 in 10"});
     
     req.polaganje.ocena = req.body.ocena;
   }
   if(req.body.tock)
   {
     req.body.tock = parseInt(req.body.tock, 10);
-    if(req.body.tock > 100 || req.body.tock < 0)
-      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med 0 in 100"});
+    if(req.body.tock > 100 || req.body.tock < -1)
+      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med -1 in 100"});
     
     req.polaganje.tock = req.body.tock;
   }
   if(req.body.koncna_ocena)
   {
     req.body.koncna_ocena = parseInt(req.body.koncna_ocena, 10);
-    if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < 0)
-      return res.status(400).json({ message: "Končna ocena predmeta mora biti med 0 in 10"});
+    if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < -1)
+      return res.status(400).json({ message: "Končna ocena predmeta mora biti med -1 in 10"});
     
     req.polaganje.koncna_ocena = req.body.koncna_ocena;
   }
@@ -989,6 +1018,9 @@ function vnesiOcenoStudentu(req, res, next) {
   console.log("--vnesiOcenoStudentu");
   
   req.predmet.ocena = req.body.koncna_ocena;
+  req.predmet.izpit = req.izpit;
+  
+  //console.log(req.predmet);
   
   callNext(req, res, next);
 }
@@ -1009,6 +1041,7 @@ function izberiStudijskoLeto(req, res, next) {
   });
 }
 function izberiPredmet(req, res, next) {
+  console.log("--izberiPredmet");
   for(var i = 0; i < req.student.studijska_leta_studenta.length; i++)
   {
     if(req.student.studijska_leta_studenta[i].studijsko_leto.equals(req.izpit.studijsko_leto))
@@ -1017,10 +1050,9 @@ function izberiPredmet(req, res, next) {
       
       for(var j = 0; j < leto.predmeti.length; j++)
       {
-        console.log("Primerjaj: " + leto.predmeti[i].predmet + " | " + req.izpit.predmet._id);
-        if(leto.predmeti[i].predmet.equals(req.izpit.predmet._id))
+        if(leto.predmeti[j].predmet.equals(req.izpit.predmet._id))
         {
-          req.predmet = leto.predmeti[i];
+          req.predmet = leto.predmeti[j];
           break;
         }
       }
