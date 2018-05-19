@@ -31,20 +31,37 @@
             return authentication.logout();
         }
         
+        vm.naStran = 10.0;
+        vm.stran = 0;
+        vm.strani = [1];
+        
         vm.nextPage = function(){
-            if(vm.trenutnaStran < vm.stPredmetov/10-1){
-                vm.trenutnaStran++;
+            if(vm.stran < vm.strani.length -1){
+                vm.stran++;
             }
         };
-        
         vm.prevPage = function(){
-            if(vm.trenutnaStran > 0){
-                vm.trenutnaStran--;
+            if(vm.stran > 0){
+                vm.stran--;
             }
         };
-        
         vm.setPage = function(x){
-            vm.trenutnaStran = x-1;
+            vm.stran = x - 1;
+            
+            if(vm.stran < 0)
+                vm.stran = 0;
+            else if(vm.stran > vm.strani.length)
+                vm.stran = vm.strani.length;
+        };
+        function pripraviStrani() {
+            var max = Math.ceil(vm.data.length / vm.naStran);
+            vm.strani = [];
+            if(vm.data.length > 0)
+            {
+                for(var i = 0; i <= max; i++) {
+                  vm.strani.push(i + 1);
+                }
+            }
         };
         
         vm.prikaziPredmete = function(){
@@ -57,29 +74,9 @@
             {
                 predmetPodatki.izpisiVsePredmete().then(
                     function success(odgovor){
-                        vm.vsiPodatki = odgovor.data;
-                        vm.predmeti = odgovor.data;
-                        vm.stPredmetov = vm.predmeti.length;
-                        vm.stPredmetovNaStran = 10;
-                        vm.trenutnaStran = 0;
-                        
-                        var array = [setPagingData(1)];
-                        
-                        vm.strani = [1];
-                        
-                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
-                            array.push(setPagingData(i));
-                            vm.strani.push(i);
-                        }
-                        
-                        function setPagingData(page){
-                            var pagedData = vm.predmeti.slice(
-                                (page - 1) * vm.stPredmetovNaStran,
-                                page * vm.stPredmetovNaStran
-                                );
-                            return pagedData;
-                        }
-                        vm.predmeti = array;
+                        vm.data = odgovor.data;
+                        pripraviStrani();
+                        console.log(vm.predmeti);
                     },
                     function error(odgovor){
                         console.log(odgovor);
@@ -91,30 +88,8 @@
                 console.log("referentka");
                 predmetPodatki.izpisiVseVeljavnePredmete().then(
                     function success(odgovor){
-                        vm.vsiPodatki = odgovor.data;
-                        console.log("Vsi podatki: ", vm.vsiPodatki);
-                        vm.predmeti = odgovor.data;
-                        vm.stPredmetov = vm.predmeti.length;
-                        vm.stPredmetovNaStran = 10;
-                        vm.trenutnaStran = 0;
-                        
-                        var array = [setPagingData(1)];
-                        
-                        vm.strani = [1];
-                        
-                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
-                            array.push(setPagingData(i));
-                            vm.strani.push(i);
-                        }
-                        
-                        function setPagingData(page){
-                            var pagedData = vm.predmeti.slice(
-                                (page - 1) * vm.stPredmetovNaStran,
-                                page * vm.stPredmetovNaStran
-                                );
-                            return pagedData;
-                        }
-                        vm.predmeti = array;
+                        vm.data = odgovor.data;
+                        pripraviStrani();
                     },
                     function error(odgovor){
                         console.log(odgovor);
@@ -126,29 +101,8 @@
                 console.log("predavatelj");
                 predmetPodatki.najdiPredmeteIzvajalca().then(
                     function success(odgovor){
-                        vm.vsiPodatki = odgovor.data;
-                        vm.predmeti = odgovor.data;
-                        vm.stPredmetov = vm.predmeti.length;
-                        vm.stPredmetovNaStran = 10;
-                        vm.trenutnaStran = 0;
-                        
-                        var array = [setPagingData(1)];
-                        
-                        vm.strani = [1];
-                        
-                        for(var i = 2; i <= (vm.stPredmetov/10)+1; i++){
-                            array.push(setPagingData(i));
-                            vm.strani.push(i);
-                        }
-                        
-                        function setPagingData(page){
-                            var pagedData = vm.predmeti.slice(
-                                (page - 1) * vm.stPredmetovNaStran,
-                                page * vm.stPredmetovNaStran
-                                );
-                            return pagedData;
-                        }
-                        vm.predmeti = array;
+                        vm.data = odgovor.data;
+                        pripraviStrani();
                     },
                     function error(odgovor){
                         console.log(odgovor);
@@ -167,7 +121,6 @@
                 }
             );
         };
-        
         vm.obnovi = function(predmetId){
             predmetPodatki.obnoviPredmet(predmetId).then(
                 function success(odgovor){
@@ -178,23 +131,21 @@
                 }
             );
         };
-        
         vm.uredi = function(predmetId){
             $location.path("/urediPredmet/" + predmetId);
         };
         
-        vm.urediIzvedbe = function(predmetId)
-        {
+        vm.urediIzvedbe = function(predmetId) {
             $location.path("/urediIzvedbePredmeta/" + predmetId);
-        }
+        };
                
-       $scope.orderByMe = function(x) {
-           if($scope.myOrderBy == x){
-               $scope.bool=!($scope.bool);
-           }
+        $scope.orderByMe = function(x) {
+            if($scope.myOrderBy == x){
+                $scope.bool=!($scope.bool);
+            }
            
-        $scope.myOrderBy = x;
-        }
+            $scope.myOrderBy = x;
+        };
         
     }
     
