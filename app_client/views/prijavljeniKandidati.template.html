@@ -31,66 +31,7 @@
     <br>
     <br>
     <div id = "exportable" class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_kandidatov" class="table table-hover" ng-init="vm.prikaziKandidate()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th ng-click="orderByMe('kandidat.student.vpisna_stevilka')">Vpisna številka</th>
-                    <th ng-click="orderByMe('kandidat.student.priimek')">Priimek</th>
-                    <th ng-click="orderByMe('kandidat.student.ime')">Ime</th>
-                    <th ng-click="orderByMe('kandidat.tock')" class="col-xs-2">Točke (0 - 100)</th>
-                    <th ng-click="orderByMe('kandidat.ocena')">Ocena izpita</th>
-                    <th ng-click="orderByMe('kandidat.koncna_ocena')">Končna ocena</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="kandidat in vm.kandidati[vm.trenutnaStran] | orderBy:myOrderBy:bool">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stKandidatovNaStran) }}</td>
-                    <td>{{ kandidat.student.vpisna_stevilka }}</td>
-                    <td>{{ kandidat.student.priimek }}</td>
-                    <td>{{ kandidat.student.ime }}</td>
-                    
-                    <td ng-show="kandidat.odjavljen == false">
-                        <input class="form-control col-xs-2" type="text" value="{{kandidat.tock}}" ng-model="kandidat.tock">
-                    </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
-                    
-                    <td ng-show="kandidat.odjavljen == false">
-                        <select class="form-control" value="{{kandidat.ocena}}" ng-model="kandidat.ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
-                    </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
-                    
-                    <td ng-show="kandidat.odjavljen == false">
-                        <select class="form-control" value="{{kandidat.koncna_ocena}}" ng-model="kandidat.koncna_ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
-                    </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
-                    
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.shraniStudenta(kandidat)" ng-show="kandidat.odjavljen == false">Shrani</button></td>
-                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi(kandidat.student._id)" ng-show="kandidat.odjavljen == false">Uredi</button></td>-->
-                    <td><button class="btn btn-danger" type="button" ng-click="vm.odjavi(kandidat.student._id)" ng-show="kandidat.odjavljen == false && kandidat.koncna_ocena > 5 == false">Vrni prijavo</button></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <td colspan="6">
-                    <button ng-click="exportDataCSV()">Export CSV</button>
-                    <button ng-click="exportDataPDF()">Export PDF</button>
-                    <div class="pull-right">
-                        <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
-                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
-                            </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
-                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
-                            </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.kandidati.length - 1}">
-                                <a href ng-click="vm.nextPage()">Naslednja >></a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tfoot>
-        </table>
-        <table ng-show="iskanje" id="tabela_kandidatov" class="table table-hover" ng-init="vm.prikaziKandidate()">
+        <table id="tabela_kandidatov" class="table table-hover" ng-init="vm.prikaziKandidate()">
             <thead>
                <tr>
                     <th>#</th>
@@ -103,8 +44,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="kandidat in vm.kandidati[vm.trenutnaStran] | filter: iskanje | orderBy:myOrderBy:bool | orderBy:myOrderBy:bool">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stKandidatovNaStran) }}</td>
+                <tr ng-repeat="kandidat in query = (vm.kandidati | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ kandidat.student.vpisna_stevilka }}</td>
                     <td>{{ kandidat.student.priimek }}</td>
                     <td>{{ kandidat.student.ime }}</td>
@@ -133,13 +74,13 @@
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.kandidati.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>

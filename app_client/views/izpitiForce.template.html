@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container table-responsive">
-        <table ng-show="iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
+        <table id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
             <thead>
                 <tr>
                     <th>#</th>
@@ -25,8 +25,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran] | filter: iskanje">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
+                <tr ng-repeat="x in query = (vm.izpiti | filter: iskanje) | limitTo:vm.naStran:vm.stran*vm.naStran">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ x.predmet.sifra }}</td>
                     <td>{{ x.predmet.naziv }}</td>
                     <td>
@@ -41,45 +41,17 @@
                     </td>
                 </tr>
             </tbody>
-        </table>
-        <table ng-show="!iskanje" id="tabela_izpitov" class="table table-hover" ng-init="vm.prikaziIzpite()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Šifra</th>
-                    <th>Naziv</th>
-                    <th>Izvajalci</th>
-                    <th>Datum</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="x in vm.izpiti[vm.trenutnaStran]">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
-                    <td>{{ x.predmet.sifra }}</td>
-                    <td>{{ x.predmet.naziv }}</td>
-                    <td>
-                      <ul>
-                          <li ng-repeat="izvajalec in x.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
-                      </ul>
-                    </td>
-                    <td>{{ x.datum_izvajanja | date:'dd.MM.yyyy HH:mm' }}</td>
-                    <td>
-                        <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
-                        <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>
-                    </td>
-                </tr>
-            </tbody>
             <tfoot>
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.izpiti.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>

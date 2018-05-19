@@ -13,21 +13,21 @@
             </div>
         </div>
     </div>
-    <a href="/dodajLetnik" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <a href="/dodajLetnik" class="btn btn-primary dodaj"><div class="glyphicon glyphicon-plus-sign"> Dodaj</div></a>
     <div class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
+        <table id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                     <th ng-click="orderByMe('naziv')">Naziv</th>
                     <th ng-click="orderByMe('studijskiProgram.naziv')">Študijski program</th>
                     <th ng-click="orderByMe('studijskiProgram.vrstaStudija.opis')">Vrsta študija</th>
                     <th  ng-click="orderByMe('pogoj_letnik.naziv')">Pogoj</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="letnik in vm.letniki[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
+                <tr ng-repeat="letnik in query = (vm.letniki | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.vrstaStudija.opis }}</td>
@@ -43,44 +43,19 @@
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.letniki.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>
                     </div>
                 </td>
             </tfoot>
-        </table>
-        <table ng-show="iskanje" id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                     <th ng-click="orderByMe('naziv')">Naziv</th>
-                    <th ng-click="orderByMe('studijskiProgram.naziv')">Študijski program</th>
-                    <th ng-click="orderByMe('studijskiProgram.vrstaStudija.opis')">Vrsta študija</th>
-                    <th  ng-click="orderByMe('pogoj_letnik.naziv')">Pogoj</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="letnik in vm.vsiLetniki | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
-                    <td>{{ letnik.naziv }}</td>
-                    <td>{{ letnik.studijskiProgram.naziv }}</td>
-                    <td>{{ letnik.studijskiProgram.vrstaStudija.opis }}</td>
-                    <td>{{ letnik.pogoj_letnik.naziv }}</td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(letnik._id)">Uredi</button></td>
-                    <td>
-                        <button ng-show="{{letnik.valid}}" class="btn btn-primary" type="button" ng-click="vm.izbris(letnik._id)">Izbriši</button>
-                        <button ng-show="{{!letnik.valid}}" class="btn btn-primary" type="button" ng-click="vm.obnovi(letnik._id)">Obnovi</button>
-                    </td>
-                </tr>
-            </tbody>
         </table>
     </div> 
 </div>

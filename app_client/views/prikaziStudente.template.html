@@ -12,52 +12,9 @@
             </div>
         </div>
     </div>
-   
-
+    
     <div id = "exportable" class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_obcin" class="table table-hover" ng-init="vm.prikaziStudente()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th ng-click="orderByMe('vpisna_stevilka')">Vpisna številka</th>
-                    <th ng-click="orderByMe('priimek')">Priimek</th>
-                    <th ng-click="orderByMe('ime')">Ime</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <td colspan="6">
-                    <button ng-click="exportDataCSV()">Export CSV</button>
-                    <button ng-click="exportDataPDF()">Export PDF</button>
-                    <div class="pull-right">
-                        <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
-                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
-                            </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
-                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
-                            </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.predmeti.length - 1}">
-                                <a href ng-click="vm.nextPage()">Naslednja >></a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tfoot>
-            <tbody>
-                <tr ng-repeat="student in vm.studenti[vm.trenutnaStran] | orderBy:myOrderBy:bool" >
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
-                    <td>{{ student.vpisna_stevilka }}</td>
-                    <td>{{ student.priimek }}</td>
-                    <td>{{ student.ime }}</td>
-                    
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)">Žetoni</button></td>
-                   
-             
-                </tr>
-            </tbody>
-        </table>
-        <table ng-show="iskanje" id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+        <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
             <thead>
                 <tr>
                     <th>#</th>
@@ -67,8 +24,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" >
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
+                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>
                     <td>{{ student.ime }}</td>
@@ -79,6 +36,23 @@
                    
                 </tr>
             </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.stran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
         </table>
     </div>
     

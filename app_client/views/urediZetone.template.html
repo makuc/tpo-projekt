@@ -13,9 +13,9 @@
             </div>
         </div>
     </div>
-    <a href="/prikaziStudente/{{vm.studentId}}/zetoni/ustvariZeton" class="btn"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <a href="/prikaziStudente/{{vm.studentId}}/zetoni/ustvariZeton" class="btn btn-primary dodaj"><div class="glyphicon glyphicon-plus-sign"></div>Dodaj</a>
     <div class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZetone()">
+        <table id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZetone()">
             <thead>
                 <tr>
                     <th>#</th>
@@ -27,64 +27,37 @@
                     <th ng-click="orderByMe('zeton.prosta_izbira')">Prosta izbira predmetov</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr ng-repeat="zeton in query = (vm.zetoni | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(zeton.izkoriscen == false ? '' : 'alert alert-danger')">
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
+                    <td>{{ zeton.studijski_program.naziv }}, {{ zeton.studijski_program.sifra }}</td>
+                    <td>{{ zeton.letnik.naziv }}</td>
+                    <td>{{ zeton.vrsta_vpisa.naziv }}</td>
+                    <td>{{ zeton.nacin_studija.naziv }}</td>
+                    <td>{{ zeton.oblika_studija.naziv }}</td>
+                    <td ng-show="zeton.prosta_izbira == true">Da</td>
+                    <td ng-show="zeton.prosta_izbira == false">Ne</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zeton._id)">Uredi</button></td>
+                    <td><button ng-show="{{zeton.izkoriscen == false}}" class="btn btn-danger" type="button" ng-click="vm.izbris(zeton._id)">Izbriši</button></td>
+                </tr>
+            </tbody>
             <tfoot>
                 <td colspan="6">
                     <div class="pull-right">
                         <ul class="pagination">
-                            <li ng-class="{disabled: vm.trenutnaStran == 0}">
+                            <li ng-class="{disabled: vm.stran == 0}">
                                 <a href ng-click="vm.prevPage()"><< Prejšnja</a>
                             </li>
-                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.trenutnaStran+1 == n}">
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
                                 <a href ng-click="vm.setPage(n)">{{ n }}</a>
                             </li>
-                            <li ng-class="{disabled: vm.trenutnaStran == vm.zetoni.length - 1}">
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
                                 <a href ng-click="vm.nextPage()">Naslednja >></a>
                             </li>
                         </ul>
                     </div>
                 </td>
             </tfoot>
-            <tbody>
-                <tr ng-repeat="zeton in vm.zetoni[vm.trenutnaStran] | orderBy:myOrderBy:bool" ng-class="(zeton.izkoriscen == false ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZetonovNaStran) }}</td>
-                    <td>{{ zeton.studijski_program.naziv }}, {{ zeton.studijski_program.sifra }}</td>
-                    <td>{{ zeton.letnik.naziv }}</td>
-                    <td>{{ zeton.vrsta_vpisa.naziv }}</td>
-                    <td>{{ zeton.nacin_studija.naziv }}</td>
-                    <td>{{ zeton.oblika_studija.naziv }}</td>
-                    <td ng-show="zeton.prosta_izbira == true">Da</td>
-                    <td ng-show="zeton.prosta_izbira == false">Ne</td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zeton._id)">Uredi</button></td>
-                    <td><button ng-show="{{zeton.izkoriscen == false}}" class="btn btn-danger" type="button" ng-click="vm.izbris(zeton._id)">Izbriši</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <table ng-show="iskanje" id="tabela_zaposlenih" class="table table-hover" ng-init="vm.prikaziZaposlene()">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th ng-click="orderByMe('zeton.studijski_program.naziv')">Študijski program</th>
-                    <th ng-click="orderByMe('zeton.letnik.naziv')">Letnik</th>
-                    <th ng-click="orderByMe('zeton.vrsta_vpisa.naziv')">Vrsta vpisa</th>
-                    <th ng-click="orderByMe('zeton.nacin_studija.naziv')">Način študija</th>
-                    <th ng-click="orderByMe('zeton.oblika_studija.naziv')">Oblika študija</th>
-                    <th ng-click="orderByMe('zeton.prosta_izbira')">Prosta izbira predmetov</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="zeton in vm.zetoni[vm.trenutnaStran] | filter: iskanje | orderBy:myOrderBy:bool" ng-class="(zeton.izkoriscen == false ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stZetonovNaStran) }}</td>
-                    <td>{{ zeton.studijski_program.naziv }}, {{ zeton.studijski_program.sifra }}</td>
-                    <td>{{ zeton.letnik.naziv }}</td>
-                    <td>{{ zeton.vrsta_vpisa.naziv }}</td>
-                    <td>{{ zeton.nacin_studija.naziv }}</td>
-                    <td>{{ zeton.oblika_studija.naziv }}</td>
-                    <td ng-show="zeton.prosta_izbira == true">Da</td>
-                    <td ng-show="zeton.prosta_izbira == false">Ne</td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zeton._id)">Uredi</button></td>
-                    <td><button ng-show="{{zeton.izkoriscen == false}}" class="btn btn-danger" type="button" ng-click="vm.izbris(zeton._id)">Izbriši</button></td>
-                </tr>
-            </tbody>
         </table>
     </div>
     <button class="btn btn-success"  type="button" ng-click="vm.nazaj()">Nazaj na seznam studentov</button>
