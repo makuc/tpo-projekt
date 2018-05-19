@@ -452,7 +452,7 @@ function najdiAktualneSpremembe(req, res, next) {
         }
       }
     })
-    .populate()
+    .populate("predmet")
     .exec(function(err, izpiti) {
       if(err || !izpiti)
       {
