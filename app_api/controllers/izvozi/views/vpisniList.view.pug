@@ -108,9 +108,15 @@ html
             else
               p &nbsp;
           td(colspan="2")
-            p #{vpis.student.zacasno_bivalisce_naslov}, #{vpis.student.zacasno_bivalisce_posta.postna_stevilka} #{vpis.student.zacasno_bivalisce_posta.naziv}
+            if vpis.student.zacasno_bivalisce_naslov && vpis.student.zacasno_bivalisce_posta
+              p #{vpis.student.zacasno_bivalisce_naslov}, #{vpis.student.zacasno_bivalisce_posta.postna_stevilka} #{vpis.student.zacasno_bivalisce_posta.naziv}
+            else
+              p -
           td
-            p #{vpis.student.zacasno_bivalisce_drzava.slovenski_naziv}, #{vpis.student.zacasno_bivalisce_obcina.ime}
+            if vpis.student.zacasno_bivalisce_obcina && vpis.zacasno_bivalisce_drzava
+              p #{vpis.student.zacasno_bivalisce_drzava.slovenski_naziv}, #{vpis.student.zacasno_bivalisce_obcina.ime}
+            else
+              p -
         tr
           td(style="width: 18%;")
             p.label &nbsp;
