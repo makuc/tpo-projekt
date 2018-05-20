@@ -309,6 +309,7 @@ function spremeniIzpit(req, res, next) {
   else if(req.izpit.sprememba == 1)
   {
     req.izpit.obdelava = false;
+    req.izpit.sprememba = 0;
     next.unshift(shraniIzpit);
     urediIzpit(req, res, next);
   }
