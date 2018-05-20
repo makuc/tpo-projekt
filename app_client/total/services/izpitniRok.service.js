@@ -47,9 +47,14 @@
         }
         
         function pridobiZahtevkeZaSpremembeIzpita(studentId){
-            return $http.get('api/v1/student/' + studentId + '/izpit/spremembe');
+            return $http.get('/api/v1/student/' + studentId + '/izpit/spremembe');
         }
         
+        function izbrisiIzpitniRok(idRoka){
+            return $http.delete('/api/v1/izpit/' + idRoka);
+        }
+        
+ 
         return {
             najdiVseIzpiteZaStudijskoLeto: najdiVseIzpiteZaStudijskoLeto,
             najdiVseIzpiteZaPredmet: najdiVseIzpiteZaPredmet,
@@ -62,7 +67,9 @@
             pridobiIzpitniRok: pridobiIzpitniRok,
             najdiPredmeteZaposlenega: najdiPredmeteZaposlenega,
             pridobiIzvedbePredmeta: pridobiIzvedbePredmeta,
-            pridobiZahtevkeZaSpremembeIzpita: pridobiZahtevkeZaSpremembeIzpita
+            pridobiZahtevkeZaSpremembeIzpita: pridobiZahtevkeZaSpremembeIzpita,
+            izbrisiIzpitniRok: izbrisiIzpitniRok
+            
         };
     };
     

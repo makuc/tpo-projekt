@@ -4,6 +4,7 @@
 <!-- Zacetna stran od studenta -->
 <div ng-show="vm.student">
     <h3>Študent</h3>
+    <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevki">Spremema izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}} iz {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.lokacija}} na {{x.spremembe.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.spremembe.lokacija}}<button class="btn btn-primary pull-right">Potrdi</button></div>
     <form role="form"  class="form-horizonral"  >
         <div class="col-sm-12">
              <div class="row">
@@ -56,6 +57,7 @@
     <a href="/potrdiVpise" class="btn" type="button" id="option">Potrditev vpisa</a>
     <a href="/prikaziStudente" class="btn" type="button" id="option">Študenti</a>
     <a href="/urediPredmete" class="btn" type="button" id="option">Vpisani v predmet</a>
+    <a href="/generiraj-zetone" class="btn" type="button" id="option">Generiranje žetonov</a>
 </div>
 
 <!-- Zacetna stran od skrbnika -->

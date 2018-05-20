@@ -310,6 +310,11 @@
                controller: 'urejanjeIzpitniRokProfesorCtrl',
                controllerAs: 'vm'
            })
+           .when('/izpitniRok/referentka/uredi/:rokId', {
+               templateUrl: 'views/urediIzpitniRok.template.html',
+               controller: 'urejanjeIzpitniRokReferentkaCtrl',
+               controllerAs: 'vm'
+           })
            
            
            

@@ -126,18 +126,15 @@
             }
         };
         
-    vm.uredi = function(){
+        vm.uredi = function(id_rok){
+            $location.path('/izpitniRok/referentka/uredi/' + id_rok);    
+        };
           
-    };
-      
-    vm.izvajalci = function(id_rok){
-       $location.path('/dodajIzvajalceIzpitniRok/' + id_rok); 
-    };
     
-    vm.kandidati = function(rokId){
-        $location.path('/vsiIzpitniRoki/' + rokId + '/kandidati')  
-    };
-        
+        vm.kandidati = function(rokId){
+            $location.path('/vsiIzpitniRoki/' + rokId + '/kandidati')  ;
+        };
+            
     }
     
     angular
