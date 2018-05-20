@@ -42,38 +42,9 @@
                         </ul>
                     </td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.kandidati(rok._id)">Prijavljeni kandidati</button></td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi()">Uredi</button></td>
+                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi()">Uredi</button></td>-->
                 </tr> 
             </tbody>
-<<<<<<< HEAD
-        </table>
-        <table ng-show="!iskanje" class="table table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Predmet</th>
-                    <th>Datum</th>
-                    <th>Lokacija</th>
-                    <th>Izvajalci</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="rok in vm.izpitniRoki[vm.trenutnaStran]" ng-class="(rok.valid ? '' : 'alert alert-danger')">
-                    <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stNaStran) }}</td>
-                    <td>{{ rok.predmet.sifra }}, {{ rok.predmet.naziv }}</td>
-                    <td>{{ rok.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
-                    <td>{{ rok.lokacija }}</td>
-                    <td>
-                        <ul>
-                            <li ng-repeat="izvajalci in rok.izvajalci">{{ izvajalci.priimek }} {{ izvajalci.ime }}</li>
-                        </ul>
-                    </td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.kandidati(rok._id)">Prijavljeni kandidati</button></td>
-                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(rok._id)">Uredi</button></td>
-                </tr> 
-            </tbody>
-=======
->>>>>>> 562e65a61c4d0cbf019125e2b0b15b4ff8405312
             <tfoot>
                 <td colspan="6">
                     <div class="pull-right">
