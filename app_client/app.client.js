@@ -272,7 +272,12 @@
                 controller: 'dodajDrzavoCtrl',
                 controllerAs: 'vm'
             })
-            
+            .when('/steviloVpisanihVPredmete', {
+                templateUrl: 'views/steviloVpisanihVPredmete.template.html',
+                controller: 'steviloVpisanihVPredmeteCtrl',
+                controllerAs: 'vm'
+            })
+
             
             //izpitni roki
             .when('/dodajIzpitniRok', {
