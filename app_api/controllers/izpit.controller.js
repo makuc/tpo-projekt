@@ -272,7 +272,6 @@ function nastaviSpremembo(req, res, next) {
   req.izpit.obdelava = true;
   req.izpit.sprememba = req.sprememba;
   
-  
   if(req.body.datum_izvajanja) {
     if(req.datumIzvajanja < req.izpit.datum_izvajanja)
       return res.status(400).json({ message: "Izpitni datum se lahko spremeni samo na kasnejsi datum" });
