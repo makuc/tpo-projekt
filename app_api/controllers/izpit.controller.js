@@ -353,7 +353,7 @@ function izbrisiIzpit(req, res, next) {
     var polagalec;
     
     do {
-      polagalec = req.izpit.polagalci.pop();
+      polagalec = req.polagalci.pop();
     }
     while(polagalec.odjavljen && req.polagalci.length > 0);
     
@@ -363,7 +363,7 @@ function izbrisiIzpit(req, res, next) {
       
       callNext(req, res, [
         pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet, najdiPolaganje, odjaviPolagalca,
-        nizajZaporedniPoskus, shraniIzpit, shraniStudenta
+        nizajZaporedniPoskus, shraniIzpit, shraniStudenta, izbrisiIzpit
       ]);
     }
     else
