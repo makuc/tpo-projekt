@@ -50,8 +50,12 @@
             return $http.get('/api/v1/student/' + studentId + '/izpit/spremembe');
         }
         
-        function izbrisiIzpitniRok(idRoka){
-            return $http.delete('/api/v1/izpit/' + idRoka);
+        function potrdiSprememboIzpita(studentId, izpitId, data){
+            return $http.post('api/v1/student/' + studentId + '/izpit/' + izpitId + '/strinjam', data);
+        }
+        
+        function pocistiSpremembe(izpitId){
+            return $http.delete('api/v1/izpit/' + izpitId + '/spremembe');
         }
         
  
@@ -68,7 +72,8 @@
             najdiPredmeteZaposlenega: najdiPredmeteZaposlenega,
             pridobiIzvedbePredmeta: pridobiIzvedbePredmeta,
             pridobiZahtevkeZaSpremembeIzpita: pridobiZahtevkeZaSpremembeIzpita,
-            izbrisiIzpitniRok: izbrisiIzpitniRok
+            potrdiSprememboIzpita: potrdiSprememboIzpita,
+            pocistiSpremembe: pocistiSpremembe
             
         };
     };

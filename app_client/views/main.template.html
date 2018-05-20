@@ -4,7 +4,8 @@
 <!-- Zacetna stran od studenta -->
 <div ng-show="vm.student">
     <h3>Študent</h3>
-    <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevki">Spremema izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}} iz {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.lokacija}} na {{x.spremembe.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.spremembe.lokacija}}<button class="btn btn-primary pull-right">Potrdi</button></div>
+    <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevkiSprememba">Spremema izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}} iz {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.lokacija}} na {{x.spremembe.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.spremembe.lokacija}}<button class="btn btn-primary pull-right" ng-click="vm.potrdiSprememboIzpita(x._id)">Potrdi</button></div>
+    <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevkiIzbris">Izbris izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}}, ki bi moral potekati: {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}<button class="btn btn-primary pull-right" ng-click="vm.potrdiSprememboIzpita(x._id)">Potrdi</button></div>
     <form role="form"  class="form-horizonral"  >
         <div class="col-sm-12">
              <div class="row">

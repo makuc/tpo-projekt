@@ -70,6 +70,18 @@
             $location.path('/izpitniRok/profesor/uredi/' + id_rok); 
         };
         
+        vm.izbrisi = function(rokId){
+            izpitniRokPodatki.izbrisiIzpitniRok(rokId).then(
+                function success(odgovor){
+                    console.log(odgovor);
+                    vm.prikazi();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
     }
     
     

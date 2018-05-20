@@ -118,6 +118,7 @@
                 izpitniRokPodatki.najdiVseIzpiteZaStudijskoLeto(vm.studijskoLeto._id).then(
                     function success(odgovor){
                         vm.izpitniRoki = odgovor.data;
+                        console.log(vm.izpitniRoki);
                     },
                     function error(odgovor){
                         console.log(odgovor);
@@ -133,6 +134,29 @@
     
         vm.kandidati = function(rokId){
             $location.path('/vsiIzpitniRoki/' + rokId + '/kandidati')  ;
+        };
+        
+        vm.pocistiSpremembe = function(rokId){
+          izpitniRokPodatki.pocistiSpremembe(rokId).then(
+              function success(odgovor){
+                  console.log(odgovor);
+              },
+              function error(odgovor){
+                  console.log(odgovor);
+              }
+          );  
+        };
+        
+        vm.izbrisi = function(rokId){
+            izpitniRokPodatki.izbrisiIzpitniRok(rokId).then(
+                function success(odgovor){
+                    console.log(odgovor);
+                    vm.prikazi();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
         };
             
     }

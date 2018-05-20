@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="rok in vm.VsiRoki | filter:iskanje" ng-class="(rok.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="rok in vm.VsiRoki | filter:iskanje" ng-class="{'alert alert-danger': rok.sprememba==2, 'alert alert-warning': rok.sprememba==1}">
                     <td>{{ rok.predmet.sifra }}, {{ rok.predmet.naziv }}</td>
                     <td>{{ rok.datum_izvajanja | date: 'dd. MM. yyyy hh:mm' }}</td>
                     <td>{{ rok.lokacija }}</td>
@@ -42,6 +42,7 @@
                         </ul>
                     </td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(rok._id)">Uredi</button></td>
+                    <td><button class="btn btn-danger" type="button" ng-click="vm.izbrisi(rok._id)">Izbriši</button></td>
                 </tr> 
             </tbody>
         </table>

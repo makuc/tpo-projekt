@@ -4,6 +4,29 @@
     function mainCtrl($location, authentication, $scope, $route, $window, $http, studentPodatki, ostaloPodatki, izpitniRokPodatki) {
         var vm = this;
         
+        
+        function pridobiZahtevke() {
+                vm.zahtevkiSprememba = [];
+                vm.zahtevkiIzbris = [];
+                izpitniRokPodatki.pridobiZahtevkeZaSpremembeIzpita(authentication.currentUser().student).then(
+                    function success(odgovor){
+                        vm.zahtevki = odgovor.data;
+                        
+                        for(var i = 0; i < vm.zahtevki.length; i++){
+                            if(vm.zahtevki[i].spremembe.lokacija == null && vm.zahtevki[i].spremembe.datum_izvajanja == null){
+                                vm.zahtevkiIzbris.push(vm.zahtevki[i]);
+                            } else {
+                                vm.zahtevkiSprememba.push(vm.zahtevki[i]);
+                            }
+                        }
+                        console.log(odgovor.data);
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
+                    }
+                );
+            }
+        
         vm.logoutFunc = function() {
             delTok();
             return $location.path('/login');
@@ -21,15 +44,7 @@
             vm.jeStudent = true;
             vm.student = true;
             
-            izpitniRokPodatki.pridobiZahtevkeZaSpremembeIzpita(authentication.currentUser().student).then(
-                function success(odgovor){
-                    vm.zahtevki = odgovor.data;
-                    console.log(odgovor.data);
-                },
-                function error(odgovor){
-                    console.log(odgovor);
-                }
-            );
+            pridobiZahtevke();
         
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
                 function success(odgovor){
@@ -48,6 +63,19 @@
             
             vm.vpisniList = function(){
               $location.path('/vpis/' + authentication.currentUser().student + '/podatkiStudenta');  
+            };
+            
+            vm.potrdiSprememboIzpita = function(idIzpita){
+                
+                izpitniRokPodatki.potrdiSprememboIzpita(authentication.currentUser().student, idIzpita).then(
+                    function success(odgovor){
+                        console.log(odgovor);
+                        pridobiZahtevke();
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
+                    }
+                );
             };
             
             

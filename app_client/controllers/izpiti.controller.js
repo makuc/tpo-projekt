@@ -76,8 +76,8 @@
                  return;
             }
             
-            for (var i = 0; i < vm.izpitiData.length; i++) {
-              if(vm.izpitiData[i].predmet._id == predmetId && vm.jePrijavljen(vm.izpitiData[i].polagalci) == true)
+            for (var i = 0; i < vm.izpiti.length; i++) {
+              if(vm.izpiti[i].predmet._id == predmetId && vm.jePrijavljen(vm.izpiti[i].polagalci) == true)
               {
                 //console.log("na ta predmet ste ze prijavljeni");
                 vm.obvestilo = "Za ta predmet že obstaja prijava na izpit.";

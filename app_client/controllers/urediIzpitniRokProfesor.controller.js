@@ -132,6 +132,7 @@
                     },
                     function error(odgovor){
                         console.log(odgovor);
+                        vm.obvestilo = odgovor.data.message;
                     }
                 );
             }
