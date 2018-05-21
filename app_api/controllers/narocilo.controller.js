@@ -273,8 +273,11 @@ function pridobiNarocila(req, res) {
 }
 
 function create(req, res, next) {
+  var izvodov = parseInt(req.body.izvodov, 10) || 1;
+    
   Narocilo.create({
-    vpis: req.vpisniList
+    vpis: req.vpisniList,
+    izvodov: izvodov
   }, function(err, narocilo) {
     if(err || !narocilo)
     {

@@ -2,102 +2,96 @@
 <div ng-init="vm.najdiStudenta()"></div>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
 <form role ="form"  class="form-horizonral">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Vpisna številka:</label>
-                <div class="form-control" type="text" value="{{vm.student.vpisna_stevilka}}" ng-model="vm.student.vpisna_stevilka">{{vm.student.vpisna_stevilka}}</div>
-            </div>
+  <div class="col-sm-12">
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label>Vpisna številka:</label>
+            <div class="form-control" type="text" value="{{vm.student.vpisna_stevilka}}" ng-model="vm.student.vpisna_stevilka">{{vm.student.vpisna_stevilka}}</div>
         </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Priimek:</label>
-                <div class="form-control" type="text" value="{{vm.student.priimek}}" ng-model="vm.student.priimek"> {{vm.student.priimek}}</div>
-            </div>
-               <div class="form-group col-sm-4">
-                <label>Ime:</label>
-                <div class="form-control" type="text" value="{{vm.student.ime}}" ng-model="vm.student.ime">{{vm.student.ime}} </div>
-            </div>
-            <div class="form-group col-sm-4">
-                <label>Datum rojstva:</label>
-                <div class="form-control" type="text" value="{{vm.student.datum_rojstva}}" ng-model="vm.student.datum_rojstva">{{vm.student.datum_rojstva | date:'dd. MM. yyyy' }} </div>
-            </div>
-            <div class="form-group col-sm-4">
-                <label>Kraj rojstva:</label>
-                <div class="form-control" type="text" value="{{vm.student.kraj_rojstva}}" ng-model="vm.student.kraj_rojstva">{{vm.student.kraj_rojstva}} </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Naslov stalnega bivališča:</label>
-                <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_naslov}}" ng-model="vm.student.stalno_bivalisce_naslov">{{vm.student.stalno_bivalisce_naslov}} </div>
-            </div>
-               <div class="form-group col-sm-4">
-                <label>Naslov za prejemanje pošte:</label>
-                <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_posta.naziv}}" ng-model="vm.student.stalno_bivalisce_posta.naziv">{{vm.student.stalno_bivalisce_posta.naziv}} </div>
-            </div>
-            <div class="form-group col-sm-4">
-                <label>Telefonska številka:</label>
-                <div class="form-control" type="text" value="{{vm.student.prenosni_telefon}}" ng-model="vm.student.prenosni_telefon">{{vm.student.prenosni_telefon}} </div>
-            </div>
-            <div class="form-group col-sm-4">
-                <label>Elektronska pošta:</label>
-                <div class="form-control" type="text" value="{{vm.student.email}}" ng-model="vm.student.email">{{vm.student.email}} </div>
-            </div>
-        </div>
-        
-        <h3>Podatki o vseh vpisih:</h3>
-        
-            <div class="container table-responsive">
-        <table ng-show="!iskanje" id="tabela_studijskih_let" class="table table-hover" >
-            <thead>
-                <tr>
-                    <th>Študijsko leto </th>
-                    <th>Letnik</th>
-                    <th>Študijski program</th>
-                    <th>Vrsta vpisa</th>
-                    <th>Način študija</th>
-                </tr>
-            </thead>
-            
-            <tbody>
-                <tr ng-repeat="leto in vm.student.studijska_leta_studenta" >
-                    <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
-                    <td>{{ leto.letnik.naziv }}</td>
-                    <td> {{ leto.letnik.studijskiProgram.sifraEVS }} / {{ leto.letnik.studijskiProgram.sifra }} </td>
-                     <td>{{ leto.vrsta_vpisa.koda }} / {{ leto.vrsta_vpisa.naziv }}</td>
-                    <td>{{ leto.nacin_studija.naziv }}</td>
-                    
-                </tr>
-            </tbody>
-        </table>
-        <table ng-show="iskanje" id="tabela_studijskih_let" class="table table-hover" >
-            <thead>
-                <tr>
-                    <th>Študijsko leto </th>
-                    <th>Letnik</th>
-                    <th>Študijski program</th>
-                    <th>Vrsta vpisa</th>
-                    <th>Način študija</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="leto in  vm.student.studijska_leta_studenta | filter: iskanje" >
-                     <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
-                    <td>{{ leto.letnik.naziv }}</td>
-                   <td> {{ leto.letnik.studijskiProgram.sifraEVS }} / {{ leto.letnik.studijskiProgram.sifra }} </td>
-                    <td>{{ leto.vrsta_vpisa.koda }} / {{ leto.vrsta_vpisa.naziv }}</td>
-                    <td>{{ leto.nacin_studija.naziv }}</td>
-                    
-                </tr>
-            </tbody>
-        </table>
     </div>
-        
-        
-        
-        
-        
-        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Nazaj</button>
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label>Priimek:</label>
+            <div class="form-control" type="text" value="{{vm.student.priimek}}" ng-model="vm.student.priimek"> {{vm.student.priimek}}</div>
+        </div>
+           <div class="form-group col-sm-4">
+            <label>Ime:</label>
+            <div class="form-control" type="text" value="{{vm.student.ime}}" ng-model="vm.student.ime">{{vm.student.ime}} </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label>Datum rojstva:</label>
+            <div class="form-control" type="text" value="{{vm.student.datum_rojstva}}" ng-model="vm.student.datum_rojstva">{{vm.student.datum_rojstva | date:'dd. MM. yyyy' }} </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label>Kraj rojstva:</label>
+            <div class="form-control" type="text" value="{{vm.student.kraj_rojstva}}" ng-model="vm.student.kraj_rojstva">{{vm.student.kraj_rojstva}} </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label>Naslov stalnega bivališča:</label>
+            <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_naslov}}" ng-model="vm.student.stalno_bivalisce_naslov">{{vm.student.stalno_bivalisce_naslov}} </div>
+        </div>
+           <div class="form-group col-sm-4">
+            <label>Naslov za prejemanje pošte:</label>
+            <div class="form-control" type="text" value="{{vm.student.stalno_bivalisce_posta.naziv}}" ng-model="vm.student.stalno_bivalisce_posta.naziv">{{vm.student.stalno_bivalisce_posta.naziv}} </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label>Telefonska številka:</label>
+            <div class="form-control" type="text" value="{{vm.student.prenosni_telefon}}" ng-model="vm.student.prenosni_telefon">{{vm.student.prenosni_telefon}} </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label>Elektronska pošta:</label>
+            <div class="form-control" type="text" value="{{vm.student.email}}" ng-model="vm.student.email">{{vm.student.email}} </div>
+        </div>
+    </div>
+    
+    <h3>Podatki o vseh vpisih:</h3>
+    
+    <div class="container table-responsive">
+      <table id="tabela_studijskih_let" class="table table-hover" >
+        <thead>
+          <tr>
+            <th>Študijsko leto </th>
+            <th>Letnik</th>
+            <th>Študijski program</th>
+            <th>Vrsta vpisa</th>
+            <th>Način študija</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="leto in  vm.student.studijska_leta_studenta | filter: iskanje" >
+            <td>{{ leto.studijsko_leto.studijsko_leto }}</td>
+            <td>{{ leto.letnik.naziv }}</td>
+            <td> {{ leto.letnik.studijskiProgram.sifraEVS }} / {{ leto.letnik.studijskiProgram.sifra }} </td>
+            <td>{{ leto.vrsta_vpisa.koda }} / {{ leto.vrsta_vpisa.naziv }}</td>
+            <td>{{ leto.nacin_studija.naziv }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <h3>Sklepi:</h3>
+    
+    <div class="container table-responsive">
+      <table id="tabela_studijskih_let" class="table table-hover" width="100%" style="overflow:auto">
+        <thead>
+          <tr>
+            <th style="width: 12em">Datum</th>
+            <th>Besedilo</th>
+            <th style="width: 20em">Organ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="sklep in  vm.student.sklepi" >
+            <td>{{ sklep.datum | date:'dd. MM. yyyy HH:mm' }}</td>
+            <td>{{ sklep.besedilo }}</td>
+            <td>{{ sklep.organ }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Nazaj</button>
+  </div>
 </form>

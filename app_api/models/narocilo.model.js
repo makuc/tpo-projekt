@@ -5,6 +5,8 @@ var vrstaVpisaSchema = new mongoose.Schema({
     datum: {type: Date, "default": Date.now()},
     vpis: {type: ObjectId, ref: "Vpis", required: true},
     
+    izvodov: {type: Number, "default": 1},
+    
     opravljeno: {type: Boolean, "default": false}
 });
 
