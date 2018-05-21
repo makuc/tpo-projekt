@@ -44,7 +44,11 @@
                 }
             );
         };
-
+        
+        vm.sklepi = function()
+        {
+            $location.path("/sklepi/" + vm.student._id);
+        };
         
         vm.preklici = function(){
             $location.path("/main");
