@@ -14,7 +14,7 @@
     
              <div class="row" id="mainEl">
                 Razpisani izpitni roki
-                <a href="/izpiti" class="btn" type="button" id="option">prijavi se</a>
+                <a href="/izpiti" class="btn btn-primary" type="button" id="option">Prijavi se</a>
              </div>
              
             <div class="row" id="mainEl">
@@ -27,11 +27,11 @@
              <div class="row" id="options">
                 
                     
-                <button class="btn btn-success" type="submit" id="option">Nova prošnja</button>
-                <button class="btn btn-success" type="submit" id="option">Naroči potrdilo o vpisu</button>
-                <button class="btn btn-success" type="submit" id="option">Naroči izpis o opravljenih izpitih</button>
-                <button class="btn btn-success" type="submit" id="option">Elektronski indeks</button>
-                <button ng-show="vm.neizkoriscenZeton" class="btn btn-success" type="button" ng-click="vm.vpisniList()" id="option">Vpis</button>
+                <button class="btn btn-primary" type="submit" id="option">Nova prošnja</button>
+                <button class="btn btn-primary" type="submit" id="option">Naroči potrdilo o vpisu</button>
+                <button class="btn btn-primary" type="submit" id="option">Naroči izpis o opravljenih izpitih</button>
+                <button class="btn btn-primary" type="submit" id="option">Elektronski indeks</button>
+                <button ng-show="vm.neizkoriscenZeton" class="btn btn-primary" type="button" ng-click="vm.vpisniList()" id="option">Vpis</button>
                
                </div>
            
@@ -43,32 +43,33 @@
 <!-- Zacetna stran od profesorja -->
 <div ng-show="vm.predavatelj">
     <h3>Profesor</h3>
-    <button class="btn" type="button" ng-click="vm.izpitniRoki()" id="option">Izpitni roki</button>
-    <a href="/vsiIzpitniRoki" class="btn" type="button" id="option">Uredi izpitne roke</a>
-    <button class="btn" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
-    <a href="/prikaziStudente" class="btn" type="button" id="option">Študenti</a>
-    <a href="/urediPredmete" class="btn" type="button" id="option">Vpisani v predmet</a>
+    <button class="btn btn-primary" type="button" ng-click="vm.izpitniRoki()" id="option">Izpitni roki</button>
+    <a href="/vsiIzpitniRoki" class="btn btn-primary" type="button" id="option">Uredi izpitne roke</a>
+    <button class="btn btn-primary" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
+    <a href="/prikaziStudente" class="btn btn-primary" type="button" id="option">Študenti</a>
+    <a href="/urediPredmete" class="btn btn-primary" type="button" id="option">Vpisani v predmet</a>
 </div>
 
 <!-- Zacetna stran od referentke -->
 <div ng-show="vm.referentka">
     <h3>Referentka</h3>
-    <a href="/vsiIzpitniRoki" class="btn" type="button" id="option">Uredi izpitne roke</a>
+    <a href="/vsiIzpitniRoki" class="btn btn-primary" type="button" id="option">Uredi izpitne roke</a>
     <!--<a href="/zetonZaVpis" class="btn" type="button" id="option">Uredi žetone za vpis</a> IMPLEMENTIRANO POD /prikaziStudente-->
-    <a href="/potrdiVpise" class="btn" type="button" id="option">Potrditev vpisa</a>
-    <a href="/prikaziStudente" class="btn" type="button" id="option">Študenti</a>
-    <a href="/urediPredmete" class="btn" type="button" id="option">Vpisani v predmet</a>
-    <a href="/generiraj-zetone" class="btn" type="button" id="option">Generiranje žetonov</a>
-    <a href="/steviloVpisanihVPredmete" class="btn" type="button" id="option">Vpisanih v predmete</a>
+    <a href="/potrdiVpise" class="btn btn-primary" type="button" id="option">Potrditev vpisa</a>
+    <a href="/prikaziStudente" class="btn btn-primary" type="button" id="option">Študenti</a>
+    <a href="/urediPredmete" class="btn btn-primary" type="button" id="option">Vpisani v predmet</a>
+    <a href="/generiraj-zetone" class="btn btn-primary" type="button" id="option">Generiranje žetonov</a>
+    <button class="btn btn-primary" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
+    <a href="/steviloVpisanihVPredmete" class="btn btn-primary" type="button" id="option">Vpisanih v predmete</a>
 </div>
 
 <!-- Zacetna stran od skrbnika -->
 <div ng-show="vm.skrbnik">
     <h3>Skrbnik</h3>
-    <a href="/import" class="btn" type="button" id="option">Uvoz kandidatov</a>
-    <a href="/urediPredmete" class="btn" type="button" id="option">Uredi šifrante</a>
-    <a href="/urediPredmetnike" class="btn" type="button" id="option">Uredi predmetnik</a>
-    <a href="/" class="btn" type="button" id="option">Generiranje izpitnih rokov</a>
+    <a href="/import" class="btn btn-primary" type="button" id="option">Uvoz kandidatov</a>
+    <a href="/urediPredmete" class="btn btn-primary" type="button" id="option">Uredi šifrante</a>
+    <a href="/urediPredmetnike" class="btn btn-primary" type="button" id="option">Uredi predmetnik</a>
+    <a href="/" class="btn btn-primary" type="button" id="option">Generiranje izpitnih rokov</a>
 </div>
 
 

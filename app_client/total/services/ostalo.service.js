@@ -536,7 +536,27 @@
             console.log("Osnutek studentId: ", studentId);
             return $http.get('/api/v1/student/' + studentId + '/zeton');
         }
-
+        
+        // Sklepi
+        
+        function dodajSklepStudentu(studentId)
+        {
+            // /api/v1/student/5aef49a79958d4255801a971/sklep
+            return $http.post('/api/v1/student/' + studentId + '/sklep')
+        }
+        
+        function urediSklepStudentu(studentId, sklepId)
+        {
+            // /api/v1/student/5aef49a79958d4255801a970/sklep/5afd94c13a8a06108fde6d7d
+            return $http.put('/api/v1/student/' + studentId + '/sklep/' + sklepId)
+        }
+        
+        function odstraniSklepStudentu(studentId, sklepId)
+        {
+            // /api/v1/student/5aef49a79958d4255801a970/sklep/5afd94c13a8a06108fde6d7d
+            return $http.delete('/api/v1/student/' + studentId + '/sklep/' + sklepId)
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -675,7 +695,11 @@
             izbrisiZetonStudentu: izbrisiZetonStudentu,
             urediZetonStudenta: urediZetonStudenta,
             dodajZetonStudentu: dodajZetonStudentu,
-            pridobiOsnutekZetona: pridobiOsnutekZetona
+            pridobiOsnutekZetona: pridobiOsnutekZetona,
+            
+            dodajSklepStudentu: dodajSklepStudentu,
+            urediSklepStudentu: urediSklepStudentu,
+            odstraniSklepStudentu: odstraniSklepStudentu
         };
     };
     

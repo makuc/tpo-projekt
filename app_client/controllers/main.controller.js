@@ -118,6 +118,7 @@
             
             vm.seznamVpisanihVPredmet = function() {
                 // to do
+                $location.path('/urediPredmete');
             };
         }
 

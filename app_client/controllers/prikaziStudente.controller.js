@@ -112,6 +112,11 @@
             });
             saveAs(blob, "Report Example.csv");
         };
+        
+        vm.sklepi = function(studentId)
+        {
+            $location.path("/sklepi/" + studentId);
+        };
     
 
         vm.uredi = function(studentID){

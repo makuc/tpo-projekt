@@ -424,6 +424,13 @@
                 controllerAs: 'vm'
             })
             
+            // Sklepi
+            .when('/sklepi/:studentId', {
+                templateUrl: 'views/sklepi.template.html',
+                controller: 'sklepiCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
