@@ -430,6 +430,16 @@
                 controller: 'sklepiCtrl',
                 controllerAs: 'vm'
             })
+            .when('/sklepi/:studentId/uredi/:sklepId', {
+                templateUrl: 'views/urediSklep.template.html',
+                controller: 'urediSklepCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/sklepi/:studentId/dodaj', {
+                templateUrl: 'views/urediSklep.template.html',
+                controller: 'dodajSklepCtrl',
+                controllerAs: 'vm'
+            })
             
             .otherwise({redirectTo: '/main'});
             

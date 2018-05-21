@@ -539,16 +539,16 @@
         
         // Sklepi
         
-        function dodajSklepStudentu(studentId)
+        function dodajSklepStudentu(studentId, data)
         {
             // /api/v1/student/5aef49a79958d4255801a971/sklep
-            return $http.post('/api/v1/student/' + studentId + '/sklep')
+            return $http.post('/api/v1/student/' + studentId + '/sklep', data)
         }
         
-        function urediSklepStudentu(studentId, sklepId)
+        function urediSklepStudentu(studentId, sklepId, data)
         {
             // /api/v1/student/5aef49a79958d4255801a970/sklep/5afd94c13a8a06108fde6d7d
-            return $http.put('/api/v1/student/' + studentId + '/sklep/' + sklepId)
+            return $http.put('/api/v1/student/' + studentId + '/sklep/' + sklepId, data)
         }
         
         function odstraniSklepStudentu(studentId, sklepId)
