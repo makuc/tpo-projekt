@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, moment */
     
     urediSklepCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'authentication', 'studentPodatki'];
     
@@ -37,7 +37,10 @@
         vm.idDelaPredmetnika = $routeParams.idDelaPredmeta;
         
         
-
+        vm.setDate = function () {
+            // do you stuff.. and
+            vm.delPredmetnika.datum = vm.datum.toISOString();
+        };
         vm.pridobiDelPredmeta = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
@@ -48,8 +51,9 @@
                       if(vm.deliPredmetnika[i]._id == vm.sklepId)
                       {
                         vm.delPredmetnika = vm.deliPredmetnika[i];
-                        vm.delPredmetnika.datum = new Date(vm.delPredmetnika.datum);
-                        console.log("Sklep: ", vm.delPredmetnika);
+                        vm.datum = moment(vm.delPredmetnika.datum).locale("sl");
+                        vm.datumString = vm.datum.toString();
+                        
                         break;
                       }
                     }
