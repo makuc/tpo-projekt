@@ -6,14 +6,16 @@
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Datum:</label>
-                <input class="form-control" type="text" value="{{vm.delPredmetnika.datum}}" ng-model="vm.delPredmetnika.datum">
-                <!--<div class="input-group date" data-provide="datepicker">
+                <!--<input class="form-control" type="text" ng-model="vm.delPredmetnika.datum">-->
+                <input class="form-control" type="date" value="{{ vm.delPredmetnika.datum }}" ng-model="vm.delPredmetnika.datum"/>
+                <!--<input matInput [matDatepicker]="datepicker1" placeholder="Start Date" [(ngModel)]="vm.delPredmetnika.datum" required>
+                <div class="input-group date" data-provide="datepicker">
                     <input type="text" class="form-control">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
-                </div>-->
-                <!--<div class="input-group date">
+                </div>
+                <div class="input-group date">
                   <input type="text" class="form-control" value="{{vm.delPredmetnika.datum}}" ng-model="vm.delPredmetnika.datum"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                 </div>-->
             </div>

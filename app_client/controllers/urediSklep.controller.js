@@ -48,6 +48,7 @@
                       if(vm.deliPredmetnika[i]._id == vm.sklepId)
                       {
                         vm.delPredmetnika = vm.deliPredmetnika[i];
+                        vm.delPredmetnika.datum = new Date(vm.delPredmetnika.datum);
                         console.log("Sklep: ", vm.delPredmetnika);
                         break;
                       }
