@@ -5,15 +5,20 @@ var callNext = require("./_include/callNext");
 let Student = mongoose.model("Student");
 let Vpis = mongoose.model("Vpis");
 let Narocilo = mongoose.model("Narocilo");
+let StudijskoLeto = mongoose.model("StudijskoLeto");
 
 module.exports.naroci = function(req, res) {
   if(!req.user || !req.user.student)
   {
     res.status(401).json({ message: "Ni prijavljenega študenta"});  
   }
+  else if(!req.body || !req.body.studijsko_leto)
+  {
+    res.status(400).json({ message: "Ni podanega študijskega leta"});
+  }
   else
   {
-    callNext(req, res, [ najdiStudenta, najdiVpisniList, create, narociloOddano ]);
+    callNext(req, res, [ najdiStudenta, validateStudijskoLeto, najdiVpisniList, create, narociloOddano ]);
   }
 };
 module.exports.potrdi = function(req, res) {
@@ -121,14 +126,19 @@ function najdiStudenta(req, res, next) {
 function najdiVpisniList(req, res, next) {
   Vpis
     .findOne({
-      student: req.student
+      student: req.student,
+      studijsko_leto: req.studijskoLeto
     })
     .sort("vpisan")
     .exec(function(err, vpis) {
-      if(err || !vpis)
+      if(err)
       {
         console.log("---najdiVpisniList:\n" + err);
         res.status(404).json({ message: "Ne najdem zadnjega vpisa izbranega študenta"});
+      }
+      else if(!vpis)
+      {
+        res.status(404).json({ message: "Študent ni vpisan v izbrano študijsko leto"});
       }
       else
       {
@@ -303,4 +313,19 @@ function shraniNarocilo(req, res, next) {
 }
 function narodiloZakljuceno(req, res) {
   res.status(200).json({ message: "Naročilo uspešno zaključeno"});
+}
+
+function validateStudijskoLeto(req, res, next) {
+  StudijskoLeto
+    .findById(req.body.studijsko_leto, function(err, leto) {
+      if(err || !leto)
+      {
+        res.status(404).json({ message: "Ne najdem izbranega študijskega leta"});
+      }
+      else
+      {
+        req.studijskoLeto = leto;
+        callNext(req, res, next);
+      }
+    });
 }
