@@ -71,6 +71,12 @@
             return $http.get('api/v1/predmet/' + predmetId + '/leto/' + studijskoLetoId);
         };
         
+        var pridobiPredmeteSStevilomVpisanih = function(programId, studijskoLetoId, letnikId)
+        {
+            //return $http.get("api/v1/predmet/program/5ac8c4739a223311d219b718/leto/5ac3c4553f0fb21a058ff3d8/letnik/5ac8d21c962f7b1a105fd312");
+            return $http.get('api/v1/predmet/program/' + programId + "/leto/" + studijskoLetoId + "/letnik/" + letnikId);
+        };
+        
         return {
             pridobiPredmet: pridobiPredmet,
             izpisiVsePredmete: izpisiVsePredmete,
@@ -85,7 +91,8 @@
             dodajIzvedboPredmetu: dodajIzvedboPredmetu,
             odstraniIzvedboPredmeta: odstraniIzvedboPredmeta,
             najdiPredmeteIzvajalca: najdiPredmeteIzvajalca,
-            najdiVpisaneVPredmet: najdiVpisaneVPredmet
+            najdiVpisaneVPredmet: najdiVpisaneVPredmet,
+            pridobiPredmeteSStevilomVpisanih: pridobiPredmeteSStevilomVpisanih
         };
     };
     

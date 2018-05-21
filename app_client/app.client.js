@@ -272,7 +272,12 @@
                 controller: 'dodajDrzavoCtrl',
                 controllerAs: 'vm'
             })
-            
+            .when('/steviloVpisanihVPredmete', {
+                templateUrl: 'views/steviloVpisanihVPredmete.template.html',
+                controller: 'steviloVpisanihVPredmeteCtrl',
+                controllerAs: 'vm'
+            })
+
             
             //izpitni roki
             .when('/dodajIzpitniRok', {
@@ -416,6 +421,23 @@
             .when('/generiraj-zetone', {
                 templateUrl: 'views/generirajZetone.template.html',
                 controller: 'generirajZetoneCtrl',
+                controllerAs: 'vm'
+            })
+            
+            // Sklepi
+            .when('/sklepi/:studentId', {
+                templateUrl: 'views/sklepi.template.html',
+                controller: 'sklepiCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/sklepi/:studentId/uredi/:sklepId', {
+                templateUrl: 'views/urediSklep.template.html',
+                controller: 'urediSklepCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/sklepi/:studentId/dodaj', {
+                templateUrl: 'views/urediSklep.template.html',
+                controller: 'dodajSklepCtrl',
                 controllerAs: 'vm'
             })
             

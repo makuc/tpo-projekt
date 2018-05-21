@@ -12,29 +12,25 @@
             </div>
         </div>
     </div>
-    
-    <div id = "exportable" class="container table-responsive">
-        <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+    <a href="/sklepi/{{ vm.studentId }}/dodaj" class="btn btn-primary dodaj" style="margin-bottom: 15px" ng-show="vm.vpisan.referentka == true"><div class="glyphicon glyphicon-plus-sign">Dodaj</div></a>
+    <div class="container table-responsive">
+        <table id="tabela_delovPredmetnika" class="table table-hover" ng-init="vm.prikaziDelePredmetnika()">
             <thead>
                 <tr>
                     <th>#</th>
-                   <th ng-click="orderByMe('vpisna_stevilka')">Vpisna številka</th>
-                    <th ng-click="orderByMe('priimek')">Priimek</th>
-                    <th ng-click="orderByMe('ime')">Ime</th>
+                    <th ng-click="orderByMe('datum')">Datum</th>
+                    <th ng-click="orderByMe('organ')">Organ</th>
+                    <th ng-click="orderByMe('besedilo')">Besedilo</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                <tr ng-repeat="delPredmetnika in query = (vm.deliPredmetnika | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
-                    <td>{{ student.vpisna_stevilka }}</td>
-                    <td>{{ student.priimek }}</td>
-                    <td>{{ student.ime }}</td>
-                    
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.sklepi(student._id)">Sklepi</button></td>
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)">Žetoni</button></td>
-                   
-                   
+                    <td>{{ delPredmetnika.datum | date:'dd. MM. yyyy' }}</td>
+                    <td>{{ delPredmetnika.organ }}</td>
+                    <td>{{ delPredmetnika.besedilo }}</td>
+                    <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(delPredmetnika._id)" ng-show="vm.vpisan.referentka == true">Uredi</button></td>
+                    <td><button class="btn btn-danger" type="button" ng-click="vm.izbris(delPredmetnika._id)" ng-show="vm.vpisan.referentka == true">Izbriši</button></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -56,6 +52,4 @@
             </tfoot>
         </table>
     </div>
-    
-    
 </div>

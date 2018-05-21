@@ -1,13 +1,15 @@
 (function() {
-    /* global angular, html2canvas, pdfMake, Blob, saveAs */
+    /* global angular */
     
-    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
+    sklepiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication', 'studentPodatki', '$routeParams'];
     
     
-    function prikaziStudenteCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki){
+    function sklepiCtrl(ostaloPodatki, $scope, $location, authentication, studentPodatki, $routeParams){
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         
+         vm.studentId = $routeParams.studentId;
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
@@ -25,6 +27,7 @@
             delTok();
             return $location.path('/login');
         };
+        
         function delTok(){
             return authentication.logout();
         }
@@ -72,10 +75,11 @@
             pripraviStrani();
         });
         
-        vm.prikaziStudente = function(){
-            studentPodatki.izpisStudentov().then(
+        vm.prikaziDelePredmetnika = function(){
+            studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
-                    vm.studenti = odgovor.data;
+                    vm.deliPredmetnika = odgovor.data.sklepi;
+                    console.log("Sklepi: ", vm.deliPredmetnika);
                     pripraviStrani();
                 },
                 function error(odgovor){
@@ -83,55 +87,44 @@
                 }
             );
         };
+        
+        vm.izbris = function(delPredmetnikaId){
+            ostaloPodatki.odstraniSklepStudentu(vm.studentId, delPredmetnikaId).then(
+                function success(odgovor){
+                    vm.prikaziDelePredmetnika();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.obnovi = function(delPredmetnikaId){
+            ostaloPodatki.obnoviDelPredmetnika(delPredmetnikaId).then(
+                function success(odgovor){
+                    vm.prikaziDelePredmetnika();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.uredi = function(delPredmetnikaId){
+            $location.path("/sklepi/" + vm.studentId + "/uredi/" + delPredmetnikaId);
+        };
                
        $scope.orderByMe = function(x) {
-            if($scope.myOrderBy == x){
-                $scope.bool=!($scope.bool);
-            }
-            
-            $scope.myOrderBy = x;
-        };
-        
-        $scope.exportDataPDF= function(){
-            html2canvas(document.getElementById('exportable'), {
-                onrendered: function (canvas) {
-                    var data = canvas.toDataURL();
-                    var docDefinition = {
-                        content: [{
-                            image: data,
-                            width: 500,
-                        }]
-                    };
-                    pdfMake.createPdf(docDefinition).download("test.pdf");
-                }
-            });
+           if($scope.myOrderBy == x){
+               $scope.bool=!($scope.bool);
+           }
+           
+        $scope.myOrderBy = x;
         }
-        $scope.exportDataCSV = function () {
-            var blob = new Blob([document.getElementById('exportable').innerHTML], {
-                type: "text/csv;charset=utf-8"
-            });
-            saveAs(blob, "Report Example.csv");
-        };
-        
-        vm.sklepi = function(studentId)
-        {
-            $location.path("/sklepi/" + studentId);
-        };
-    
-
-        vm.uredi = function(studentID){
-            $location.path("/podrobnostiStudenta/" + studentID);
-        };
-       
-       vm.zetoni = function(studentId)
-       {
-            console.log("prikaziStudente/" + studentId + "/zetoni");
-            $location.path("prikaziStudente/" + studentId + "/zetoni");  
-       };
-        
     }
     
     angular
         .module('tpo')
-        .controller('prikaziStudenteCtrl', prikaziStudenteCtrl);
+        .controller('sklepiCtrl', sklepiCtrl);
+    
 })();
