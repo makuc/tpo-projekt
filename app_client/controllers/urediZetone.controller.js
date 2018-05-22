@@ -79,6 +79,10 @@
                 function success(odgovor){
                     vm.student = odgovor.data;
                     vm.zetoni = vm.student.zetoni;
+                    
+                    for(var i = 0; i < vm.zetoni.length; i++){
+                        vm.pridobiPodatkeZetona(vm.zetoni[i]);
+                    }
                     pripraviStrani();
                 },
                 function error(odgovor){
