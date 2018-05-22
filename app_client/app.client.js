@@ -447,7 +447,7 @@
     }
     
     angular
-        .module('tpo', ['ngRoute', 'moment-picker','ngSanitize', 'ngCsv','pdf'])
+        .module('tpo', ['ngRoute', 'moment-picker','ngSanitize', 'ngCsv','pdf','ngJsonExportExcel'])
         .config(['$routeProvider', '$locationProvider', configuration])
         
         // Register interceptors
