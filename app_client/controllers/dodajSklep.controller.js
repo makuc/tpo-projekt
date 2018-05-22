@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, moment */
     
     dodajSklepCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'authentication', 'studentPodatki'];
     
@@ -48,9 +48,17 @@
                       if(vm.deliPredmetnika[i]._id == vm.sklepId)
                       {
                         vm.delPredmetnika = vm.deliPredmetnika[i];
-                        console.log("Sklep: ", vm.delPredmetnika);
                         break;
                       }
+                    }
+                    if(!vm.delPredmetnika)
+                    {
+                        vm.datum = moment().locale("sl");
+                        vm.delPredmetnika = {
+                            datum: "",
+                            besedilo: "",
+                            organ: ""
+                        };
                     }
                 },
                 function error(odgovor){
@@ -58,7 +66,11 @@
                 }
             );
         };
-        
+        vm.setDate = function () {
+            // do you stuff.. and
+            if(vm.datum)
+                vm.delPredmetnika.datum = vm.datum.toISOString();
+        };
         vm.shrani = function(){
           //console.log(vm.delPredmetnika.obvezen);
           console.log(vm.delPredmetnika.datum);

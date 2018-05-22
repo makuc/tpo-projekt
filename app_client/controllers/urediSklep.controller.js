@@ -39,7 +39,8 @@
         
         vm.setDate = function () {
             // do you stuff.. and
-            vm.delPredmetnika.datum = vm.datum.toISOString();
+            if(vm.datum)
+                vm.delPredmetnika.datum = vm.datum.toISOString();
         };
         vm.pridobiDelPredmeta = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
@@ -56,6 +57,15 @@
                         
                         break;
                       }
+                    }
+                    if(!vm.delPredmetnika)
+                    {
+                        vm.datum = moment().locale("sl");
+                        vm.delPredmetnika = {
+                            datum: "",
+                            besedilo: "",
+                            organ: ""
+                        };
                     }
                 },
                 function error(odgovor){
