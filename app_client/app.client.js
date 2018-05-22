@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, moment */
     angular.module('tpo', ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
     
     function configuration($routeProvider, $locationProvider) {
@@ -471,7 +471,7 @@
                 yearsFormat:   'YYYY',
                 monthsFormat:  'MMM',
                 daysFormat:    'D',
-                hoursFormat:   'HH:[00]',
+                hoursFormat:   'HH',
                 minutesFormat: moment.localeData().longDateFormat('LT').replace(/[aA]/, ''),
                 secondsFormat: 'ss',
                 minutesStep:   5,
