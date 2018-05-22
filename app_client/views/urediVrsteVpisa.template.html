@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="vrstaVpisa in query = (vm.vrsteVpisa | filter:iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="vrstaVpisa in query = (vm.vrsteVpisa | filter:iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ vrstaVpisa.koda }}</td>
                     <td>{{ vrstaVpisa.naziv }}</td>
@@ -55,5 +55,10 @@
                 </td>
             </tfoot>
         </table>
+        <button type="button" ng-csv="query" charset="utf-8"
+            csv-header="[ 'Koda', 'Naziv', 'Opis']"
+            csv-column-order="[ 'koda', 'naziv', 'opis']"
+            add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
+        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
 </div>

@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, pdfMake */
     
     urediPredmeteCtrl.$inject = ['predmetPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
     
@@ -155,6 +155,54 @@
            
             $scope.myOrderBy = x;
         };
+        
+                function buildTableBody(data, columns, names) {
+            var body = [];
+            var i=1;
+            body.push(names);
+           
+        
+            data.forEach(function(row) {
+                var dataRow = [];
+                
+                dataRow.push(i.toString());
+                i++;
+                columns.forEach(function(column) {
+                  
+                    dataRow.push(row[column].toString());
+                })
+                
+                body.push(dataRow);
+            });
+        
+            return body;
+        }
+        
+        function table(data, columns, names) {
+            return {
+                table: {
+                    headerRows: 1,
+                    body: buildTableBody(data, columns, names)
+                }
+            };
+        }
+
+        
+        vm.exportDataPDF= function(){
+
+            
+            var docDefinition = {
+               	content: [
+                    { text: 'Dynamic parts', style: 'header' },
+                    table($scope.query,
+                        [ 'sifra', 'naziv', 'KT' ],
+                        [ '#','Šifra', 'Naziv', 'Kreditne točke' ]
+                    )
+                ]
+        
+             };
+             pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+        }
         
     }
     

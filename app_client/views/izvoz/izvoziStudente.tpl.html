@@ -1,0 +1,24 @@
+<table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+            <thead>
+                <tr>
+                    <th>#</th>
+                   <th ng-click="orderByMe('vpisna_stevilka')">Vpisna številka</th>
+                    <th ng-click="orderByMe('priimek')">Priimek</th>
+                    <th ng-click="orderByMe('ime')">Ime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje) | orderBy:myOrderBy:bool" >
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
+                    <td>{{ student.vpisna_stevilka }}</td>
+                    <td>{{ student.priimek }}</td>
+                    <td>{{ student.ime }}</td>
+                    
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.sklepi(student._id)">Sklepi</button></td>
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)">Žetoni</button></td>
+                   
+                   
+                </tr>
+            </tbody>
+        </table>

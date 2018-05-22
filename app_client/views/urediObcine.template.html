@@ -54,6 +54,11 @@
                 </td>
             </tfoot>
         </table>
+        <button type="button" ng-csv="query" charset="utf-8"
+            csv-header="[ 'Šifra', 'Ime']"
+            csv-column-order="[ 'sifra', 'ime']"
+            add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
+        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
     
     

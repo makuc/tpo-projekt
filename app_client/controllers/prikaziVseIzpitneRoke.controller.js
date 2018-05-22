@@ -1,5 +1,5 @@
 (function() {
-    /* global angular */
+    /* global angular, pdfMake */
     
     prikaziVseIzpitneRokeCtrl.$inject = ['izpitniRokPodatki', '$scope', '$location', 'ostaloPodatki', 'authentication'];
 
@@ -158,6 +158,54 @@
                 }
             );
         };
+        
+                function buildTableBody(data, columns, names) {
+            var body = [];
+            var i=1;
+            body.push(names);
+           
+        
+            data.forEach(function(row) {
+                var dataRow = [];
+                
+                dataRow.push(i.toString());
+                i++;
+                columns.forEach(function(column) {
+                  
+                    dataRow.push(row[column].toString());
+                })
+                
+                body.push(dataRow);
+            });
+        
+            return body;
+        }
+        
+        function table(data, columns, names) {
+            return {
+                table: {
+                    headerRows: 1,
+                    body: buildTableBody(data, columns, names)
+                }
+            };
+        }
+
+        
+        vm.exportDataPDF= function(){
+
+            console.log($scope.query.rok.predmet.naziv);
+            var docDefinition = {
+               	content: [
+                    { text: 'Dynamic parts', style: 'header' },
+                    table($scope.query,
+                        [ 'predmet.sifra', 'predmet.naziv', 'datum_izvajanja', 'lokacija' ],
+                        [ 'Šifra', 'Naziv', 'Datum izvajanja', 'lokacija' ]
+                        )
+                ]
+        
+             };
+             pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+        }
             
     }
     
