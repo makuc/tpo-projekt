@@ -116,7 +116,7 @@ module.exports.prijavaNaIzpitForce = function(req, res) {
   else
   {
     req.force = true;
-    req.message = "<ul>";
+    req.opozorila = "<ul>";
     
     callNext(req, res, [
       // Odjavi predhodne prijave
