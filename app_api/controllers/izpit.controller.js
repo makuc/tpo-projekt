@@ -891,11 +891,13 @@ function prijavaUspesna(req, res) {
     else
       req.opozorila += "</ul>";
   }
+  var message = "Prijava na izpit uspešna";
+  if(req.opozorila)
+    message = req.opozorila;
   
   res.status(201).json({
-    message: "Prijava na izpit uspešna",
-    moraPlacati: !req.placano,
-    opozorila: req.opozorila
+    message: message,
+    moraPlacati: !req.placano
   });
 }
 function odjavaUspesna(req, res) {
@@ -906,8 +908,13 @@ function odjavaUspesna(req, res) {
     else
       req.opozorila += "</ul>";
   }
+  
+  var message = "Odjava iz izpita uspešna";
+  if(req.opozorila)
+    message = req.opozorila;
+  
   res.status(201).json({
-    message: "Odjava iz izpita uspešna",
+    message: message,
     opozorila: req.opozorila
   });
 }
