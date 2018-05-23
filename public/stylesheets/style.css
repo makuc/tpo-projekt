@@ -35,6 +35,12 @@ header {
   
 }
 
+th:hover
+{
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
 #email, #passwd, #confirm,#password{
    width: 400px;
   

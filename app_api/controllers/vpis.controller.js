@@ -881,7 +881,7 @@ function zdruziPredmete(req, res, next) {
   
   var i;
   
-  // Dodaj obvetne predmete
+  // Dodaj obvezne predmete
   for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
     req.skupnoPredmeti.push(req.vpisniList.obvezniPredmeti[i]);
   }
@@ -906,7 +906,7 @@ function zdruziPredmete(req, res, next) {
     var modul = req.vpisniList.moduli[i];
     
     for(var j = 0; j < modul.predmeti.length; j++) {
-      req.skupnoPredmeti.push(modul.predmeti[i]);
+      req.skupnoPredmeti.push(modul.predmeti[j]);
     }
   }
   

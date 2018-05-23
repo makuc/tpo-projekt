@@ -10,7 +10,6 @@ var polagalecSchema = new mongoose.Schema({
     placano: {type: Boolean, "default": true},
     
     tock: {type: Number, min: -1, max: 100, "default": -1},
-    ocena: {type: Number, min: -1, max: 10, "default": -1},
     koncna_ocena: {type: Number, min: -1, max: 10, "default": -1},
     
     valid: {type: Boolean, "default": true},

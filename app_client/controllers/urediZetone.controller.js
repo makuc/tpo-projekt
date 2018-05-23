@@ -123,6 +123,18 @@
                             function success(odgovor)
                             {
                               zeton.oblika_studija = odgovor.data;
+                              // oblika studija
+                              ostaloPodatki.najdiStudijskoLeto(zeton.studijsko_leto).then
+                              (
+                                function success(odgovor)
+                                {
+                                  zeton.studijsko_leto = odgovor.data;
+                                },
+                                function error(odgovor)
+                                {
+                                  console.log(odgovor);
+                                }
+                              );
                             },
                             function error(odgovor)
                             {

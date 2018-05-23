@@ -1,25 +1,30 @@
-file_IN="./Predmetniki.json"
+file_IN="./tester.json"
 
 
 
-file_OUT=$file_IN".t"
-echo "[" > $file_OUT
+#file_OUT=$file_IN".t"
+#echo "[" > $file_OUT
 while read line
 do
-    line=${line// \"/\"}
-    line=${line//\{\"\$oid\"\:/ObjectId(}
-    line=${line//\{\"\$date\"\:/new Date(}
-    line=${line//\"\}\,/\"\)\,}
-    line=${line//\"\}\}/\"\)\}}
-    line=${line//\"\}\]/\"\)\]}
-    #line=${line//\:/\: }
-    #line=${line//\,/\, }
-    #line=${line//\{/\{ }
-    line=$line","
+    #line=${line// \"/\"}
+    #line=${line//\{\"\$oid\"\:/ObjectId(}
+    #line=${line//\{\"\$date\"\:/new Date(}
+    #line=${line//\"\}\,/\"\)\,}
+    #line=${line//\"\}\}/\"\)\}}
+    #line=${line//\"\}\]/\"\)\]}
+    ##line=${line//\:/\: }
+    ##line=${line//\,/\, }
+    ##line=${line//\{/\{ }
+    #line=$line","
     
-    echo $line
-done < $file_IN >> $file_OUT
+    REGEX_DATE='{\"\$oid\":\"........................\"\}'
+    echo "$line" | grep -P -q $REGEX_DATE
+    echo $?
+    
+    #echo $line
+done
+#done < $file_IN >> $file_OUT
 
-echo "]" >> $file_OUT
+#echo "]" >> $file_OUT
 
-mv ./$file_IN{.t,}
+#mv ./$file_IN{.t,}

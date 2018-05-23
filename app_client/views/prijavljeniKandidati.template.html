@@ -3,6 +3,7 @@
     <div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
     <div class="alert alert-success" role="alert" ng-show="vm.uspeh">{{vm.uspeh}}</div>
     <h2>Prijavljeni kandidati</h2>
+    <h3>{{ vm.izpitniRok.predmet.naziv }}, {{ vm.izpitniRok.predmet.sifra }}</h3>
     <br>
     <table class="col-md-4">
         <thead>
@@ -41,7 +42,6 @@
                     <th ng-click="orderByMe('kandidat.student.ime')">Studijsko leto</th>
                     <th ng-click="orderByMe('kandidat.student.ime')">Polaganj</th>
                     <th ng-click="orderByMe('kandidat.tock')" class="col-xs-2">Točke (0 - 100)</th>
-                    <th ng-click="orderByMe('kandidat.ocena')">Ocena izpita</th>
                     <th ng-click="orderByMe('kandidat.koncna_ocena')">Končna ocena</th>
                 </tr>
             </thead>
@@ -59,10 +59,10 @@
                     </td>
                     <td ng-show="kandidat.odjavljen == true">VP</td>
                     
-                    <td ng-show="kandidat.odjavljen == false">
+                    <!--<td ng-show="kandidat.odjavljen == false">
                         <select class="form-control" value="{{kandidat.ocena}}" ng-model="kandidat.ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
                     </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
+                    <td ng-show="kandidat.odjavljen == true">VP</td>-->
                     
                     <td ng-show="kandidat.odjavljen == false">
                         <select class="form-control" value="{{kandidat.koncna_ocena}}" ng-model="kandidat.koncna_ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
@@ -93,4 +93,5 @@
             </tfoot>
         </table>
     </div>
+    <a href="/vsiIzpitniRoki"><button class="btn btn-primary" type="button">Nazaj na izpitne roke</button></a>
 </div>

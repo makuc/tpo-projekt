@@ -96,6 +96,21 @@
                             {
                               vm.sifranti.oblike_studija = odgovor.data;
                               //console.log("Sifranti: ", vm.sifranti);
+                              
+                              // studijska leta
+                              ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then
+                              (
+                                function success(odgovor)
+                                {
+                                  vm.sifranti.studijska_leta = odgovor.data;
+                                  //console.log("Sifranti: ", vm.sifranti);
+                                  console.log("Sifranti: ", vm.sifranti);
+                                },
+                                function error(odgovor)
+                                {
+                                  console.log(odgovor);
+                                }
+                              );
                             },
                             function error(odgovor)
                             {
@@ -160,6 +175,19 @@
                             function success(odgovor)
                             {
                               zeton.oblika_studija = odgovor.data;
+                              
+                              ostaloPodatki.najdiStudijskoLeto(zeton.studijsko_leto).then
+                              (
+                                function success(odgovor)
+                                {
+                                  zeton.studijsko_leto = odgovor.data;
+                                  //console.log(zeton.studijsko_leto);
+                                },
+                                function error(odgovor)
+                                {
+                                  console.log(odgovor);
+                                }
+                              );
                             },
                             function error(odgovor)
                             {
@@ -200,7 +228,7 @@
                 nacin_studija: vm.zeton.nacin_studija._id,
                 oblika_studija: vm.zeton.oblika_studija._id,
                 prosta_izbira: vm.zeton.prosta_izbira,
-                studijsko_leto: "5ac3c4553f0fb21a058ff3d8",
+                studijsko_leto: vm.zeton.studijsko_leto._id,
                 studijsko_leto_prvega_vpisa_v_ta_program: "5ac3c4553f0fb21a058ff3d8",
                 vrsta_studija: "5ac8bb39c3e49f0ee16a8b36",
                 usmeritev: "-",
