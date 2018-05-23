@@ -1,0 +1,80 @@
+<html>
+  <head>
+    
+<!-- Start: injected by Adguard -->
+
+<!-- Start: injected by Adguard -->
+<script src="//local.adguard.com/adguard-ajax-api/injections/userscripts.js?ts=63662668589391&name=Adguard%20Assistant&name=Popup%20Blocker%20by%20AdGuard" nonce="a7ae3f72a1eb45d5a4d41afb24c69cce" type="text/javascript"></script>
+<script src="//local.adguard.com/adguard-ajax-api/injections/content-script.js?ts=63662672255760&amp;domain=vfs-gce-eu-375-1.c9.io&amp;mask=111" nonce="a7ae3f72a1eb45d5a4d41afb24c69cce" type="text/javascript"></script>
+
+<!-- End: injected by Adguard -->
+<script src="//local.adguard.com/adguard-ajax-api/injections/userscripts.js?ts=63662668589391&name=Adguard%20Assistant&name=Popup%20Blocker%20by%20AdGuard" nonce="a7ae3f72a1eb45d5a4d41afb24c69cce" type="text/javascript"></script>
+<script src="//local.adguard.com/adguard-ajax-api/injections/content-script.js?ts=63662672255760&amp;domain=vfs-gce-eu-322-2.c9.io&amp;mask=111" nonce="a7ae3f72a1eb45d5a4d41afb24c69cce" type="text/javascript"></script>
+
+<!-- End: injected by Adguard -->
+<script>
+function parsePodatke() {
+  document.getElementById("msg").innerHTML = "<h2 style=\"color:green\">Obdelujem...</h2>";
+  
+  setTimeout(function() {
+    var data = document.getElementById("input").value;
+    let m;
+    
+    console.log("Počisti presledke pred narekovaji");
+    while (data.indexOf(" \"") > -1) {
+      data = data.replace(" \"", "\"");
+    }
+    console.log("Počisti presledke za narekovai");
+    while (data.indexOf("\" ") > -1) {
+      data = data.replace("\" ", "\"");
+    }
+    
+    console.log("Popravi ObjectId objekte");
+    const ObjectId = /(.*){\"\$oid\":\"(.{24})\"\}(.*)/gim;
+    while ((m = ObjectId.exec(data)) !== null) {
+      // This is necessary to avoid infinite loops with zero-width matches
+      if (m.index === ObjectId.lastIndex) {
+          ObjectId.lastIndex++;
+      }
+      data = data.replace(ObjectId, "$1ObjectId(\"$2\")$3");
+    }
+    
+    console.log("Popravi Date objekte");
+    const DateObj = /(.*){\"\$oid\":\"(.{24})\"\}(.*)/gim;
+    while ((m = DateObj.exec(data)) !== null) {
+      // This is necessary to avoid infinite loops with zero-width matches
+      if (m.index === DateObj.lastIndex) {
+          DateObj.lastIndex++;
+      }
+      data = data.replace(DateObj, "$1new Date(\"$2\")$3");
+    }
+    
+    console.log("Dodaj vejico na konec vrstice");
+    const EndLine = /(.*)}$/gim;
+    while ((m = EndLine.exec(data)) !== null) {
+      // This is necessary to avoid infinite loops with zero-width matches
+      if (m.index === EndLine.lastIndex) {
+          EndLine.lastIndex++;
+      }
+      data = data.replace(EndLine, "$1},");
+    }
+    
+    document.getElementById("msg").innerHTML = "<h2>Done</h2>";
+    
+    document.getElementById("output").value = data;
+  }, 100);
+}
+    </script>
+  </head>
+  <body>
+    <h1>Json converter</h1>
+    <div id="msg" style="color:green;margin:2em;text-align:center"></div>
+    <div>
+      <textarea id="input" name="input" style="width:100%; height:30%"></textarea>
+    </div>
+    <button onclick="parsePodatke()">Parsej podatke</button>
+    <div>
+      <textarea id="output" name="output" style="width:100%; height:30%"></textarea>
+    </div>
+  </body>
+</html>
