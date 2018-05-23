@@ -1,7 +1,8 @@
 <header style="margin-bottom: 15px"></header>
 <navigation ng-show="vm.vpisan.skrbnik == true"></navigation>
 <div class="container">
-    <h3>{{ vm.predmet.sifra }}, {{ vm.predmet.naziv }}</h3>
+    <h2>Izvedbe predmeta</h2>
+    <h3>{{ vm.predmet.sifra }}, {{ vm.predmet.naziv }}</h3><br>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -22,7 +23,7 @@
                 <tr>
                     <th>#</th>
                     <th>Študijsko leto</th>
-                    <th>Izpiti</th>
+                    <!--<th>Izpiti</th>-->
                     <th>Izvajalci</th>
                 </tr>
             </thead>
@@ -32,12 +33,12 @@
                     <td>{{ izvedba.studijsko_leto.studijsko_leto }}</td>
                     <!--<td>
                       <ul>
-                        <li ng-repeat="izpit in izvedba.izpiti">/s</li>  
+                        <li ng-repeat="izpit in izvedba.izpiti"> a </li>  
                       </ul>
                     </td>-->
-                    <td>/</td>
+                    <!--<td>/</td>-->
+                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.naIzpit(izvedba._id)">Izpiti</button></td>-->
                     <td>
-                      
                       <ul>
                         <li ng-repeat="izvajalec in izvedba.izvajalci">{{izvajalec.naziv}} {{izvajalec.ime}} {{izvajalec.priimek}}</li>  
                       </ul>
@@ -70,5 +71,5 @@
         </table>
     </div>
     
-    <a href="/urediPredmete" class="btn btn-success" type="button">Nazaj na predmete</a>
+    <a href="/urediPredmete" class="btn btn-primary" type="button">Nazaj na predmete</a>
 </div>

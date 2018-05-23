@@ -123,7 +123,7 @@
                 function success(odgovor){
                     console.log(odgovor);
                     vm.prikaziIzpite();
-                    vm.obvestilo = odgovor.data;
+                    vm.obvestilo = odgovor.data.message;
                     /*if(sporocilo == 0)
                     {
                       vm.obvestilo = "";

@@ -67,7 +67,7 @@
                     }
                     
                     vm.setPage(0);
-                }
+                } 
                 
                 vm.n = vm.strani.length-1;
                 $scope.$apply();
@@ -81,7 +81,7 @@
             ostaloPodatki.pridobiVseZaposlene().then(
                 function success(odgovor){
                     vm.zaposleni = odgovor.data;
-                    
+                    console.log("Zaposleni:", vm.zaposleni);
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -90,6 +90,7 @@
             ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then(
                 function success(odgovor){
                     vm.studijskaLeta = odgovor.data;
+                    console.log("studijskaLeta:", vm.studijskaLeta);
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -98,7 +99,7 @@
             predmetPodatki.pridobiPredmet(vm.predmetId).then(
                 function success(odgovor){
                     vm.predmet = odgovor.data;
-  
+                    console.log("predmet:", vm.predmet);
                     for (var i = 0; i < vm.predmet.izvedbe_predmeta.length; i++) {
                       if(vm.predmet.izvedbe_predmeta[i]._id == vm.izvedbaId)
                       {
