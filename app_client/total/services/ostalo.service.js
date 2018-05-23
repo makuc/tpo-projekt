@@ -497,7 +497,7 @@
             return $http.delete('/api/v1/izpit/' + izpitId + '/odjava/' + studentId + '/force');
         }
         
-        // Izpitni rok - izvedba - prijavljeni kandidati
+        // Izpitni rok - izvedba - prijavljeni kandidati-
         
         function pridobiIzpitniRok(rokId)
         {
