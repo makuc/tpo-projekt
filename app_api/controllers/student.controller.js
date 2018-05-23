@@ -1114,6 +1114,8 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
         {
           var neopr = neopravljeni_predmeti[z];
           
+          console.log("Primerjaj: " + neopr.predmet + " | " + predmet.predmet);
+          
           // Zdej pa najdi predmet
           if(neopr.predmet._id.equals(predmet.predmet._id))
           {
