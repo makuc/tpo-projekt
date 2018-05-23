@@ -25,6 +25,7 @@
                     <th ng-click="orderByMe('zeton.nacin_studija.naziv')">Način študija</th>
                     <th ng-click="orderByMe('zeton.oblika_studija.naziv')">Oblika študija</th>
                     <th ng-click="orderByMe('zeton.prosta_izbira')">Prosta izbira predmetov</th>
+                    <th ng-click="orderByMe('zeton.studijsko_leto')">Študijsko leto</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,7 @@
                     <td>{{ zeton.oblika_studija.naziv }}</td>
                     <td ng-show="zeton.prosta_izbira == true">Da</td>
                     <td ng-show="zeton.prosta_izbira == false">Ne</td>
+                    <td>{{ zeton.studijsko_leto.studijsko_leto }}</td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(zeton._id)">Uredi</button></td>
                     <td><button ng-show="{{zeton.izkoriscen == false}}" class="btn btn-danger" type="button" ng-click="vm.izbris(zeton._id)">Izbriši</button></td>
                 </tr>

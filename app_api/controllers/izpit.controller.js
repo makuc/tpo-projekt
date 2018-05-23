@@ -225,21 +225,28 @@ function vrniIzpite(req, res) {
 
 function najdiIzpit(req, res, next) {
   console.log("--najdiIzpit");
-  Izpit
-    .findById(req.params.izpit_id)
-    .populate("predmet studijsko_leto izvajalci polagalci.student")
-    .exec(function(err, izpit) {
-      if(err || !izpit) {
-        res.status(404).json({ message: "Ne najdem zelenega izpita" });
-      }
-      else
-      {
-        req.izpit = izpit;
-        req.predmet = izpit.predmet;
-        
-        callNext(req, res, next);
-      }
-    });
+  if(req.izpit)
+  {
+    callNext(req, res, next);
+  }
+  else
+  {
+    Izpit
+      .findById(req.params.izpit_id)
+      .populate("predmet studijsko_leto izvajalci polagalci.student")
+      .exec(function(err, izpit) {
+        if(err || !izpit) {
+          res.status(404).json({ message: "Ne najdem zelenega izpita" });
+        }
+        else
+        {
+          req.izpit = izpit;
+          req.predmet = izpit.predmet;
+          
+          callNext(req, res, next);
+        }
+      });
+  }
 }
 function ustvariIzpit(req, res, next) {
   Izpit.create({
@@ -646,7 +653,7 @@ function najdiNeopravljenePredmete(req, res, next) {
     }
   }
   
-  //console.log(req.neopravljeniPredmeti);
+  console.log(req.neopravljeniPredmeti);
   
   callNext(req, res, next);
 }
@@ -882,11 +889,12 @@ function odjavaUspesna(req, res) {
 
 function visajZaporedniPoskus(req, res, next) {
   console.log("--visajZaporedniPoskus");
-  
-  req.predmet.zaporedni_poskus++;
-  req.predmet.zaporedni_poskus_skupaj++;
-  req.predmet.izpit = req.izpit;
-  
+  if(req.predmet)
+  {
+    req.predmet.zaporedni_poskus++;
+    req.predmet.zaporedni_poskus_skupaj++;
+    req.predmet.izpit = req.izpit;
+  }
   callNext(req, res, next);
 }
 function nizajZaporedniPoskus(req, res, next) {

@@ -17,7 +17,7 @@
                 function success(odgovor){
                     vm.student = odgovor.data;
                     vm.zetoni = vm.student.zetoni;
-                    
+                    console.log("tle");
                     // Napolni zeton s podatki
                     console.log("Student:", vm.student);
                     for (var i = 0; i < vm.zetoni.length; i++) 
@@ -72,6 +72,21 @@
                             function success(odgovor)
                             {
                               vm.sifranti.oblike_studija = odgovor.data;
+                              
+                              // studijska leta
+                              ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then
+                              (
+                                function success(odgovor)
+                                {
+                                  vm.sifranti.studijska_leta = odgovor.data;
+                                  //console.log("Sifranti: ", vm.sifranti);
+                                  console.log("Sifranti: ", vm.sifranti);
+                                },
+                                function error(odgovor)
+                                {
+                                  console.log(odgovor);
+                                }
+                              );
                               //console.log("Sifranti: ", vm.sifranti);
                             },
                             function error(odgovor)
@@ -137,6 +152,19 @@
                             function success(odgovor)
                             {
                               zeton.oblika_studija = odgovor.data;
+                              
+                              ostaloPodatki.najdiStudijskoLeto(zeton.studijsko_leto).then
+                              (
+                                function success(odgovor)
+                                {
+                                  zeton.studijsko_leto = odgovor.data;
+                                  //console.log(zeton.studijsko_leto);
+                                },
+                                function error(odgovor)
+                                {
+                                  console.log(odgovor);
+                                }
+                              );
                             },
                             function error(odgovor)
                             {
