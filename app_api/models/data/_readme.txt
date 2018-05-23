@@ -1,4 +1,4 @@
-Ko exportaš collection iz mongo DB v obliki JSON, v "fix" skripti popravi ime exportane datoteke ter jo poženi
+Ko exportaš collection iz mongo DB v obliki JSON, pojdi na naslov: "/json.html" in v prvo vnosno polje kopiraj vsebino exportane datoteke
    --> S tem se JSON export popravi v uporabno obliko, ki jo lahko direktno kopiraš v Kontroller!
    
 Exportaš s tem ukazom:
