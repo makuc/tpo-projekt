@@ -80,6 +80,17 @@
             predmetPodatki.najdiVpisaneVPredmet(vm.predmetId, vm.studijskoLetoId).then(
                 function success(odgovor){
                     //console.log("Odgovor: ", odgovor.data.vpisani.studenti);
+                    vm.predmet = odgovor.data;
+                    console.log("predmet:", vm.predmet);
+                    for (var i = 0; i < vm.predmet.izvedbe_predmeta.length; i++) {
+                        //console.log(vm.predmet.izvedbe_predmeta[i].studijsko_leto._id);
+                        if(vm.predmet.izvedbe_predmeta[i].studijsko_leto._id == vm.studijskoLetoId)
+                        {
+                            //console.log("HIT");
+                            vm.studijskoLeto = vm.predmet.izvedbe_predmeta[i].studijsko_leto;
+                            break;
+                        }
+                    }
                     vm.vsiPodatki = odgovor.data.vpisani.studenti;
                     for (var i = 0; i < vm.vsiPodatki.length; i++) {
                       for (var j = 0; j < vm.vsiPodatki[i].studijska_leta_studenta.length; j++) {

@@ -91,6 +91,8 @@
             predmetPodatki.pridobiPredmet(vm.predmetId).then(
                 function success(odgovor){
                     vm.predmet = odgovor.data;
+                    console.log("Predmet:", vm.predmet)
+                    
                     vm.izvedbe_predmeta = vm.predmet.izvedbe_predmeta;
                     pripraviStrani();
                 },

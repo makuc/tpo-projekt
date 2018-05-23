@@ -1,5 +1,8 @@
 <header style="margin-bottom: 15px"></header>
 <div class="container">
+    <h2>Seznam študentov predmeta</h2>
+    <h3>{{ vm.predmet.sifra }}, {{ vm.predmet.naziv }}</h3>
+    <h3>{{ vm.studijskoLeto.studijsko_leto }}</h3><br>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -56,6 +59,6 @@
         </table>
     </div>
     
-    <a href="/urediIzvedbePredmeta/{{vm.predmetId}}" class="btn btn-success" type="button">Nazaj na izvedbe</a>
+    <a href="/urediIzvedbePredmeta/{{vm.predmetId}}" class="btn btn-primary" type="button">Nazaj na izvedbe</a>
     
 </div>
