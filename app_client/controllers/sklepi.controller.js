@@ -78,6 +78,7 @@
         vm.prikaziDelePredmetnika = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
+                    vm.student = odgovor.data;
                     vm.deliPredmetnika = odgovor.data.sklepi;
                     console.log("Sklepi: ", vm.deliPredmetnika);
                     pripraviStrani();
