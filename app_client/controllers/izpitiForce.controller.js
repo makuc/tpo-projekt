@@ -77,6 +77,7 @@
         };
         
         vm.prijavi = function(izpitId, datumIzvajanja, predmetId){
+            /*
             datumIzvajanja = new Date(datumIzvajanja);
             var dns = new Date(Date.now());
             var upostevanRok = new Date(dns.getFullYear(), dns.getMonth(), dns.getDate() + 2);
@@ -112,6 +113,7 @@
             };
             ostaloPodatki.prijaviNaRokForce(izpitId, studentData).then(
                 function success(odgovor){
+                    console.log(odgovor);
                     vm.prikaziIzpite();
                     /*if(sporocilo == 0)
                     {
