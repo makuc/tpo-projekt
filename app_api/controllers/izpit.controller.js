@@ -234,16 +234,15 @@ function najdiIzpit(req, res, next) {
     .populate("predmet studijsko_leto izvajalci polagalci.student")
     .exec(function(err, izpit) {
       if(err || !izpit) {
-        return res.status(404).json({ message: "Ne najdem zelenega izpita" });
+        res.status(404).json({ message: "Ne najdem zelenega izpita" });
       }
-      
-      if(izpit)
-        console.log("Nov izpit najden");
-      
-      req.izpit = izpit;
-      req.predmet = izpit.predmet;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.izpit = izpit;
+        req.predmet = izpit.predmet;
+        
+        callNext(req, res, next);
+      }
     });
 }
 function ustvariIzpit(req, res, next) {
@@ -625,12 +624,14 @@ function najdiStudentaId(req, res, next) {
     .exec(function(err, student) {
       if(err || !student) {
         console.log(err);
-        return res.status(404).json({ message: "Ne najdem izbranega študenta"});
+        res.status(404).json({ message: "Ne najdem izbranega študenta"});
       }
-      
-      req.student = student;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.student = student;
+        
+        callNext(req, res, next);
+      }
     });
 }
 function najdiNeopravljenePredmete(req, res, next) {
@@ -767,18 +768,19 @@ function najdiPolaganje(req, res, next) {
   console.log("--najdiPolaganje");
   if(!req.izpit) {
     callNext(req, res, next);
-    return;
   }
-  
-  for(var i = 0; i < req.izpit.polagalci.length; i++) {
-    if(req.izpit.polagalci[i].student._id.equals(req.student._id) && !req.izpit.polagalci[i].odjavljen)
-    {
-      req.polaganje = req.izpit.polagalci[i];
-      break;
+  else
+  {
+    for(var i = 0; i < req.izpit.polagalci.length; i++) {
+      if(req.izpit.polagalci[i].student._id.equals(req.student._id) && !req.izpit.polagalci[i].odjavljen)
+      {
+        req.polaganje = req.izpit.polagalci[i];
+        break;
+      }
     }
+    
+    callNext(req, res, next);
   }
-  
-  callNext(req, res, next);
 }
 
 function dodajPolagalca(req, res, next) {
@@ -894,31 +896,36 @@ function shraniStudenta(req, res, next) {
   req.student.save(function(err, student) {
     if(err || !student) {
       console.log("---shraniStudenta:\n" + err);
-      return res.status(404).json({ message: "Napaka pri shranjevanju študenta"});
+      res.status(404).json({ message: "Napaka pri shranjevanju študenta"});
     }
-    
-    req.student = student;
-    
-    callNext(req, res, next);
+    else
+    {
+      req.student = student;
+      
+      callNext(req, res, next);
+    }
   });
 }
 function shraniIzpit(req, res, next) {
   console.log("--shraniIzpit");
   if(!req.izpit) {
     callNext(req, res, next);
-    return;
   }
-  
-  req.izpit.save(function(err, izpit) {
-    if(err || !izpit) {
-      console.log("---shraniIzpit:\n" + err);
-      return res.status(400).json({ message: "Napaka pri spreminjanju izpita" });
-    }
-    
-    req.izpit = izpit;
-    
-    callNext(req, res, next);
-  });
+  else
+  {
+    req.izpit.save(function(err, izpit) {
+      if(err || !izpit) {
+        console.log("---shraniIzpit:\n" + err);
+        res.status(400).json({ message: "Napaka pri spreminjanju izpita" });
+      }
+      else
+      {
+        req.izpit = izpit;
+        
+        callNext(req, res, next);
+      }
+    });
+  }
 }
 
 function pripraviDateDanes(req, res, next) {
@@ -1070,9 +1077,9 @@ function izberiPredmet(req, res, next) {
   }
   
   if(!req.predmet)
-    return res.status(404).json({message: "Študent v tem letu ne obiskuje tega predmeta"});
-  
-  callNext(req, res, next);
+    res.status(404).json({message: "Študent v tem letu ne obiskuje tega predmeta"});
+  else
+    callNext(req, res, next);
 }
 
 function najdiPrijavljenIzpit(req, res, next) {
@@ -1092,12 +1099,14 @@ function najdiPrijavljenIzpit(req, res, next) {
     .exec(function(err, izpit) {
       if(err) {
         console.log("---preveriPrijavljenNaDrugIzpit:\n" + err);
-        return res.status(404).json({ message: "Napaka pri pridobivanju izpitov, na katere je že prijavljen"});
+        res.status(404).json({ message: "Napaka pri pridobivanju izpitov, na katere je že prijavljen"});
       }
-      
-      req.izpit = izpit;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.izpit = izpit;
+        
+        callNext(req, res, next);
+      }
     });
 }
 
