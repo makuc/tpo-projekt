@@ -76,9 +76,11 @@
         };
         
         vm.shraniVse = function(){
-            for (var i = 0; i < vm.kandidati[vm.trenutnaStran].length; i++) 
+            console.log("Kandidati:", vm.kandidati);
+            console.log(vm.kandidati[vm.stran].length);
+            for (var i = 0; i < vm.kandidati.length; i++) 
             {
-                var kandidat = vm.kandidati[vm.trenutnaStran][i];
+                var kandidat = vm.kandidati[i];
                 if(kandidat.odjavljen == true)
                 {
                     continue;
@@ -86,7 +88,6 @@
                 //console.log(kandidat);
                 var data = {
                     tock: kandidat.tock,
-                    ocena: kandidat.ocena,
                     koncna_ocena: kandidat.koncna_ocena
                 };
                 ostaloPodatki.posodobiOceno(vm.izvedbaId, kandidat.student._id, data).then(
@@ -98,7 +99,7 @@
                     },
                     function error(odgovor){
                         vm.uspeh = "";
-                        vm.obvestilo = "Neveljavni podatki - preverite vnešene ocene.";
+                        vm.obvestilo = odgovor.data.message;
                         console.log(odgovor);
                     }
                 );
@@ -108,7 +109,6 @@
         vm.shraniStudenta = function(kandidat){
             var data = {
                 tock: kandidat.tock,
-                ocena: kandidat.ocena,
                 koncna_ocena: kandidat.koncna_ocena
             };
             ostaloPodatki.posodobiOceno(vm.izvedbaId, kandidat.student._id, data).then(

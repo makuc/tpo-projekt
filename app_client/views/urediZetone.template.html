@@ -1,6 +1,8 @@
 <header style="margin-bottom: 15px"></header>
 <!--navigation></navigation>-->
 <div class="container">
+    <h2>Žetoni študenta</h2>
+    <h3>{{ vm.student.ime }} {{ vm.student.priimek }}, {{ vm.student.vpisna_stevilka }}</h3><br>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -62,5 +64,5 @@
             </tfoot>
         </table>
     </div>
-    <button class="btn btn-success"  type="button" ng-click="vm.nazaj()">Nazaj na seznam studentov</button>
+    <button class="btn btn-primary"  type="button" ng-click="vm.nazaj()">Nazaj na seznam studentov</button>
 </div>

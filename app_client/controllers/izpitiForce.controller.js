@@ -1,10 +1,10 @@
 (function() {
     /* global angular */
     
-    izpitiForceCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication', '$route'];
+    izpitiForceCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication', '$route', 'studentPodatki'];
     
     
-    function izpitiForceCtrl(ostaloPodatki, $scope, $location, authentication, $route){
+    function izpitiForceCtrl(ostaloPodatki, $scope, $location, authentication, $route, studentPodatki){
         var vm = this;
         
         vm.studentId = $route.current.params.studentId;
@@ -66,6 +66,14 @@
                             }
                         }
                     }
+                    studentPodatki.izpisStudenta(vm.studentId).then(
+                        function success(odgovor){
+                            vm.student = odgovor.data;
+                        },
+                        function error(odgovor){
+                            console.log(odgovor);
+                        }
+                    );
                     console.log(vm.izpiti);
                     vm.unikatPrijave = {};
                     pripraviStrani();
@@ -115,6 +123,7 @@
                 function success(odgovor){
                     console.log(odgovor);
                     vm.prikaziIzpite();
+                    vm.obvestilo = odgovor.data;
                     /*if(sporocilo == 0)
                     {
                       vm.obvestilo = "";
@@ -122,7 +131,7 @@
                 },
                 function error(odgovor){
                     console.log("Err:", odgovor);
-                    vm.obvestilo = odgovor.data;
+                    vm.obvestilo = odgovor.data.message;
                 }
             );
         };
@@ -135,24 +144,24 @@
             console.log("datumIzvajanja: ", datumIzvajanja);
             console.log("upostevanRok < datumIzvajanja = ", upostevanRok < datumIzvajanja);
             console.log("/");*/
-            var potekel = false;
+            /*var potekel = false;
             if(upostevanRok > datumIzvajanja) {
                  console.log("Rok za odjavo od izpita je potekel.")
                  vm.obvestilo = "Rok za odjavo od izpita je potekel.";
                  potekel = true;
                  //return;
-            }
+            }*/
             ostaloPodatki.odjaviOdRokaForce(izpitId, vm.studentId).then(
                 function success(odgovor){
                     vm.prikaziIzpite();
-                    if(potekel == false)
+                    //if(potekel == false)
                     {
-                      vm.obvestilo = "";
+                      vm.obvestilo = odgovor.data.message;
                     }
                 },
                 function error(odgovor){
                     console.log(odgovor);
-                    vm.obvestilo = "Opozorilo";
+                    vm.obvestilo = odgovor.data.message;
                 }
             );
         };
