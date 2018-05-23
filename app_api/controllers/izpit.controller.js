@@ -472,7 +472,7 @@ function preveriLahkoUreja(req, res, next) {
   {
     // Preveri za vse polagalce
     var polagalec = req.izpit.polagalci[i];
-    if(polagalec.tock > 0 || polagalec.ocena > 0 || polagalec.koncna_ocena > 0)
+    if(polagalec.tock > 0 || polagalec.koncna_ocena > 0)
     {
       return res.status(404).json({ message: "Izpit ima že vnešene ocene, urejanje prepovedano"});
     }
