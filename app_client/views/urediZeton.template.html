@@ -40,6 +40,12 @@
                 <select class="form-control" ng-model="vm.zeton.prosta_izbira" ng-options="x as (x) for x in vm.opcijeBool track by x" ng-disabled="vm.zeton.izkoriscen"></select>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Študijsko leto</label>
+                <select class="form-control" ng-model="vm.zeton.studijsko_leto" ng-options="x as (x.studijsko_leto) for x in vm.sifranti.studijska_leta track by x._id" ng-disabled="vm.zeton.izkoriscen"></select>
+            </div>
+        </div>
       
         <br>
         <button class="btn btn-success"  type="submit" style="margin-right:20px;">Shrani</button>
