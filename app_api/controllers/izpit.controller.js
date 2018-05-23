@@ -140,7 +140,7 @@ module.exports.odjavaIzIzpitaForce = function(req, res) {
 
 // Vnos ocen
 module.exports.addOcenoStudentu = function(req, res) {
-  if(!req.body || (!req.body.ocena && !req.body.tock && !req.body.koncna_ocena))
+  if(!req.body || (!req.body.tock && !req.body.koncna_ocena))
   {
     return res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
   }
@@ -1011,15 +1011,6 @@ function preveriPretekloDovoljDni(req, res, next) {
 // Vnos ocene
 function vnesiOcenoPodIzpit(req, res, next) {
   console.log("--vnesiOcenoPodIzpit");
-  
-  if(req.body.ocena)
-  {
-    req.body.ocena = parseInt(req.body.ocena, 10);
-    if(req.body.ocena > 100 || req.body.ocena < -1)
-      return res.status(400).json({ message: "Ocena pisnega izpita mora biti med -1 in 10"});
-    
-    req.polaganje.ocena = req.body.ocena;
-  }
   if(req.body.tock)
   {
     req.body.tock = parseInt(req.body.tock, 10);
