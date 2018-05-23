@@ -136,6 +136,64 @@
            
         $scope.myOrderBy = x;
         }
+        
+        
+                function getDescendantProp (obj, desc) {
+              var arr = desc.split('.');
+              while (arr.length && (obj = obj[arr.shift()]));
+              return obj;
+            }
+        function buildTableBody(data, columns, names) {
+            var body = [];
+            var i=1;
+            body.push(names);
+           
+        
+            data.forEach(function(row) {
+                var dataRow = [];
+                
+                dataRow.push(i.toString());
+                i++;
+                
+                columns.forEach(function(column) {
+                    var x = getDescendantProp(row,column);
+                    console.log(x);
+                    if (x == null) {
+                        x="undefined";
+                        }
+                   dataRow.push(x.toString());
+                })
+                
+                body.push(dataRow);
+            });
+        
+            return body;
+        }
+        
+        function table(data, columns, names) {
+            return {
+                table: {
+                    headerRows: 1,
+                    body: buildTableBody(data, columns, names)
+                }
+            };
+        }
+
+        
+        vm.exportDataPDF= function(){
+
+            
+            var docDefinition = {
+               	content: [
+                    { text: '', style: 'header' },
+                    table($scope.query,
+                        ['studijski_program.naziv', 'studijski_program.vrstaStudija.opis', 'studijsko_leto.studijsko_leto', 'letnik.naziv', 'del_predmetnika.naziv', 'ime'],
+                        ['#','Naziv','Vrsta študija', 'Študijsko leto','Letnik','Del predmetnika', 'Ime modula'])
+                ]
+        
+             };
+             pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+        }
     }
     
     angular

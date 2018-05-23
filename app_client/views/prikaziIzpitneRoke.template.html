@@ -66,10 +66,9 @@
             </tfoot>
         </table>
         
-        <button type="button" ng-csv="query" charset="utf-8"
-            csv-header="[ 'Šifra', 'Naziv', 'Datum izvajanja', 'lokacija' ]"
-            csv-column-order="[ 'predmet.sifra', 'predmet.naziv', 'datum_izvajanja', 'lokacija' ]"
-            add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
-        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        <button ng-json-export-excel data="query"
+        report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv', datum_izvajanja: 'Datum', lokacija: 'Lokacija' }"
+        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
+         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
 </div>
