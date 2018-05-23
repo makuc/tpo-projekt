@@ -40,7 +40,7 @@ function parsePodatke() {
     }
     
     console.log("Popravi Date objekte");
-    const DateObj = /(.*){\"\$oid\":\"(.{24})\"\}(.*)/gim;
+    const DateObj = /(.*){\"\$date\":\"(.{24})\"\}(.*)/gim;
     while ((m = DateObj.exec(data)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       if (m.index === DateObj.lastIndex) {
