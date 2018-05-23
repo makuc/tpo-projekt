@@ -855,7 +855,6 @@ function odjaviPolagalca(req, res, next) {
   req.polaganje.odjavljen = true;
   req.polaganje.cas_odjave = Date.now();
   req.polaganje.tock = -1;
-  req.polaganje.ocena = -1;
   req.polaganje.koncna_ocena = -1;
   
   if(req.user && req.user.zaposlen)
