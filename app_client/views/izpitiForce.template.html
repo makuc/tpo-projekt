@@ -1,3 +1,4 @@
+<header></header>
 <!--<navigation></navigation>-->
 <div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
 <div class="container">
@@ -22,6 +23,8 @@
                     <th>Naziv</th>
                     <th>Izvajalci</th>
                     <th>Datum</th>
+                    <th>Polaganj letos</th>
+                    <th>Polaganj skupaj</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +38,8 @@
                       </ul>
                     </td>
                     <td>{{ x.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
+                    <td>{{ x.polagalec.zaporedni_poskus }}</td>
+                    <td>{{ x.polagalec.zaporedni_poskus_skupaj }}</td>
                     <td>
                         <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
                         <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>

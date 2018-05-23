@@ -59,6 +59,7 @@
                 function success(odgovor){
                     //console.log(odgovor.data);
                     vm.izpitniRok = odgovor.data;
+                    console.log("Izpitni rok:", vm.izpitniRok);
                     vm.kandidati = vm.izpitniRok.polagalci;
                     for (var i = 0; i < vm.kandidati.length; i++) {
                         if(vm.kandidati[i].tock < 0)

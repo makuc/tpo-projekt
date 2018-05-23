@@ -117,7 +117,11 @@
         {
             $location.path("/sklepi/" + studentId);
         };
-    
+        
+        vm.izpiti = function(studentId)
+        {
+            $location.path("/izpitiForce/" + studentId);  
+        };
 
         vm.uredi = function(studentID){
             $location.path("/podrobnostiStudenta/" + studentID);

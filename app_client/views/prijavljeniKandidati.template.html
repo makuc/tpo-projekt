@@ -38,6 +38,8 @@
                     <th ng-click="orderByMe('kandidat.student.vpisna_stevilka')">Vpisna številka</th>
                     <th ng-click="orderByMe('kandidat.student.priimek')">Priimek</th>
                     <th ng-click="orderByMe('kandidat.student.ime')">Ime</th>
+                    <th ng-click="orderByMe('kandidat.student.ime')">Studijsko leto</th>
+                    <th ng-click="orderByMe('kandidat.student.ime')">Polaganj</th>
                     <th ng-click="orderByMe('kandidat.tock')" class="col-xs-2">Točke (0 - 100)</th>
                     <th ng-click="orderByMe('kandidat.ocena')">Ocena izpita</th>
                     <th ng-click="orderByMe('kandidat.koncna_ocena')">Končna ocena</th>
@@ -49,6 +51,8 @@
                     <td>{{ kandidat.student.vpisna_stevilka }}</td>
                     <td>{{ kandidat.student.priimek }}</td>
                     <td>{{ kandidat.student.ime }}</td>
+                    <td>{{ vm.izpitniRok.studijsko_leto.studijsko_leto }}</td>
+                    <td>{{ kandidat.zaporedni_poskus_skupaj }}</td>
                     
                     <td ng-show="kandidat.odjavljen == false">
                         <input class="form-control col-xs-2" type="text" value="{{kandidat.tock}}" ng-model="kandidat.tock">

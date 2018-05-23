@@ -58,6 +58,15 @@
             ostaloPodatki.vsiIzpitniRoki(vm.studentId).then(
                 function success(odgovor){
                     vm.izpiti = odgovor.data;
+                    for (var i = 0; i < vm.izpiti.length; i++) {
+                        for (var j = 0; j < vm.izpiti[i].polagalci.length; j++) {
+                            if(vm.izpiti[i].polagalci[j].student == vm.studentId)
+                            {
+                                vm.izpiti[i].polagalec = vm.izpiti[i].polagalci[j];
+                            }
+                        }
+                    }
+                    console.log(vm.izpiti);
                     vm.unikatPrijave = {};
                     pripraviStrani();
                 },
@@ -79,7 +88,9 @@
                  //return;
             }
             
+            /*console.log("tukaj");
             for (var i = 0; i < vm.izpitiData.length; i++) {
+                console.log("tukaj2");
               if(vm.izpitiData[i].predmet._id == predmetId && vm.jePrijavljen(vm.izpitiData[i].polagalci) == true)
               {
                 //console.log("na ta predmet ste ze prijavljeni");
@@ -95,21 +106,21 @@
                 
                 //return;
               }
-            }
+            }*/
             var studentData = {
               student: vm.studentId
             };
             ostaloPodatki.prijaviNaRokForce(izpitId, studentData).then(
                 function success(odgovor){
                     vm.prikaziIzpite();
-                    if(sporocilo == 0)
+                    /*if(sporocilo == 0)
                     {
                       vm.obvestilo = "";
-                    }
+                    }*/
                 },
                 function error(odgovor){
                     console.log("Err:", odgovor);
-                    vm.obvestilo = "Opozorilo";
+                    vm.obvestilo = odgovor.data;
                 }
             );
         };
