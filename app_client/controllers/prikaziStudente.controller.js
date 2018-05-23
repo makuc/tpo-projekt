@@ -91,28 +91,55 @@
             
             $scope.myOrderBy = x;
         };
+
+//----------------------------------------------------------------------------------
+        function buildTableBody(data, columns, names) {
+            var body = [];
+            var i=1;
+            body.push(names);
+           
         
-        $scope.exportDataPDF= function(){
-            html2canvas(document.getElementById('exportable'), {
-                onrendered: function (canvas) {
-                    var data = canvas.toDataURL();
-                    var docDefinition = {
-                        content: [{
-                            image: data,
-                            width: 500,
-                        }]
-                    };
-                    pdfMake.createPdf(docDefinition).download("test.pdf");
-                }
+            data.forEach(function(row) {
+                var dataRow = [];
+                
+                dataRow.push(i.toString());
+                i++;
+                columns.forEach(function(column) {
+                  
+                    dataRow.push(row[column].toString());
+                })
+                
+                body.push(dataRow);
             });
+        
+            return body;
         }
-        $scope.exportDataCSV = function () {
-            var blob = new Blob([document.getElementById('exportable').innerHTML], {
-                type: "text/csv;charset=utf-8"
-            });
-            saveAs(blob, "Report Example.csv");
-        };
         
+        function table(data, columns, names) {
+            return {
+                table: {
+                    headerRows: 1,
+                    body: buildTableBody(data, columns, names)
+                }
+            };
+        }
+
+        
+        vm.exportDataPDF= function(){
+
+            
+            var docDefinition = {
+               	content: [
+                    { text: '', style: 'header' },
+                    table($scope.query,
+                        ['vpisna_stevilka', 'priimek', 'ime'],
+                        ['#','Vpisna št.',      'Priimek', 'Ime'])
+                ]
+        
+             };
+             pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+        }
+//----------------------------------------------------------------------------------    
         vm.sklepi = function(studentId)
         {
             $location.path("/sklepi/" + studentId);

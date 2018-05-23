@@ -57,5 +57,9 @@
                 </td>
             </tfoot>
         </table>
+        <button ng-json-export-excel data="query"
+        report-fields="{'zaposlen.priimek': 'Priimek', 'zaposlen.ime': 'Ime', 'zaposlen.naziv': 'Naziv', 'zaposlen.email': 'Email'}"
+        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
+         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
 </div>

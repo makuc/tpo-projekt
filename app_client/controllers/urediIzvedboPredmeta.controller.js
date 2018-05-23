@@ -132,8 +132,8 @@
         
         vm.dodajIzvajalca = function(izvajalecId)
         {
-          console.log("izvajalci: ", vm.izvajalci);
-          if(vm.izvajalci && vm.izvajalci[0].length < 3)
+          //console.log("izvajalci: ", vm.predmet);
+          if(vm.izvedba.izvajalci.length < 3)
           {
               vm.obvestilo = "";
           }

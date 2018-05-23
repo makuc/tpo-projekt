@@ -43,13 +43,14 @@
         if(authentication.currentUser().student){
             vm.jeStudent = true;
             vm.student = true;
-            
+            //console.log(authentication.currentUser());
             pridobiZahtevke();
         
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
                 function success(odgovor){
+                    console.log(odgovor.data);
                     for(var i = 0; i < odgovor.data.zetoni.length; i++){
-                        if(!odgovor.data.zetoni[0].izkoriscen){
+                        if(!odgovor.data.zetoni[i].izkoriscen){
                             vm.neizkoriscenZeton = true;
                         }
                     }

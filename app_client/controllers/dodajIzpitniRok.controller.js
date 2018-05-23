@@ -31,43 +31,12 @@
         }
         
         function preveriDatum(datum){
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-
-            if(yyyy < datum.getFullYear()){
-                if(datum.getDay() > 5){
-                    vm.obvestilo = "Med vikendi ni mogoče dodanjanje izpitnega roka";
-                    return false;
-                }
-                return true;
-            } else if(yyyy == datum.getFullYear()){
-                if(mm < datum.getMonth()+1){
-                    if(datum.getDay() > 5){
-                        vm.obvestilo = "Med vikendi ni mogoče dodanjanje izpitnega roka";
-                        return false;
-                    }
-                    return true;
-                } else if(mm == datum.getMonth()+1){
-                    if(dd < datum.getDate()){
-                        if(datum.getDay() > 5){
-                            vm.obvestilo = "Med vikendi ni mogoče dodanjanje izpitnega roka";
-                            return false;
-                        }
-                        return true;
-                    } else {
-                        vm.obvestilo = "Datum je manjši kot današnji";
-                        return false;
-                    }
-                } else {
-                    vm.obvestilo = "Datum je manjši kot današnji";
-                    return false;
-                }
-            } else {
-                vm.obvestilo = "Datum je manjši kot današnji";
+            if(datum.getDay() > 5){
+                vm.obvestilo = "Med vikendi ni mogoče dodanjanje izpitnega roka";
                 return false;
             }
+            return true;
+            
         }
         
         vm.izbrano = function(){

@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="drzava in query = (vm.drzave | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="drzava in query = (vm.drzave | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.naStran * vm.stran) }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.slovenski_naziv }}</td>
@@ -59,6 +59,11 @@
                 </td>
             </tfoot>
         </table>
+        <button type="button" ng-csv="query" charset="utf-8"
+            csv-header="[ 'Numerična oznaka', 'Slovenski naziv', 'ISO naziv', 'Dvomestna koda', 'Trimestna koda']"
+            csv-column-order="[ 'numericna_oznaka', 'slovenski_naziv', 'ISO_naziv', 'dvomestna_koda','trimestna_koda']"
+            add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
+        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
     
     

@@ -65,5 +65,10 @@
                 </td>
             </tfoot>
         </table>
+        
+        <button ng-json-export-excel data="query"
+        report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv', datum_izvajanja: 'Datum', lokacija: 'Lokacija' }"
+        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
+         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
 </div>

@@ -3,9 +3,9 @@
     /* global angular */
     
     
-    vpisniListPregledCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki', '$location'];
+    vpisniListPregledCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki', '$location', '$window'];
     
-    function vpisniListPregledCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki, $location){
+    function vpisniListPregledCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki, $location, $window){
         var vm = this;
         
         vm.idVpisnice = $routeParams.idVpisnice;
@@ -104,15 +104,8 @@
             studentPodatki.zakljucekVpisa(vm.idVpisnice).then(
                 function success(odgovor){
                     console.log(odgovor);
-                    studentPodatki.pridobiPDFVpisnegaLista(vm.idVpisnice).then(
-                        function success(odgovor){
-                            console.log(odgovor);
-                        },
-                        function error(odgovor){
-                            console.log(odgovor);
-                        }
-                    );
-                    //$location.path('/main');
+                    $window.open("/api/v1/vpisni-list/" + vm.idVpisnice, '_blank');
+                    $location.path('/main');
                 },
                 function error(odgovor){
                     console.log(odgovor);
