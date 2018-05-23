@@ -119,7 +119,7 @@ module.exports.prijavaNaIzpitForce = function(req, res) {
   
   callNext(req, res, [
     // Odjavi predhodne prijave
-    najdiIzpit, najdiStudentaId, izberiPredmet, najdiPrijavljenIzpit, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, shraniIzpit,
+    najdiIzpit, najdiStudentaId, izberiPredmet, najdiPrijavljenIzpit, najdiPolaganje, odjaviPolagalca, nizajZaporedniPoskus, shraniIzpit, shraniStudenta,
     
     // Opravi prijavo
     najdiIzpit, pripraviDateDanes, najdiNeopravljenePredmete, najdiStudentovPredmet,
