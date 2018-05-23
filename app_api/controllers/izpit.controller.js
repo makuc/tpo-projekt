@@ -26,7 +26,7 @@ module.exports.getIzpiteStudijskoLetoPredmet = function(req, res) {
 };
 
 module.exports.getIzpit = function(req, res) {
-  callNext(req, res, [ najdiIzpit, vrniIzpit ]);
+  callNext(req, res, [ najdiIzpit, filtrirajPolagalce, vrniIzpit ]);
 };
 module.exports.addIzpit = function(req, res) {
   if(!req.body || !req.body.predmet || !req.body.studijsko_leto || !req.body.datum_izvajanja || !req.body.izvedba_predmeta)
@@ -149,15 +149,11 @@ module.exports.addOcenoStudentu = function(req, res) {
   req.opozorila = [];
   
   callNext(req, res, [
-    najdiIzpit, najdiStudentaId, najdiPrijavljenIzpit,
-    najdiIzpit, izberiPredmet,
-    najdiPolaganje, dodajPolagalca, visajZaporedniPoskus,
-    
-    // Dodaj študentu oceno
+    najdiIzpit, najdiStudentaId, izberiPredmet,
     najdiPolaganje, vnesiOcenoPodIzpit, vnesiOcenoStudentu,
     
     // Shrani spremembe
-     shraniIzpit, shraniStudenta, vrniIzpit
+    shraniIzpit, shraniStudenta, vrniIzpit
   ]);
 };
 module.exports.addOceneStudentom = function(req, res) {
@@ -744,6 +740,24 @@ function filtrirajPolaganja(req, res, next) {
   
   callNext(req, res, next);
 }
+function filtrirajPolagalce(req, res, next) {
+  console.log("--filtrirajPolagalce");
+  if(req.izpit)
+  {
+    req.izpit = req.izpit.toObject();
+    
+    for(var i = 0; i < req.izpit.polagalci.length; i++)
+    {
+      var polaganje = req.izpit.polagalci[i];
+      if(polaganje.odjavljen == true)
+      {
+        req.izpit.polagalci.splice(i, 1);
+        i--;
+      }
+    }
+  }
+  callNext(req, res, next);
+}
 
 function najdiStudentovPredmet(req, res, next) {
   console.log("--najdiStudentovPredmet");
@@ -877,17 +891,12 @@ function visajZaporedniPoskus(req, res, next) {
 }
 function nizajZaporedniPoskus(req, res, next) {
   console.log("--nizajZaporedniPoskus");
-  if(!req.izpit) {
-    console.log("Ni izpita");
-    callNext(req, res, next);
-    return;
+  if(req.izpit) {
+    req.predmet.zaporedni_poskus--;
+    req.predmet.zaporedni_poskus_skupaj--;
+    req.predmet.izpit = undefined;
+    req.predmet.ocena = -1;
   }
-  
-  req.predmet.zaporedni_poskus--;
-  req.predmet.zaporedni_poskus_skupaj--;
-  req.predmet.izpit = undefined;
-  req.predmet.ocena = -1;
-  
   callNext(req, res, next);
 }
 function shraniStudenta(req, res, next) {
