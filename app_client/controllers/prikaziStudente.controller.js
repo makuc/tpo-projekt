@@ -218,6 +218,11 @@
             console.log("prikaziStudente/" + studentId + "/zetoni");
             $location.path("prikaziStudente/" + studentId + "/zetoni");  
        };
+       vm.refer = function(studentId)
+       {
+            
+            $location.path("kartotecniList/" + studentId);  
+       };
         
     }
     

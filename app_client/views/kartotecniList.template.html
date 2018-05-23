@@ -1,0 +1,89 @@
+<header style="margin-bottom: 15px"></header>
+<div ng-init="vm.najdiKartotecniList()"></div>
+<h2>Kartotečni list:  {{vm.kart.ime}} {{vm.kart.priimek}}</h2><br>
+<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+<form role ="form"  class="form-horizonral">
+  <div class="col-sm-12">
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label>Vpisna številka:</label>
+            <div class="form-control" type="text" value="{{vm.kart.vpisna_stevilka}}" ng-model="vm.kart.vpisna_stevilka">{{vm.kart.vpisna_stevilka}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label>Priimek:</label>
+            <div class="form-control" type="text" value="{{vm.kart.priimek}}" ng-model="vm.kart.priimek"> {{vm.kart.priimek}}</div>
+        </div>
+           <div class="form-group col-sm-4">
+            <label>Ime:</label>
+            <div class="form-control" type="text" value="{{vm.kart.ime}}" ng-model="vm.kart.ime">{{vm.kart.ime}} </div>
+        </div>
+   
+    </div>
+
+    <div ng-repeat="letnik in vm.kart.studijska_leta_studenta">
+      <div class="row">
+          <div class="form-group col-sm-4">
+              <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
+            </div>
+            <div class="form-group col-sm-4">
+              <div>Smer: {{letnik.vrsta_studija.sifra}} -  {{letnik.vrsta_studija.predpona}},  {{letnik.vrsta_studija.opis}}</div>
+         </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-sm-4">
+              <div>Letnik: {{letnik.letnik.naziv}}</div>
+            </div>  
+          <div class="form-group col-sm-4">
+              <div>Vrsta vpisa: {{letnik.vrsta_vpisa.koda}} - {{letnik.vrsta_vpisa.naziv}}</div>
+     </div>
+      </div>
+      <div class="row">
+           <div class="form-group col-sm-4">
+              <div>Način: {{letnik.nacin_studija.sifra}} - {{letnik.nacin_studija.naziv}}</div>
+              </div>
+               <div class="form-group col-sm-4">
+              <div>Skupina: {{letnik.kraj_izvajanja}}</div>
+              </div>
+      </div>
+     <div class="container table-responsive">
+      <table id="tabela_kartotecni_listi" class="table table-hover" >
+        <thead>
+          <tr>
+            <th>Šifra</th>
+            <th>Predmet</th>
+            <th>KT</th>
+            <th>Predavatelj(i)</th>
+            <th>Datum</th>
+            <th>Ocena</th>
+            <th>Št. polaganj</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="predmet in  letnik.predmeti" >
+            <td>{{ predmet.predmet.sifra }}</td>
+            <td>{{ predmet.predmet.naziv }}</td>
+            <td>{{ predmet.predmet.KT }}</td>
+            <td>{{predmet.predmet.izvedbe_predmeta[0].izvajalci[0].ime}} </td>
+            <td>Date</td>
+             <td>{{ predmet.ocena }}</td>
+             <td>{{ predmet.zaporedni_poskus_skupaj }}       {{ predmet.zaporedni_poskus }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Nazaj</button>
+  </div>
+</form>
