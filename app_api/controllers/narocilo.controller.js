@@ -126,8 +126,8 @@ function najdiStudenta(req, res, next) {
 function najdiVpisniList(req, res, next) {
   Vpis
     .findOne({
-      student: req.student,
-      studijsko_leto: req.studijskoLeto
+      student: req.student._id,
+      studijsko_leto: req.studijskoLeto._id
     })
     .sort("vpisan")
     .exec(function(err, vpis) {
