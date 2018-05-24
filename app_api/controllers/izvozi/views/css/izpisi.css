@@ -82,3 +82,12 @@ table {
 .border-top {
     border-top:1px solid #ddd;
 }
+.center {
+    text-align: center;
+}
+.left {
+    text-align: left;
+}
+.space {
+    padding: 3px 0 3px 0;
+}

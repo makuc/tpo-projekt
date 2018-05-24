@@ -6,7 +6,8 @@ var auth = require("../controllers/auth/authentication.controller");
 var ctrl = {
     izvozi: {
         vpisniList: require("../controllers/izvozi/vpisniList.controller"),
-        potrdiloVpisa: require("../controllers/izvozi/potrdiloVpisa.controller")
+        potrdiloVpisa: require("../controllers/izvozi/potrdiloVpisa.controller"),
+        potrdiloIzpitov: require("../controllers/izvozi/potrdiloIzpitov.controller"),
     },
     other: require('../controllers/other.controller'),
     db: require('../controllers/db.controller'),
@@ -135,7 +136,7 @@ router.delete('/vpis/:vpisniList_id/moduli/:modul_id', ctrl.vpis.odstraniModul);
 // Vpisni list
 router.get('/vpisni-list/:vpisnica_id', ctrl.izvozi.vpisniList.pdfVpisniList);
 router.get('/potrdilo-vpisa/:vpisnica_id', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
-//router.get('/potrdilo-vpisa/:vpisnica_id/:N', ctrl.izvozi.potrdiloVpisa.pdfPotrdiloVpisa);
+router.get('/potrdilo-izpitov/:narocilo', ctrl.izvozi.potrdiloIzpitov.pdf);
 
 /* Naročila potrdil o vpisu */
 router.post('/narocilo', ctrl.Narocilo.naroci);

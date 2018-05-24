@@ -1,0 +1,122 @@
+include _include/funkcije.pug
+
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href= base + '/css/izpisi.css')
+  body(style="margin: 50px")
+    div#header
+      div.h-left(style="width: 25em")
+        
+      div.h-middle
+        img#logo(src= base + "/img/logo.svg")
+      div.h-right
+        p Fakulteta za računalništvo
+          br
+          | in informatiko
+        p
+          small
+            | Večna pot 113
+            br
+            | 1000 Ljubljana, Slovenija
+            br
+            | telefon: 01 47 98 100
+            br
+            | www.fri.uni-lj.sifra
+            br
+            | e-mail: dekanat@fri.uni-lj.sifra
+    div#content(style="margin-top: 35px")
+      div
+        div.h-left.caps
+          p
+            b #{narocilo.student.ime} #{narocilo.student.priimek}
+          p #{narocilo.student.stalno_bivalisce_naslov}
+          p #{narocilo.student.stalno_bivalisce_posta.postna_stevilka} #{narocilo.student.stalno_bivalisce_obcina.ime}
+          p #{narocilo.student.stalno_bivalisce_drzava.slovenski_naziv}
+        div.h-right
+          p Številka: #{narocilo._id.toString().substring(16, 24)}
+          p Datum: 
+            +formatDate(narocilo.datum)
+          p Vpisna št.: #{narocilo.student.vpisna_stevilka}
+      div.caps(style="padding:4em 0 2.5em 0")
+        p(style="text-align: center")
+          b potrdilo o opravljenih obveznostih
+      p Študent: #{narocilo.student.ime} #{narocilo.student.priimek}
+      p Vpisna številka: #{narocilo.student.vpisna_stevilka}
+      
+      p(style="margin: 2em 0 2em 0")
+        strong Potrjujemo, da je študent opravil naslednje študijske obveznosti na študijskem programu: 
+          if narocilo.student.studijska_leta_studenta.length > 0
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].vrsta_studija.opis}, 
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.naziv}
+            | (#{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.sifraEVS})
+          else
+            | Študent ni v nobenem študijskem programu
+      div
+        table(cellspacing="3", cellpadding="10")
+          thead
+            tr.space
+              th.left.space(style="width:3em") &nbsp;
+              th.left.space Predmet
+              th.left.space(style="width:8em") Letnik
+              th.left.space(style="width:4em") KT
+              th.left.space(style="width:9em") Datum
+              th.left.space(style="width:5em") Ocena
+          tbody
+            tr(style="border-top:1px solid #bbb;")
+              td.space 1
+              td.space Diskretne strukture
+              td.space 1
+              td.space 6
+              td.space 28.01.2013
+              td.space 8
+            tr(style="border-top:1px solid #bbb;")
+              td.space 1
+              td.space Diskretne strukture
+              td.space 1
+              td.space 6
+              td.space 28.01.2013
+              td.space 8
+      div(style="margin-top: 1em;")
+        p Letnik 
+          strong 1
+          | : opravljenih je 
+          strong 10
+          |  od 
+          strong 10
+          |  predmetov s povprečno oceno 
+          strong 7,5
+          | .
+        p Letnik 
+          strong 2
+          | : opravljenih je 
+          strong 10
+          |  od 
+          strong 11
+          |  predmetov s povprečno oceno 
+          strong 7,4
+          | .
+        p Letnik 
+          strong 3
+          | : opravljenih je 
+          strong 5
+          |  od 
+          strong 10
+          |  predmetov s povprečno oceno 
+          strong 8
+          | .
+        p Skupna povprečna ocena je 
+          strong 7,56
+          | .
+      div(style="margin-top: 7em;")
+        div.h-right
+          p
+            small Podpis odgovorne osebe
+          br
+          br
+          br
+          p prof. dr. Bojan Orel
+          p dekan
+        div.h-left
+          p Žig:
