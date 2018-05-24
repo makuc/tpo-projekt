@@ -49,7 +49,7 @@ var sklepScheme = new mongoose.Schema({
     organ: {type: String, required: true},
     besedilo: {type: String, required: true},
     
-    datum: {type: Date, "default": Date.now()}
+    datum: {type: Date, "default": Date.now}
 });
 
 var studentSchema = new mongoose.Schema({

@@ -27,7 +27,7 @@ var vpisSchema = new mongoose.Schema({
     valid: {type: Boolean, "default": false},
     potrjen: {type: Boolean, "default": false},
     
-    vpisan: {type: Date, "default": Date.now()},
+    vpisan: {type: Date, "default": Date.now},
     
     predmeti: [{type: ObjectId, ref: 'Predmet'}],
     
