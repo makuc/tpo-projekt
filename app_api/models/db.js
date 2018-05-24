@@ -25,7 +25,8 @@ require("./izpit.model");
 require("./neveljavnaPrijava.model");
 require("./user.model");
 
-require("./narocilo.model.js")
+require("./narocilo.model.js");
+require("./narociloIzpitov.model.js");
 
 
 /*  Poveži se s podatkovno bazo  */
