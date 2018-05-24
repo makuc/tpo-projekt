@@ -12,9 +12,10 @@ html
       div.h-middle
         img#logo(src= base + "/img/logo.svg")
       div.h-right
-        p Fakulteta za računalništvo
-          br
-          | in informatiko
+        p Fakulteta 
+          i(style="color:#c10d0d") za računalništvo
+            br
+            | in informatiko
         p
           small
             | Večna pot 113
@@ -42,8 +43,10 @@ html
       div.caps(style="padding:4em 0 2.5em 0")
         p(style="text-align: center")
           b potrdilo o opravljenih obveznostih
-      p Študent: #{narocilo.student.ime} #{narocilo.student.priimek}
-      p Vpisna številka: #{narocilo.student.vpisna_stevilka}
+      p Študent: 
+        strong #{narocilo.student.ime} #{narocilo.student.priimek}
+      p Vpisna številka: 
+        strong #{narocilo.student.vpisna_stevilka}
       
       p(style="margin: 2em 0 2em 0")
         strong Potrjujemo, da je študent opravil naslednje študijske obveznosti na študijskem programu: 
