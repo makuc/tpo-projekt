@@ -2,7 +2,7 @@
 
 
 <!-- Zacetna stran od studenta -->
-<div ng-show="vm.student">
+<div ng-show="vm.student" ng-init="vm.pridobiStudenta()">
     <h3>Študent</h3>
     <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevkiSprememba">Spremema izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}} iz {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.lokacija}} na {{x.spremembe.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}, lokacija: {{x.spremembe.lokacija}}<button class="btn btn-primary pull-right" ng-click="vm.potrdiSprememboIzpita(x._id)">Potrdi</button></div>
     <div role="alert" class="alert alert-warning" ng-repeat="x in vm.zahtevkiIzbris">Izbris izpitnega roka za {{x.predmet.sifra}}, {{x.predmet.naziv}}, ki bi moral potekati: {{x.datum_izvajanja | date: 'dd. MM. yyyy hh:mm'}}<button class="btn btn-primary pull-right" ng-click="vm.potrdiSprememboIzpita(x._id)">Potrdi</button></div>
@@ -19,7 +19,37 @@
              
             <div class="row" id="mainEl">
                 Moj predmetnik
-             </div>
+            </div>
+            <div class="row">
+                <div class="container table-responsive col-sm-12">
+                    <table id="tabela_predmetov" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                               <th ng-click="orderByMe('sifra')">Šifra</th>
+                                <th ng-click="orderByMe('naziv')">Naziv</th>
+                                <th ng-click="orderByMe('KT')">St. kreditnih točk</th>
+                                <th ng-click="orderByMe('ocena')">Ocena</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="predmet in vm.studentObject.studijska_leta_studenta[vm.studentObject.studijska_leta_studenta.length - 1].predmeti">
+                                <td>{{ ($index + 1) }}</td>
+                                <td>{{ predmet.predmet.sifra }}</td>
+                                <td>{{ predmet.predmet.naziv }}</td>
+                                <td>{{ predmet.predmet.KT }}</td>
+                                <td>{{ predmet.ocena }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<button type="button" ng-csv="query" charset="utf-8"
+                        csv-header="[ 'Šifra', 'Naziv', 'Kreditne točke']"
+                        csv-column-order="[ 'sifra', 'naziv', 'KT' ]"
+                        add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
+                    <button type="button" ng-click="vm.exportDataPDF()">PDF</button>-->
+                </div>
+            </div> 
+             
             <div class="row" id="mainEl">
                 Prošnje
              </div>
@@ -76,4 +106,4 @@
 
 
 
-<footer></footer>
+<!--<footer></footer>-->

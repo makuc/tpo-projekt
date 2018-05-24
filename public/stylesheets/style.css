@@ -66,9 +66,9 @@ th:hover
   font-size: 20px;
   padding: 10px;
   
-  border-bottom: dotted;
+  border-bottom: solid; /*dotted*/
   border-bottom-width: 2px;
-  border-bottom-color: black;
+  border-bottom-color: #e1e1e1;/*black;*/
   
   margin-bottom: 25px;
 }

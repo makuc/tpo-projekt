@@ -32,7 +32,6 @@
             return $location.path('/login');
         };
         
-        
         function delTok(){
             return authentication.logout();
         }
@@ -61,6 +60,20 @@
                     console.log(odgovor);
                 }
             );
+            
+            vm.pridobiStudenta = function()
+            {
+                studentPodatki.izpisStudenta(vm.vpisan.student).then(
+                    function success(odgovor){
+                        vm.studentObject = odgovor.data;
+                        console.log("Student: ", vm.studentObject);
+                        console.log("Predmeti predmetnika: ", vm.studentObject.studijska_leta_studenta[vm.studentObject.studijska_leta_studenta.length - 1].predmeti);
+                    },
+                    function error(odgovor){
+                        console.log(odgovor);
+                    }
+                );
+            };
             
             vm.vpisniList = function(){
               $location.path('/vpis/' + authentication.currentUser().student + '/podatkiStudenta');  
