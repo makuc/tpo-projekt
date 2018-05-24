@@ -43,8 +43,8 @@
                     <td>{{ x.polagalec.zaporedni_poskus }}</td>
                     <td>{{ x.polagalec.zaporedni_poskus_skupaj }}</td>
                     <td>
-                        <button ng-show="{{vm.jePrijavljen(x.polagalci)}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
-                        <button ng-show="{{!vm.jePrijavljen(x.polagalci)}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>
+                        <button ng-show="{{vm.jePrijavljen(x.polagalci) && vm.vpisan.referentka == true}}" class="btn btn-danger" type="button" ng-click="vm.odjavi(x._id, x.datum_izvajanja)">Odjavi se</button>
+                        <button ng-show="{{!vm.jePrijavljen(x.polagalci)  && vm.vpisan.referentka == true}}" class="btn btn-primary" type="button" ng-click="vm.prijavi(x._id, x.datum_izvajanja, x.predmet._id)">Prijavi se</button>
                     </td>
                 </tr>
             </tbody>
