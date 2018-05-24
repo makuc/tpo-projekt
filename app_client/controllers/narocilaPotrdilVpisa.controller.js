@@ -1,13 +1,14 @@
 (function() {
     /* global angular, html2canvas, pdfMake, Blob, saveAs */
     
-    prikaziStudenteCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki'];
+    narocilaPotrdilVpisaCtrl.$inject = ['studentPodatki', '$scope', '$location', 'authentication', 'ostaloPodatki', '$window'];
     
     
-    function prikaziStudenteCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki){
+    function narocilaPotrdilVpisaCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki, $window){
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         console.log("Vpisan: ", vm.vpisan);
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
@@ -73,10 +74,69 @@
         });
         
         vm.prikaziStudente = function(){
-            studentPodatki.izpisStudentov().then(
+            ostaloPodatki.pridobiVsaNarocila().then(
                 function success(odgovor){
                     vm.studenti = odgovor.data;
-                    pripraviStrani();
+                    vm.temp = [];
+                    vm.kolicina = 1;
+                    if(vm.vpisan.student)
+                    {
+                      for (var i = 0; i < vm.studenti.length; i++) {
+                        if(vm.studenti[i].vpis.student._id == vm.vpisan.student)
+                        {
+                          vm.temp.push(vm.studenti[i]);
+                        }
+                      }
+                      vm.studenti = vm.temp;
+                    }
+                    console.log("Odgovor:", vm.studenti);
+                    
+                    studentPodatki.izpisStudenta(vm.vpisan.student).then(
+                      function success(odgovor){
+                        vm.studentObject = odgovor.data;
+                        console.log("Student object: ", vm.studentObject);
+                        vm.studijskoLeto = vm.studentObject.studijska_leta_studenta[0].studijsko_leto;
+                        pripraviStrani();
+                      },
+                      function error(odgovor){
+                        console.log(odgovor);
+                      }
+                    );
+                    
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.narociPotrdilo = function()
+        {
+          var data = {
+              studijsko_leto: vm.studijskoLeto._id,
+              izvodov: vm.kolicina
+          };
+          console.log("Data: ", data);
+          ostaloPodatki.narociPotrdiloVpisa(data).then(
+                function success(odgovor){
+                    vm.prikaziStudente();
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        };
+        
+        vm.izpisPotrdila = function(vpisId)
+        {
+            $window.open("/api/v1/potrdilo-vpisa/" + vpisId, "_blank")
+        };
+        
+        vm.potrdiNarocilo = function(narociloId)
+        {
+            ostaloPodatki.zakljuciNarociloPotrdilaVpisa(narociloId).then(
+                function success(odgovor){
+                    vm.prikaziStudente();
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -226,5 +286,5 @@
     
     angular
         .module('tpo')
-        .controller('prikaziStudenteCtrl', prikaziStudenteCtrl);
+        .controller('narocilaPotrdilVpisaCtrl', narocilaPotrdilVpisaCtrl);
 })();

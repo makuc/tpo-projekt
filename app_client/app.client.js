@@ -446,6 +446,13 @@
                 controllerAs: 'vm'
             })
             
+            // Narocila potrdil o vpisu
+            .when('/narocilaPotrdilVpisa', {
+                templateUrl: 'views/narocilaPotrdilVpisa.template.html',
+                controller: 'narocilaPotrdilVpisaCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);

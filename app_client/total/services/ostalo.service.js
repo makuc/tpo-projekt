@@ -557,14 +557,30 @@
             return $http.delete('/api/v1/student/' + studentId + '/sklep/' + sklepId)
         }
         
-        
         // kartoteccni list
         function pridobiKartotecniList(studentId)
         {
-            
-            
             return $http.get('/api/v1/student/' + studentId + '/cel');
         }
+        
+        // Narocila potrdil vpisa
+        function pridobiVsaNarocila()
+        {
+            return $http.get('/api/v1/narocilo');
+        }
+        
+        function narociPotrdiloVpisa(data)
+        {
+            console.log("Data service: ", data);
+            return $http.post('/api/v1/narocilo', data);
+        }
+        
+        function zakljuciNarociloPotrdilaVpisa(narociloId)
+        {
+            console.log("service narociloId:", narociloId);
+            return $http.post('/api/v1/narocilo/' + narociloId);
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -709,7 +725,11 @@
             urediSklepStudentu: urediSklepStudentu,
             odstraniSklepStudentu: odstraniSklepStudentu,
             
-            pridobiKartotecniList: pridobiKartotecniList
+            pridobiKartotecniList: pridobiKartotecniList,
+                
+            pridobiVsaNarocila: pridobiVsaNarocila,
+            narociPotrdiloVpisa: narociPotrdiloVpisa,
+            zakljuciNarociloPotrdilaVpisa: zakljuciNarociloPotrdilaVpisa
         };
     };
     

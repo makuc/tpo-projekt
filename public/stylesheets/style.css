@@ -7,7 +7,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   /*background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ZosI56d/curly-wave-of-light-green-smoke-on-white-background-abstract-motion-background_smgx7_1xl_thumbnail-full08.png);
   */background-attachment: fixed;
-  background-color: #c6ffb3;
+  background-color: #f8fcff;/*#c6ffb3;*/ 
 }
 .dodaj {
   margin: 1em;
