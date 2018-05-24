@@ -557,6 +557,14 @@
             return $http.delete('/api/v1/student/' + studentId + '/sklep/' + sklepId)
         }
         
+        
+        // kartoteccni list
+        function pridobiKartotecniList(studentId)
+        {
+            
+            
+            return $http.get('/api/v1/student/' + studentId + '/cel');
+        }
         return {
             uvoziStudente: uvoziStudente,
             
@@ -699,7 +707,9 @@
             
             dodajSklepStudentu: dodajSklepStudentu,
             urediSklepStudentu: urediSklepStudentu,
-            odstraniSklepStudentu: odstraniSklepStudentu
+            odstraniSklepStudentu: odstraniSklepStudentu,
+            
+            pridobiKartotecniList: pridobiKartotecniList
         };
     };
     

@@ -1,6 +1,7 @@
 <header style="margin-bottom: 15px"></header>
 <navigation ng-show="vm.vpisan.skrbnik == true"></navigation>
 <div class="container">
+    <h2>Število vpisanih v predmete</h2><br>
     <div class="row">
         <div class="col-sm-4">
              <select class="form-control col-sm-4" ng-change="vm.prikaziPredmete()" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>

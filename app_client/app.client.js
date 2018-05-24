@@ -440,6 +440,11 @@
                 controller: 'dodajSklepCtrl',
                 controllerAs: 'vm'
             })
+            .when('/kartotecniList/:idStudenta', {
+                templateUrl: 'views/kartotecniList.template.html',
+                controller: 'kartotecniListCtrl',
+                controllerAs: 'vm'
+            })
             
             .otherwise({redirectTo: '/main'});
             
