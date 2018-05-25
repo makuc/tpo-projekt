@@ -453,6 +453,13 @@
                 controllerAs: 'vm'
             })
             
+            // Narocila potrdil o opravljenih izpitov
+            .when('/narocilaPotrdilIzpitov', {
+                templateUrl: 'views/narocilaPotrdilIzpitov.template.html',
+                controller: 'narocilaPotrdilIzpitovCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
