@@ -79,6 +79,9 @@ html
                     td.space
                       +formatDate(predmet.izpit.datum_izvajanja)
                     td.space= predmet.ocena
+            if index == 1
+              tr(style="border-top:1px solid #bbb;")
+                td.space(colspan="6") Ni opravil nobenih obveznosti
       div(style="margin-top: 1em;")
         each letnik in letniki
           p
@@ -91,7 +94,7 @@ html
             strong= letnik.average.toFixed(2)
             | .
         p Skupna povprečna ocena je 
-          strong= average
+          strong= average.toFixed(2)
           | .
       div(style="margin-top: 7em;")
         div.h-right

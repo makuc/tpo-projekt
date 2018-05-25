@@ -204,8 +204,12 @@ module.exports.pdf = function(req, res) {
         }
         average += cur.average;
         cur.average = cur.average * 1.0 / cur.opravljeni;
+        if(!cur.average)
+          cur.average = 0;
       }
       average = average * 1.0 / opravljeni;
+      if(!average)
+        average = 0;
       
       
       var data = {
