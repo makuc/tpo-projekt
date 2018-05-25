@@ -2,7 +2,15 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 
-
+var predmetStudentaSchema = new mongoose.Schema({
+    predmet: {type: ObjectId, ref: 'Predmet', required: true},
+    
+    ocena: {type: Number, "default": -1, min: -1, max: 10},
+    izpit: {type: ObjectId, ref: "Izpit", required: false},
+    
+    zaporedni_poskus: {type: Number, min: 0, "default": 0},
+    zaporedni_poskus_skupaj: {type: Number, min: 0, "default": 0}
+});
 var vpisSchema = new mongoose.Schema({
     student: {type: ObjectId, ref: 'Student', required: true},
     studijsko_leto: {type: ObjectId, ref: 'StudijskoLeto', required: true},
@@ -28,6 +36,8 @@ var vpisSchema = new mongoose.Schema({
     potrjen: {type: Boolean, "default": false},
     
     vpisan: {type: Date, "default": Date.now},
+    
+    neopravljeni_predmeti: [predmetStudentaSchema],
     
     predmeti: [{type: ObjectId, ref: 'Predmet'}],
     

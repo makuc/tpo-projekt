@@ -920,8 +920,17 @@ function prijaviStudenta(req, res, next) {
   req.skupnoPredmeti = [];
   
   var i;
+  // Dodaj obvezne predmete
+  if(req.vpisniList.neopravljeni_predmeti)
+  {
+    for(i = 0; i < req.vpisniList.neopravljeni_predmeti.length; i++) {
+      req.skupnoPredmetiStudenta.push(req.vpisniList.neopravljeni_predmeti[i]);
+      req.skupnoPredmeti.push(req.vpisniList.neopravljeni_predmeti[i].predmet);
+    }
+  }
   
-  // Dodaj obvetne predmete
+  
+  // Dodaj obvezne predmete
   for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
     req.skupnoPredmetiStudenta.push({
       predmet: req.vpisniList.obvezniPredmeti[i]

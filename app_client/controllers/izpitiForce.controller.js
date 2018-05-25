@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.studentId = $route.current.params.studentId;
+        vm.vpisan = authentication.currentUser();
         //console.log($route.current.params.studentId);
         //console.log(authentication.currentUser());
         
@@ -42,8 +43,8 @@
                     for(var i = 1; i < max; i++) {
                         vm.strani.push(i + 1);
                     }
-                    
-                    vm.setPage(0);
+                    if(vm.stran > max -1)
+                        vm.setPage(max -1);
                 }
                 
                 vm.n = vm.strani.length-1;
