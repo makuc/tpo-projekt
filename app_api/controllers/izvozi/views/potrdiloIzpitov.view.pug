@@ -51,9 +51,9 @@ html
       p(style="margin: 2em 0 2em 0")
         strong Potrjujemo, da je študent opravil naslednje študijske obveznosti na študijskem programu: 
           if narocilo.student.studijska_leta_studenta.length > 0
-            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].vrsta_studija.opis}, 
-            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.naziv}
-            | (#{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.sifraEVS})
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.naziv} 
+            | (#{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.sifraEVS}), 
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].vrsta_studija.opis}
           else
             | Študent ni v nobenem študijskem programu
       div
