@@ -50,7 +50,7 @@
             }, 500);
         }
         $scope.$watch('iskanje', function() {
-            pripraviStrani();
+            pripraviStrani()
         });
         
         vm.prikaziIzpite = function(){
@@ -65,7 +65,6 @@
                             }
                         }
                     }
-                    console.log(vm.izpiti);
                     vm.unikatPrijave = {};
                     pripraviStrani();
                 },

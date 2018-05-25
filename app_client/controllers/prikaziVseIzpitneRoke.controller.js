@@ -67,7 +67,6 @@
                 if($scope.query)
                 {
                     var max = Math.ceil($scope.query.length / vm.naStran);
-                    console.log($scope.query.length + " - " + max);
                     for(var i = 1; i < max; i++) {
                         vm.strani.push(i + 1);
                     }
@@ -119,6 +118,7 @@
                     function success(odgovor){
                         vm.izpitniRoki = odgovor.data;
                         console.log(vm.izpitniRoki);
+                        pripraviStrani();
                     },
                     function error(odgovor){
                         console.log(odgovor);
