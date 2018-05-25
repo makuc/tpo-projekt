@@ -57,7 +57,7 @@
                     <td>{{ student.datum | date:'dd. MM. yyyy HH:mm'}}</td>
                     <td>{{ student.izvodov }}</td>
                     
-                   <td><button class="btn btn-primary" type="button" ng-click="vm.izpisPotrdila(student.vpis._id)" ng-show="vm.vpisan.referentka == true || student.opravljeno == true">Ogled potrdila</button></td>
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.izpisPotrdila(student._id)" ng-show="vm.vpisan.referentka == true || student.opravljeno == true">Ogled potrdila</button></td>
                    <td><button class="btn btn-success" type="button" ng-click="vm.potrdiNarocilo(student._id)" ng-show="student.opravljeno == false && vm.vpisan.referentka == true">Potrdi</button></td>
                 </tr>
             </tbody>

@@ -129,7 +129,8 @@
         
         vm.izpisPotrdila = function(vpisId)
         {
-            $window.open("/api/v1/potrdilo-vpisa/" + vpisId, "_blank")
+            console.log("id:", vpisId);
+            $window.open("/api/v1/potrdilo-izpitov/" + vpisId, "_blank")
         };
         
         vm.potrdiNarocilo = function(narociloId)
