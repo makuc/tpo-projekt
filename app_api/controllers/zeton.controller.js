@@ -223,45 +223,57 @@ function pridobiNeopravljenePredmete(req, res, next) {
 }
 function odstejPrejsnjaRednaPolaganja(req, res, next) {
   // Zdej pa še odštej polaganja, ki jih je opravil redno (v kolikor ponavlja letnik)
-  var x,y,z;
-  
-  var neopravljeni_predmeti = req.neopravljeni_predmeti.slice(0);
-  req.neopravljeni_predmeti = [];
-  
-  for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
+  if(req.student._id.toString() == "5b0009d9a711da0b2059dc6b")
   {
-    var leto = req.student.studijska_leta_studenta[x];
+    console.log("Najden!");
+  }
+  //if(req.vrstaVpisa.koda == 2)
+  //{
+    var x,y,z;
     
-    if(leto.vrsta_vpisa.koda == 1)
+    var neopravljeni_predmeti = req.neopravljeni_predmeti;
+    req.neopravljeni_predmeti = [];
+    
+    for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
     {
-      // Pojdi skozi vse predmete, ki jih je opravljal v tem študijskem letu
-      for(y = 0; y < leto.predmeti.length && neopravljeni_predmeti.length > 0; y++)
+      var leto = req.student.studijska_leta_studenta[x];
+      
+      if(leto.vrsta_vpisa.koda == 1)
       {
-        var predmet = leto.predmeti[y];
-        
-        //Zdej pa vsak predmet primerjaj še z Neopravljenimi predmeti
-        for(z = 0; z < neopravljeni_predmeti.length; z++)
+        // Pojdi skozi vse predmete, ki jih je opravljal v tem študijskem letu
+        for(y = 0; y < leto.predmeti.length && neopravljeni_predmeti.length > 0; y++)
         {
-          var neopr = neopravljeni_predmeti[z];
+          var predmet = leto.predmeti[y];
           
-          // Zdej pa najdi predmet
-          if(neopr.predmet._id.equals(predmet.predmet._id))
+          //Zdej pa vsak predmet primerjaj še z Neopravljenimi predmeti
+          
+          for(z = 0; z < neopravljeni_predmeti.length; z++)
           {
-            req.neopravljeni_predmeti.push({
-              predmet: neopr.predmet,
-              ocena: neopr.ocena,
-              izpit: neopr.izpit,
-              zaporedni_poskus: 0,
-              zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj - predmet.zaporedni_poskus
-            });
+            var neopr = neopravljeni_predmeti[z];
             
-            neopravljeni_predmeti.splice(z, 1);
-            break;
+            //console.log("Primerjaj: " + neopr.predmet + " | " + predmet.predmet._id);
+            
+            // Zdej pa najdi predmet
+            if(neopr.predmet._id.equals(predmet.predmet._id))
+            {
+              req.neopravljeni_predmeti.push({
+                predmet: neopr.predmet,
+                ocena: neopr.ocena,
+                izpit: neopr.izpit,
+                zaporedni_poskus: 0,
+                zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj - predmet.zaporedni_poskus
+              });
+              
+              neopravljeni_predmeti.splice(z, 1);
+              break;
+            }
           }
         }
       }
     }
-  }
+  
+  
+  //}
   
   callNext(req, res, next);
 }

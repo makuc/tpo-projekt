@@ -72,7 +72,7 @@ module.exports.updateStudenta = function(req, res){
 
 // Manipuliranje z žetoni!
 module.exports.osnutekZetona = function(req, res) {
-  callNext(req, res, [ najdiStudentaId, pridobiNeopravljenePredmete, pripraviObjektZetonaStudentu ]);
+  callNext(req, res, [ najdiStudentaId, pripraviObjektZetonaStudentu ]);
 };
 module.exports.addZetonStudentu = function(req, res) {
   if(!req.body || !req.body.studijsko_leto || !req.body.letnik || !req.body.studijski_program ||
@@ -82,8 +82,10 @@ module.exports.addZetonStudentu = function(req, res) {
     return res.status(400).json({ message: "Ni dovolj podatkov za kreiranje novega žetona"});
   }
   
-  callNext(req, res, [ najdiStudentaId, validateVrstaVpisa, pridobiNeopravljenePredmete, odstejPrejsnjaRednaPolaganja,
-    validateStudijskoLeto, validateLetnik, validateStudijskiProgram, validateStudijskoLetoPrvegaVpisa, validateVrstaStudija,
+  callNext(req, res, [
+    najdiStudentaId, validateVrstaVpisa, preveriPonavljanjeLetnika,
+    validateLetnik, pridobiPredmetnikeLetnika, pridobiNeopravljenePredmete, odstejPrejsnjaRednaPolaganja,
+    validateStudijskoLeto, validateStudijskiProgram, validateStudijskoLetoPrvegaVpisa, validateVrstaStudija,
     validateOblikaStudija, validateNacinStudija, dodajZetonStudentu, vrniZeton
   ]);
 };
@@ -1073,53 +1075,108 @@ function pripraviObjektZetonaStudentu(req, res, next) {
     });
   }
 }
+function pridobiPredmetnikeLetnika(req, res, next) {
+  models.Predmetnik
+    .find({
+      letnik: req.letnik
+    })
+    .populate()
+    .exec(function(err, predmetniki) {
+      if(err || !predmetniki)
+      {
+        console.log("---pridobiPredmetnikeLetnika:\n" + err);
+        return res.status(404).json({ message: " Napaka pri pridobivanju predmetnika"});
+      }
+      
+      req.predmetniki = predmetniki;
+      
+      callNext(req, res, next);
+    });
+}
 function pridobiNeopravljenePredmete(req, res, next) {
   req.neopravljeni_predmeti = [];
   
+  req.opravilKT = 0;
+  req.sumOcen = 0;
+  req.opravljenoPredmetov = 0;
+  
+  req.opravilLetnik = true;
+  
   var leto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
   
-  if(leto)
+  for(var i = 0; i < leto.predmeti.length; i++)
   {
-    for(var i = 0; i < leto.predmeti.length; i++)
+    if(leto.predmeti[i].ocena < 6)
     {
-      if(leto.predmeti[i].ocena < 6)
+      req.neopravljeni_predmeti.push(leto.predmeti[i]);
+    }
+    else
+    {
+      var opravljen = leto.predmeti[i];
+      
+      if(preveriPredmetLetnik(req.predmetniki, opravljen.predmet))
       {
-        req.neopravljeni_predmeti.push(leto.predmeti[i].predmet);
+        req.opravilKT += leto.predmeti[i].predmet.KT;
+        req.sumOcen += leto.predmeti[i].ocena;
+        req.opravljenoPredmetov++;
       }
+      
     }
   }
   
   callNext(req, res, next);
 }
+function preveriPredmetLetnik(predmetniki, predmet) {
+  for(var i = 0; i < predmetniki.length; i++)
+  {// Obdelaj VSE predmetnike
+    var predmetnik = predmetniki[i];
+    
+    for(var j = 0; j < predmetnik.predmeti.length; j++)
+    {// Najdi ustrezen predmet
+      
+      var pr = predmetnik.predmeti[j];
+      
+      if(pr.equals(predmet._id))
+      {
+        return true;
+      }
+      
+    }
+  }
+  
+  return false;
+}
 function odstejPrejsnjaRednaPolaganja(req, res, next) {
   // Zdej pa še odštej polaganja, ki jih je opravil redno (v kolikor ponavlja letnik)
-  var x,y,z;
   
-  var neopravljeni_predmeti = req.neopravljeni_predmeti.slice(0);
-  req.neopravljeni_predmeti = [];
-  
-  for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
+  if(req.vrstaVpisa.koda == 2)
   {
-    var leto = req.student.studijska_leta_studenta[x];
+    var x,y,z;
     
-    if(leto.vrsta_vpisa.koda == 1)
+    var neopravljeni_predmeti = req.neopravljeni_predmeti;
+    req.neopravljeni_predmeti = [];
+    
+    for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
     {
-      // Pojdi skozi vse predmete, ki jih je opravljal v tem študijskem letu
-      for(y = 0; y < leto.predmeti.length && neopravljeni_predmeti.length > 0; y++)
+      var leto = req.student.studijska_leta_studenta[x];
+      
+      if(leto.vrsta_vpisa.koda == 1)
       {
-        var predmet = leto.predmeti[y];
-        
-        //Zdej pa vsak predmet primerjaj še z Neopravljenimi predmeti
-        for(z = 0; z < neopravljeni_predmeti.length; z++)
+        // Pojdi skozi vse predmete, ki jih je opravljal v tem študijskem letu
+        for(y = 0; y < leto.predmeti.length && neopravljeni_predmeti.length > 0; y++)
         {
-          var neopr = neopravljeni_predmeti[z];
+          var predmet = leto.predmeti[y];
           
-          console.log("Primerjaj: " + neopr.predmet + " | " + predmet.predmet);
+          //Zdej pa vsak predmet primerjaj še z Neopravljenimi predmeti
           
-          // Zdej pa najdi predmet
-          if(neopr.predmet._id.equals(predmet.predmet._id))
+          for(z = 0; z < neopravljeni_predmeti.length; z++)
           {
-            if(req.vrstaVpisa && req.vrstaVpisa.koda == 2)
+            var neopr = neopravljeni_predmeti[z];
+            
+            //console.log("Primerjaj: " + neopr.predmet + " | " + predmet.predmet._id);
+            
+            // Zdej pa najdi predmet
+            if(neopr.predmet._id.equals(predmet.predmet._id))
             {
               req.neopravljeni_predmeti.push({
                 predmet: neopr.predmet,
@@ -1128,28 +1185,31 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
                 zaporedni_poskus: 0,
                 zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj - predmet.zaporedni_poskus
               });
+              
+              neopravljeni_predmeti.splice(z, 1);
+              break;
             }
-            else
-            {
-              req.neopravljeni_predmeti.push({
-                predmet: neopr.predmet,
-                ocena: neopr.ocena,
-                izpit: neopr.izpit,
-                zaporedni_poskus: 0,
-                zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj
-              });
-            }
-            
-            neopravljeni_predmeti.splice(z, 1);
-            break;
           }
         }
       }
     }
+  
+  
   }
   
   callNext(req, res, next);
 }
+function preveriPonavljanjeLetnika(req, res, next) {
+  req.ponavlja = false;
+  
+  if(req.vrstaVpisa._id.equals("5ac8be2a7482291008d3f9f6"))
+  {
+    req.ponavlja = true;
+  }
+  
+  callNext(req, res, next);
+}
+
 function dodajZetonStudentu(req, res, next) {
   req.student.zetoni.push({
     studijsko_leto: req.studijskoLeto,
