@@ -215,7 +215,8 @@ var zacetniPodatki = {
 { "_id": ObjectId("5ac3ac7ccaf7bd0bdada6426"), "sifra": 191, "ime": "Žetale" },
 { "_id": ObjectId("5ac3ac7ccaf7bd0bdada6427"), "sifra": 147, "ime": "Žiri" },
 { "_id": ObjectId("5ac3ac7ccaf7bd0bdada6428"), "sifra": 192, "ime": "Žirovnica" },
-{ "_id": ObjectId("5ac3ac7ccaf7bd0bdada6429"), "sifra": 193, "ime": "Žužemberk" }
+{ "_id": ObjectId("5ac3ac7ccaf7bd0bdada6429"), "sifra": 193, "ime": "Žužemberk" },
+{"_id":ObjectId("5b09726f97327f0d3d1f8138"),"sifra":0,"ime":"-","valid":true,"__v":0}
     ],
     drzave: [
 { "_id": ObjectId("5ac3bbb5eeafcf0f08c3a4e7"), "dvomestna_koda": "AF", "trimestna_koda": "AFG", "numericna_oznaka": 4, "ISO_naziv": "Afghanistan", "slovenski_naziv": "Afganistan", "opomba": "" },
@@ -946,7 +947,8 @@ var zacetniPodatki = {
 { "_id": ObjectId("5ac3b84dca0b200e0043d1dc"), "postna_stevilka": "2287", "naziv": "Žetale" },
 { "_id": ObjectId("5ac3b84dca0b200e0043d1dd"), "postna_stevilka": "4226", "naziv": "Žiri" },
 { "_id": ObjectId("5ac3b84dca0b200e0043d1de"), "postna_stevilka": "4274", "naziv": "Žirovnica" },
-{ "_id": ObjectId("5ac3b84dca0b200e0043d1df"), "postna_stevilka": "8360", "naziv": "Žužemberk" }
+{ "_id": ObjectId("5ac3b84dca0b200e0043d1df"), "postna_stevilka": "8360", "naziv": "Žužemberk" },
+{"_id":ObjectId("5b0975fbfd2c690dd11ae0dc"),"postna_stevilka":"0000","naziv":"-","valid":true,"__v":0}
     ],
     
     studijskaLeta: [

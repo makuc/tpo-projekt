@@ -1,0 +1,213 @@
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6356"},"sifra":213,"ime":"Ankaran","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635a"},"sifra":148,"ime":"Benedikt","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6359"},"sifra":2,"ime":"Beltinci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6357"},"sifra":1,"ime":"Ajdovščina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6358"},"sifra":195,"ime":"Apače","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635d"},"sifra":150,"ime":"Bloke","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635b"},"sifra":149,"ime":"Bistrica ob Sotli","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635f"},"sifra":5,"ime":"Borovnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635e"},"sifra":4,"ime":"Bohinj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6360"},"sifra":6,"ime":"Bovec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6362"},"sifra":7,"ime":"Brda","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6364"},"sifra":9,"ime":"Brežice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6365"},"sifra":152,"ime":"Cankova","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6369"},"sifra":14,"ime":"Cerkno","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6367"},"sifra":12,"ime":"Cerklje na Gorenjskem","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6363"},"sifra":8,"ime":"Brezovica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636e"},"sifra":17,"ime":"Črnomelj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636c"},"sifra":15,"ime":"Črenšovci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6368"},"sifra":13,"ime":"Cerknica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada635c"},"sifra":3,"ime":"Bled","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636a"},"sifra":153,"ime":"Cerkvenjak","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6371"},"sifra":154,"ime":"Dobje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636d"},"sifra":16,"ime":"Črna na Koroškem","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6373"},"sifra":155,"ime":"Dobrna","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636f"},"sifra":18,"ime":"Destrnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6361"},"sifra":151,"ime":"Braslovče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6372"},"sifra":20,"ime":"Dobrepolje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6376"},"sifra":22,"ime":"Dol pri Ljubljani","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6378"},"sifra":23,"ime":"Domžale","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6374"},"sifra":21,"ime":"Dobrova - Polhov Gradec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637b"},"sifra":26,"ime":"Duplek","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6366"},"sifra":11,"ime":"Celje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637d"},"sifra":28,"ime":"Gorišnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6380"},"sifra":30,"ime":"Gornji Grad","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6379"},"sifra":24,"ime":"Dornava","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6377"},"sifra":157,"ime":"Dolenjske Toplice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6382"},"sifra":158,"ime":"Grad","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada636b"},"sifra":196,"ime":"Cirkulane","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637e"},"sifra":207,"ime":"Gorje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6385"},"sifra":160,"ime":"Hoče - Slivnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6387"},"sifra":162,"ime":"Horjul","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6370"},"sifra":19,"ime":"Divača","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637c"},"sifra":27,"ime":"Gorenja vas - Poljane","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638c"},"sifra":38,"ime":"Ilirska Bistrica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6383"},"sifra":32,"ime":"Grosuplje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638a"},"sifra":36,"ime":"Idrija","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6375"},"sifra":156,"ime":"Dobrovnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6391"},"sifra":42,"ime":"Juršinci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6388"},"sifra":34,"ime":"Hrastnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638f"},"sifra":41,"ime":"Jesenice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6381"},"sifra":31,"ime":"Gornji Petrovci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638d"},"sifra":39,"ime":"Ivančna Gorica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6396"},"sifra":47,"ime":"Kobilje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6394"},"sifra":45,"ime":"Kidričevo","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637a"},"sifra":25,"ime":"Dravograd","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6386"},"sifra":161,"ime":"Hodoš","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6392"},"sifra":43,"ime":"Kamnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639b"},"sifra":197,"ime":"Kostanjevica na Krki","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6399"},"sifra":164,"ime":"Komenda","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638b"},"sifra":37,"ime":"Ig","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a0"},"sifra":166,"ime":"Križevci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6397"},"sifra":48,"ime":"Kočevje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada637f"},"sifra":29,"ime":"Gornja Radgona","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6390"},"sifra":163,"ime":"Jezersko","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639e"},"sifra":52,"ime":"Kranj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639c"},"sifra":165,"ime":"Kostel","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a5"},"sifra":58,"ime":"Lenart","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6395"},"sifra":46,"ime":"Kobarid","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63aa"},"sifra":63,"ime":"Ljutomer","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6384"},"sifra":159,"ime":"Hajdina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a1"},"sifra":54,"ime":"Krško","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a3"},"sifra":56,"ime":"Kuzma","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63af"},"sifra":167,"ime":"Lovrenc na Pohorju","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639a"},"sifra":50,"ime":"Koper","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a8"},"sifra":61,"ime":"Ljubljana","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a6"},"sifra":59,"ime":"Lendava","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6389"},"sifra":35,"ime":"Hrpelje - Kozina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b4"},"sifra":70,"ime":"Maribor","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639f"},"sifra":53,"ime":"Kranjska Gora","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ad"},"sifra":65,"ime":"Loška dolina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b9"},"sifra":74,"ime":"Mežica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a4"},"sifra":57,"ime":"Laško","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ab"},"sifra":208,"ime":"Log - Dragomer","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a9"},"sifra":62,"ime":"Ljubno","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b2"},"sifra":69,"ime":"Majšperk","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b0"},"sifra":67,"ime":"Luče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63be"},"sifra":76,"ime":"Mislinja","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada638e"},"sifra":40,"ime":"Izola","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ae"},"sifra":66,"ime":"Loški Potok","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b7"},"sifra":72,"ime":"Mengeš","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b5"},"sifra":168,"ime":"Markovci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c3"},"sifra":80,"ime":"Murska Sobota","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b3"},"sifra":198,"ime":"Makole","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ba"},"sifra":169,"ime":"Miklavž na Dravskem polju","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c8"},"sifra":85,"ime":"Novo mesto","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6393"},"sifra":44,"ime":"Kanal","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63bc"},"sifra":212,"ime":"Mirna","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b8"},"sifra":73,"ime":"Metlika","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63cd"},"sifra":89,"ime":"Pesnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63bf"},"sifra":199,"ime":"Mokronog - Trebelno","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6398"},"sifra":49,"ime":"Komen","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63bd"},"sifra":170,"ime":"Mirna Peč","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c1"},"sifra":78,"ime":"Moravske Toplice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d2"},"sifra":93,"ime":"Podvelka","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c4"},"sifra":81,"ime":"Muta","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c2"},"sifra":79,"ime":"Mozirje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d7"},"sifra":95,"ime":"Preddvor","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada639d"},"sifra":51,"ime":"Kozje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c6"},"sifra":83,"ime":"Nazarje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c9"},"sifra":86,"ime":"Odranci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c7"},"sifra":84,"ime":"Nova Gorica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63dc"},"sifra":99,"ime":"Radeče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ce"},"sifra":90,"ime":"Piran","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63cc"},"sifra":88,"ime":"Osilnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e1"},"sifra":176,"ime":"Razkrižje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63cb"},"sifra":87,"ime":"Ormož","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a2"},"sifra":55,"ime":"Kungota","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e6"},"sifra":106,"ime":"Rogaška Slatina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d3"},"sifra":200,"ime":"Poljčane","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d1"},"sifra":172,"ime":"Podlehnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d0"},"sifra":92,"ime":"Podčetrtek","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63eb"},"sifra":109,"ime":"Semič","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d6"},"sifra":174,"ime":"Prebold","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d8"},"sifra":175,"ime":"Prevalje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63a7"},"sifra":60,"ime":"Litija","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f0"},"sifra":114,"ime":"Slovenske Konjice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d5"},"sifra":94,"ime":"Postojna","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63dd"},"sifra":100,"ime":"Radenci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f5"},"sifra":203,"ime":"Straža","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63da"},"sifra":97,"ime":"Puconci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e2"},"sifra":209,"ime":"Rečica ob Savinji","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ac"},"sifra":64,"ime":"Logatec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63fa"},"sifra":210,"ime":"Sveti Jurij v Slov. Goricah","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e7"},"sifra":105,"ime":"Rogašovci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ff"},"sifra":118,"ime":"Šentilj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b1"},"sifra":68,"ime":"Lukovica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ec"},"sifra":110,"ime":"Sevnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6404"},"sifra":122,"ime":"Škofja Loka","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63df"},"sifra":102,"ime":"Radovljica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f1"},"sifra":179,"ime":"Sodražica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6409"},"sifra":194,"ime":"Šmartno pri Litiji","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e4"},"sifra":104,"ime":"Ribnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63db"},"sifra":98,"ime":"Rače - Fram","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63b6"},"sifra":71,"ime":"Medvode","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640e"},"sifra":128,"ime":"Tolmin","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f6"},"sifra":204,"ime":"Sv. Trojica v Slov. Goricah","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e9"},"sifra":108,"ime":"Ruše","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e0"},"sifra":103,"ime":"Ravne na Koroškem","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ee"},"sifra":112,"ime":"Slovenj Gradec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e5"},"sifra":177,"ime":"Ribnica na Pohorju","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63bb"},"sifra":75,"ime":"Miren - Kostanjevica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ea"},"sifra":178,"ime":"Selnica ob Dravi","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f3"},"sifra":202,"ime":"Središče ob Dravi","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6413"},"sifra":131,"ime":"Tržič","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ef"},"sifra":113,"ime":"Slovenska Bistrica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c0"},"sifra":77,"ime":"Moravče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63fb"},"sifra":205,"ime":"Sveti Tomaž","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f8"},"sifra":182,"ime":"Sveti Andraž v Slov. Goricah","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f4"},"sifra":115,"ime":"Starše","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6418"},"sifra":188,"ime":"Veržej","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63c5"},"sifra":82,"ime":"Naklo","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6400"},"sifra":119,"ime":"Šentjernej","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641d"},"sifra":139,"ime":"Vojnik","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63fd"},"sifra":183,"ime":"Šempeter - Vrtojba","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6422"},"sifra":143,"ime":"Zavrč","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6405"},"sifra":123,"ime":"Škofljica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6402"},"sifra":211,"ime":"Šentrupert","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ca"},"sifra":171,"ime":"Oplotnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640a"},"sifra":126,"ime":"Šoštanj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6407"},"sifra":206,"ime":"Šmarješke Toplice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6427"},"sifra":147,"ime":"Žiri","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640f"},"sifra":129,"ime":"Trbovlje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640c"},"sifra":184,"ime":"Tabor","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63cf"},"sifra":91,"ime":"Pivka","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6411"},"sifra":185,"ime":"Trnovska vas","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6414"},"sifra":132,"ime":"Turnišče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f9"},"sifra":116,"ime":"Sveti Jurij ob Ščavnici","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d4"},"sifra":173,"ime":"Polzela","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6416"},"sifra":187,"ime":"Velika Polana","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6419"},"sifra":135,"ime":"Videm","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63fe"},"sifra":117,"ime":"Šenčur","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641b"},"sifra":137,"ime":"Vitanje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63d9"},"sifra":96,"ime":"Ptuj","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6403"},"sifra":121,"ime":"Škocjan","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641e"},"sifra":189,"ime":"Vransko","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6420"},"sifra":141,"ime":"Vuzenica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63de"},"sifra":101,"ime":"Radlje ob Dravi","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6423"},"sifra":144,"ime":"Zreče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6425"},"sifra":146,"ime":"Železniki","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6428"},"sifra":192,"ime":"Žirovnica","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e3"},"sifra":201,"ime":"Renče - Vogrsko","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6408"},"sifra":125,"ime":"Šmartno ob Paki","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63e8"},"sifra":107,"ime":"Rogatec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640d"},"sifra":10,"ime":"Tišina","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63ed"},"sifra":111,"ime":"Sežana","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f2"},"sifra":180,"ime":"Solčava","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63f7"},"sifra":181,"ime":"Sveta Ana","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6412"},"sifra":186,"ime":"Trzin","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada63fc"},"sifra":33,"ime":"Šalovci","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6417"},"sifra":134,"ime":"Velike Lašče","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6401"},"sifra":120,"ime":"Šentjur pri Celju","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641c"},"sifra":138,"ime":"Vodice","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6406"},"sifra":124,"ime":"Šmarje pri Jelšah","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6421"},"sifra":142,"ime":"Zagorje ob Savi","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6426"},"sifra":191,"ime":"Žetale","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada640b"},"sifra":127,"ime":"Štore","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6410"},"sifra":130,"ime":"Trebnje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6415"},"sifra":133,"ime":"Velenje","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641a"},"sifra":136,"ime":"Vipava","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada641f"},"sifra":140,"ime":"Vrhnika","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6424"},"sifra":190,"ime":"Žalec","valid":true,"__v":0}
+{"_id":{"$oid":"5ac3ac7ccaf7bd0bdada6429"},"sifra":193,"ime":"Žužemberk","valid":true,"__v":0}
+{"_id":{"$oid":"5b09726f97327f0d3d1f8138"},"sifra":0,"ime":"-","valid":true,"__v":0}

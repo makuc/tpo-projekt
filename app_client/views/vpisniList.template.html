@@ -54,7 +54,7 @@
             </div>
             <div class="form-group col-sm-4">
                 <label>Država rojstva</label>
-                <select class="form-control" type="text" ng-model="vm.student.drzava_rojstva"  
+                <select class="form-control" type="text" ng-model="vm.student.drzava_rojstva" ng-change="vm.zabeleziDrzavljanstvo()"  
                     ng-options="drzava as drzava.slovenski_naziv for drzava in vm.drzave track by drzava._id" required=""></select>
             </div>
             <div class="form-group col-sm-4">
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group col-sm-4">
                 <label>Državljanstvo</label>
-                <input class="form-control" type="text" ng-model="vm.student.drzavljanstvo" required=""/>
+                <input class="form-control" type="text" ng-model="vm.student.drzavljanstvo" required="" readonly/>
             </div>
         </div>
         <div class="row">
