@@ -38,7 +38,7 @@
                                 <td>{{ predmet.predmet.sifra }}</td>
                                 <td>{{ predmet.predmet.naziv }}</td>
                                 <td>{{ predmet.predmet.KT }}</td>
-                                <td>{{ predmet.ocena }}</td>
+                                <td><div ng-hide="predmet.ocena == -1">{{ predmet.ocena }}</div></td>
                             </tr>
                         </tbody>
                     </table>
