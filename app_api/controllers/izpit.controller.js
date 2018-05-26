@@ -265,61 +265,84 @@ function ustvariIzpit(req, res, next) {
   });
 }
 function nastaviSpremembo(req, res, next) {
-  req.izpit.obdelava = true;
-  req.izpit.sprememba = req.sprememba;
-  
-  var newDate = new Date(req.datumIzvajanja.getFullYear(), req.datumIzvajanja.getMonth(), req.datumIzvajanja.getDate());
-  var oldDate = new Date(req.izpit.datum_rojstva.getFullYear(), req.izpit.datum_izvajanja.getMonth(), req.izpit.datum_izvajanja.getDate());
-  
-  if(req.body.datum_izvajanja && req.datumIzvajanja < req.izpit.datum_izvajanja)
+  if(req.sprememba == 1)
   {
-    res.status(400).json({ message: "Datum izpita se ne more zamakniti nazaj" });
-  }
-  else
-  {
-    var sprememba = false;
-    
-    var izvajalci, datumIzvajanja;
-    if(req.izvedba)
-    {
-      izvajalci = req.izvedba.izvajalci;
-      sprememba = true;
-    }
     if(req.datumIzvajanja)
     {
-      if(newDate == oldDate)
-      {
-        req.izpit.datum_izvajanja = req.datumIzvajanja;
-      }
-      else
-      {
-        datumIzvajanja = req.datumIzvajanja;
-        sprememba = true;
-      }
-    }
+      var newDate = new Date(req.datumIzvajanja.getFullYear(), req.datumIzvajanja.getMonth(), req.datumIzvajanja.getDate());
+      var oldDate = new Date(req.izpit.datum_izvajanja.getFullYear(), req.izpit.datum_izvajanja.getMonth(), req.izpit.datum_izvajanja.getDate());
+    } 
     
-    if(sprememba)
+    if(req.body.datum_izvajanja && newDate < oldDate)
     {
-      req.izpit.spremembe = {
-        datum_izvajanja: datumIzvajanja,
-        izvajalci: izvajalci,
-        opombe: req.body.opombe,
-        lokacija: req.body.lokacija
-      };
-      
-      for(var i = 0; i < req.izpit.polagalci.length; i++)
-      {
-        // Ponastavi soglasja vseh študentov
-        req.izpit.polagalci[i].strinjanje = false;
-      }
-      
+      res.status(400).json({ message: "Datum izpita se ne more zamakniti nazaj" });
     }
     else
     {
-      if(req.body.opombe)
-        req.izpit.opombe = req.body.opombe;
-      if(req.body.lokacija)
-        req.izpit.lokacija = req.body.lokacija;
+      var sprememba = false;
+      
+      var izvajalci, datumIzvajanja;
+      if(req.izvedba)
+      {
+        izvajalci = req.izvedba.izvajalci;
+        sprememba = true;
+      }
+      if(req.datumIzvajanja)
+      {
+        if(newDate == oldDate)
+        {
+          req.izpit.datum_izvajanja = req.datumIzvajanja;
+        }
+        else
+        {
+          datumIzvajanja = req.datumIzvajanja;
+          sprememba = true;
+        }
+      }
+      
+      if(sprememba)
+      {
+        req.izpit.obdelava = true;
+        req.izpit.sprememba = req.sprememba;
+        
+        
+        req.izpit.spremembe = {
+          datum_izvajanja: datumIzvajanja,
+          izvajalci: izvajalci,
+          opombe: req.body.opombe,
+          lokacija: req.body.lokacija
+        };
+        
+        for(var i = 0; i < req.izpit.polagalci.length; i++)
+        {
+          // Ponastavi soglasja vseh študentov
+          req.izpit.polagalci[i].strinjanje = false;
+        }
+        
+      }
+      else
+      {
+        if(req.body.opombe)
+          req.izpit.opombe = req.body.opombe;
+        if(req.body.lokacija)
+          req.izpit.lokacija = req.body.lokacija;
+      }
+      
+      if(req.user)
+        req.izpit.spremenil = req.user.zaposlen;
+      
+      callNext(req, res, next);
+    }
+  }
+  else
+  {
+    req.izpit.obdelava = true;
+    req.izpit.sprememba = req.sprememba;
+    
+    for(var i = 0; i < req.izpit.polagalci.length; i++)
+    {
+      // Ponastavi soglasja vseh študentov
+      req.izpit.polagalci[i].strinjanje = false;
     }
     
     if(req.user)
@@ -340,28 +363,35 @@ function spremeniIzpit(req, res, next) {
     next.unshift(shraniIzpit);
     urediIzpit(req, res, next);
   }
-  else
+  else if(req.izpit.sprememba == 2)
   {
     izbrisiIzpit(req, res, next);
   }
+  else
+  {
+    callNext(req, res, next);
+  }
 }
 function urediIzpit(req, res, next) {
-  if(req.izpit.spremembe.datum_izvajanja)
-    req.izpit.datum_izvajanja = req.izpit.spremembe.datum_izvajanja;
+  if(req.izpit.sprememba == 0)
+  {
+    if(req.izpit.spremembe.datum_izvajanja)
+      req.izpit.datum_izvajanja = req.izpit.spremembe.datum_izvajanja;
+      
+    if(req.izpit.spremembe.opombe)
+      req.izpit.opombe = req.izpit.spremembe.opombe;
     
-  if(req.izpit.spremembe.opombe)
-    req.izpit.opombe = req.izpit.spremembe.opombe;
-  
-  if(req.izpit.spremembe.izvajalci)
-    req.izpit.izvajalci = req.izvedba.izvajalci;
-  
-  if(req.izpit.spremembe.lokacija)
-    req.izpit.lokacija = req.izpit.spremembe.lokacija;
-  
-  req.izpit.spremembe.opombe = undefined;
-  req.izpit.spremembe.izvajalci = undefined;
-  req.izpit.spremembe.lokacija = undefined;
-  req.izpit.spremembe.datum_izvajanja = undefined;
+    if(req.izpit.spremembe.izvajalci)
+      req.izpit.izvajalci = req.izvedba.izvajalci;
+    
+    if(req.izpit.spremembe.lokacija)
+      req.izpit.lokacija = req.izpit.spremembe.lokacija;
+    
+    req.izpit.spremembe.opombe = undefined;
+    req.izpit.spremembe.izvajalci = undefined;
+    req.izpit.spremembe.lokacija = undefined;
+    req.izpit.spremembe.datum_izvajanja = undefined;
+  }
   
   callNext(req, res, next);
 }
