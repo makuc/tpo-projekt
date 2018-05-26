@@ -268,34 +268,65 @@ function nastaviSpremembo(req, res, next) {
   req.izpit.obdelava = true;
   req.izpit.sprememba = req.sprememba;
   
-  if(req.body.datum_izvajanja) {
-    if(req.datumIzvajanja < req.izpit.datum_izvajanja)
-      return res.status(400).json({ message: "Izpitni datum se lahko spremeni samo na kasnejsi datum" });
-  }
+  var newDate = new Date(req.datumIzvajanja.getFullYear(), req.datumIzvajanja.getMonth(), req.datumIzvajanja.getDate());
+  var oldDate = new Date(req.izpit.datum_rojstva.getFullYear(), req.izpit.datum_izvajanja.getMonth(), req.izpit.datum_izvajanja.getDate());
   
-  var izvajalci, datumIzvajanja;
-  if(req.izvedba)
-    izvajalci = req.izvedba.izvajalci;
-  if(req.datumIzvajanja)
-    datumIzvajanja = req.datumIzvajanja;
-  
-  req.izpit.spremembe = {
-    datum_izvajanja: datumIzvajanja,
-    izvajalci: izvajalci,
-    opombe: req.body.opombe,
-    lokacija: req.body.lokacija
-  };
-  
-  if(req.user)
-    req.izpit.spremenil = req.user.zaposlen;
-  
-  for(var i = 0; i < req.izpit.polagalci.length; i++)
+  if(req.body.datum_izvajanja && req.datumIzvajanja < req.izpit.datum_izvajanja)
   {
-    // Ponastavi soglasja vseh študentov
-    req.izpit.polagalci[i].strinjanje = false;
+    res.status(400).json({ message: "Datum izpita se ne more zamakniti nazaj" });
   }
-  
-  callNext(req, res, next);
+  else
+  {
+    var sprememba = false;
+    
+    var izvajalci, datumIzvajanja;
+    if(req.izvedba)
+    {
+      izvajalci = req.izvedba.izvajalci;
+      sprememba = true;
+    }
+    if(req.datumIzvajanja)
+    {
+      if(newDate == oldDate)
+      {
+        req.izpit.datum_izvajanja = req.datumIzvajanja;
+      }
+      else
+      {
+        datumIzvajanja = req.datumIzvajanja;
+        sprememba = true;
+      }
+    }
+    
+    if(sprememba)
+    {
+      req.izpit.spremembe = {
+        datum_izvajanja: datumIzvajanja,
+        izvajalci: izvajalci,
+        opombe: req.body.opombe,
+        lokacija: req.body.lokacija
+      };
+      
+      for(var i = 0; i < req.izpit.polagalci.length; i++)
+      {
+        // Ponastavi soglasja vseh študentov
+        req.izpit.polagalci[i].strinjanje = false;
+      }
+      
+    }
+    else
+    {
+      if(req.body.opombe)
+        req.izpit.opombe = req.body.opombe;
+      if(req.body.lokacija)
+        req.izpit.lokacija = req.body.lokacija;
+    }
+    
+    if(req.user)
+      req.izpit.spremenil = req.user.zaposlen;
+    
+    callNext(req, res, next);
+  }
 }
 function spremeniIzpit(req, res, next) {
   if(!req.odobritev)
