@@ -356,7 +356,7 @@ function pripraviPredmetnike(req, res, next) {
         return res.status(404).json({ message: "Ne najdem potrebnih predmetnikov"});
       }
       
-      console.log(predmetniki[0]);
+      //console.log(predmetniki[0]);
       
       req.obvezniPredmeti = [];
       req.splosniIzbirniPredmeti = [];
@@ -820,7 +820,7 @@ function vrniModuliPosodobljeni(req, res, next) {
 // Oddaj vpisni list
 function oddajaVpisnegaLista(req, res, next) {
   req.vpisniList.valid = true;
-  req.vpisniList.vpisan = Date.now();
+  req.vpisniList.vpisan = new Date();
   
   req.vpisniList.save(function(err, vpisniList) {
     if(err || !vpisniList) {
@@ -905,10 +905,15 @@ function zdruziPredmete(req, res, next) {
   for(i = 0; i < req.vpisniList.moduli.length; i++) {
     var modul = req.vpisniList.moduli[i];
     
+    console.log(modul);
+    
     for(var j = 0; j < modul.predmeti.length; j++) {
+      console.log(modul.predmeti[j]);
       req.skupnoPredmeti.push(modul.predmeti[j]);
     }
   }
+  
+  console.log(req.skupnoPredmeti);
   
   req.vpisniList.predmeti = req.skupnoPredmeti;
   
@@ -916,62 +921,14 @@ function zdruziPredmete(req, res, next) {
 }
 
 function prijaviStudenta(req, res, next) {
-  req.skupnoPredmetiStudenta = [];
-  req.skupnoPredmeti = [];
+  req.skupnoPredmetiStudenta = req.vpisniList.neopravljeni_predmeti.slice(0);
   
   var i;
-  // Dodaj obvezne predmete
-  if(req.vpisniList.neopravljeni_predmeti)
-  {
-    for(i = 0; i < req.vpisniList.neopravljeni_predmeti.length; i++) {
-      req.skupnoPredmetiStudenta.push(req.vpisniList.neopravljeni_predmeti[i]);
-      req.skupnoPredmeti.push(req.vpisniList.neopravljeni_predmeti[i].predmet);
-    }
-  }
-  
-  
-  // Dodaj obvezne predmete
-  for(i = 0; i < req.vpisniList.obvezniPredmeti.length; i++) {
+  // Dodaj predmete študentu
+  for(i = 0; i < req.vpisniList.predmeti.length; i++) {
     req.skupnoPredmetiStudenta.push({
-      predmet: req.vpisniList.obvezniPredmeti[i]
+      predmet: req.vpisniList.predmeti[i]
     });
-    req.skupnoPredmeti.push(req.vpisniList.obvezniPredmeti[i]);
-  }
-  
-  // Dodaj strokovne izbirne predmete
-  for(i = 0; i < req.vpisniList.strokovniIzbirniPredmeti.length; i++) {
-    req.skupnoPredmetiStudenta.push({
-      predmet: req.vpisniList.strokovniIzbirniPredmeti[i]
-    });
-    req.skupnoPredmeti.push(req.vpisniList.strokovniIzbirniPredmeti[i]);
-  }
-  
-  // Dodaj splošne izbirne predmete
-  for(i = 0; i < req.vpisniList.splosniIzbirniPredmeti.length; i++) {
-    req.skupnoPredmetiStudenta.push({
-      predmet: req.vpisniList.splosniIzbirniPredmeti[i]
-    });
-    req.skupnoPredmeti.push(req.vpisniList.splosniIzbirniPredmeti[i]);
-  }
-  
-  // Dodaj modulne predmete (če ima prosto izbiro predmetov)
-  for(i = 0; i < req.vpisniList.modulniPredmeti.length; i++) {
-    req.skupnoPredmetiStudenta.push({
-      predmet: req.vpisniList.modulniPredmeti[i]
-    });
-    req.skupnoPredmeti.push(req.vpisniList.modulniPredmeti[i]);
-  }
-  
-  // Še moduli v samostojne predmete in jih dodaj
-  for(i = 0; i < req.vpisniList.moduli.length; i++) {
-    var modul = req.vpisniList.moduli[i];
-    
-    for(var j = 0; j < modul.predmeti.length; j++) {
-      req.skupnoPredmetiStudenta.push({
-        predmet: modul.predmeti[i]
-      });
-      req.skupnoPredmeti.push(modul.predmeti[i]);
-    }
   }
   
   req.student.studijska_leta_studenta.push({
