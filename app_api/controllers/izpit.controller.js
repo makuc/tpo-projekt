@@ -289,8 +289,9 @@ function nastaviSpremembo(req, res, next) {
       }
       if(req.datumIzvajanja)
       {
-        if(newDate == oldDate)
+        if(newDate.getTime() == oldDate.getTime())
         {
+          console.log("Same date");
           req.izpit.datum_izvajanja = req.datumIzvajanja;
         }
         else
