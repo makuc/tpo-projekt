@@ -109,6 +109,9 @@ module.exports.pdf = function(req, res) {
           },
           {
             path: "studijska_leta_studenta.predmeti.predmet"
+          },
+          {
+            path: "studijska_leta_studenta.predmeti.izpit"
           }
         ]
       }
@@ -162,11 +165,9 @@ module.exports.pdf = function(req, res) {
             // Preveri, če ta predmet spada pod predmete prejšnjega letnika
             for(var l = 0; l < letniki[k].predmeti.length; l++)
             {
-              console.log(leto.predmeti[j]);
               // Če se predmet ujema
               if(leto.predmeti[j].predmet._id.equals(letniki[k].predmeti[l].predmet._id))
               {
-                console.log("Predmet najden");
                 predmet = (letniki[k].predmeti[l] = leto.predmeti[j]);
                 break;
               }
@@ -182,30 +183,40 @@ module.exports.pdf = function(req, res) {
           
         }
       }
+      var average = 0;
+      var opravljeni = 0;
       for(var x = 0; x < letniki.length; x++)
       {
         var cur = letniki[x];
-        var average = 0;
-        var opravljeni = 0;
+        cur.average = 0;
+        cur.opravljeni = 0;
         console.log("Letnik: " + cur.letnik.naziv);
         console.log("Predmeti:");
         for(var y = 0; y < cur.predmeti.length; y++)
         {
-          console.log(cur.predmeti[y].predmet.naziv);
+          console.log(cur.predmeti[y]);
           if(cur.predmeti[y].ocena > 5)
           {
-            average += cur.predmeti[y].ocena;
+            cur.average += cur.predmeti[y].ocena;
+            cur.opravljeni++;
             opravljeni++;
           }
         }
-        average = average;
-        console.log
+        average += cur.average;
+        cur.average = cur.average * 1.0 / cur.opravljeni;
+        if(!cur.average)
+          cur.average = 0;
       }
+      average = average * 1.0 / opravljeni;
+      if(!average)
+        average = 0;
       
       
       var data = {
         narocilo: narocilo,
-        base: base
+        base: base,
+        letniki: letniki,
+        average: average
       };
       
       var vpisniList = Pug.renderFile(__dirname + '/views/potrdiloIzpitov.view.pug', data);

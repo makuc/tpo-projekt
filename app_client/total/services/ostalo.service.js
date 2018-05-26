@@ -581,6 +581,22 @@
             return $http.post('/api/v1/narocilo/' + narociloId);
         }
         
+        // Narocila potrdil o opravljenih izpitih
+        function pridobiVsaNarocilaIzpitov()
+        {
+            return $http.get('/api/v1/narocilo-izpitov');
+        }
+        
+        function narociPotrdiloIzpitov(data)
+        {
+            return $http.post('/api/v1/narocilo-izpitov', data);
+        }
+        
+        function zakljuciNarociloPotrdilaIzpitov(narociloId)
+        {
+            return $http.post('/api/v1/narocilo-izpitov/' + narociloId);
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -729,7 +745,11 @@
                 
             pridobiVsaNarocila: pridobiVsaNarocila,
             narociPotrdiloVpisa: narociPotrdiloVpisa,
-            zakljuciNarociloPotrdilaVpisa: zakljuciNarociloPotrdilaVpisa
+            zakljuciNarociloPotrdilaVpisa: zakljuciNarociloPotrdilaVpisa,
+            
+            pridobiVsaNarocilaIzpitov: pridobiVsaNarocilaIzpitov,
+            narociPotrdiloIzpitov: narociPotrdiloIzpitov,
+            zakljuciNarociloPotrdilaIzpitov: zakljuciNarociloPotrdilaIzpitov
         };
     };
     

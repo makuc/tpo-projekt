@@ -1,0 +1,88 @@
+<header style="margin-bottom: 15px"></header>
+<div class="container">
+    
+    <div class="col-sm-12" style="background-color: #f3f9ff; margin-bottom: 20px; border-radius: 10px" ng-show="vm.vpisan.student && vm.studentObject.studijska_leta_studenta.length > 0">
+        <h3>Naroči novo potrdilo o opravljenih izpitih</h3>
+        <!--<div class="row">
+          <div class="col-sm-4">
+            <label>Študijsko leto vpisa</label>
+            <select class="form-control col-sm-4" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto.studijsko_leto) for sl in vm.studentObject.studijska_leta_studenta track by sl.studijsko_leto.studijsko_leto._id'></select>
+          </div>
+        </div><br>-->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label>Število izvodov</label>
+                <input class="form-control" type="text" value="{{vm.kolicina}}" ng-model="vm.kolicina">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <button class="btn btn-success" type="button" ng-click="vm.narociPotrdilo()">Naroči</button>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Naročila potrdil o opravljenih izpitih</h2><br>
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div id = "exportable" class="container table-responsive">
+        <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+            <thead>
+                <tr>
+                    <th>#</th>
+                   <th ng-click="orderByMe('vpisna_stevilka')">Vpisna številka</th>
+                    <th ng-click="orderByMe('priimek')">Priimek</th>
+                    <th ng-click="orderByMe('ime')">Ime</th>
+                    <th ng-click="orderByMe('datum')">Datum</th>
+                    <th ng-click="orderByMe('izvodov')">Število izvodov</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
+                    <td>{{ student.student.vpisna_stevilka }}</td>
+                    <td>{{ student.student.priimek }}</td>
+                    <td>{{ student.student.ime }}</td>
+                    <td>{{ student.datum | date:'dd. MM. yyyy HH:mm'}}</td>
+                    <td>{{ student.izvodov }}</td>
+                    
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.izpisPotrdila(student._id)" ng-show="vm.vpisan.referentka == true || student.opravljeno == true">Ogled potrdila</button></td>
+                   <td><button class="btn btn-success" type="button" ng-click="vm.potrdiNarocilo(student._id)" ng-show="student.opravljeno == false && vm.vpisan.referentka == true">Potrdi</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.stran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+        </table>
+        <button type="button" ng-csv="query" charset="utf-8"
+            csv-header="[ 'Vpisna Števila', 'Priimek', 'Ime']"
+            csv-column-order="[ 'vpisna_stevilka', 'priimek', 'ime']"
+            add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
+        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+    </div>
+</div>
