@@ -146,25 +146,15 @@ module.exports.addOcenoStudentu = function(req, res) {
   {
     return res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
   }
-  
   req.force = true;
   req.opozorila = [];
   
   callNext(req, res, [
-    najdiIzpit, najdiStudentaId, izberiPredmet,
+    najdiIzpit, preveriDatumDodajanja, najdiStudentaId, izberiPredmet,
     najdiPolaganje, vnesiOcenoPodIzpit, vnesiOcenoStudentu,
     
     // Shrani spremembe
     shraniIzpit, shraniStudenta, vrniIzpit
-  ]);
-};
-module.exports.addOceneStudentom = function(req, res) {
-  
-  req.force = true;
-  req.opozorila = [];
-  
-  callNext(req, res, [
-    
   ]);
 };
 
@@ -1237,5 +1227,24 @@ function preveriIzvedboPredmeta(req, res, next) {
     }
     
     callNext(req, res, next);
+  }
+}
+
+function preveriDatumDodajanja(req, res, next) {
+  var danes = new Date();
+  var izpit = req.izpit.datum_izvajanja;
+  var enMesec = izpit.setMonth(izpit.getMonth() + 1);
+  
+  if((req.user && req.user.referentka) || (danes > izpit && danes <= enMesec))
+  {
+    callNext(req, res, next);
+  }
+  else if(danes < izpit)
+  {
+    res.status(403).json({ message: "Izpit še ni potekal, vnos ocene nemogoč"});
+  }
+  else
+  {
+    res.status(403).json({ message: "Rok za vnos ocen po izpitu je potekel"});
   }
 }
