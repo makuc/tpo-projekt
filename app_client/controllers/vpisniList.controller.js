@@ -322,19 +322,7 @@
                             if(preveriObcinaPostaDrzava()){
                                 vm.shrani();
                 
-                                var data = {
-                                    zeton: vm.neizkoriscenZeton._id
-                                };
-                                console.log(data);
-                                studentPodatki.kreiranjeNovegaVpisa(data).then(
-                                  function success(odgovor){
-                                      console.log(odgovor.data.vpisniList_id);
-                                      $location.path("/vpis/" + odgovor.data.vpisniList_id + "/izbiraPredmeta");
-                                  },
-                                  function error(odgovor){
-                                      console.log(odgovor);
-                                  }
-                                );
+                                $location.path("/vpis/izbiraZetona");
                             } 
                             
                         }

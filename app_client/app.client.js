@@ -406,6 +406,11 @@
                 controller: 'vpisniListCtrl',
                 controllerAs: 'vm'
             })
+            .when('/vpis/izbiraZetona', {
+                templateUrl: 'views/izberiZeton.template.html',
+                controller: 'izberiZetonCtrl',
+                controllerAs: 'vm'
+            })
             .when('/vpis/:idVpisnice/izbiraPredmeta', {
                 templateUrl: 'views/vpisniListPredmeti.template.html',
                 controller: 'vpisniListPredmetiCtrl',
