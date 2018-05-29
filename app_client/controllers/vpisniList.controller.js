@@ -48,6 +48,7 @@
         ostaloPodatki.pridobiVseVeljavneDrzave().then(
             function success(odgovor) {
                 vm.drzave = odgovor.data;
+                //console.log(odgovor.data);
             },
             function error(odgovor) {
                 console.log("Prišlo do napake pri pridobivanju drćav: " + odgovor);
@@ -238,6 +239,68 @@
             );
         };
         
+        vm.zabeleziDrzavljanstvo = function(){
+            vm.student.drzavljanstvo = "Državljan države: " + vm.student.drzava_rojstva.slovenski_naziv;
+        };
+        
+        function preveriObcinaPostaDrzava(){
+            console.log(vm.student.obcina_rojstva.ime)
+            if(vm.student.drzava_rojstva.slovenski_naziv != "Slovenija"){
+                if(vm.student.obcina_rojstva.ime != "-"){
+                    vm.napacenEmso = "Država rojstva in občina rojstva se ne ujemata";
+                    return false;
+                }
+            } else {
+                if(vm.student.obcina_rojstva.ime == "-"){
+                    vm.napacenEmso = "Država rojstva in občina rojstva se ne ujemata";
+                    return false;
+                }
+            }
+            
+            if(vm.student.stalno_bivalisce_drzava.slovenski_naziv != "Slovenija"){
+                if(vm.student.stalno_bivalisce_obcina.ime != "-"){
+                    vm.napacenEmso = "Država stalnega bivališča in občina stalnega bivališča se ne ujemata";
+                    return false;
+                }
+                if(vm.student.stalno_bivalisce_posta.naziv != "-"){
+                    vm.napacenEmso = "Država stalnega bivališča in pošta stalnega bivališča se ne ujemata";
+                    return false;
+                }
+            } else {
+                if(vm.student.stalno_bivalisce_obcina.ime == "-"){
+                    vm.napacenEmso = "Država stalnega bivališča in občina stalnega bivališča se ne ujemata";
+                    return false;
+                }
+                if(vm.student.stalno_bivalisce_posta.naziv == "-"){
+                    vm.napacenEmso = "Država stalnega bivališča in pošta stalnega bivališča se ne ujemata";
+                    return false;
+                }
+            }
+            
+            if(vm.student.zacasno_bivalisce_drzava){
+                if(vm.student.zacasno_bivalisce_drzava.slovenski_naziv != "Slovenija"){
+                    if(vm.student.stalno_bivalisce_obcina.ime != "-"){
+                        vm.napacenEmso = "Država stalnega bivališča in občina začasnega bivališča se ne ujemata";
+                        return false;
+                    }
+                    if(vm.student.stalno_bivalisce_posta != "-"){
+                        vm.napacenEmso = "Država stalnega bivališča in pošta začasnega bivališča se ne ujemata";
+                        return false;
+                    }
+                } else {
+                    if(vm.student.stalno_bivalisce_obcina.ime == "-"){
+                        vm.napacenEmso = "Država stalnega bivališča in občina začasnega bivališča se ne ujemata";
+                        return false;
+                    }
+                    if(vm.student.stalno_bivalisce_posta == "-"){
+                        vm.napacenEmso = "Država stalnega bivališča in pošta začasnega bivališča se ne ujemata";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
         vm.shraniPodatke = function() {
             
             if(vm.student.vpisna_stevilka && vm.student.priimek && vm.student.ime && vm.student.kraj_rojstva && vm.student.drzava_rojstva
@@ -256,21 +319,11 @@
                     if(jeDavncaStevilka(vm.student.davcna_stevilka)){
                         if(vm.veljavnostEMSO(vm.student.emso)){
                             
-                            vm.shrani();
+                            if(preveriObcinaPostaDrzava()){
+                                vm.shrani();
                 
-                            var data = {
-                                zeton: vm.neizkoriscenZeton._id
-                            };
-                            console.log(data);
-                            studentPodatki.kreiranjeNovegaVpisa(data).then(
-                              function success(odgovor){
-                                  console.log(odgovor.data.vpisniList_id);
-                                  $location.path("/vpis/" + odgovor.data.vpisniList_id + "/izbiraPredmeta");
-                              },
-                              function error(odgovor){
-                                  console.log(odgovor);
-                              }
-                            );
+                                $location.path("/vpis/izbiraZetona");
+                            } 
                             
                         }
                         

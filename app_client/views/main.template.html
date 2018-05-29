@@ -38,7 +38,7 @@
                                 <td>{{ predmet.predmet.sifra }}</td>
                                 <td>{{ predmet.predmet.naziv }}</td>
                                 <td>{{ predmet.predmet.KT }}</td>
-                                <td>{{ predmet.ocena }}</td>
+                                <td><div ng-hide="predmet.ocena == -1">{{ predmet.ocena }}</div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,7 +90,7 @@
     <a href="/prikaziStudente" class="btn btn-primary" type="button" id="option">Študenti</a>
     <a href="/urediPredmete" class="btn btn-primary" type="button" id="option">Vpisani v predmet</a>
     <a href="/generiraj-zetone" class="btn btn-primary" type="button" id="option">Generiranje žetonov</a>
-    <a href="/zetonZaVpis" class="btn btn-primary" type="button" id="option">Žeton za vpis</a>
+    <!--<a href="/zetonZaVpis" class="btn btn-primary" type="button" id="option">Žeton za vpis</a>-->
     <button class="btn btn-primary" type="button" ng-click="vm.seznamVpisanihVPredmet()" id="option">Seznam vpisanih v predmet</button>
     <a href="/steviloVpisanihVPredmete" class="btn btn-primary" type="button" id="option">Vpisanih v predmete</a>
     <a href="/narocilaPotrdilVpisa" class="btn btn-primary" type="button" id="option">Naločila potrdil o vpisu</a>

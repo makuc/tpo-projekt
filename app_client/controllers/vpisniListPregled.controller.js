@@ -3,9 +3,9 @@
     /* global angular */
     
     
-    vpisniListPregledCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki', '$location', '$window'];
+    vpisniListPregledCtrl.$inject = ['studentPodatki', '$routeParams', 'authentication', 'ostaloPodatki', '$location', '$window', 'predmetPodatki'];
     
-    function vpisniListPregledCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki, $location, $window){
+    function vpisniListPregledCtrl(studentPodatki, $routeParams, authentication, ostaloPodatki, $location, $window, predmetPodatki){
         var vm = this;
         
         vm.idVpisnice = $routeParams.idVpisnice;
@@ -65,8 +65,19 @@
                 
                 if(vm.podatkiVpisnice.moduli){
                     for(var l = 0; l < vm.podatkiVpisnice.moduli.length; l++){
-                        vm.vsiPredmeti.push(vm.podatkiVpisnice.moduli[l]);
-                        vm.vsotaKT += vm.podatkiVpisnice.moduli[l].KT;
+                        for(var n = 0; n < vm.podatkiVpisnice.moduli[l].predmeti.length; n++){
+                            predmetPodatki.pridobiPredmet(vm.podatkiVpisnice.moduli[l].predmeti[n]).then(
+                                function succes(odgovor){
+                                    vm.vsiPredmeti.push(odgovor.data);
+                                    vm.vsotaKT += odgovor.data.KT;
+                                },
+                                function error(odgovor){
+                                    console.log(odgovor);
+                                }
+                            );
+                            
+                        }
+                        
                     }
                 }
                 

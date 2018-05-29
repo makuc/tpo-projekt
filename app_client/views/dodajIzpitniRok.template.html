@@ -1,3 +1,9 @@
+<style type="text/css">
+    .vEniVrsti {
+        display:inline-block;
+    }
+</style>
+
 <header style="margin-bottom: 15px"></header>
 <h2>Dodajanje izpitnega roka</h2><br>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
@@ -23,8 +29,17 @@
         </div>
         <div ng-show="vm.podatki.predmet" class="row">
             <div class="form-group col-sm-4">
-                <label>Datum in ura izvajanja:</label>
-                <input class="form-control" type="datetime-local" ng-model="vm.podatki.datum"/>
+                <p style="margin-bottom: 0px"><label>Datum izvajanja:</label></p>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.dan" style="width:50px"/>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.mesec" style="width:50px"/>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.leto" style="width:80px"/>
+            </div>
+        </div>
+        <div ng-show="vm.podatki.predmet" class="row">
+            <div class="form-group col-sm-4">
+                <p style="margin-bottom: 0px"><label>Ura izvajanja:</label></p>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.ura" style="width:50px"/><h3 class="vEniVrsti" style="margin-top: 0px">:</h3>
+                <input class="form-control vEniVrsti" type="text" ng-model="vm.minuta" style="width:50px"/>
             </div>
         </div>
         <div ng-show="vm.podatki.predmet" class="row">

@@ -225,7 +225,7 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
   // Zdej pa še odštej polaganja, ki jih je opravil redno (v kolikor ponavlja letnik)
   var x,y,z;
   
-  var neopravljeni_predmeti = req.neopravljeni_predmeti.slice(0);
+  var neopravljeni_predmeti = req.neopravljeni_predmeti;
   req.neopravljeni_predmeti = [];
   
   for(x = req.student.studijska_leta_studenta.length - 1; x >= 0 && neopravljeni_predmeti.length > 0 ; x--)
@@ -252,7 +252,7 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
               ocena: neopr.ocena,
               izpit: neopr.izpit,
               zaporedni_poskus: 0,
-              zaporedni_poskus_skupaj: neopr.zaporedni_poskus_skupaj - predmet.zaporedni_poskus
+              zaporedni_poskus_skupaj: (neopr.zaporedni_poskus_skupaj - neopr.zaporedni_poskus)
             });
             
             neopravljeni_predmeti.splice(z, 1);
@@ -293,6 +293,12 @@ function ustvariZetonNaslednjiLetnik(req, res, next) {
       prosta_izbira = true;
     
     var prej = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
+    
+    // Ponastavi zaporedna polaganja za to študijsko leto
+    for(var i = 0; i < req.neopravljeni_predmeti.length; i++)
+    {
+      req.neopravljeni_predmeti[i].zaporedni_poskus = 0;
+    }
     
     req.student.zetoni.push({
       studijsko_leto: req.naslednje_leto,

@@ -32,9 +32,9 @@
     </tbody>
 </table>
 
-<h3 ng-show="vm.podatkiVpisnice.modulniPredmeti">Modulni predmeti</h3>
+<h3 ng-show="vm.podatkiVpisnice.modulniPredmeti.length > 0">Modulni predmeti</h3>
 
-<table class="table table-hover" ng-show="vm.podatkiVpisnice.modulniPredmeti">
+<table class="table table-hover" ng-show="vm.podatkiVpisnice.modulniPredmeti.length > 0">
     <tbody>
         <tr ng-repeat="x in vm.podatkiVpisnice.modulniPredmeti">
             <td>{{x.sifra}}</td>

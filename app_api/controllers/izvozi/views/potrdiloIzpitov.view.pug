@@ -51,11 +51,11 @@ html
       p(style="margin: 2em 0 2em 0")
         strong Potrjujemo, da je študent opravil naslednje študijske obveznosti na študijskem programu: 
           if narocilo.student.studijska_leta_studenta.length > 0
-            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].vrsta_studija.opis}, 
-            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.naziv}
-            | (#{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.sifraEVS})
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.naziv} 
+            | (#{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].letnik.studijskiProgram.sifraEVS}), 
+            | #{narocilo.student.studijska_leta_studenta[narocilo.student.studijska_leta_studenta.length -1].vrsta_studija.opis}
           else
-            | Študent ni v nobenem študijskem programu
+            | Ni prijavljen v noben študijski program
       div
         table(cellspacing="3", cellpadding="10")
           thead
@@ -67,50 +67,34 @@ html
               th.left.space(style="width:9em") Datum
               th.left.space(style="width:5em") Ocena
           tbody
-            tr(style="border-top:1px solid #bbb;")
-              td.space 1
-              td.space Diskretne strukture
-              td.space 1
-              td.space 6
-              td.space 28.01.2013
-              td.space 8
-            tr(style="border-top:1px solid #bbb;")
-              td.space 1
-              td.space Diskretne strukture
-              td.space 1
-              td.space 6
-              td.space 28.01.2013
-              td.space 8
+            -var index = 1;
+            each letnik in letniki
+              each predmet in letnik.predmeti
+                if predmet.ocena > 5
+                  tr(style="border-top:1px solid #bbb;")
+                    td.space= index++
+                    td.space= predmet.predmet.naziv
+                    td.space= letnik.letnik.naziv
+                    td.space= predmet.predmet.KT
+                    td.space
+                      +formatDate(predmet.izpit.datum_izvajanja)
+                    td.space= predmet.ocena
+            if index == 1
+              tr(style="border-top:1px solid #bbb;")
+                td.space(colspan="6") Ni opravil nobenih obveznosti
       div(style="margin-top: 1em;")
-        p Letnik 
-          strong 1
-          | : opravljenih je 
-          strong 10
-          |  od 
-          strong 10
-          |  predmetov s povprečno oceno 
-          strong 7,5
-          | .
-        p Letnik 
-          strong 2
-          | : opravljenih je 
-          strong 10
-          |  od 
-          strong 11
-          |  predmetov s povprečno oceno 
-          strong 7,4
-          | .
-        p Letnik 
-          strong 3
-          | : opravljenih je 
-          strong 5
-          |  od 
-          strong 10
-          |  predmetov s povprečno oceno 
-          strong 8
-          | .
+        each letnik in letniki
+          p
+            strong= letnik.letnik.naziv
+            | : opravljenih je 
+            strong= letnik.opravljeni
+            |  od 
+            strong= letnik.predmeti.length
+            |  predmetov s povprečno oceno 
+            strong= letnik.average.toFixed(2)
+            | .
         p Skupna povprečna ocena je 
-          strong 7,56
+          strong= average.toFixed(2)
           | .
       div(style="margin-top: 7em;")
         div.h-right

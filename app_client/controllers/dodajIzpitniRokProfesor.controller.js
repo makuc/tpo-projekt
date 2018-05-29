@@ -8,6 +8,7 @@
         var vm = this;
         
         function preveriDatum(datum){
+            console.log(datum);
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth()+1; //January is 0!
@@ -80,17 +81,35 @@
             }
         );
 
+
+        function urediDatum(){
+            if(vm.ura){
+                 var ura = vm.ura - 2;
+                console.log(ura);
+                
+                if(ura.toString().length == 1){
+                    ura = "0" + ura;
+                }
+                var date = vm.leto + "-" + vm.mesec + "-" + vm.dan + "T" + ura + ":" + vm.minuta + ":00.000Z";
+            } else {
+                var date = vm.leto + "-" + vm.mesec + "-" + vm.dan + "T" + "22:00:00.000Z";
+            }
+           
+            vm.objectDatum = new Date(date);
+            
+            return preveriDatum(vm.objectDatum);
+        }
         
         vm.shrani = function(){
             //preveri veljavnost datuma
             
-            var datumOk = preveriDatum(vm.podatki.datum);
+            var datumOk = urediDatum(vm.podatki.datum);
             
             if(datumOk){
                 var data = {
                 predmet: vm.podatki.predmet,
                 studijsko_leto: vm.podatki.studijskoLeto,
-                datum_izvajanja: vm.podatki.datum,
+                datum_izvajanja: vm.objectDatum,
                 izvedba_predmeta: vm.podatki.izvedbe,
                 lokacija: vm.podatki.lokacija,
                 opombe: vm.podatki.maxPrijav

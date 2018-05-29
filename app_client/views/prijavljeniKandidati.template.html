@@ -4,6 +4,12 @@
     <div class="alert alert-success" role="alert" ng-show="vm.uspeh">{{vm.uspeh}}</div>
     <h2>Prijavljeni kandidati</h2>
     <h3>{{ vm.izpitniRok.predmet.naziv }}, {{ vm.izpitniRok.predmet.sifra }}</h3>
+    <h4>Datum: {{ vm.izpitniRok.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</h4>
+    <h4>Lokacija: {{ vm.izpitniRok.lokacija }}</h4>
+    <h4>Izpraševalci:</h4>
+    <ul>
+        <li ng-repeat="izprasevalec in vm.izpitniRok.izvajalci">{{ izprasevalec.naziv + " " + izprasevalec.ime + " " + izprasevalec.priimek }}</li>
+    </ul>
     <br>
     <table class="col-md-4">
         <thead>
@@ -39,8 +45,11 @@
                     <th ng-click="orderByMe('kandidat.student.vpisna_stevilka')">Vpisna številka</th>
                     <th ng-click="orderByMe('kandidat.student.priimek')">Priimek</th>
                     <th ng-click="orderByMe('kandidat.student.ime')">Ime</th>
-                    <th ng-click="orderByMe('vm.izpitniRok.studijsko_leto.studijsko_leto')">Studijsko leto</th>
-                    <th ng-click="orderByMe('kandidat.zaporedni_poskus_skupaj')">Polaganj</th>
+
+                    <th ng-click="orderByMe('kandidat.student.studijsko_leto')">Studijsko leto</th>
+                    <th ng-click="orderByMe('kandidat.student.zaporedni_poskus')">Polaganj letos</th>
+                    <th ng-click="orderByMe('kandidat.student.zaporedni_poskus')">Polaganj skupaj</th>
+
                     <th ng-click="orderByMe('kandidat.tock')" class="col-xs-2">Točke (0 - 100)</th>
                     <th ng-click="orderByMe('kandidat.koncna_ocena')">Končna ocena</th>
                 </tr>
@@ -52,6 +61,7 @@
                     <td>{{ kandidat.student.priimek }}</td>
                     <td>{{ kandidat.student.ime }}</td>
                     <td>{{ vm.izpitniRok.studijsko_leto.studijsko_leto }}</td>
+                    <td>{{ kandidat.zaporedni_poskus }}</td>
                     <td>{{ kandidat.zaporedni_poskus_skupaj }}</td>
                     
                     <td ng-show="kandidat.odjavljen == false">
