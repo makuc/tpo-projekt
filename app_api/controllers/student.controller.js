@@ -198,7 +198,10 @@ function najdiStudentaId(req, res, next) {
         select: "sifra naziv opis KT izvedbe_predmeta"
       },
       {
-        path: "studijska_leta_studenta.predmeti.izpit"
+        path: "studijska_leta_studenta.predmeti.izpit",
+        populate: {
+          path: "izvajalci"
+        }
       },
       {
         path: "predhodna_izobrazba.drzava",
