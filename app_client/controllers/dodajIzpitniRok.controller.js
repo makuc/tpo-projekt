@@ -6,7 +6,7 @@
     
     function dodajIzpitniRokCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki, authentication){
         var vm = this;
-        
+        vm.podatki = {datum:new Date()};
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

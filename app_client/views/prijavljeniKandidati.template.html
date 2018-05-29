@@ -39,14 +39,14 @@
                     <th ng-click="orderByMe('kandidat.student.vpisna_stevilka')">Vpisna številka</th>
                     <th ng-click="orderByMe('kandidat.student.priimek')">Priimek</th>
                     <th ng-click="orderByMe('kandidat.student.ime')">Ime</th>
-                    <th ng-click="orderByMe('kandidat.student.ime')">Studijsko leto</th>
-                    <th ng-click="orderByMe('kandidat.student.ime')">Polaganj</th>
+                    <th ng-click="orderByMe('vm.izpitniRok.studijsko_leto.studijsko_leto')">Studijsko leto</th>
+                    <th ng-click="orderByMe('kandidat.zaporedni_poskus_skupaj')">Polaganj</th>
                     <th ng-click="orderByMe('kandidat.tock')" class="col-xs-2">Točke (0 - 100)</th>
                     <th ng-click="orderByMe('kandidat.koncna_ocena')">Končna ocena</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="kandidat in query = (vm.kandidati | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran">
+                <tr ng-repeat="kandidat in query = (vm.kandidati | filter: iskanje | orderBy:myOrderBy:bool ) | limitTo:vm.naStran:vm.stran*vm.naStran">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ kandidat.student.vpisna_stevilka }}</td>
                     <td>{{ kandidat.student.priimek }}</td>
@@ -57,7 +57,7 @@
                     <td ng-show="kandidat.odjavljen == false">
                         <input class="form-control col-xs-2" type="text" value="{{kandidat.tock}}" ng-model="kandidat.tock">
                     </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
+                   <!-- <td ng-show="kandidat.odjavljen == true">VP</td>-->
                     
                     <!--<td ng-show="kandidat.odjavljen == false">
                         <select class="form-control" value="{{kandidat.ocena}}" ng-model="kandidat.ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
@@ -67,7 +67,7 @@
                     <td ng-show="kandidat.odjavljen == false">
                         <select class="form-control" value="{{kandidat.koncna_ocena}}" ng-model="kandidat.koncna_ocena" ng-options="oc for oc in vm.opcijeOcen"></select>
                     </td>
-                    <td ng-show="kandidat.odjavljen == true">VP</td>
+                    <!--<td ng-show="kandidat.odjavljen == true">VP</td>-->
                     
                     <td><button class="btn btn-primary" type="button" ng-click="vm.shraniStudenta(kandidat)" ng-show="kandidat.odjavljen == false">Shrani</button></td>
                     <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi(kandidat.student._id)" ng-show="kandidat.odjavljen == false">Uredi</button></td>-->
@@ -92,6 +92,10 @@
                 </td>
             </tfoot>
         </table>
+        <button ng-json-export-excel data="query"
+        report-fields="{'student.vpisna_stevilka': 'Vpisna številka','student.priimek': 'Priimek', 'student.ime': 'Ime', 'studijsko_leto': 'Študijsko leto', 'zaporedni_poskus_skupaj': 'Polaganj', 'tock': 'Točke', 'koncna_ocena': 'Končna ocena'}"
+        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
+        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
     <a href="/vsiIzpitniRoki"><button class="btn btn-primary" type="button">Nazaj na izpitne roke</button></a>
 </div>

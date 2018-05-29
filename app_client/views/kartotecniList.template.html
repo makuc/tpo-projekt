@@ -1,3 +1,28 @@
+<style>
+  .clean {
+    padding:0;
+    margin:0;
+    width: 100%;
+  }
+  ul,li {
+    list-style-type: none;
+    margin:0;
+    padding:0;
+  }
+  .datum {
+    width: 13em;
+  }
+  .ocena {
+    width: 5em;
+  }
+  .stPolaganj {
+    width: 7em;
+  }
+  .clean td {
+    padding:8px;
+  }
+</style>
+
 <header style="margin-bottom: 15px"></header>
 <div ng-init="vm.najdiKartotecniList()"></div>
 <h2>Kartotečni list:  {{vm.kart.ime}} {{vm.kart.priimek}}</h2><br>
@@ -28,7 +53,7 @@
               <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
             </div>
             <div class="form-group col-sm-4">
-              <div>Smer: {{letnik.vrsta_studija.sifra}} -  {{letnik.vrsta_studija.predpona}},  {{letnik.vrsta_studija.opis}}</div>
+              <div>Vrsta študija: {{letnik.vrsta_studija.sifra}},  {{letnik.vrsta_studija.opis}}</div>
          </div>
       </div>
       <div class="row">
@@ -55,9 +80,9 @@
             <th>Predmet</th>
             <th>KT</th>
             <th>Predavatelj(i)</th>
-            <th>Datum</th>
-            <th>Ocena</th>
-            <th>Št. polaganj</th>
+            <th class="datum">Datum</th>
+            <th class="ocena">Ocena</th>
+            <th class="stPolaganj">Št. polaganj</th>
           </tr>
         </thead>
         <tbody>
@@ -65,10 +90,21 @@
             <td>{{ predmet.predmet.sifra }}</td>
             <td>{{ predmet.predmet.naziv }}</td>
             <td>{{ predmet.predmet.KT }}</td>
-            <td>{{predmet.predmet.izvedbe_predmeta[0].izvajalci[0].ime}} </td>
-            <td>Date</td>
-             <td>{{ predmet.ocena }}</td>
-             <td>{{ predmet.zaporedni_poskus_skupaj }}       {{ predmet.zaporedni_poskus }}</td>
+            <td colspan="4" style="padding:0;">
+              <table class="clean" >
+                <tr ng-repeat="izpit in predmet.izpiti" class="clean">
+                  <td style="">
+                    <ul>
+                       <li ng-repeat="izvajalec in izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
+                    </ul>
+                  </td>
+                  <td class="datum">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
+                  <td class="ocena" ng-show="izpit.polaganje.koncna_ocena > 0">{{ izpit.polaganje.tock }}/{{ izpit.polaganje.koncna_ocena }}</td>
+                  <td class="ocena" ng-hide="izpit.polaganje.koncna_ocena > 0">-</td>
+                  <td class="stPolaganj">{{ predmet.zaporedni_poskus_skupaj }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ predmet.zaporedni_poskus }}</td>
+                 </tr>
+               </table>
+             </td>
           </tr>
         </tbody>
       </table>

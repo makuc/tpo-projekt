@@ -91,7 +91,7 @@
             
             $scope.myOrderBy = x;
         };
-
+//--------------------------------------------------------------------------------------------------Export
         function buildTableBody(data, columns, names) {
             var body = [];
             var i=1;
@@ -196,7 +196,7 @@
              };
              pdfMake.createPdf(docDefinition).download('optionalName.pdf');
         }
-
+//---------------------------------------------------------------------------------------------------------
         vm.sklepi = function(studentId)
         {
             $location.path("/sklepi/" + studentId);
