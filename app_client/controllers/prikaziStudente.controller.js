@@ -221,6 +221,10 @@
             
             $location.path("kartotecniList/" + studentId);  
        };
+       
+       vm.indeks = function(studentId){
+           $location.path("/elektronskiIndeks/" + studentId);
+       };
         
     }
     
