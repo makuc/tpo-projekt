@@ -66,4 +66,8 @@
         </tr>
     </tbody>
 </table>
+<button ng-json-export-excel data="vm.opravljeniPredmeti"
+        report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv','letnik': 'Letnik', 'izpit.datum_izvajanja': 'Datum izvajanja','zaporedni_poskus': 'Zaporedni poskus', 'predmet.KT': 'KT', 'ocena': 'Ocena' }"
+        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
+         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
 <a href="/main" class="btn btn-danger">Nazaj</a>
