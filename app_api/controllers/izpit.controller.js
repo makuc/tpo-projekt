@@ -1148,20 +1148,24 @@ function preveriPretekloDovoljDni(req, res, next) {
   console.log("--preveriPretekloDovoljDni");
   //  Preveri za prijavo, pri kateri še ni preteklo dovolj dni od zadnjega polaganja.
   var d = req.izpit.datum_izvajanja;
+  var datum = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 13);
+  
+  console.log("Limit datum prej: " + datum.toISOString());
+  console.log("Limit datum do: " + d.toISOString());
+  console.log("Študent: " + req.student._id);
   
   Izpit.findOne({
     predmet: req.izpit.predmet,
     studijsko_leto: req.izpit.studijsko_leto,
     datum_izvajanja: {
-      $gt: new Date(d.getFullYear(), d.getMonth(), d.getDate() - 10),
-      $lt: d
+      $gt: datum.toISOString(),
+      $lte: d.toISOString()
     },
     polagalci: {
       $elemMatch: {
         student: req.student,
-        valid: true,
         odjavljen: false,
-        ocena: {$gte: 0}
+        koncna_ocena: {$gt: 0}
       }
     }
   }, function(err, izpit) {
@@ -1171,6 +1175,9 @@ function preveriPretekloDovoljDni(req, res, next) {
     }
     else
     {
+      if(izpit)
+        console.log("Izpit: " + izpit.datum_izvajanja);
+      
       if(izpit && !req.force) {
         res.status(400).json({ message: "Ni še preteklo dovolj dni od prejšnjega polaganja izpita za ta predmet"});
       }
