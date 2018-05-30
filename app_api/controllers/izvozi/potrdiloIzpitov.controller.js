@@ -132,12 +132,13 @@ module.exports.pdf = function(req, res) {
       
       // Pripravi seznam letnikov
       var leta = narocilo.student.studijska_leta_studenta;
+      
       for(var i = 0; i < leta.length; i++)
       {
         var leto = leta[i];
-        var letnik;
+        var letnik = undefined;
         
-        // Preveri, če povalja letnik
+        // Preveri, če ponalja letnik
         for(var m = 0; m < letniki.length; m++)
         {
           if(letniki[m].letnik._id.equals(leto.letnik._id))
@@ -153,6 +154,7 @@ module.exports.pdf = function(req, res) {
             predmeti: []
           };
           letniki.push(letnik);
+          letnik = letniki[letniki.length -1];
         }
         
         // Obdelaj predmete
@@ -183,6 +185,7 @@ module.exports.pdf = function(req, res) {
           
         }
       }
+      
       var average = 0;
       var opravljeni = 0;
       for(var x = 0; x < letniki.length; x++)
@@ -190,11 +193,11 @@ module.exports.pdf = function(req, res) {
         var cur = letniki[x];
         cur.average = 0;
         cur.opravljeni = 0;
-        console.log("Letnik: " + cur.letnik.naziv);
-        console.log("Predmeti:");
+        //console.log("Letnik: " + cur.letnik.naziv);
+        //console.log("Predmeti:");
         for(var y = 0; y < cur.predmeti.length; y++)
         {
-          console.log(cur.predmeti[y]);
+          //console.log(cur.predmeti[y]);
           if(cur.predmeti[y].ocena > 5)
           {
             cur.average += cur.predmeti[y].ocena;
