@@ -56,7 +56,7 @@
         });
         
         vm.prikaziIzpite = function(){
-            ostaloPodatki.vsiIzpitniRoki(vm.studentId).then(
+            ostaloPodatki.obstajajociIzpitniRoki(vm.studentId).then(
                 function success(odgovor){
                     vm.izpiti = odgovor.data;
                     for (var i = 0; i < vm.izpiti.length; i++) {
