@@ -737,10 +737,11 @@ function najdiMozneIzpiteStudentaReferentka(req, res, next) {
           datum_izvajanja: { $gt: zacDatum },
           valid: true,
           polagalci: {
-            $ne: {
+            $not: {
               $elemMatch: {
                 student: req.student,
-                odjavljen: false
+                odjavljen: false,
+                koncna_ocena: {$gt: 0}
               }
             }
           }
@@ -798,7 +799,7 @@ function najdiMozneIzpiteStudenta(req, res, next) {
           datum_izvajanja: { $gt: new Date() },
           valid: true,
           polagalci: {
-            $ne: {
+            $not: {
               $elemMatch: {
                 student: req.student,
                 odjavljen: false
