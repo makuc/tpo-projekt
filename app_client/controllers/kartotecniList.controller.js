@@ -37,6 +37,23 @@
             ostaloPodatki.pridobiKartotecniList(vm.idStudenta).then(
                 function success(odgovor){
                     vm.kart = odgovor.data;
+                    for(var i = 0; i < odgovor.data.studijska_leta_studenta.length; i++){
+                        var skupnaOcena = 0;
+                        var stOpravljenih = 0;
+                        var stKT = 0;
+                        for(var j = 0; j < odgovor.data.studijska_leta_studenta[i].predmeti.length; j++){
+                            console.log(odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena);
+                            if(odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena > 5){
+                                stOpravljenih++;
+                                skupnaOcena += odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena;
+                                stKT += odgovor.data.studijska_leta_studenta[i].predmeti[j].predmet.KT;
+                            }
+                        }
+                        odgovor.data.studijska_leta_studenta[i].skupnaOcena = skupnaOcena;
+                        odgovor.data.studijska_leta_studenta[i].stOpravljenih = stOpravljenih;
+                        odgovor.data.studijska_leta_studenta[i].stKT = stKT;
+                    }
+                    console.log(odgovor.data);
                 },
                 function error(odgovor){
                     console.log(odgovor);
@@ -47,6 +64,22 @@
             studentPodatki.izpisStudenta(vm.idStudenta).then(
                 function success(odgovor){
                     vm.stud = odgovor.data;
+                    for(var i = 0; i < odgovor.data.studijska_leta_studenta.length; i++){
+                        var skupnaOcena = 0;
+                        var stOpravljenih = 0;
+                        var stKT = 0;
+                        for(var j = 0; j < odgovor.data.studijska_leta_studenta[i].predmeti.length; j++){
+                            console.log(odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena);
+                            if(odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena > 5){
+                                stOpravljenih++;
+                                skupnaOcena += odgovor.data.studijska_leta_studenta[i].predmeti[j].ocena;
+                                stKT += odgovor.data.studijska_leta_studenta[i].predmeti[j].predmet.KT;
+                            }
+                        }
+                        odgovor.data.studijska_leta_studenta[i].skupnaOcena = skupnaOcena;
+                        odgovor.data.studijska_leta_studenta[i].stOpravljenih = stOpravljenih;
+                        odgovor.data.studijska_leta_studenta[i].stKT = stKT;
+                    }
                 },
                 function error(odgovor){
                     console.log(odgovor);

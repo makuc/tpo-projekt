@@ -115,6 +115,22 @@
           </tr>
         </tbody>
       </table>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Število opravljenih izpitov</th>
+            <th>Kreditne točke</th>
+            <th>Skupno povprečje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{letnik.stOpravljenih}}</td>
+            <td>{{letnik.stKT}}</td>
+            <td ng-hide="letnik.stOpravljenih == 0">{{letnik.skupnaOcena / letnik.stOpravljenih}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
       
       
@@ -209,6 +225,22 @@
             <td class="ocena" class="export2" ng-show="predmet.ocena > 0">{{ predmet.ocena }}</td>
             <td class="ocena" ng-hide="predmet.ocena > 0">-</td>
             <td class="stPolaganj" class="export2" >({{ predmet.zaporedni_poskus_skupaj }}-{{ predmet.zaporedni_poskus }})</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Število opravljenih izpitov</th>
+            <th>Kreditne točke</th>
+            <th>Skupno povprečje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{letnik.stOpravljenih}}</td>
+            <td>{{letnik.stKT}}</td>
+            <td ng-hide="letnik.stOpravljenih == 0">{{letnik.skupnaOcena / letnik.stOpravljenih}}</td>
           </tr>
         </tbody>
       </table>
