@@ -802,7 +802,8 @@ function najdiMozneIzpiteStudenta(req, res, next) {
             $not: {
               $elemMatch: {
                 student: req.student,
-                odjavljen: false
+                odjavljen: false,
+                koncna_ocena: {$gt: 0}
               }
             }
           }

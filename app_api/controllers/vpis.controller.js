@@ -39,6 +39,15 @@ module.exports.pripraviVpisniList = function(req, res) {
     //vrniVpisniList
   ]);
 };
+module.exports.pripraviVpisniListPonavljanje = function(req, res) {
+  if(!req.body || !req.body.zeton)
+    return res.status(400).json({ message: "Ni izbranega žetona"});
+  callNext(req, res, [
+    najdiStudentaId, izberiZeton, pripraviPredmetePonavljanje, pripraviVpisniListPonavljanje, porabiZeton,
+    vrniVpisniListId
+    //vrniVpisniList
+  ]);
+};
 module.exports.najdiVpisniList = function(req, res) {
   callNext(req, res, [ najdiStudentaId, najdiVpisniListId, pridobiVseOpravljanePredmete, pripraviPredmetnike, vrniVpisniList ]);
 };
@@ -223,6 +232,41 @@ function pripraviVpisniList(req, res, next) {
     
     neopravljeni_predmeti: req.zeton.neopravljeni_predmeti,
     obvezniPredmeti: req.obvezniPredmeti,
+    
+    
+    prosta_izbira: req.zeton.prosta_izbira,
+    
+    studijsko_leto_prvega_vpisa_v_ta_program: req.zeton.studijsko_leto_prvega_vpisa_v_ta_program,
+    
+    kraj_izvajanja: "Ljubljana"
+    
+  }, function(err, vpisniList) {
+    if(err || !vpisniList) {
+      console.log("---pripraviVpisniList:\n" + err);
+      return res.status(403).json({ message: "Ne morem ustvariti novega vpisnega lista z izbranim žetonom"});
+    }
+    
+    req.vpisniList = vpisniList;
+    
+    callNext(req, res, next);
+  });
+}
+function pripraviVpisniListPonavljanje(req, res, next) {
+  models.Vpis.create({
+    
+    student: req.student,
+    
+    studijsko_leto: req.zeton.studijsko_leto,
+    letnik: req.zeton.letnik,
+    studijski_program: req.zeton.studijski_program,
+    vrsta_studija: req.zeton.vrsta_studija,
+    vrsta_vpisa: req.zeton.vrsta_vpisa,
+    
+    nacin_studija: req.zeton.nacin_studija,
+    oblika_studija: req.zeton.oblika_studija,
+    
+    
+    predmeti: req.zeton.neopravljeni_predmeti,
     
     
     prosta_izbira: req.zeton.prosta_izbira,
@@ -504,6 +548,17 @@ function vrniVpisniList(req, res, next) {
     moduli: req.moduli,
     modulniPredmeti: req.modulniPredmeti
   });
+}
+
+// Vpisni List ponavljanje letnika
+function pripraviPredmetePonavljanje(req, res, next) {
+  req.neopravljeni_predmeti = [];
+  
+  var leto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length -1];
+  
+  console.log(leto);
+  
+  res.sendStatus(200);
 }
 
 // Izpolnjevanje vpisnega lista

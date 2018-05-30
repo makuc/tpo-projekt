@@ -237,22 +237,29 @@ function pridobiNarocila(req, res) {
 
 function create(req, res, next) {
   var izvodov = parseInt(req.body.izvodov, 10) || 1;
-    
-  NarociloIzpitov.create({
-    student: req.student,
-    izvodov: izvodov
-  }, function(err, narocilo) {
-    if(err || !narocilo)
-    {
-      console.log("---create:\n" + err);
-      res.status(400).json({ message: "Napaka pri oddaji naročila potrdila o opravljenih izpitih"});
-    }
-    else
-    {
-      req.narocilo = narocilo;
-      callNext(req, res, next);
-    }
-  });
+  
+  if(izvodov > 10)
+  {
+    res.status(400).json({ message: "Maksimalno število izvodov je 10." });
+  }
+  else
+  { 
+    NarociloIzpitov.create({
+      student: req.student,
+      izvodov: izvodov
+    }, function(err, narocilo) {
+      if(err || !narocilo)
+      {
+        console.log("---create:\n" + err);
+        res.status(400).json({ message: "Napaka pri oddaji naročila potrdila o opravljenih izpitih"});
+      }
+      else
+      {
+        req.narocilo = narocilo;
+        callNext(req, res, next);
+      }
+    });
+  }
 }
 function narociloOddano(req, res) {
   res.status(201).json({ message: "Naročilo potrdila o opravljenih izpitih uspešno oddano"});
