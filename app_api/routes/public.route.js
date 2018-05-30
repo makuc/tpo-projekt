@@ -95,6 +95,7 @@ router.delete('/izpit/:izpit_id', ctrl.Izpit.delIzpit);
 router.put('/izpit/:izpit_id', ctrl.Izpit.editIzpit);
 router.delete('/izpit/:izpit_id/spremembe', ctrl.Izpit.pocistiSpremembo);
 // Prijave na izpit
+router.get('/student/:student_id/izpiti', ctrl.Izpit.getMozneIzpiteStudentaReferentka);
 router.post('/izpit/:izpit_id/prijava', ctrl.Izpit.prijavaNaIzpitStudent);
 router.delete('/izpit/:izpit_id/odjava/:student_id', ctrl.Izpit.odjavaIzIzpitaStudent);
 router.post('/izpit/:izpit_id/prijava/force', ctrl.Izpit.prijavaNaIzpitForce);

@@ -92,6 +92,11 @@ module.exports.getMozneIzpiteStudenta = function(req, res) {
     najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiMozneIzpiteStudenta, filtrirajPolaganja, vrniIzpite
   ]);
 };
+module.exports.getMozneIzpiteStudentaReferentka = function(req, res) {
+  callNext(req, res, [
+    najdiStudentaId, pripraviDateDanes, najdiNeopravljenePredmete, najdiMozneIzpiteStudentaReferentka, filtrirajPolaganja, vrniIzpite
+  ]);
+};
 module.exports.prijavaNaIzpitStudent = function(req, res) {
   if(!req.body || !req.body.student) {
     return res.status(400).json({ message: "Ni izbranega študenta za prijavo"});
@@ -704,6 +709,69 @@ function najdiNeopravljenePredmete(req, res, next) {
   
   callNext(req, res, next);
 }
+function najdiMozneIzpiteStudentaReferentka(req, res, next) {
+  var predmeti = [];
+  for(var i = 0; i < req.neopravljeniPredmeti.length; i++) {
+    predmeti.push(req.neopravljeniPredmeti[i].predmet);
+  }
+  
+  var zacDatum = new Date();
+  zacDatum = zacDatum.setMonth(zacDatum.getMonth() -6);
+  Izpit
+    .find({
+      $or: [
+        {
+          predmet: { $in: predmeti },
+          datum_izvajanja: { $gt: zacDatum },
+          valid: true,
+          polagalci: {
+            $elemMatch: {
+              student: req.student,
+              odjavljen: false,
+              koncna_ocena: {$lte: 0}
+            }
+          }
+        },
+        {
+          predmet: { $in: predmeti },
+          datum_izvajanja: { $gt: zacDatum },
+          valid: true,
+          polagalci: {
+            $ne: {
+              $elemMatch: {
+                student: req.student,
+                odjavljen: false
+              }
+            }
+          }
+        },
+        {
+          predmet: { $in: predmeti },
+          valid: true,
+          polagalci: {
+            $elemMatch: {
+              student: req.student,
+              koncna_ocena: {$lte: 0},
+              odjavljen: false,
+              valid: true
+            }
+          }
+        }
+      ]
+    })
+    .sort("datum_izvajanja")
+    .populate("predmet izvajalci studijsko_leto")
+    .exec(function(err, izpiti) {
+      if(err || !izpiti) {
+        console.log(err);
+        return res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
+      }
+      
+      req.izpiti = izpiti;
+      
+      callNext(req, res, next);
+    });
+}
 function najdiMozneIzpiteStudenta(req, res, next) {
   var predmeti = [];
   for(var i = 0; i < req.neopravljeniPredmeti.length; i++) {
@@ -715,32 +783,38 @@ function najdiMozneIzpiteStudenta(req, res, next) {
       $or: [
         {
           predmet: { $in: predmeti },
-          datum_izvajanja: { $gt: req.danes },
+          datum_izvajanja: { $gt: new Date() },
           valid: true,
           polagalci: {
             $elemMatch: {
               student: req.student,
+              odjavljen: false,
               koncna_ocena: {$lte: 0}
             }
           }
         },
         {
           predmet: { $in: predmeti },
-          datum_izvajanja: { $gt: req.danes },
-          valid: true,
-          "polagalci.student": {$ne: req.student._id}
-        },
-        {
-          predmet: { $in: predmeti },
+          datum_izvajanja: { $gt: new Date() },
           valid: true,
           polagalci: {
             $ne: {
               $elemMatch: {
                 student: req.student,
-                koncna_ocena: {$lte: 0},
-                odjavljen: false,
-                valid: true
+                odjavljen: false
               }
+            }
+          }
+        },
+        {
+          predmet: { $in: predmeti },
+          valid: true,
+          polagalci: {
+            $elemMatch: {
+              student: req.student,
+              koncna_ocena: {$lte: 0},
+              odjavljen: false,
+              valid: true
             }
           }
         }
@@ -1030,7 +1104,7 @@ function shraniIzpit(req, res, next) {
 
 function pripraviDateDanes(req, res, next) {
   console.log("--pripraviDateDanes");
-  var cur = new Date(Date.now());
+  var cur = new Date();
   req.danes = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
   
   callNext(req, res, next);
@@ -1045,8 +1119,7 @@ function preveriPrijavljenNaDrugIzpit(req, res, next) {
       $elemMatch: {
         student: req.student,
         odjavljen: false,
-        ocena: {$lte: 0},
-        valid: true
+        koncna_ocena: {$lte: 0}
       }
     }
   }, function(err, izpit) {
@@ -1193,7 +1266,7 @@ function najdiPrijavljenIzpit(req, res, next) {
         $elemMatch: {
           student: req.student,
           odjavljen: false,
-          ocena: {$lte: 0}
+          koncna_ocena: {$lte: 0}
         }
       }
     })
@@ -1205,9 +1278,20 @@ function najdiPrijavljenIzpit(req, res, next) {
       }
       else
       {
-        req.izpit = izpit;
-        
-        callNext(req, res, next);
+        if(izpit && !req.force)
+        {
+          res.status(403).json({ message: "Si že prijavljen na drug izpit za ta predmet"});
+        }
+        else
+        {
+          if(izpit)
+          {
+            req.opozorila += "<li>Bil že prijavljen na drug izpit</li>";
+          }
+          req.izpit = izpit;
+          
+          callNext(req, res, next);
+        }
       }
     });
 }
