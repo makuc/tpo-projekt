@@ -1,0 +1,69 @@
+<header></header>
+<h3>{{vm.student.priimek}}, {{vm.student.ime}} ({{vm.student.vpisna_stevilka}})</h3>
+<h4>Elektronski indeks</h4>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Šifra</th>
+            <th>Predmet</th>
+            <th>Letnik</th>
+            <th>Datum</th>
+            <th>Opravljanje</th>
+            <th>KT</th>
+            <th>Ocena</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="predmet in vm.opravljeniPredmeti">
+            <td>{{($index + 1)}}</td>
+            <td>{{predmet.predmet.sifra}}</td>
+            <td>{{predmet.predmet.naziv}}</td>
+            <td>{{predmet.letnik}}</td>
+            <td>{{predmet.izpit.datum_izvajanja | date:" dd. MM. yyyy"}}</td>
+            <td>{{predmet.zaporedni_poskus}}.</td>
+            <td>{{predmet.predmet.KT}}</td>
+            <td>{{predmet.ocena}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Povprečne ocene po študijskih letih</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Študijsko leto</th>
+            <th>Število opravljenih izpitov</th>
+            <th>Kreditne točke</th>
+            <th>Skupno povprečje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="leto in vm.studijskaLeta">
+            <td>{{leto.studijsko_leto.studijsko_leto}}</td>
+            <td>{{leto.st}}</td>
+            <td>{{leto.KT}}</td>
+            <td>{{leto.skupnaOcena / leto.st}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Skupna povprečna ocena</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Število opravljenih izpitov</th>
+            <th>Kreditne točke</th>
+            <th>Skupno povprečje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{vm.skupnoSteviloIzpitov}}</td>
+            <td>{{vm.skupnoKreditneTocke}}</td>
+            <td>{{vm.skupnoPovprecje}}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="/main" class="btn btn-danger">Nazaj</a>

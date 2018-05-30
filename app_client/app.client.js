@@ -465,6 +465,13 @@
                 controllerAs: 'vm'
             })
             
+            //elektronski indeks
+            .when('/elektronskiIndeks/:studentId', {
+                templateUrl: 'views/elektronskiIndeks.template.html',
+                controller: 'elektronskiIndeksCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
