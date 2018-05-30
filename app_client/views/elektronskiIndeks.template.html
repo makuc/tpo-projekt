@@ -44,7 +44,7 @@
             <td>{{leto.studijsko_leto.studijsko_leto}}</td>
             <td>{{leto.st}}</td>
             <td>{{leto.KT}}</td>
-            <td>{{leto.skupnaOcena / leto.st}}</td>
+            <td ng-hide="leto.st==0">{{leto.skupnaOcena / leto.st}}</td>
         </tr>
     </tbody>
 </table>
