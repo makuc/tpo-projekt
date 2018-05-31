@@ -160,7 +160,7 @@
                 lokacija: vm.podatki.lokacija,
                 opombe: vm.podatki.maxPrijav,
                 tock: vm.izbraneTocke,
-                ocena: vm.izbranaOcena,
+                koncna_ocena: vm.izbranaOcena,
                 zaporedni_poskus: vm.opravljanjLetos,
                 zaporedni_poskus_skupaj: vm.opravljanjSkupaj
               };
