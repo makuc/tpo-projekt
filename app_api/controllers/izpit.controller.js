@@ -167,10 +167,7 @@ module.exports.addOcenoStudentu = function(req, res) {
   ]);
 };
 module.exports.individualniVnosOcene = function(req, res) {
-  if(!req.body || (
-      !req.body.tock && !req.body.koncna_ocena && !req.body.studijsko_leto && !req.body.predmet && !req.body.datum_izvajanja &&
-      !req.body.izvedba_predmeta
-  ))
+  if(!req.body || !req.body.studijsko_leto || !req.body.predmet || !req.body.datum_izvajanja || !req.body.izvedba_predmeta)
   {
     res.status(400).json({ message: "Ni dovolj podatkov za individualni vnos ocene"});
   }
