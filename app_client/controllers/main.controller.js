@@ -135,7 +135,11 @@
                 $location.path('/urediPredmete');
             };
         }
-
+        vm.refer = function(studentId)
+       {
+            
+           return  $location.path("kartotecniList/" + studentId);  
+       };
         
     }
     

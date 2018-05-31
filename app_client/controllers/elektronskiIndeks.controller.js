@@ -123,6 +123,18 @@ function getDescendantProp (obj, desc) {
             var dy = today.getDate();
             var mm = today.getMonth()+1; //January is 0!
             var yyyy = today.getFullYear();
+            
+            var podatki = vm.opravljeniPredmeti.slice(0);
+            
+            for(var i=0; i < podatki.length; i++){
+                console.log(podatki);
+                var datum = new Date(podatki[i].izpit.datum_izvajanja);
+                
+                podatki[i].izpit.datum_izvajanja = datum.getDate() + ". " + (datum.getMonth() +1) + ". " + datum.getFullYear();
+               
+            }
+            
+            
             if(dy<10) {
                 dy = '0'+dy;
             } 
@@ -176,7 +188,7 @@ function getDescendantProp (obj, desc) {
                 
                	content: [
                    { text: "", style: 'header' },
-                    table(vm.opravljeniPredmeti,
+                    table(podatki,
                         ['predmet.sifra', 'predmet.naziv','letnik', 'izpit.datum_izvajanja','zaporedni_poskus', 'predmet.KT', 'ocena' ],
                         ['#','Šifra','Naziv', 'Letnik', 'Datum izvajanja', 'Zaporedni poskus', 'KT', 'Ocena'])
                         

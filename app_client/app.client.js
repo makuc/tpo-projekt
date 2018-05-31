@@ -530,7 +530,7 @@
             });
         }]);
         //.config(dateLocaleProviderConfig);
-    
+        
     function httpInterceptorConfig($httpProvider) {
         $httpProvider.interceptors.push('httpRequestInterceptor');
     }
