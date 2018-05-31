@@ -147,6 +147,41 @@
             return false;
         }
         
+        vm.individualnoOddaj = function()
+        {
+          var datumOk = urediDatum(vm.podatki.datum);
+            
+          if(datumOk){
+              var data = {
+                predmet: vm.podatki.predmet._id,
+                studijsko_leto: vm.podatki.studijskoLeto._id,
+                datum_izvajanja: vm.objectDatum,
+                izvedba_predmeta: vm.podatki.izvedbe._id,
+                lokacija: vm.podatki.lokacija,
+                opombe: vm.podatki.maxPrijav,
+                tock: vm.izbraneTocke,
+                ocena: vm.izbranaOcena,
+                zaporedni_poskus: vm.opravljanjLetos,
+                zaporedni_poskus_skupaj: vm.opravljanjSkupaj
+              };
+  
+              console.log("Data: ", data);
+          
+              ostaloPodatki.inidividualniVnosOcene(vm.izbranStudent._id ,data).then(
+                  function success(odgovor){
+                      console.log(odgovor);
+                      //vm.obvestilo = "USPEH!";
+                      vm.obvestiloSucc = "Ocena uspešno vnešena.";
+                      //$location.path("/");
+                  },
+                  function error(odgovor){
+                      vm.obvestilo = odgovor.data.message;
+                      console.log(odgovor);
+                  }
+              ); 
+          }
+        };
+        
 
         ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then(
             function success(odgovor){

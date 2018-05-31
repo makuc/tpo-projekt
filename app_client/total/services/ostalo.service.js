@@ -597,6 +597,12 @@
             return $http.post('/api/v1/narocilo-izpitov/' + narociloId);
         }
         
+        // Individualn vnos ocene
+        function inidividualniVnosOcene(studentId, data)
+        {
+            return $http.post('/api/v1/student/' + studentId + '/ocena', data);
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -749,7 +755,9 @@
             
             pridobiVsaNarocilaIzpitov: pridobiVsaNarocilaIzpitov,
             narociPotrdiloIzpitov: narociPotrdiloIzpitov,
-            zakljuciNarociloPotrdilaIzpitov: zakljuciNarociloPotrdilaIzpitov
+            zakljuciNarociloPotrdilaIzpitov: zakljuciNarociloPotrdilaIzpitov,
+            
+            inidividualniVnosOcene: inidividualniVnosOcene
         };
     };
     

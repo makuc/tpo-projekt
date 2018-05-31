@@ -7,7 +7,7 @@
 <header style="margin-bottom: 15px"></header>
 <h2>Individualni vnos ocen</h2><br>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
-<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+<form role ="form" ng-submit="vm.individualnoOddaj()" class="form-horizonral">
     <div class="col-sm-12">
         <div class="row">
             <div class="form-group col-sm-4">
@@ -63,6 +63,12 @@
         </div>
         <div ng-show="vm.izbranStudent" class="row">
             <div class="form-group col-sm-4">
+                <label>Točke izpita:</label>
+                <input class="form-control" type="text" ng-model="vm.izbraneTocke"/>
+            </div>
+        </div>
+        <div ng-show="vm.izbranStudent" class="row">
+            <div class="form-group col-sm-4">
                 <label>Ocena izpita</label>
                 <select class="form-control" ng-model="vm.izbranaOcena" ng-options="oc for oc in vm.izbiraOcen"></select>
             </div>
@@ -79,8 +85,10 @@
                 <input class="form-control" type="text" ng-model="vm.opravljanjSkupaj"/>
             </div>
         </div>
-
+        <div role="allert" class="alert alert-success" ng-show="vm.obvestiloSucc">{{vm.obvestiloSucc}}</div>
         <button class="btn btn-success"  type="submit">Shrani</button>
-        <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
+        <button class="btn btn-danger" type="button" ng-click="vm.preklici()" ng-show="!vm.obvestiloSucc">Prekliči</button>
+        <a href="/main"><button class="btn btn-primary" type="button" ng-show="vm.obvestiloSucc">Nazaj na glavno stran</button></a>
+        
     </div>
 </form>
