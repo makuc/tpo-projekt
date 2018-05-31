@@ -1,10 +1,16 @@
+let debug = require("debug")("callNext");
+
 module.exports = function(req, res, next) {
   var exec;
   
+  var cont = true;
+  
   if(Array.isArray(next)) {
     if(next.length == 0) {
-      console.log("[callNext]: ni naslednje funkcije");
-      return res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
+      debug("ni naslednje funkcije");
+      
+      res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
+      cont = false;
     }
     
     exec = next.shift();
@@ -13,14 +19,20 @@ module.exports = function(req, res, next) {
     exec = next;
   }
   
-  if(typeof exec === 'function') {
-    if(next.length > 0) {
-      exec(req, res, next);
-    } else{
-      exec(req, res);
+  if(cont)
+  {
+    if(typeof exec === 'function') {
+      if(next.length > 0) {
+        exec(req, res, next);
+      } else{
+        process.nextTick( function() {
+            exec(req, res);
+        });
+      }
+    } else {
+      debug("naslednja funkcija neveljavna");
+      
+      res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
     }
-  } else {
-    console.log("[callNext]: naslednja funkcija neveljavna");
-    return res.status(403).json({ message: "Napačna konfiguracija funkcije [callNext]" });
   }
 };
