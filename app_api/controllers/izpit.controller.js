@@ -1464,7 +1464,7 @@ function obdelajPrijavoNaIzpit(req, res, next) {
   
   if(danes < datum)
   {
-    res.status(400).json({ message: "Datum izpita ne sme biti nižji od današnjega dne"});
+    res.status(400).json({ message: "Izpiti se še ni mogel izvajati, datum izvajanja je višji od današnjega"});
   }
   else
   {
