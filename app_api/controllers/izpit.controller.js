@@ -1281,7 +1281,7 @@ function vnesiOcenoPodIzpit(req, res, next) {
   {
     req.body.tock = parseInt(req.body.tock, 10);
     if(req.body.tock > 100 || req.body.tock < -1)
-      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med -1 in 100"});
+      return res.status(400).json({ message: "Točke pisnega izpita morajo biti med -1 in 100, pri čemer -1 pomeni ni točk izpita"});
     
     req.polaganje.tock = req.body.tock;
   }
@@ -1289,7 +1289,7 @@ function vnesiOcenoPodIzpit(req, res, next) {
   {
     req.body.koncna_ocena = parseInt(req.body.koncna_ocena, 10);
     if(req.body.koncna_ocena > 10 || req.body.koncna_ocena < -1)
-      return res.status(400).json({ message: "Končna ocena predmeta mora biti med -1 in 10"});
+      return res.status(400).json({ message: "Končna ocena predmeta mora biti med -1 in 10, pri čemer -1 pomeni ni ocene"});
     
     req.polaganje.koncna_ocena = req.body.koncna_ocena;
   }
@@ -1459,22 +1459,32 @@ function obdelajPrijavoNaIzpit(req, res, next) {
     req.myNext = next;
   }
   
-  if(req.izpit && req.predmet.ocena > 5)
+  var datum = new Date(req.body.datum_izvajanja);
+  var danes = new Date();
+  
+  if(danes < datum)
   {
-    callNext(req, res,[
-      najdiPolaganje,
-      odjaviPolagalca, nizajZaporedniPoskus,
-      
-      shraniIzpit, shraniStudenta,
-      ponastaviIzbranIzpita, obdelajPrijavoNaIzpit
-    ]);
+    res.status(400).json({ message: "Datum izpita ne sme biti nižji od današnjega dne"});
   }
   else
   {
-    next = req.myNext;
-    req.myNext = undefined;
-    
-    callNext(req, res, next);
+    if((req.izpit && req.predmet.ocena > 5) ||(req.izpit && datum > req.izpit.datum_izvajanja))
+    {
+      callNext(req, res,[
+        najdiPolaganje,
+        odjaviPolagalca, nizajZaporedniPoskus,
+        
+        shraniIzpit, shraniStudenta,
+        ponastaviIzbranIzpita, obdelajPrijavoNaIzpit
+      ]);
+    }
+    else
+    {
+      next = req.myNext;
+      req.myNext = undefined;
+      
+      callNext(req, res, next);
+    }
   }
 }
 function najdiOpravljanIzpit(req, res, next) {
