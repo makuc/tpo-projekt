@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="letnik in query = (vm.letniki | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="letnik in query = (vm.letniki | filter: iskanje) | localeOrderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(letnik.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ letnik.naziv }}</td>
                     <td>{{ letnik.studijskiProgram.naziv }}</td>

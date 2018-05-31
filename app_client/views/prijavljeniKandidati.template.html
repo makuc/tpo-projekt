@@ -55,7 +55,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="kandidat in query = (vm.kandidati | filter: iskanje | orderBy:myOrderBy:bool ) | limitTo:vm.naStran:vm.stran*vm.naStran">
+                <tr ng-repeat="kandidat in query = (vm.kandidati | filter: iskanje | localeOrderBy:myOrderBy:bool ) | limitTo:vm.naStran:vm.stran*vm.naStran">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ kandidat.student.vpisna_stevilka }}</td>
                     <td>{{ kandidat.student.priimek }}</td>

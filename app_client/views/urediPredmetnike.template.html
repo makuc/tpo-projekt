@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="x in query = (vm.predmetnik | filter:iskanje) | orderBy:['-studijsko_leto.studijsko_leto', 'letnik.naziv'] | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(x.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="x in query = (vm.predmetnik | filter:iskanje) | localeOrderBy:['-studijsko_leto.studijsko_leto', 'letnik.naziv'] | localeOrderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(x.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ x.studijski_program.naziv }}, {{ x.studijski_program.vrstaStudija.opis }}</td>
                     <td>{{ x.studijsko_leto.studijsko_leto }}</td>
@@ -36,7 +36,7 @@
                     <td>{{ x.del_predmetnika.naziv }}</td>
                     <td>{{ x.ime }}</td>
                     <td><ul>
-                          <li ng-repeat="y in x.predmeti | orderBy:['sifra']">{{y.sifra}}, {{y.naziv}}, {{ y.KT }} KT</li>    
+                          <li ng-repeat="y in x.predmeti | localeOrderBy:['sifra']">{{y.sifra}}, {{y.naziv}}, {{ y.KT }} KT</li>    
                     </ul></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.uredi(x._id)">Uredi</button></td>
                     <td><button class="btn btn-primary" type="button" ng-click="vm.urediPredmete(x._id)">Predmeti</button></td>

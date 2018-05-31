@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="delPredmetnika in query = (vm.deliPredmetnika | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="delPredmetnika in query = (vm.deliPredmetnika | filter: iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(delPredmetnika.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ delPredmetnika.sifra }}</td>
                     <td>{{ delPredmetnika.naziv }}</td>

@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="drzava in query = (vm.drzave | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="drzava in query = (vm.drzave | filter: iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(drzava.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.naStran * vm.stran) }}</td>
                     <td>{{ drzava.numericna_oznaka }}</td>
                     <td>{{ drzava.slovenski_naziv }}</td>
