@@ -1,0 +1,68 @@
+<header style="margin-bottom: 15px"></header>
+<div class="container">
+    <h2>Ocene študenta pri mojih predmetih</h2>
+    <h3>{{ vm.student.vpisna_stevilka }}, {{ vm.student.ime }} {{ vm.student.priimek }}</h3><br>
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-4">
+                <input type="text" class="search-query form-control" placeholder="Iskanje" ng-model="iskanje"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div><br>
+    
+    <div id = "exportable" class="container table-responsive">
+        <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+            <thead>
+                <tr>
+                    <th>#</th>
+                   <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('KT')">Število kreditnih točk</th>
+                    <th ng-click="orderByMe('zaporedni_poskus')">Polaganj izpita letos</th>
+                    <th ng-click="orderByMe('zaporedni_poskus_skupaj')">Polaganj izpita skupno</th>
+                    <th ng-click="orderByMe('ocena')">Ocena</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="predmet in query = (vm.predmetiUstrezni | filter: iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                    <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
+                    <td>{{ predmet.predmet.sifra }}</td>
+                    <td>{{ predmet.predmet.naziv }}</td>
+                    <td>{{ predmet.predmet.KT }}</td>
+                    <td>{{ predmet.zaporedni_poskus }}</td>
+                    <td>{{ predmet.zaporedni_poskus_skupaj }}</td>
+                    <td>{{ predmet.ocena }}</td>
+                    
+                    
+                   <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>-->
+                   <!--<td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)">Žetoni</button></td>-->
+                </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="6">
+                    <div class="pull-right">
+                        <ul class="pagination">
+                            <li ng-class="{disabled: vm.stran == 0}">
+                                <a href ng-click="vm.prevPage()"><< Prejšnja</a>
+                            </li>
+                            <li ng-repeat="n in vm.strani" ng-class="{active: vm.stran +1 == n}">
+                                <a href ng-click="vm.setPage(n)">{{ n }}</a>
+                            </li>
+                            <li ng-class="{disabled: vm.stran == vm.strani.length -1}">
+                                <a href ng-click="vm.nextPage()">Naslednja >></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tfoot>
+        </table>
+    </div>
+    
+    <a href="/prikaziStudente" class="btn btn-primary" type="button">Nazaj na seznam študentov</a>
+    
+</div>

@@ -23,7 +23,7 @@
         </div>
         <div ng-show="vm.podatki.predmet" class="row">
             <div class="form-group col-sm-4">
-                <label>Izvajalci:</label>
+                <label>Izpraševalec:</label>
                 <select class="form-control" ng-model="vm.podatki.izvedbe" ng-options='iz as (iz.izvajalci[0].ime + " " + iz.izvajalci[0].priimek + "  " + iz.izvajalci[1].ime + " " + iz.izvajalci[1].priimek + "  " + iz.izvajalci[2].ime + " " + iz.izvajalci[2].priimek) for iz in vm.izvedbe track by iz._id'></select>
             </div>
         </div>
@@ -48,12 +48,12 @@
                 <input class="form-control" type="text" ng-model="vm.podatki.lokacija"/>
             </div>
         </div>
-        <div ng-show="vm.podatki.predmet" class="row">
+        <!--<div ng-show="vm.podatki.predmet" class="row">
             <div class="form-group col-sm-4">
                 <label>Maksimalno število prijav:</label>
                 <input class="form-control" type="text" ng-model="vm.podatki.maxPrijav"/>
             </div>
-        </div>
+        </div>-->
         <!-- IZBIRA STUDENTA IN VNOS OCENE TER POLAGANJ -->
         <div ng-show="vm.podatki.predmet" class="row">
             <div class="form-group col-sm-4">

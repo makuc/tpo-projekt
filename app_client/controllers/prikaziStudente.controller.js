@@ -83,6 +83,16 @@
                 }
             );
         };
+        
+        vm.oceneMojiPredmeti = function(studentId)
+        {
+            $location.path("/oceneStudentaPredmeti/" + studentId);
+        };
+        
+        vm.individualniVnos = function(studentId)
+        {
+            $location.path("/individualniVnos/" + studentId);
+        };
                
        $scope.orderByMe = function(x) {
             if($scope.myOrderBy == x){

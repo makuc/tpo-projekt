@@ -92,16 +92,25 @@
                       /*studentPodatki.izpisStudentov().then(
                         
                       );*/
-                    predmetPodatki.najdiVpisaneVPredmet(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
-                      function success(odgovor){
-                        vm.vsiStudenti = odgovor.data.vpisani.studenti;
-                        //vm.izbranStudent = vm.vsiStudenti[0];
-                        console.log("Vsi studenti: ", vm.vsiStudenti);
-                      },
-                      function error(odgovor){
-                          console.log(odgovor);
-                      }
-                    );
+                    if($routeParams.studentId)
+                    {
+                      vm.dobiStudenta($routeParams.studentId);
+
+                      console.log("Student: ", vm.vsiStudenti);
+                    }
+                    else
+                    {
+                      predmetPodatki.najdiVpisaneVPredmet(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
+                        function success(odgovor){
+                          vm.vsiStudenti = odgovor.data.vpisani.studenti;
+                          //vm.izbranStudent = vm.vsiStudenti[0];
+                          console.log("Vsi studenti: ", vm.vsiStudenti);
+                        },
+                        function error(odgovor){
+                            console.log(odgovor);
+                        }
+                      );
+                    }
                       
                 },
                 function error(odgovor){
@@ -115,20 +124,36 @@
           studentPodatki.izpisStudenta(studentId).then(
             function success(odgovor){
                 vm.podatkiStudenta = odgovor.data;
+                if($routeParams.studentId)
+                {
+                  vm.vsiStudenti = [];
+                  vm.vsiStudenti.push(vm.podatkiStudenta);
+                  vm.izbranStudent = vm.vsiStudenti[0];
+                }
+                var nasel = false;
                 for (var i = 0; i < vm.podatkiStudenta.studijska_leta_studenta.length; i++) {
-                  if(vm.podatkiStudenta.studijska_leta_studenta[i].studijsko_leto._id == vm.podatki.studijskoLeto._id)
+                  if(vm.podatkiStudenta.studijska_leta_studenta[i].studijsko_leto._id == vm.podatki.studijskoLeto._id || $routeParams.studentId)
                   {
                     for (var j = 0; j < vm.podatkiStudenta.studijska_leta_studenta[i].predmeti.length; j++) {
                       if(vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].predmet._id == vm.podatki.predmet._id)
                       {
                         vm.opravljanjLetos = vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].zaporedni_poskus;
                         vm.opravljanjSkupaj = vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].zaporedni_poskus_skupaj;
+                        nasel = true;
                         console.log("(" + vm.opravljanjLetos + "," + vm.opravljanjSkupaj + ")");
                         break;
                       }
                     }
-                    break;
+                    if(!$routeParams.studentId)
+                    {
+                      break;
+                    }
                   }
+                }
+                if(nasel == false)
+                {
+                  vm.opravljanjLetos = 0;
+                  vm.opravljanjSkupaj = 0;
                 }
                 console.log("Podatki studenta: ", vm.podatkiStudenta);
             },
