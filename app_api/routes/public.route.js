@@ -83,6 +83,8 @@ router.post('/student/:student_id/izpit/:izpit_id', ctrl.Izpit.addOcenoStudentu)
 router.post('/student/:student_id/sklep', ctrl.Sklep.dodaj);
 router.put('/student/:student_id/sklep/:sklep', ctrl.Sklep.uredi);
 router.delete('/student/:student_id/sklep/:sklep', ctrl.Sklep.izbrisi);
+// Individualni vnos ocene
+router.post('/student/:student_id/ocena', ctrl.Izpit.individualniVnosOcene);
 
 
 // Controller Izpiti

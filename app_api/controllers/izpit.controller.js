@@ -1,11 +1,13 @@
-var mongoose = require("mongoose");
-var callNext = require("./_include/callNext");
+let mongoose = require("mongoose");
+let callNext = require("./_include/callNext");
 
-var Predmet = mongoose.model('Predmet');
-var StudijskoLeto = mongoose.model('StudijskoLeto');
-var Zaposlen = mongoose.model('Zaposlen');
-var Izpit = mongoose.model('Izpit');
-var Student = mongoose.model('Student');
+let Predmet = mongoose.model('Predmet');
+let StudijskoLeto = mongoose.model('StudijskoLeto');
+let Zaposlen = mongoose.model('Zaposlen');
+let Izpit = mongoose.model('Izpit');
+let Student = mongoose.model('Student');
+
+let debug = require("debug")("izpit");
 
 
 /* GET home page. */
@@ -44,19 +46,21 @@ module.exports.addIzpit = function(req, res) {
 };
 module.exports.editIzpit = function(req, res) {
   if(!req.body || (!req.body.datum_izvajanja && !req.body.lokacija && !req.body.izvedba_predmeta && !req.body.opombe)) {
-    return res.status(400).json({ message: "Nobenega podatka izpita ne spreminjaš" });
+    res.status(400).json({ message: "Nobenega podatka izpita ne spreminjaš" });
   }
-  
-  req.sprememba = 1;
-  
-  callNext(req, res,[
-    najdiIzpit, preveriLahkoUreja, validateDatumIzvedbe, preveriIzvedboPredmeta,
+  else
+  {
+    req.sprememba = 1;
     
-    // Popravi izpit
-    nastaviSpremembo, shraniIzpit, preveriStrinjanje, spremeniIzpit,
-    
-    vrniIzpit
-  ]);
+    callNext(req, res,[
+      najdiIzpit, preveriLahkoUreja, validateDatumIzvedbe, preveriIzvedboPredmeta,
+      
+      // Popravi izpit
+      nastaviSpremembo, shraniIzpit, preveriStrinjanje, spremeniIzpit,
+      
+      vrniIzpit
+    ]);
+  }
 };
 module.exports.delIzpit = function(req, res) {
   
@@ -152,7 +156,7 @@ module.exports.addOcenoStudentu = function(req, res) {
     return res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
   }
   req.force = true;
-  req.opozorila = [];
+  req.opozorila = "";
   
   callNext(req, res, [
     najdiIzpit, preveriDatumDodajanja, najdiStudentaId, izberiPredmet,
@@ -161,6 +165,40 @@ module.exports.addOcenoStudentu = function(req, res) {
     // Shrani spremembe
     shraniIzpit, shraniStudenta, vrniIzpit
   ]);
+};
+module.exports.individualniVnosOcene = function(req, res) {
+  if(!req.body || (!req.body.tock && !req.body.koncna_ocena))
+  {
+    res.status(400).json({ message: "Ni vnešene oceno, ki jo želiš vnesti"});
+  }
+  else
+  {
+    debug("Individualni vnos ocene");
+    
+    req.force = true;
+    req.opozorila = "";
+    
+    validateStudijskoLeto(req, res, [
+      validatePredmet, najdiStudentaId,
+      studentovPredmet,
+      
+      // Preveri, če je že opravil izpit pozitivno
+      najdiOpravljanIzpit, obdelajPrijavoNaIzpit,
+      
+      // Dodaj izpitni rok...
+      validatePredmet, validateDatumIzvedbe, validateIzvedboPredmeta, preveriIzvedboPredmeta,
+      narediCustomIzpit, najdiPolaganje,
+      
+      // Prijavi polagalca
+      studentovPredmet,
+      
+      // Shrani oceno
+      najdiPolaganje, vnesiOcenoPodIzpit, vnesiOcenoStudentu, nastaviPolaganja,
+      
+      // Shrani spremembe
+      shraniIzpit, shraniStudenta, ocenaDodana
+    ]);
+  }
 };
 
 /* Funkcije */
@@ -221,7 +259,7 @@ function vrniIzpite(req, res) {
 }
 
 function najdiIzpit(req, res, next) {
-  console.log("--najdiIzpit");
+  debug("--najdiIzpit");
   Izpit
     .findById(req.params.izpit_id)
     .populate("predmet studijsko_leto izvajalci polagalci.student")
@@ -250,13 +288,15 @@ function ustvariIzpit(req, res, next) {
     izvajalci: req.izvedba.izvajalci
   }, function(err, izpit) {
     if(err) {
-      console.log(err);
-      return res.status(400).send({ message: "Nepravilni podatki" });
+      debug("--ustvariIzpit" + err);
+      res.status(400).send({ message: "Nepravilni podatki" });
     }
-    
-    req.izpit = izpit;
-    
-    callNext(req, res, next);
+    else
+    {
+      req.izpit = izpit;
+      
+      callNext(req, res, next);
+    }
   });
 }
 function nastaviSpremembo(req, res, next) {
@@ -286,7 +326,7 @@ function nastaviSpremembo(req, res, next) {
       {
         if(newDate.getTime() == oldDate.getTime())
         {
-          console.log("Same date");
+          debug("Same date");
           req.izpit.datum_izvajanja = req.datumIzvajanja;
         }
         else
@@ -429,15 +469,18 @@ function izbrisiIzpit(req, res, next) {
     req.opozorila = undefined;
     req.izpit.remove(function(err, izpit) {
       if(err) {
-        //console.log(err);
-        return res.status(400).json({ message: "Nekaj šlo narobe pri brisanju izpita" });
+        debug(err);
+        res.status(400).json({ message: "Nekaj šlo narobe pri brisanju izpita" });
       }
-      req.izpit = undefined;
-      
-      next = req.myNext;
-      req.myNext = undefined;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.izpit = undefined;
+        
+        next = req.myNext;
+        req.myNext = undefined;
+        
+        callNext(req, res, next);
+      }
     });
   }
 }
@@ -457,8 +500,8 @@ function pocistiSpremembo(req, res, next) {
   callNext(req, res, next);
 }
 function vrniIzpit(req, res) {
-  console.log("--vrniIzpit");
-  res.status(200).json(req.izpit);
+  debug("--vrniIzpit");
+  res.status(200).send(req.izpit);
 }
 
 function potrdiStrinjanje(req, res, next) {
@@ -507,7 +550,7 @@ function najdiAktualneSpremembe(req, res, next) {
     .exec(function(err, izpiti) {
       if(err || !izpiti)
       {
-        console.log("---najdiAktualneSpremembe:\n" + err);
+        debug("---najdiAktualneSpremembe:\n" + err);
         return res.status(404).json({ message: "Ne najdem nobenih obvestil"});
       }
       
@@ -542,20 +585,24 @@ function preveriLahkoUreja(req, res, next) {
 
 // Funkcije za upravljanje
 function validateStudijskoLeto(req, res, next) {
+  debug("--validateStudijskoLeto");
   var studijsko_leto = req.params.studijskoLeto_id || req.body.studijsko_leto;
   
   StudijskoLeto.findById(studijsko_leto, function(err, studijskoLeto) {
     if(err || !studijskoLeto) {
-      //console.log(err);
-      return res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
+      debug("---validateStudijskoLeto" + err);
+      res.status(404).json({ message: "Izbrano študijsko leto ne obstaja" });
     }
-    
-    req.studijskoLeto = studijskoLeto;
-    
-    callNext(req, res, next);
+    else
+    {
+      req.studijskoLeto = studijskoLeto;
+      
+      callNext(req, res, next);
+    }
   });
 }
 function validatePredmet(req, res, next) {
+  debug("--validatePredmet");
   var predmet = req.params.predmet_id || req.body.predmet;
   
   Predmet
@@ -570,18 +617,24 @@ function validatePredmet(req, res, next) {
     ])
     .exec(function(err, predmet) {
       if(err || !predmet) {
-        return res.status(404).json({ message: "Ne najdem želenega predmeta" });
+        res.status(404).json({ message: "Ne najdem želenega predmeta" });
       }
-      req.predmet = predmet;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.predmet = predmet;
+        
+        callNext(req, res, next);
+      }
     });
 }
 function validateIzvedboPredmeta(req, res, next) {
+  debug("--validateIzvedboPredmeta");
   req.next = next;
+  
   callNext(req, res, [ najdiIzvedboPredmeta, validIzvedbaPredmeta ]);
 }
 function najdiIzvedboPredmeta(req, res, next) {
+  debug("--najdiIzvedboPredmeta");
   var izvedbePredmeta = req.predmet.izvedbe_predmeta;
   
   for(var i = 0; i < izvedbePredmeta.length; i++) {
@@ -594,16 +647,23 @@ function najdiIzvedboPredmeta(req, res, next) {
   callNext(req, res, next);
 }
 function validIzvedbaPredmeta(req, res, next) {
+  debug("--validIzvedbaPredmeta");
   if(!req.izvedbaPredmeta)
-    return res.status(400).json({ message: "Predmet se v tem solskem letu se ne izvaja" });
-  
-  next = req.next;
-  req.next = undefined;
-  
-  callNext(req, res, next);
+  {
+    res.status(400).json({ message: "Predmet se v tem solskem letu se ne izvaja" });
+  }
+  else
+  {
+    next = req.next;
+    req.next = undefined;
+    
+    callNext(req, res, next);
+  }
 }
 
 function validateDatumIzvedbe(req, res, next) {
+  debug("--validateDatumIzvedbe");
+  
   if(req.body.datum_izvajanja)
   {
     req.datumIzvajanja = new Date(req.body.datum_izvajanja);
@@ -612,43 +672,50 @@ function validateDatumIzvedbe(req, res, next) {
     //console.log(req.datumIzvajanja.getDay());
     
     if(req.datumIzvajanja.getDay() == 0 || req.datumIzvajanja.getDay() == 6)
-      return res.status(400).json({ message: "Izpit se ne more izvajati na vikend" });
-    
-    // Preveri, ce je praznik ali dela prost dan
-    var praznik = false;
-    if(req.datumIzvajanja.getMonth() == 0 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 1 && (req.datumIzvajanja.getDate() == 7))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 3 && (req.datumIzvajanja.getDate() == 26))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 4 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 5 && (req.datumIzvajanja.getDate() == 7 || req.datumIzvajanja.getDate() == 24))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 7 && (req.datumIzvajanja.getDate() == 16 || req.datumIzvajanja.getDate() == 14))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 8 && (req.datumIzvajanja.getDate() == 14))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 9 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 30))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 10 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 22))
-      praznik = true;
-    if(req.datumIzvajanja.getMonth() == 11 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 25))
-      praznik = true;
-    
-    
-    if(praznik)
-      return res.status(400).json({ message: "Izpit se ne more izvajati na praznik ali dela prost dan" });
-    
+    {
+      res.status(400).json({ message: "Izpit se ne more izvajati na vikend" });
+    }
+    else
+    {
+      // Preveri, ce je praznik ali dela prost dan
+      var praznik = false;
+      if(req.datumIzvajanja.getMonth() == 0 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 1 && (req.datumIzvajanja.getDate() == 7))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 3 && (req.datumIzvajanja.getDate() == 26))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 4 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 1))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 5 && (req.datumIzvajanja.getDate() == 7 || req.datumIzvajanja.getDate() == 24))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 7 && (req.datumIzvajanja.getDate() == 16 || req.datumIzvajanja.getDate() == 14))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 8 && (req.datumIzvajanja.getDate() == 14))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 9 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 30))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 10 && (req.datumIzvajanja.getDate() == 0 || req.datumIzvajanja.getDate() == 22))
+        praznik = true;
+      if(req.datumIzvajanja.getMonth() == 11 && (req.datumIzvajanja.getDate() == 24 || req.datumIzvajanja.getDate() == 25))
+        praznik = true;
+      
+      
+      if(praznik)
+      {
+        res.status(400).json({ message: "Izpit se ne more izvajati na praznik ali dela prost dan" });
+      }
+      else
+        callNext(req, res, next);
+    }
   }
-  
-  callNext(req, res, next);
+  else
+    callNext(req, res, next);
 }
 
 // Prijave/odjave na izpit
 function najdiStudentaId(req, res, next) {
-  console.log("--najdiStudentaId");
+  debug("--najdiStudentaId");
   
   var student_id = req.params.student_id || req.body.student;
   Student
@@ -678,7 +745,7 @@ function najdiStudentaId(req, res, next) {
     ])
     .exec(function(err, student) {
       if(err || !student) {
-        console.log(err);
+        debug(err);
         res.status(404).json({ message: "Ne najdem izbranega študenta"});
       }
       else
@@ -690,24 +757,26 @@ function najdiStudentaId(req, res, next) {
     });
 }
 function najdiNeopravljenePredmete(req, res, next) {
-  console.log("--najdiNeopravljenePredmete");
+  debug("--najdiNeopravljenePredmete");
   req.neopravljeniPredmeti = [];
   
   req.studijskoLeto = req.student.studijska_leta_studenta[req.student.studijska_leta_studenta.length - 1];
   
   if(!req.studijskoLeto) {
-    return res.status(404).json({ message: "Izbrani študent nima veljavnih študijskih let"});
+    res.status(404).json({ message: "Izbrani študent nima veljavnih študijskih let"});
   }
-  
-  for(var i = 0; i < req.studijskoLeto.predmeti.length; i++) {
-    if(req.studijskoLeto.predmeti[i].ocena <= 5) {
-      req.neopravljeniPredmeti.push(req.studijskoLeto.predmeti[i]);
+  else
+  {
+    for(var i = 0; i < req.studijskoLeto.predmeti.length; i++) {
+      if(req.studijskoLeto.predmeti[i].ocena <= 5) {
+        req.neopravljeniPredmeti.push(req.studijskoLeto.predmeti[i]);
+      }
     }
+    
+    //debug(req.neopravljeniPredmeti);
+    
+    callNext(req, res, next);
   }
-  
-  //console.log(req.neopravljeniPredmeti);
-  
-  callNext(req, res, next);
 }
 function najdiMozneIzpiteStudentaReferentka(req, res, next) {
   var predmeti = [];
@@ -764,13 +833,15 @@ function najdiMozneIzpiteStudentaReferentka(req, res, next) {
     .populate("predmet izvajalci studijsko_leto")
     .exec(function(err, izpiti) {
       if(err || !izpiti) {
-        console.log(err);
-        return res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
+        debug("---najdiMozneIzpiteStudentaReferentka" + err);
+        res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
       }
-      
-      req.izpiti = izpiti;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.izpiti = izpiti;
+        
+        callNext(req, res, next);
+      }
     });
 }
 function najdiMozneIzpiteStudenta(req, res, next) {
@@ -826,17 +897,20 @@ function najdiMozneIzpiteStudenta(req, res, next) {
     .populate("predmet izvajalci studijsko_leto")
     .exec(function(err, izpiti) {
       if(err || !izpiti) {
-        console.log(err);
-        return res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
+        debug("---najdiMozneIzpiteStudenta" + err);
+        res.status(404).json({ message: "Napaka pri pridobivanju izpitov"});
       }
-      
-      req.izpiti = izpiti;
-      
-      callNext(req, res, next);
+      else
+      {
+        req.izpiti = izpiti;
+        
+        callNext(req, res, next);
+      }
     });
 }
 function filtrirajPolaganja(req, res, next) {
-  console.log("--filtrirajPolaganja");
+  debug("--filtrirajPolaganja");
+  
   var izpiti = [];
   while(req.izpiti.length > 0)
   {
@@ -871,7 +945,8 @@ function filtrirajPolaganja(req, res, next) {
   callNext(req, res, next);
 }
 function filtrirajPolagalce(req, res, next) {
-  console.log("--filtrirajPolagalce");
+  debug("--filtrirajPolagalce");
+  
   if(req.izpit)
   {
     req.izpit = req.izpit.toObject();
@@ -890,7 +965,8 @@ function filtrirajPolagalce(req, res, next) {
 }
 
 function najdiStudentovPredmet(req, res, next) {
-  console.log("--najdiStudentovPredmet");
+  debug("--najdiStudentovPredmet");
+  
   for(var i = 0; i < req.neopravljeniPredmeti.length; i++) {
     if(req.neopravljeniPredmeti[i].predmet.equals(req.izpit.predmet._id)) {
       //console.log("Najden!");
@@ -908,7 +984,8 @@ function najdiStudentovPredmet(req, res, next) {
 }
 
 function najdiPolaganje(req, res, next) {
-  console.log("--najdiPolaganje");
+  debug("--najdiPolaganje");
+  
   if(!req.izpit) {
     callNext(req, res, next);
   }
@@ -927,7 +1004,8 @@ function najdiPolaganje(req, res, next) {
 }
 
 function dodajPolagalca(req, res, next) {
-  console.log("--dodajPolagalca");
+  debug("--dodajPolagalca");
+  
   if(req.danes > req.izpit.datum_izvajanja && !req.force) {
     res.status(403).json({ message: "Rok za prijavo potekel"});
   }
@@ -977,7 +1055,8 @@ function dodajPolagalca(req, res, next) {
   }
 }
 function odjaviPolagalca(req, res, next) {
-  console.log("--odjaviPolagalca");
+  debug("--odjaviPolagalca");
+  
   if(!req.izpit) {
     callNext(req, res, next);
   }
@@ -1004,6 +1083,8 @@ function odjaviPolagalca(req, res, next) {
         
         if(req.user && req.user.zaposlen)
           req.polaganje.odjavil = req.user.zaposlen;
+        
+        debug("Polagalec odjavljen");
         
         callNext(req, res, next);
       }
@@ -1048,7 +1129,7 @@ function odjavaUspesna(req, res) {
 }
 
 function visajZaporedniPoskus(req, res, next) {
-  console.log("--visajZaporedniPoskus");
+  debug("--visajZaporedniPoskus");
   
   req.predmet.zaporedni_poskus++;
   req.predmet.zaporedni_poskus_skupaj++;
@@ -1057,21 +1138,23 @@ function visajZaporedniPoskus(req, res, next) {
   callNext(req, res, next);
 }
 function nizajZaporedniPoskus(req, res, next) {
-  console.log("--nizajZaporedniPoskus");
+  debug("--nizajZaporedniPoskus");
+  
   if(req.izpit) {
     req.predmet.zaporedni_poskus--;
     req.predmet.zaporedni_poskus_skupaj--;
+    
     req.predmet.izpit = undefined;
     req.predmet.ocena = -1;
   }
   callNext(req, res, next);
 }
 function shraniStudenta(req, res, next) {
-  console.log("--shraniStudenta");
+  debug("--shraniStudenta");
   
   req.student.save(function(err, student) {
     if(err || !student) {
-      console.log("---shraniStudenta:\n" + err);
+      debug("---shraniStudenta:\n" + err);
       res.status(404).json({ message: "Napaka pri shranjevanju študenta"});
     }
     else
@@ -1083,7 +1166,7 @@ function shraniStudenta(req, res, next) {
   });
 }
 function shraniIzpit(req, res, next) {
-  console.log("--shraniIzpit");
+  debug("--shraniIzpit");
   if(!req.izpit) {
     callNext(req, res, next);
   }
@@ -1091,7 +1174,7 @@ function shraniIzpit(req, res, next) {
   {
     req.izpit.save(function(err, izpit) {
       if(err || !izpit) {
-        console.log("---shraniIzpit:\n" + err);
+        debug("---shraniIzpit:\n" + err);
         res.status(400).json({ message: "Napaka pri spreminjanju izpita" });
       }
       else
@@ -1105,7 +1188,7 @@ function shraniIzpit(req, res, next) {
 }
 
 function pripraviDateDanes(req, res, next) {
-  console.log("--pripraviDateDanes");
+  debug("--pripraviDateDanes");
   var cur = new Date();
   req.danes = new Date(cur.getFullYear(), cur.getMonth(), cur.getDate() + 2);
   
@@ -1113,7 +1196,7 @@ function pripraviDateDanes(req, res, next) {
 }
 
 function preveriPrijavljenNaDrugIzpit(req, res, next) {
-  console.log("--preveriPrijavljenNaDrugIzpit");
+  debug("--preveriPrijavljenNaDrugIzpit");
   Izpit.findOne({
     predmet: req.izpit.predmet,
     studijsko_leto: req.izpit.studijsko_leto,
@@ -1126,7 +1209,7 @@ function preveriPrijavljenNaDrugIzpit(req, res, next) {
     }
   }, function(err, izpit) {
     if(err) {
-      console.log("---preveriPrijavljenNaDrugIzpit:\n" + err);
+      debug("---preveriPrijavljenNaDrugIzpit:\n" + err);
       res.status(404).json({ message: "Napaka pri pridobivanju izpitov, na katere je že prijavljen"});
     }
     else
@@ -1145,14 +1228,10 @@ function preveriPrijavljenNaDrugIzpit(req, res, next) {
   });
 }
 function preveriPretekloDovoljDni(req, res, next) {
-  console.log("--preveriPretekloDovoljDni");
+  debug("--preveriPretekloDovoljDni");
   //  Preveri za prijavo, pri kateri še ni preteklo dovolj dni od zadnjega polaganja.
   var d = req.izpit.datum_izvajanja;
   var datum = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 13);
-  
-  console.log("Limit datum prej: " + datum.toISOString());
-  console.log("Limit datum do: " + d.toISOString());
-  console.log("Študent: " + req.student._id);
   
   Izpit.findOne({
     predmet: req.izpit.predmet,
@@ -1170,14 +1249,11 @@ function preveriPretekloDovoljDni(req, res, next) {
     }
   }, function(err, izpit) {
     if(err) {
-      console.log("---preveriPretekloDovoljDni:\n" + err);
+      debug("---preveriPretekloDovoljDni:\n" + err);
       res.status(404).json({ message: "Napaka pri pridobivanju izpita preden je preteklo dovolj dni"});
     }
     else
     {
-      if(izpit)
-        console.log("Izpit: " + izpit.datum_izvajanja);
-      
       if(izpit && !req.force) {
         res.status(400).json({ message: "Ni še preteklo dovolj dni od prejšnjega polaganja izpita za ta predmet"});
       }
@@ -1194,7 +1270,7 @@ function preveriPretekloDovoljDni(req, res, next) {
 
 // Vnos ocene
 function vnesiOcenoPodIzpit(req, res, next) {
-  console.log("--vnesiOcenoPodIzpit");
+  debug("--vnesiOcenoPodIzpit");
   if(req.body.tock)
   {
     req.body.tock = parseInt(req.body.tock, 10);
@@ -1215,12 +1291,12 @@ function vnesiOcenoPodIzpit(req, res, next) {
   callNext(req, res, next);
 }
 function vnesiOcenoStudentu(req, res, next) {
-  console.log("--vnesiOcenoStudentu");
+  debug("--vnesiOcenoStudentu");
   
   req.predmet.ocena = req.body.koncna_ocena;
   req.predmet.izpit = req.izpit;
   
-  //console.log(req.predmet);
+  //debug(req.predmet);
   
   callNext(req, res, next);
 }
@@ -1231,17 +1307,20 @@ function izberiStudijskoLeto(req, res, next) {
   }, function(err, leto) {
     if(err || !leto)
     {
-      console.log("---izberiStudijskoLeto:\n" + err);
-      return res.status(404).json({ message: "Ne najdem trenutnega študijskega leta"});
+      debug("---izberiStudijskoLeto:\n" + err);
+      res.status(404).json({ message: "Ne najdem trenutnega študijskega leta"});
     }
-    
-    req.leto = leto;
-    
-    callNext(req, res, next);
+    else
+    {
+      req.leto = leto;
+      
+      callNext(req, res, next);
+    }
   });
 }
 function izberiPredmet(req, res, next) {
-  console.log("--izberiPredmet");
+  debug("--izberiPredmet");
+  
   for(var i = 0; i < req.student.studijska_leta_studenta.length; i++)
   {
     if(req.student.studijska_leta_studenta[i].studijsko_leto.equals(req.izpit.studijsko_leto))
@@ -1282,7 +1361,7 @@ function najdiPrijavljenIzpit(req, res, next) {
     .populate("predmet studijsko_leto izvajalci polagalci.student")
     .exec(function(err, izpit) {
       if(err) {
-        console.log("---preveriPrijavljenNaDrugIzpit:\n" + err);
+        debug("---preveriPrijavljenNaDrugIzpit:\n" + err);
         res.status(404).json({ message: "Napaka pri pridobivanju izpitov, na katere je že prijavljen"});
       }
       else
@@ -1306,6 +1385,7 @@ function najdiPrijavljenIzpit(req, res, next) {
 }
 
 function preveriIzvedboPredmeta(req, res, next) {
+  debug("--preveriIzvedboPredmeta");
   if(!req.body || !req.body.izvedba_predmeta)
   {
     callNext(req, res, next);
@@ -1316,10 +1396,12 @@ function preveriIzvedboPredmeta(req, res, next) {
     
     if(!req.izvedba)
     {
-      return res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta za ta predmet"});
+      res.status(404).json({ message: "Ne najdem izbrane izvedbe predmeta za ta predmet"});
     }
-    
-    callNext(req, res, next);
+    else
+    {
+      callNext(req, res, next);
+    }
   }
 }
 
@@ -1340,4 +1422,141 @@ function preveriDatumDodajanja(req, res, next) {
   {
     res.status(403).json({ message: "Rok za vnos ocen po izpitu je potekel"});
   }
+}
+
+function studentovPredmet(req, res, next) {
+  debug("--studentovPredmet");
+  for(var i = 0; i < req.student.studijska_leta_studenta.length; i++)
+  {
+    if(req.student.studijska_leta_studenta[i].studijsko_leto.equals(req.studijskoLeto._id))
+    {
+      var leto = req.student.studijska_leta_studenta[i];
+      
+      for(var j = 0; j < leto.predmeti.length; j++)
+      {
+        if(leto.predmeti[j].predmet.equals(req.predmet._id))
+        {
+          req.predmet = leto.predmeti[j];
+          break;
+        }
+      }
+      break;
+    }
+  }
+  
+  callNext(req, res, next);
+}
+function obdelajPrijavoNaIzpit(req, res, next) {
+  debug("--obdelajPrijavoNaIzpit");
+  if(next)
+  {
+    req.myNext = next;
+  }
+  
+  if(req.izpit && req.predmet.ocena > 5)
+  {
+    callNext(req, res,[
+      najdiPolaganje,
+      odjaviPolagalca, nizajZaporedniPoskus,
+      
+      shraniIzpit, shraniStudenta,
+      ponastaviIzbranIzpita, obdelajPrijavoNaIzpit
+    ]);
+  }
+  else
+  {
+    next = req.myNext;
+    req.myNext = undefined;
+    
+    callNext(req, res, next);
+  }
+}
+function najdiOpravljanIzpit(req, res, next) {
+  debug("--najdiOpravljanIzpit");
+  Izpit
+    .findById(req.predmet.izpit)
+    .populate("predmet studijsko_leto izvajalci polagalci.student")
+    .exec(function(err, izpit) {
+      if(err)
+      {
+        res.status(404).json({ message: "Napaka pri preverjanju predhodne opravljenosti izpita"});
+      }
+      else
+      {
+        req.izpit = izpit;
+        
+        callNext(req, res, next);
+      }
+    });
+}
+function ponastaviIzbranIzpita(req, res, next) {
+  req.izpit = undefined;
+  
+  callNext(req, res, next);
+}
+
+function narediCustomIzpit(req, res, next) {
+  debug("--narediCustomIzpit");
+  if(next)
+  {
+    req.myNext = next;
+  }
+  
+  if(!req.izpit)
+  {
+    debug("Ustvarjam izpit...");
+    
+    Izpit.create({
+      predmet: req.predmet,
+      studijsko_leto: req.studijskoLeto,
+      datum_izvajanja: req.datumIzvajanja,
+      
+      valid: false,
+      
+      lokacija: req.body.lokacija,
+      opombe: req.body.opombe,
+      
+      izvajalci: req.izvedba.izvajalci
+    }, function(err, izpit) {
+      if(err) {
+        debug("---narediCustomIzpit:\n" + err);
+        res.status(400).send({ message: "Nepravilni podatki" });
+      }
+      else
+      {
+        req.izpit = izpit;
+        
+        dodajPolagalca(req, res, next);
+      }
+    });
+  }
+  else
+  {
+    debug("Prijava na izpit že obstaja!");
+    
+    next = req.myNext;
+    req.myNext = undefined;
+    
+    callNext(req, res, next);
+  }
+}
+function nastaviPolaganja(req, res, next) {
+  debug("--nastaviPolaganja");
+  var zaporedni_poskus = parseInt(req.body.zaporedni_poskus, 10);
+  var zaporedni_poskus_skupaj = parseInt(req.body.zaporedni_poskus_skupaj, 10);
+  
+  if(!isNaN(zaporedni_poskus) && zaporedni_poskus > 0) {
+    req.predmet.zaporedni_poskus = zaporedni_poskus;
+    req.polaganje.zaporedni_poskus = zaporedni_poskus;
+  }
+  
+  if(!isNaN(zaporedni_poskus) && zaporedni_poskus_skupaj > 0) {
+    req.predmet.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj;
+    req.polaganje.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj;
+  }
+  
+  callNext(req, res, next);
+}
+function ocenaDodana(req, res) {
+  res.status(200).json({ message: "Ocena dodana"});
 }
