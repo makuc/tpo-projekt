@@ -486,10 +486,6 @@
         }
         
         // Izpiti (prijava referentka)
-        function obstajajociIzpitniRoki(studentId)
-        {
-            return $http.get('/api/v1/student/' + studentId + '/izpiti');
-        }
         
         function prijaviNaRokForce(izpitId, studentData)
         {
@@ -731,7 +727,6 @@
             prijaviNaRok: prijaviNaRok,
             odjaviOdRoka: odjaviOdRoka,
             
-            obstajajociIzpitniRoki: obstajajociIzpitniRoki,
             prijaviNaRokForce: prijaviNaRokForce,
             odjaviOdRokaForce: odjaviOdRokaForce,
             pridobiIzpitniRok: pridobiIzpitniRok,

@@ -472,6 +472,13 @@
                 controllerAs: 'vm'
             })
             
+            // Individualni vnos ocen
+            .when('/individualniVnos', {
+                templateUrl: 'views/individualniVnos.template.html',
+                controller: 'individualniVnosCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
