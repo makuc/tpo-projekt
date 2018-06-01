@@ -110,8 +110,10 @@
             } 
             
             today =  "Datum: " + dy + '/' + mm + '/' + yyyy;
+            document.getElementById('exportable1').parentNode.style.overflow = 'visible';
             html2canvas(document.getElementById('exportable1'), {
             onrendered: function (canvas) {
+                document.getElementById('exportable1').parentNode.style.overflow = 'hidden';
                 var data = canvas.toDataURL();
                 var docDefinition = {
                      header: {
@@ -178,6 +180,7 @@
             } 
             
             today =  "Datum: " + dy + '/' + mm + '/' + yyyy;
+            
             html2canvas(document.getElementById('exportable2'), {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
@@ -251,10 +254,11 @@
             var lists = document.getElementsByClassName("export2");
             console.log(lists.length);
             for(var i=0; i<lists.length;i++){
-                txt += lists[i].textContent.trim()+ ";";
-                if(i%5==0){
+                if(i%6==0 && i!=0){
                    txt += " \r\n"; 
                 }
+                txt += lists[i].textContent.trim()+ ";";
+                
             }
             download('test.csv', txt);
             

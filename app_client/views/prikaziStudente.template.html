@@ -14,8 +14,8 @@
         </div>
     </div>
     
-    <div id = "exportable" class="container table-responsive">
-        <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
+    <div id = "exportable" class="container table-responsive" >
+        <table id="tabela_drzav"  class="table table-hover" ng-init="vm.prikaziStudente()" >
             <thead>
                 <tr>
                     <th>#</th>
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" >
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>
@@ -37,7 +37,8 @@
                    <td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)" ng-show="vm.vpisan.referentka == true">Žetoni</button></td>
                    <td><button class="btn btn-primary" type="button" ng-click="vm.refer(student._id)">Kartotečni list</button></td>
                    <td><button class="btn btn-primary" type="button" ng-click="vm.indeks(student._id)">Elektronski indeks</button></td>
-                   
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.individualniVnos(student._id)">Individualni vnos ocene</button></td>
+                   <td><button class="btn btn-primary" type="button" ng-click="vm.oceneMojiPredmeti(student._id)">Ocene pri mojih predmetih</button></td>
                    
                 </tr>
             </tbody>

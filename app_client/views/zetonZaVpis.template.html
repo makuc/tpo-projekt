@@ -43,7 +43,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="student in vm.studenti[vm.trenutnaStran] | orderBy:myOrderBy:bool" >
+                <tr ng-repeat="student in vm.studenti[vm.trenutnaStran] | localeOrderBy:myOrderBy:bool" >
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
                     <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>
@@ -65,7 +65,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in vm.vsiPodatki | filter: iskanje | orderBy:myOrderBy:bool" >
+                <tr ng-repeat="student in vm.vsiPodatki | filter: iskanje | localeOrderBy:myOrderBy:bool" >
                     <td>{{ ($index + 1) + (vm.trenutnaStran * vm.stStudentovNaStran) }}</td>
                     <td>{{ student.vpisna_stevilka }}</td>
                     <td>{{ student.priimek }}</td>

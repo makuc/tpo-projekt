@@ -42,7 +42,7 @@
                 </td>
             </tfoot>
             <tbody>
-                <tr ng-repeat="predmet in query = (vm.predmeti | filter:iskanje) | orderBy:['sifra'] | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(!vm.jeVsebovan(predmet._id) ? '' : 'alert alert-success')">
+                <tr ng-repeat="predmet in query = (vm.predmeti | filter:iskanje) | localeOrderBy:['sifra'] | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(!vm.jeVsebovan(predmet._id) ? '' : 'alert alert-success')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ predmet.sifra }}</td>
                     <td>{{ predmet.naziv }}</td>

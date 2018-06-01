@@ -1,8 +1,7 @@
 <header style="margin-bottom: 15px"></header>
 <div class="container">
-    <h2>Seznam študentov predmeta</h2>
-    <h3>{{ vm.predmet.sifra }}, {{ vm.predmet.naziv }}</h3>
-    <h3>{{ vm.studijskoLeto.studijsko_leto }}</h3><br>
+    <h2>Ocene študenta pri mojih predmetih</h2>
+    <h3>{{ vm.student.vpisna_stevilka }}, {{ vm.student.ime }} {{ vm.student.priimek }}</h3><br>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -14,26 +13,33 @@
                 </span>
             </div>
         </div>
-    </div>
+    </div><br>
     
     <div id = "exportable" class="container table-responsive">
         <table id="tabela_drzav" class="table table-hover" ng-init="vm.prikaziStudente()">
             <thead>
                 <tr>
                     <th>#</th>
-                   <th ng-click="orderByMe('vpisna_stevilka')">Vpisna številka</th>
-                    <th ng-click="orderByMe('priimek')">Priimek</th>
-                    <th ng-click="orderByMe('ime')">Ime</th>
-                    <th ng-click="orderByMe('vrstaVpisa')">Vrsta vpisa</th>
+                   <th ng-click="orderByMe('sifra')">Šifra</th>
+                    <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('studijskoLetoAdd')">Študijsko leto</th>
+                    <th ng-click="orderByMe('KT')">Število kreditnih točk</th>
+                    <th ng-click="orderByMe('zaporedni_poskus')">Polaganj izpita letos</th>
+                    <th ng-click="orderByMe('zaporedni_poskus_skupaj')">Polaganj izpita skupno</th>
+                    <th ng-click="orderByMe('ocena')">Ocena</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje) | localeOrderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                <tr ng-repeat="predmet in query = (vm.predmetiUstrezni | filter: iskanje) | localeOrderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" >
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
-                    <td>{{ student.vpisna_stevilka }}</td>
-                    <td>{{ student.priimek }}</td>
-                    <td>{{ student.ime }}</td>
-                    <td>{{ student.vrstaVpisa }}</td>
+                    <td>{{ predmet.predmet.sifra }}</td>
+                    <td>{{ predmet.predmet.naziv }}</td>
+                    <td>{{ predmet.studijskoLetoAdd }}</td>
+                    <td>{{ predmet.predmet.KT }}</td>
+                    <td>{{ predmet.zaporedni_poskus }}</td>
+                    <td>{{ predmet.zaporedni_poskus_skupaj }}</td>
+                    <td>{{ predmet.ocena }}</td>
+                    
                     
                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.uredi(student._id)">Podrobnosti</button></td>-->
                    <!--<td><button class="btn btn-primary" type="button" ng-click="vm.zetoni(student._id)">Žetoni</button></td>-->
@@ -59,6 +65,6 @@
         </table>
     </div>
     
-    <a href="/urediIzvedbePredmeta/{{vm.predmetId}}" class="btn btn-primary" type="button">Nazaj na izvedbe</a>
+    <a href="/prikaziStudente" class="btn btn-primary" type="button">Nazaj na seznam študentov</a>
     
 </div>

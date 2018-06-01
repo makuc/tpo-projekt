@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="vrstaVpisa in query = (vm.vrsteVpisa | filter:iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="vrstaVpisa in query = (vm.vrsteVpisa | filter:iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran" ng-class="(vrstaVpisa.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ vrstaVpisa.koda }}</td>
                     <td>{{ vrstaVpisa.naziv }}</td>

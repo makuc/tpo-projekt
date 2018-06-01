@@ -472,6 +472,26 @@
                 controllerAs: 'vm'
             })
             
+            // Individualni vnos ocen
+            .when('/individualniVnos', {
+                templateUrl: 'views/individualniVnos.template.html',
+                controller: 'individualniVnosCtrl',
+                controllerAs: 'vm'
+            })
+            
+            .when('/individualniVnos/:studentId', {
+                templateUrl: 'views/individualniVnos.template.html',
+                controller: 'individualniVnosCtrl',
+                controllerAs: 'vm'
+            })
+            
+            // Ocene studenta pri predmetih profesorja
+            .when('/oceneStudentaPredmeti/:studentId', {
+                templateUrl: 'views/oceneStudentaPredmeti.template.html',
+                controller: 'oceneStudentaPredmetiCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
@@ -510,7 +530,7 @@
             });
         }]);
         //.config(dateLocaleProviderConfig);
-    
+        
     function httpInterceptorConfig($httpProvider) {
         $httpProvider.interceptors.push('httpRequestInterceptor');
     }

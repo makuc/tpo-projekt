@@ -1190,6 +1190,7 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
               });
               
               neopravljeni_predmeti.splice(z, 1);
+              y--;
               break;
             }
           }

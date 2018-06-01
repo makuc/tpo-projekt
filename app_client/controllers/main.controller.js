@@ -38,17 +38,12 @@
         
         vm.vpisan=authentication.currentUser();
         
-        vm.odpriIndeks = function(){
-            $location.path("/elektronskiIndeks/" + authentication.currentUser().student);
-        };
-        
         // vpisani je student
         if(authentication.currentUser().student){
             vm.jeStudent = true;
             vm.student = true;
             //console.log(authentication.currentUser());
             pridobiZahtevke();
-        
         
             studentPodatki.izpisStudenta(authentication.currentUser().student).then(
                 function success(odgovor){
@@ -140,7 +135,11 @@
                 $location.path('/urediPredmete');
             };
         }
-
+        vm.refer = function(studentId)
+       {
+            
+           return  $location.path("kartotecniList/" + studentId);  
+       };
         
     }
     

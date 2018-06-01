@@ -119,10 +119,11 @@
           console.log("Data: ", data);
           ostaloPodatki.narociPotrdiloIzpitov(data).then(
                 function success(odgovor){
+                    vm.obvestilo = "";
                     vm.prikaziStudente();
                 },
                 function error(odgovor){
-                    console.log(odgovor);
+                    vm.obvestilo = odgovor.data.message;
                 }
             );
         };

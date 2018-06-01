@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="posta in query = (vm.poste | filter:iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(posta.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="posta in query = (vm.poste | filter:iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(posta.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ posta.postna_stevilka }}</td>
                     <td>{{ posta.naziv }}</td>

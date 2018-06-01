@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="nacinStudija in query = (vm.naciniStudija | filter:iskanje | orderBy:myOrderBy:bool ) | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="nacinStudija in query = (vm.naciniStudija | filter:iskanje | localeOrderBy:myOrderBy:bool ) | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(nacinStudija.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ nacinStudija.sifra }}</td>
                     <td>{{ nacinStudija.naziv }}</td>

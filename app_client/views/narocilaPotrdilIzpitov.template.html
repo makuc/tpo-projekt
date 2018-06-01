@@ -9,6 +9,7 @@
             <select class="form-control col-sm-4" ng-model="vm.studijskoLeto" ng-options='sl as (sl.studijsko_leto.studijsko_leto) for sl in vm.studentObject.studijska_leta_studenta track by sl.studijsko_leto.studijsko_leto._id'></select>
           </div>
         </div><br>-->
+        <div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
         <div class="row">
             <div class="form-group col-sm-4">
                 <label>Število izvodov</label>
@@ -49,7 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje | orderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" >
+                <tr ng-repeat="student in query = (vm.studenti | filter: iskanje | localeOrderBy:myOrderBy:bool)  | limitTo:vm.naStran:vm.stran*vm.naStran" >
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ student.student.vpisna_stevilka }}</td>
                     <td>{{ student.student.priimek }}</td>

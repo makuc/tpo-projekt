@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="obcina in query = (vm.obcine | filter:iskanje) | orderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
+                <tr ng-repeat="obcina in query = (vm.obcine | filter:iskanje) | localeOrderBy:myOrderBy:bool | limitTo:vm.naStran:vm.stran*vm.naStran" ng-class="(obcina.valid ? '' : 'alert alert-danger')">
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ obcina.sifra }}</td>
                     <td>{{ obcina.ime }}</td>
