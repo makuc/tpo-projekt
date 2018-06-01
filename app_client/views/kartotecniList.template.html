@@ -26,7 +26,23 @@
 <header style="margin-bottom: 15px"></header>
 <div ng-init="vm.najdiKartotecniList()"></div>
 <div ng-init="vm.najdiStudentKartotecniList()"></div>
-<h2>Kartotečni list:  {{vm.kart.ime}} {{vm.kart.priimek}}</h2><br>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <div class="navbar-brand">{{vm.kart.vpisna_stevilka}}, {{vm.kart.ime}} {{vm.kart.priimek}}</div>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/podrobnostiStudenta/{{vm.kart._id}}">Osebni podatki</a></li>
+      <li class="active"><a href="/kartotecniList/{{vm.kart._id}}">Kartotečni indeks</a></li>
+      <li><a href="/elektronskiIndeks/{{vm.kart._id}}">Elektronski indeks</a></li>
+      <li><a href="/individualniVnos/{{vm.kart._id}}">Individualni vnos ocene</a></li>
+      <li><a href="/oceneStudentaPredmeti/{{vm.kart._id}}">Ocene</a></li>
+    </ul>
+  </div>
+</nav>
+
+<h2>Kartotečni list</h2><br>
 <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
 <form role ="form"  class="form-horizonral">
 

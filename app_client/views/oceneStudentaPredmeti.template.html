@@ -1,7 +1,22 @@
 <header style="margin-bottom: 15px"></header>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <div class="navbar-brand">{{vm.student.vpisna_stevilka}}, {{vm.student.ime}} {{vm.student.priimek}}</div>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/podrobnostiStudenta/{{vm.student._id}}">Osebni podatki</a></li>
+      <li><a href="/kartotecniList/{{vm.student._id}}">Kartotečni indeks</a></li>
+      <li><a href="/elektronskiIndeks/{{vm.student._id}}">Elektronski indeks</a></li>
+      <li><a href="/individualniVnos/{{vm.student._id}}">Individualni vnos ocene</a></li>
+      <li class="active"><a href="/oceneStudentaPredmeti/{{vm.student._id}}">Ocene</a></li>
+    </ul>
+  </div>
+</nav>
+
 <div class="container">
-    <h2>Ocene študenta pri mojih predmetih</h2>
-    <h3>{{ vm.student.vpisna_stevilka }}, {{ vm.student.ime }} {{ vm.student.priimek }}</h3><br>
+    <h2>Ocene študenta</h2>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">

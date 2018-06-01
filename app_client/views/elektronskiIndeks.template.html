@@ -1,6 +1,21 @@
 <header></header>
-<h3>{{vm.student.priimek}}, {{vm.student.ime}} ({{vm.student.vpisna_stevilka}})</h3>
-<h4>Elektronski indeks</h4>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <div class="navbar-brand">{{vm.student.vpisna_stevilka}}, {{vm.student.ime}} {{vm.student.priimek}}</div>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/podrobnostiStudenta/{{vm.student._id}}">Osebni podatki</a></li>
+      <li><a href="/kartotecniList/{{vm.student._id}}">Kartotečni indeks</a></li>
+      <li class="active"><a href="/elektronskiIndeks/{{vm.student._id}}">Elektronski indeks</a></li>
+      <li><a href="/individualniVnos/{{vm.student._id}}">Individualni vnos ocene</a></li>
+      <li><a href="/oceneStudentaPredmeti/{{vm.student._id}}">Ocene</a></li>
+    </ul>
+  </div>
+</nav>
+
+<h2>Elektronski indeks</h2>
 
 <table class="table table-hover">
     <thead>
