@@ -112,7 +112,7 @@
                   <td class="datum" class="export1">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                   <td class="ocena" class="export1" ng-show="izpit.polaganje.koncna_ocena > 0">{{ izpit.polaganje.koncna_ocena }}</td>
                   <td class="ocena"  ng-hide="izpit.polaganje.koncna_ocena > 0">-</td>
-                  <td class="stPolaganj" class="export1">({{ izpit.polaganje.zaporedni_poskus_skupaj }}-{{ izpit.polaganje.zaporedni_poskus }})</td>
+                  <td class="stPolaganj" class="export1">{{ izpit.polaganje.zaporedni_poskus_skupaj }} | {{ izpit.polaganje.zaporedni_poskus }}</td>
                  </tr>
                </table>
              </td>

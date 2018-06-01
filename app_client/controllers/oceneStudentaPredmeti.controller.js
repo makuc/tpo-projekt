@@ -96,6 +96,8 @@
                                   {
                                     vm.student.studijska_leta_studenta[j].predmeti[k].ocena = "/";
                                   }
+                                  vm.student.studijska_leta_studenta[j].predmeti[k].studijskoLetoAdd = vm.student.studijska_leta_studenta[j].studijsko_leto.studijsko_leto;
+                                  console.log("Studijsko leto: ", vm.student.studijska_leta_studenta[j]);
                                   vm.predmetiUstrezni.push(vm.student.studijska_leta_studenta[j].predmeti[k]);
                                 }
                               }

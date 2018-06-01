@@ -22,6 +22,7 @@
                     <th>#</th>
                    <th ng-click="orderByMe('sifra')">Šifra</th>
                     <th ng-click="orderByMe('naziv')">Naziv</th>
+                    <th ng-click="orderByMe('studijskoLetoAdd')">Študijsko leto</th>
                     <th ng-click="orderByMe('KT')">Število kreditnih točk</th>
                     <th ng-click="orderByMe('zaporedni_poskus')">Polaganj izpita letos</th>
                     <th ng-click="orderByMe('zaporedni_poskus_skupaj')">Polaganj izpita skupno</th>
@@ -33,6 +34,7 @@
                     <td>{{ ($index + 1) + (vm.stran * vm.naStran) }}</td>
                     <td>{{ predmet.predmet.sifra }}</td>
                     <td>{{ predmet.predmet.naziv }}</td>
+                    <td>{{ predmet.studijskoLetoAdd }}</td>
                     <td>{{ predmet.predmet.KT }}</td>
                     <td>{{ predmet.zaporedni_poskus }}</td>
                     <td>{{ predmet.zaporedni_poskus_skupaj }}</td>

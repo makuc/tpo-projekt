@@ -131,10 +131,14 @@
                   vm.izbranStudent = vm.vsiStudenti[0];
                 }
                 var nasel = false;
+                console.log("Student id: ", )
                 for (var i = 0; i < vm.podatkiStudenta.studijska_leta_studenta.length; i++) {
                   if(vm.podatkiStudenta.studijska_leta_studenta[i].studijsko_leto._id == vm.podatki.studijskoLeto._id || $routeParams.studentId)
                   {
                     for (var j = 0; j < vm.podatkiStudenta.studijska_leta_studenta[i].predmeti.length; j++) {
+                      //console.log("predmet stud: ", vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].predmet);
+                      //console.log("predmet: ", vm.podatki.predmet);
+                      //console.log("");
                       if(vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].predmet._id == vm.podatki.predmet._id)
                       {
                         vm.opravljanjLetos = vm.podatkiStudenta.studijska_leta_studenta[i].predmeti[j].zaporedni_poskus;
@@ -152,8 +156,8 @@
                 }
                 if(nasel == false)
                 {
-                  vm.opravljanjLetos = 0;
-                  vm.opravljanjSkupaj = 0;
+                  vm.opravljanjLetos = 1;
+                  vm.opravljanjSkupaj = 1;
                 }
                 console.log("Podatki studenta: ", vm.podatkiStudenta);
             },
@@ -197,10 +201,12 @@
                       console.log(odgovor);
                       //vm.obvestilo = "USPEH!";
                       vm.obvestiloSucc = "Ocena uspešno vnešena.";
+                      vm.obvestilo = "";
                       //$location.path("/");
                   },
                   function error(odgovor){
                       vm.obvestilo = odgovor.data.message;
+                      vm.obvestiloSucc = "";
                       console.log(odgovor);
                   }
               ); 
