@@ -127,7 +127,7 @@
           <tr>
             <td>{{letnik.stOpravljenih}}</td>
             <td>{{letnik.stKT}}</td>
-            <td ng-hide="letnik.stOpravljenih == 0">{{letnik.skupnaOcena / letnik.stOpravljenih}}</td>
+            <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
           </tr>
         </tbody>
       </table>
@@ -240,7 +240,7 @@
           <tr>
             <td>{{letnik.stOpravljenih}}</td>
             <td>{{letnik.stKT}}</td>
-            <td ng-hide="letnik.stOpravljenih == 0">{{letnik.skupnaOcena / letnik.stOpravljenih}}</td>
+            <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
           </tr>
         </tbody>
       </table>
