@@ -9,6 +9,9 @@
         
         vm.vpisan=authentication.currentUser();
         
+        vm.POblike = true;
+        vm.naslov = "Dodaj obliko študija";
+        
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){

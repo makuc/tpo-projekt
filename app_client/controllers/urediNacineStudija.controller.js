@@ -7,6 +7,8 @@
     function urediNacineStudijaCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PNacini = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

@@ -7,6 +7,8 @@
     function urediPredmeteCtrl(predmetPodatki, $scope, $location, authentication, ostaloPodatki){
         var vm = this;
         
+        vm.PPredmeti = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

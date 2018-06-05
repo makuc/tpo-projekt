@@ -7,6 +7,9 @@
     function urediVrstoStudijaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PVrsteStudija = true;
+        vm.naslov = "Uredi vrsto študija";
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

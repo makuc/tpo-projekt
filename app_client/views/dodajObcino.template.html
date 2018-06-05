@@ -1,22 +1,26 @@
-<header style="margin-bottom: 15px"></header>
-<div ng-init="vm.pridobiObcino()"></div>
-<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
-<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Ime:</label>
-                <input class="form-control" type="text" value="{{vm.obcina.obcina.ime}}" ng-model="vm.obcina.obcina.ime">
+<header></header>
+<navigation></navigation>
+<div class="container">
+    <h2>Dodaj občino</h2>
+    <div ng-init="vm.pridobiObcino()"></div>
+    <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+    <form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Ime:</label>
+                    <input class="form-control" type="text" value="{{vm.obcina.obcina.ime}}" ng-model="vm.obcina.obcina.ime">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Šifra:</label>
-                <input class="form-control" type="text" value="{{vm.obcina.obcina.sifra}}" ng-model="vm.obcina.obcina.sifra">
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Šifra:</label>
+                    <input class="form-control" type="text" value="{{vm.obcina.obcina.sifra}}" ng-model="vm.obcina.obcina.sifra">
+                </div>
             </div>
+            
+            <button class="btn btn-success"  type="submit">Shrani</button>
+            <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
         </div>
-        
-        <button class="btn btn-success"  type="submit">Shrani</button>
-        <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Prekliči</button>
-    </div>
-</form>
+    </form>
+</div>

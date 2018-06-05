@@ -8,6 +8,9 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         
+         vm.PPredmeti = true;
+         vm.naslov = "Uredi predmet";
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(

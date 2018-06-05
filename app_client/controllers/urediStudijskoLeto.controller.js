@@ -7,6 +7,9 @@
     function urediStudijskoLetoCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PStudijskaLeta = true;
+        vm.naslov = "Uredi študijsko leto";
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

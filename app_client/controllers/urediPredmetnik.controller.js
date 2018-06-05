@@ -7,6 +7,8 @@
     function urediPredmetnikCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, authentication){
         var vm = this;
         
+        vm.PPredmetniki = true;
+        vm.naslov = "Uredi predmetnik";
         
         vm.vpisan=authentication.currentUser();
         

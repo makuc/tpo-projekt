@@ -7,6 +7,9 @@
     function dodajVrstoVpisaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PVrsteVpisa = true;
+        vm.naslov = "Dodaj vrsto vpisa";
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

@@ -7,6 +7,8 @@
     function urediStudijskaLetaCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PStudijskaLeta = true;
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

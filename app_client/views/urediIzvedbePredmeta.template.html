@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <a href="/dodajIzvedboPredmeta/{{vm.predmetId}}/izvedba" class="btn" ng-show="vm.vpisan.skrbnik == true"><div class="glyphicon glyphicon-plus-sign"></div></a>
+    <a href="/dodajIzvedboPredmeta/{{vm.predmetId}}/izvedba" class="btn btn-primary dodaj" ng-show="vm.vpisan.skrbnik == true"><div class="glyphicon glyphicon-plus-sign"></div>Dodaj izvedbo predmeta</a>
     <br>
     <div class="container table-responsive">
         <table id="tabela_izvedb" class="table table-hover" ng-init="vm.prikaziIzvedbe()">
@@ -71,5 +71,5 @@
         </table>
     </div>
     
-    <a href="/urediPredmete" class="btn btn-primary" type="button">Nazaj na predmete</a>
+    <a href="/urediPredmete" class="btn btn-danger" type="button">Nazaj na predmete</a>
 </div>

@@ -115,6 +115,7 @@
                     }
                     if(odgovor.data.skrbnik){
                         vm.skrbnik = true;
+                        $location.path('/import');
                     }
                     if(odgovor.data.zaposlen.predavatelj){
                         vm.predavatelj = true;

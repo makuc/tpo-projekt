@@ -1,18 +1,24 @@
-<div id="meni" class="collapse navbar-collapse">
-    <ul class="nav navbar-nav">
-        <li><a href="/urediPredmete">PREDMETI</a></li>
-        <li><a href="/urediLetnike">LETNIKI</a></li>
-        <li><a href="/urediOblikeStudija">OBLIKE STUDIJA</a></li>
-        <li><a href="/urediNacineStudija">NACINI STUDIJA</a></li>
-        <li><a href="/urediPredmetnike">PREDMETNIKI</a></li>
-        <li><a href="/urediStudijskePrograme">STUDIJSKI PROGRAMI</a></li>
-        <li><a href="/urediStudijskaLeta">STUDIJSKA LETA</a></li>
-        <li><a href="/urediVrsteStudija">VRSTE STUDIJA</a></li>
-        <li><a href="/urediVrsteVpisa">VRSTE VPISA</a></li>
-        <li><a href="/urediZaposlene">ZAPOSLENI</a></li>
-        <li><a href="/urediDelePredmetov">DELI PREDMETA</a></li>
-        <li><a href="/urediObcine">OBČINE</a></li>
-        <li><a href="/urediDrzave">DRŽAVE</a></li>
-        <li><a href="/urediPoste">POŠTE</a></li>
-    </ul>
-</div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Skrbnik</div>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="vm.Puvoz ? 'active' : ''"><a href="/import">Uvoz kandidatov</a></li>
+            <li ng-class="vm.PPredmeti ? 'active' : ''"><a href="/urediPredmete">Predmeti</a></li>
+            <li ng-class="vm.PLetniki ? 'active' : ''"><a href="/urediLetnike">Letniki</a></li>
+            <li ng-class="vm.POblike ? 'active' : ''"><a href="/urediOblikeStudija">Oblike študija</a></li>
+            <li ng-class="vm.PNacini ? 'active' : ''"><a href="/urediNacineStudija">Načini študija</a></li>
+            <li ng-class="vm.PPredmetniki ? 'active' : ''"><a href="/urediPredmetnike">Predmetniki</a></li>
+            <li ng-class="vm.PStudijskiProgrami ? 'active' : ''"><a href="/urediStudijskePrograme">Študijski programi</a></li>
+            <li ng-class="vm.PStudijskaLeta ? 'active' : ''"><a href="/urediStudijskaLeta">Študijska leta</a></li>
+            <li ng-class="vm.PVrsteStudija ? 'active' : ''"><a href="/urediVrsteStudija">Vrste študija</a></li>
+            <li ng-class="vm.PVrsteVpisa ? 'active' : ''"><a href="/urediVrsteVpisa">Vrste vpisa</a></li>
+            <li ng-class="vm.PUrediZaposlene ? 'active' : ''"><a href="/urediZaposlene">Zaposleni</a></li>
+            <li ng-class="vm.PUrediDelePredmetov ? 'active' : ''"><a href="/urediDelePredmetov">Deli predmeta</a></li>
+            <li ng-class="vm.PUrediObcine ? 'active' : ''"><a href="/urediObcine">Občine</a></li>
+            <li ng-class="vm.PUrediDrzave ? 'active' : ''"><a href="/urediDrzave">Države</a></li>
+            <li ng-class="vm.PPoste ? 'active' : ''"><a href="/urediPoste">Pošte</a></li>
+        </ul>
+    </div>
+</nav>

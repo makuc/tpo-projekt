@@ -7,6 +7,8 @@
     function urediObcineCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PUrediObcine = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

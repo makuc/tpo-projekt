@@ -9,6 +9,9 @@
         
         vm.vpisan=authentication.currentUser();
         
+        vm.naslov = "Dodaj izvedbo predmeta";
+        vm.PPredmeti = true;
+        
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){

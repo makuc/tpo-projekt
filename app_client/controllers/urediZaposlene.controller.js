@@ -7,6 +7,8 @@
     function urediZaposleneCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PUrediZaposlene = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

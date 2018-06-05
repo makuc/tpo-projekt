@@ -7,6 +7,9 @@
     function dodajStudijskiProgramCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PStudijskiProgrami = true;
+        vm.naslov = "Dodaj študijski program";
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

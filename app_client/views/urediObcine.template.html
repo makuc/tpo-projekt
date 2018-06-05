@@ -1,6 +1,7 @@
 <header style="margin-bottom: 15px"></header>
 <navigation></navigation>
 <div class="container">
+    <h2>Občine</h2>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -54,11 +55,11 @@
                 </td>
             </tfoot>
         </table>
-        <button type="button" ng-csv="query" charset="utf-8"
+        <button class="btn btn-info" type="button" ng-csv="query" charset="utf-8"
             csv-header="[ 'Šifra', 'Ime']"
             csv-column-order="[ 'sifra', 'ime']"
             add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
-        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
     
     

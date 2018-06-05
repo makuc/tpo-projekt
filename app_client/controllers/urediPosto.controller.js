@@ -7,6 +7,8 @@
     function urediPostoCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PPoste = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

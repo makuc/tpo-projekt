@@ -7,6 +7,8 @@
     function urediPosteCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PPoste = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

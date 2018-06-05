@@ -7,6 +7,9 @@
     function dodajStudijskoLetoCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PStudijskaLeta = true;
+        vm.naslov = "Dodaj študijsko leto";
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

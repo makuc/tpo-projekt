@@ -6,6 +6,8 @@
     
     function urediOblikeStudijaCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
+        
+        vm.POblike = true;
                 
         vm.vpisan=authentication.currentUser();
         

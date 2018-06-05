@@ -7,6 +7,8 @@
   	
     var vm = this;
     
+    vm.Puvoz = true;
+    
      vm.vpisan=authentication.currentUser();
     
     if(authentication.currentUser().zaposlen){

@@ -1,6 +1,7 @@
 <header style="margin-bottom: 15px"></header>
 <navigation></navigation>
 <div class="container">
+    <h2>Predmetniki</h2>
     <div class="row">
         <div id="custom-search-input">
             <div class="input-group col-md-4">
@@ -64,11 +65,11 @@
                 </td>
             </tfoot>
         </table>
-        <button ng-json-export-excel data="query"
+        <button class="btn btn-info" ng-json-export-excel data="query"
         report-fields="{'studijski_program.naziv': 'Naziv', 'studijski_program.vrstaStudija.opis': 'Opis',
         'studijsko_leto.studijsko_leto': 'Študijsko leto', 'letnik.naziv': 'Letnik', 'del_predmetnika.naziv': 'Del predmetnika', ime: 'Ime modula' }"
         filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
-         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div> 
 </div>
 <footer></footer>

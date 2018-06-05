@@ -7,6 +7,9 @@
     function urediVrstoVpisaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PVrsteVpisa = true;
+        vm.naslov = "Uredi vrsto vpisa";
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

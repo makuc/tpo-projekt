@@ -7,6 +7,9 @@
     function dodajPredmetCtrl($location, predmetPodatki, $routeParams, authentication, ostaloPodatki){
         var vm = this;
         
+        vm.PPredmeti = true;
+        vm.naslov = "Dodaj nov predmet";
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

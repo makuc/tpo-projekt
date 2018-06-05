@@ -9,6 +9,8 @@
         
         vm.vpisan=authentication.currentUser();
         
+        vm.PPredmetniki = true;
+        
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
@@ -20,6 +22,7 @@
                 }
             );
         }
+        
         
         vm.logoutFunc = function() {
             delTok();

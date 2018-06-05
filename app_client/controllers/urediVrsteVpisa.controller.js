@@ -7,6 +7,8 @@
     function urediVrsteVpisaCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PVrsteVpisa = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

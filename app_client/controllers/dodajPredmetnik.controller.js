@@ -8,6 +8,9 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         
+         vm.PPredmetniki = true;
+         vm.naslov = "Dodaj predmetnik";
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(

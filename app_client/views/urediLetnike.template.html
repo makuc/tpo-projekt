@@ -1,6 +1,7 @@
 <header style="margin-bottom: 15px"></header>
 <navigation></navigation>
 <div class="container">
+    <h2>Letniki</h2>
    <div class="row">
     <div id="custom-search-input">
         <div class="input-group col-md-4">
@@ -13,7 +14,7 @@
             </div>
         </div>
     </div>
-    <a href="/dodajLetnik" class="btn btn-primary dodaj"><div class="glyphicon glyphicon-plus-sign"> Dodaj</div></a>
+    <a href="/dodajLetnik" class="btn btn-primary dodaj"><div class="glyphicon glyphicon-plus-sign"></div>Dodaj</a>
     <div class="container table-responsive">
         <table id="tabela_letnikov" class="table table-hover" ng-init="vm.prikaziLetnike()">
             <thead>
@@ -59,8 +60,8 @@
         </table>
         <button ng-json-export-excel data="query"
         report-fields="{naziv: 'Naziv', 'studijskiProgram.naziv': 'Študijski program', 'studijskiProgram.vrstaStudija.opis': 'Vrsta študija', 'pogoj_letnik.naziv': 'Pogoj'}"
-        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
-         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        filename="'filename'" class="btn btn-info">ExportCSV</button>
+         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div> 
 </div>
 <footer></footer>

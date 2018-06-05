@@ -7,6 +7,8 @@
   function urediLetnikCtrl($location, ostaloPodatki, $routeParams, authentication){
     var vm = this;
     
+    vm.PLetniki = true;
+    vm.naslov = "Uredi letnik";
     
     vm.vpisan=authentication.currentUser();
     

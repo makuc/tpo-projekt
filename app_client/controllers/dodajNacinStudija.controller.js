@@ -7,6 +7,9 @@
     function dodajNacinStudijaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PNacini = true;
+        vm.naslov = "Dodaj način študija";
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

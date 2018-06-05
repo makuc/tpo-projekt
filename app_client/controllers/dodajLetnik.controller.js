@@ -7,6 +7,9 @@
   function dodajLetnikCtrl($location, ostaloPodatki, $routeParams, authentication){
     var vm = this;
     
+    vm.PLetniki = true;
+    vm.naslov = "Dodaj letnik";
+    
     vm.vpisan=authentication.currentUser();
     
     if(authentication.currentUser().zaposlen){

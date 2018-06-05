@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.vpisan=authentication.currentUser();
+        vm.PPredmeti = true;
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(

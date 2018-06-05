@@ -7,6 +7,9 @@
     function dodajDelePredmetaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PUrediDelePredmetov = true;
+        vm.naslov = "Dodaj del predmeta";
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

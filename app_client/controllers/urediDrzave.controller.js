@@ -7,6 +7,8 @@
     function urediDrzaveCtrl(ostaloPodatki, $scope, $location, authentication){
         var vm = this;
         
+        vm.PUrediDrzave = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

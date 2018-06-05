@@ -7,6 +7,9 @@
     function dodajZaposlenegaCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PUrediZaposlene = true;
+        vm.naslov = "Dodaj zaposlenega";
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

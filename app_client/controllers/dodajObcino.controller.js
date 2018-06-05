@@ -7,6 +7,8 @@
     function dodajObcinoCtrl($location, ostaloPodatki, $routeParams, authentication){
         var vm = this;
         
+        vm.PUrediObcine = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){
