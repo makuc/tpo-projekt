@@ -7,6 +7,8 @@
     function prikaziVseIzpitneRokeCtrl(izpitniRokPodatki, $scope, $location, ostaloPodatki, authentication){
         var vm = this;
         
+        vm.RIzpitniRoki = true;
+        
          vm.vpisan=authentication.currentUser();
 
         if(authentication.currentUser().zaposlen){

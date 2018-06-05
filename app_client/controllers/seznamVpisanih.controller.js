@@ -8,6 +8,7 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         vm.RVpisaniVPredmet = true;
          
          vm.predmetId = $routeParams.predmetId;
          vm.studijskoLetoId = $routeParams.studijskoLetoId;

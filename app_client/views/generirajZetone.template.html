@@ -24,11 +24,11 @@
 </style>
 
 <header></header>
-
-<div>
+<navigacijareferentka></navigacijareferentka>
+<div class="container">
   <div class="alert alert-danger" role="alert" ng-show="vm.napaka">{{vm.napaka}}</div>
   <div class="alert alert-success" role="alert" ng-show="vm.message">{{vm.message}}</div>
-  <h3>Generiranje žetonov za vpis</h3>
+  <h2>Generiranje žetonov za vpis</h2>
   <form role="form"  ng-submit="vm.generiraj()" class="form-horizonral"  >
     <div class="col-sm-12">
       <div class="row">
@@ -68,51 +68,50 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-4" style="margin-bottom: 15px">
-          <a href="/main" type="button" class="btn btn-danger">Prekliči</a>
+          <!--<a href="/main" type="button" class="btn btn-danger">Prekliči</a>-->
           <button class="btn btn-success pull-right" type="submit">Generiraj</button>
         </div>
       </div>
     </div>
   </form>
-</div>
-<div ng-show="vm.studenti">
-  <div id="gen" class="row">
-    <div class="col" ng-hide="vm.studenti.length > 0">
-      <h3 class="alert-danger">Generiranje žetonov ni vplivalo na nobenega študenta</h3>
-    </div>
-    <div class="col" ng-show="vm.studenti.length > 0">
-      <h3 class="alert-success">Obdelani študentje</h3>
-      <div style="overflow-x: auto">
-        <table border="1" width="100%" class="alert-success">
-          <tr>
-            <th>#</th>
-            <th>Vpisna št.</th>
-            <th>Ime</th>
-            <th>Priimek</th>
-            <th>Generirani žetoni</th>
-          </tr>
-          <tr ng-repeat="student in vm.studenti">
-            <td class="index">{{ $index }}</td>
-            <td class="vpisna">{{ student.vpisna_stevilka }}</td>
-            <td>{{ student.ime }}</td>
-            <td>{{ student.priimek }}</td>
-            <td>
-              <ul ng-show="student.zetoni.length > 0">
-                <li ng-repeat="zeton in student.zetoni">
-                  {{
-                    vm.najdiVrstoVpisa(zeton.vrsta_vpisa) + ": " + zeton.letnik.naziv
-                  }}
-                </li>
-              </ul>
-              <ul ng-hide="student.zetoni.length > 0">
-                <li>Ni generiranih žetonov</li>
-              </ul>
-            </td>
-          </tr>
-        </table>
+  <div ng-show="vm.studenti">
+    <div id="gen" class="row">
+      <div class="col" ng-hide="vm.studenti.length > 0">
+        <h3 class="alert-danger">Generiranje žetonov ni vplivalo na nobenega študenta</h3>
+      </div>
+      <div class="col" ng-show="vm.studenti.length > 0">
+        <h3 class="alert-success">Obdelani študentje</h3>
+        <div style="overflow-x: auto">
+          <table border="1" width="100%" class="alert-success">
+            <tr>
+              <th>#</th>
+              <th>Vpisna št.</th>
+              <th>Ime</th>
+              <th>Priimek</th>
+              <th>Generirani žetoni</th>
+            </tr>
+            <tr ng-repeat="student in vm.studenti">
+              <td class="index">{{ $index }}</td>
+              <td class="vpisna">{{ student.vpisna_stevilka }}</td>
+              <td>{{ student.ime }}</td>
+              <td>{{ student.priimek }}</td>
+              <td>
+                <ul ng-show="student.zetoni.length > 0">
+                  <li ng-repeat="zeton in student.zetoni">
+                    {{
+                      vm.najdiVrstoVpisa(zeton.vrsta_vpisa) + ": " + zeton.letnik.naziv
+                    }}
+                  </li>
+                </ul>
+                <ul ng-hide="student.zetoni.length > 0">
+                  <li>Ni generiranih žetonov</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 <footer></footer>

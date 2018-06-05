@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.PPredmeti = true;
+        vm.RVpisaniVPredmet = true;
         
          vm.vpisan=authentication.currentUser();
         
@@ -17,6 +18,7 @@
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
                     vm.vpisan.zaposlen = odgovor.data;
+                    console.log(odgovor.data);
                 },
                 function error(odgovor){
                     console.log(odgovor);

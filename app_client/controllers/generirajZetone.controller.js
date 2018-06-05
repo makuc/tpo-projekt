@@ -6,6 +6,8 @@
   function generirajZetoneCtrl(zetoni, $routeParams, authentication, ostaloPodatki, $location) {
     var vm = this;
     
+    vm.RGeneriranjeZetonov = true;
+    
     vm.vpisan=authentication.currentUser();
     
     vm.data = {

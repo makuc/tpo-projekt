@@ -7,6 +7,8 @@
     function potrdiVpiseCtrl(ostaloPodatki, $scope, $location, $route, $window){
         var vm = this;
         
+        vm.RPotrditevVpisa = true;
+        
         vm.oddani = true;
         
         vm.naStran = 10.0;

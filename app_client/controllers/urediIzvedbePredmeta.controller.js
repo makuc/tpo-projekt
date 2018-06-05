@@ -9,6 +9,7 @@
         
          vm.vpisan=authentication.currentUser();
          vm.PPredmeti = true;
+         vm.RVpisaniVPredmet = true;
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(

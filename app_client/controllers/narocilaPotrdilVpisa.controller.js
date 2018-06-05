@@ -7,6 +7,8 @@
     function narocilaPotrdilVpisaCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki, $window){
         var vm = this;
         
+        vm.RNarocilaPotrdilVpis = true;
+        
          vm.vpisan=authentication.currentUser();
          console.log("Vpisan: ", vm.vpisan);
         

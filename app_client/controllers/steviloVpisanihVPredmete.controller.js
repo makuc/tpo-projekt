@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.firstLoad = true;
+        vm.RStVpisanihVPredmet = true;
         
          vm.vpisan=authentication.currentUser();
         

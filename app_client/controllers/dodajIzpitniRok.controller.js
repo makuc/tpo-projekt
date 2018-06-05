@@ -9,6 +9,8 @@
         vm.podatki = {datum:new Date()};
         vm.vpisan=authentication.currentUser();
         
+        vm.RIzpitniRoki = true;
+        
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){

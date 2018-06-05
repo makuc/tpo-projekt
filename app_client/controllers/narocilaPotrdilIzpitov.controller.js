@@ -7,6 +7,8 @@
     function narocilaPotrdilIzpitovCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki, $window){
         var vm = this;
         
+        vm.RNarocilaOpravljenihIzpitov = true;
+        
          vm.vpisan=authentication.currentUser();
          console.log("Vpisan: ", vm.vpisan);
         

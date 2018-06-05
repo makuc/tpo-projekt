@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Referentka</div>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="vm.RStudenti ? 'active' : ''"><a href="/prikaziStudente">Študenti</a></li>
+            <li ng-class="vm.RIzpitniRoki ? 'active' : ''"><a href="/vsiIzpitniRoki">Izpitni roki</a></li>
+            <li ng-class="vm.RPotrditevVpisa ? 'active' : ''"><a href="/potrdiVpise">Potrditev vpisa</a></li>
+            <li ng-class="vm.RGeneriranjeZetonov ? 'active' : ''"><a href="/generiraj-zetone">Generiranje žetonov</a></li>
+            <li ng-class="vm.RVpisaniVPredmet ? 'active' : ''"><a href="/urediPredmete">Seznam vpisanih v predmet</a></li>
+            <li ng-class="vm.RStVpisanihVPredmet ? 'active' : ''"><a href="/steviloVpisanihVPredmete">Število vpisanih v predmete</a></li>
+            <li ng-class="vm.RNarocilaPotrdilVpis ? 'active' : ''"><a href="/narocilaPotrdilVpisa">Naročila potrdil o vpisu</a></li>
+            <li ng-class="vm.RNarocilaOpravljenihIzpitov ? 'active' : ''"><a href="/narocilaPotrdilIzpitov">Naročila potdil o opravljenih izpitih</a></li>
+        </ul>
+    </div>
+</nav>

@@ -7,6 +7,8 @@
     function prikaziStudenteCtrl(studentPodatki, $scope, $location, authentication, ostaloPodatki){
         var vm = this;
         
+        vm.RStudenti = true;
+        
          vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){

@@ -1,4 +1,5 @@
 <header style="margin-bottom: 15px"></header>
+<navigacijareferentka></navigacijareferentka>
 <div class="container">
     <h2>Izpitni roki</h2><br>
     <div class="row">
@@ -69,7 +70,7 @@
         
         <button ng-json-export-excel data="query"
         report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv', datum_izvajanja: 'Datum', lokacija: 'Lokacija' }"
-        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
-         <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        filename="'filename'" class="btn btn-info">ExportCSV</button>
+         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
 </div>

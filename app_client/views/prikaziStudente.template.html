@@ -1,4 +1,5 @@
 <header style="margin-bottom: 15px"></header>
+<navigacijareferentka></navigacijareferentka>
 <div class="container">
     <h2>Seznam študentov</h2><br>
     <div class="row">
@@ -53,11 +54,11 @@
                 </td>
             </tfoot>
         </table>
-        <button type="button" ng-csv="query" charset="utf-8"
+        <button class="btn btn-info" type="button" ng-csv="query" charset="utf-8"
             csv-header="[ 'Vpisna Števila', 'Priimek', 'Ime']"
             csv-column-order="[ 'vpisna_stevilka', 'priimek', 'ime']"
             add-bom="true" field-separator=";" csv-label="false" filename="test1.csv">ExportCSV</button>
-        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
         
     </div>
     

@@ -1,4 +1,5 @@
 <header></header>
+<navigacijareferentka></navigacijareferentka>
 <div class="container">
     <div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
     <div class="alert alert-success" role="alert" ng-show="vm.uspeh">{{vm.uspeh}}</div>
@@ -104,8 +105,8 @@
         </table>
         <button ng-json-export-excel data="query"
         report-fields="{'student.vpisna_stevilka': 'Vpisna številka','student.priimek': 'Priimek', 'student.ime': 'Ime', 'studijsko_leto': 'Študijsko leto', 'zaporedni_poskus_skupaj': 'Polaganj', 'tock': 'Točke', 'koncna_ocena': 'Končna ocena'}"
-        filename="'filename'" class="btn-sm btn-primary">ExportCSV</button>
-        <button type="button" ng-click="vm.exportDataPDF()">PDF</button>
+        filename="'filename'" class="btn btn-info">ExportCSV</button>
+        <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
     <a href="/vsiIzpitniRoki"><button class="btn btn-primary" type="button">Nazaj na izpitne roke</button></a>
 </div>

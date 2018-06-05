@@ -7,6 +7,8 @@
     function poglejVpiseCtrl(ostaloPodatki, $scope, $location, $route, $window){
         var vm = this;
         
+        vm.RPotrditevVpisa = true;
+        
         vm.naStran = 10.0;
         vm.stran = 0;
         vm.strani = [1];

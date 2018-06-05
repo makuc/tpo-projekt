@@ -7,6 +7,8 @@
     function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location, $route){
         var vm = this;
         
+        vm.RIzpitniRoki = true;
+        
         vm.izvedbaId = $route.current.pathParams.rokId;
         //console.log(vm.izvedbaId);
         vm.opcijeOcen = [1,2,3,4,5,6,7,8,9,10];
