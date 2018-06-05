@@ -10,12 +10,14 @@
          vm.vpisan=authentication.currentUser();
          vm.PPredmeti = true;
          vm.RVpisaniVPredmet = true;
+         vm.PSeznamVpisanihVPredmet = true;
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
+                    vm.vpisan = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);

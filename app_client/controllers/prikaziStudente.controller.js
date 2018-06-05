@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.RStudenti = true;
+        vm.PStudenti = true;
         
          vm.vpisan=authentication.currentUser();
         
@@ -16,6 +17,7 @@
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
+                    vm.vpisan = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);

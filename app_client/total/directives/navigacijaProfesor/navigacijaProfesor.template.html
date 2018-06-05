@@ -1,0 +1,12 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">{{vm.ime}} {{vm.priimek}}</div>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="vm.PIzpitniRoki ? 'active' : ''"><a href="/izpitniRok/profesor">Izpitni roki</a></li>
+            <li ng-class="vm.PSeznamVpisanihVPredmet ? 'active' : ''"><a href="/urediPredmete">Seznam vpisanih v predmet</a></li>
+            <li ng-class="vm.PStudenti ? 'active' : ''"><a href="/prikaziStudente">Študenti</a></li>
+        </ul>
+    </div>
+</nav>

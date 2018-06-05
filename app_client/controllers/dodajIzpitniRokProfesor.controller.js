@@ -1,11 +1,30 @@
 (function() {
     /* global angular */
     
-    dodajIzpitniRokProfesorCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki', 'izpitniRokPodatki'];
+    dodajIzpitniRokProfesorCtrl.$inject = ['$location', 'ostaloPodatki', '$routeParams', 'predmetPodatki', 'izpitniRokPodatki', 'authentication'];
     
     
-    function dodajIzpitniRokProfesorCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki){
+    function dodajIzpitniRokProfesorCtrl($location, ostaloPodatki, $routeParams, predmetPodatki, izpitniRokPodatki, authentication){
         var vm = this;
+        
+        vm.vpisan=authentication.currentUser();
+        
+        vm.PIzpitniRoki = true;
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        
+        vm.profesor = true;
         
         function preveriDatum(datum){
             console.log(datum);

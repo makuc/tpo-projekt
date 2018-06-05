@@ -9,6 +9,7 @@
         
          vm.vpisan=authentication.currentUser();
          vm.RVpisaniVPredmet = true;
+         vm.PSeznamVpisanihVPredmet = true;
          
          vm.predmetId = $routeParams.predmetId;
          vm.studijskoLetoId = $routeParams.studijskoLetoId;
@@ -18,6 +19,7 @@
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
+                    vm.vpisan = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);

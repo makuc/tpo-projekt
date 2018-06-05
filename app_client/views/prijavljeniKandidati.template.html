@@ -1,5 +1,6 @@
 <header></header>
-<navigacijareferentka></navigacijareferentka>
+<navigacijareferentka ng-show="vm.vpisan.referentka == true"></navigacijareferentka>
+<navigacijaprofesor ng-show="vm.vpisan.zaposlen.predavatelj == true"></navigacijaprofesor>
 <div class="container">
     <div class="alert alert-danger" role="alert" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
     <div class="alert alert-success" role="alert" ng-show="vm.uspeh">{{vm.uspeh}}</div>
@@ -108,5 +109,5 @@
         filename="'filename'" class="btn btn-info">ExportCSV</button>
         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     </div>
-    <a href="/vsiIzpitniRoki"><button class="btn btn-primary" type="button">Nazaj na izpitne roke</button></a>
+    <button ng-click="vm.nazaj()" class="btn btn-primary" type="button">Nazaj na izpitne roke</button>
 </div>

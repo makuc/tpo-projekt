@@ -5,7 +5,8 @@
 </style>
 
 <header style="margin-bottom: 15px"></header>
-<navigacijareferentka></navigacijareferentka>
+<navigacijareferentka ng-show="vm.vpisan.referentka == true"></navigacijareferentka>
+<navigacijaprofesor ng-show="vm.profesor"></navigacijaprofesor>
 <div class="container">
     <h2>Urejanje izpitnega roka</h2><br>
     <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>

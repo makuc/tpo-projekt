@@ -7,6 +7,8 @@
     function izpitniRokiProfesorCtrl($location, authentication, izpitniRokPodatki, ostaloPodatki) {
         var vm = this;
         
+        vm.PIzpitniRoki = true;
+        
         vm.vpisan=authentication.currentUser();
         
         if(authentication.currentUser().zaposlen){
@@ -80,6 +82,10 @@
                     console.log(odgovor);
                 }
             );
+        };
+        
+        vm.kandidati = function(rokId){
+            $location.path('/vsiIzpitniRoki/' + rokId + '/kandidati')  ;
         };
         
     }

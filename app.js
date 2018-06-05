@@ -35,6 +35,7 @@ var zdruzeno = uglifyJs.minify({
   'footer.directive.js': fs.readFileSync('app_client/total/directives/footer/footer.directive.js', 'utf8'),
   'navigation.directive.js': fs.readFileSync('app_client/total/directives/navigation/navigation.directive.js', 'utf8'),
   'navigacijaReferentka.directive.js': fs.readFileSync('app_client/total/directives/navigacijaReferentka/navigacijaReferentka.directive.js', 'utf8'),
+  'navigacijaProfesor.directive.js': fs.readFileSync('app_client/total/directives/navigacijaProfesor/navigacijaProfesor.directive.js', 'utf8'),
   
   //services
   'student.service.js': fs.readFileSync('app_client/total/services/student.service.js', 'utf8'),

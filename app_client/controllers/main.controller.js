@@ -112,6 +112,7 @@
                     vm.priimek = odgovor.data.zaposlen.priimek;
                     if(odgovor.data.referentka){
                         vm.referentka = true;
+                        $location.path('/prikaziStudente');
                     }
                     if(odgovor.data.skrbnik){
                         vm.skrbnik = true;
@@ -119,6 +120,7 @@
                     }
                     if(odgovor.data.zaposlen.predavatelj){
                         vm.predavatelj = true;
+                        $location.path('/izpitniRok/profesor');
                     }
                 },
                 function error(odgovor){

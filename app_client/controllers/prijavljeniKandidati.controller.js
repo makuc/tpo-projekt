@@ -1,13 +1,37 @@
 (function() {
     /* global angular */
     
-    prijavljeniKandidatiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', '$route'];
+    prijavljeniKandidatiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', '$route', 'authentication'];
     
     
-    function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location, $route){
+    function prijavljeniKandidatiCtrl(ostaloPodatki, $scope, $location, $route, authentication){
         var vm = this;
         
         vm.RIzpitniRoki = true;
+        vm.PIzpitniRoki = true;
+        
+        vm.vpisan = authentication.currentUser();
+        
+        if(authentication.currentUser().zaposlen){
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                    vm.vpisan = odgovor.data;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
+        vm.nazaj = function() {
+            if(vm.vpisan.referentka){
+                $location.path('/vsiIzpitniRoki');
+            } else {
+                $location.path('/izpitniRok/profesor');
+            }
+        };
         
         vm.izvedbaId = $route.current.pathParams.rokId;
         //console.log(vm.izvedbaId);

@@ -9,6 +9,9 @@
         
         vm.vpisan=authentication.currentUser();
         
+        vm.profesor = true;
+        vm.PIzpitniRoki = true;
+        
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
