@@ -24,6 +24,8 @@
               var studLeto = vm.podatkiStudenta.studijska_leta_studenta[i].studijsko_leto;
               vm.studijskaLeta.push(studLeto);
             }
+            
+            pripraviOpravljaPredmete();
           },
           function error(odgovor){
             console.log(odgovor);
@@ -31,6 +33,7 @@
         );
         
         vm.izbiraOcen = [1,2,3,4,5,6,7,8,9,10];
+        vm.opravlja = [];
         
         if(vm.vpisan.zaposlen){
           ostaloPodatki.najdiZaposlenega(vm.vpisan.zaposlen).then(
@@ -46,20 +49,25 @@
         if(vm.vpisan.referentka != true) {
           izpitniRokPodatki.najdiPredmeteZaposlenega().then(
             function success(odgovor){
-              vm.opravlja = [];
-              
-              for(var i = 0; i < odgovor.data.length; i++){
-                //console.log(odgovor.data[i] + " " + vm.podatki.studijskoLeto._id);
-                if(seIzvaja(odgovor.data[i], vm.podatki.studijskoLeto._id)){
-                    vm.opravlja.push(odgovor.data[i]);
-                }
-                
-              }
+              vm.predmetiProf = odgovor.data;
+              pripraviOpravljaPredmete();
             },
             function error(odgovor){
                 console.log(odgovor);
             }
           );
+        }
+        function pripraviOpravljaPredmete() {
+          if(vm.podatki.studijskoLeto)
+          {
+            vm.opravlja = [];
+            for(var i = 0; i < vm.predmetiProf.length; i++){
+              //console.log(odgovor.data[i] + " " + vm.podatki.studijskoLeto._id);
+              if(seIzvaja(vm.predmetiProf[i], vm.podatki.studijskoLeto._id)){
+                  vm.opravlja.push(vm.predmetiProf[i]);
+              }
+            }
+          }
         }
         
         vm.logoutFunc = function() {
@@ -97,9 +105,14 @@
                 }
                 else
                 {
+                  pripraviOpravljaPredmete();
+                  
                   for(var k = 0; k < vm.opravlja.length; k++)
                   {
-                    console.log("Primerjaj:", vm.opravlja[k], " | ", predmetnik[j]._id);
+                    if(vm.opravlja[k]._id == predmetnik[j].predmet._id)
+                    {
+                      vm.predmeti.push(predmetnik[j].predmet);
+                    }
                   }
                 }
               }
