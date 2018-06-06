@@ -185,7 +185,8 @@ module.exports.individualniVnosOcene = function(req, res) {
     req.opozorila = "";
     
     validateStudijskoLeto(req, res, [
-      validatePredmet, najdiStudentaId,
+      validatePredmet, duplPredmet, validateDatumIzvedbe, validateIzvedboPredmeta, preveriIzvedboPredmeta,
+      najdiStudentaId,
       studentovPredmet,
       
       // Preveri, če je že opravil izpit pozitivno
@@ -199,10 +200,13 @@ module.exports.individualniVnosOcene = function(req, res) {
       studentovPredmet,
       
       // Shrani oceno
-      najdiPolaganje, vnesiOcenoPodIzpit, vnesiOcenoStudentu, nastaviPolaganja,
+      najdiPolaganje, vnesiOcenoPodIzpit, vnesiOcenoStudentu,
+      
+      // Prijavi na prejsnji izpit, ce je njegova prijava nedotakljiva!
+      najdiPolaganjePrejsnje, nastaviPolaganja,
       
       // Shrani spremembe
-      shraniIzpit, shraniStudenta, ocenaDodana
+      shraniIzpit, shraniPrejsnjiIzpit, shraniStudenta, ocenaDodana
     ]);
   }
 };
@@ -635,7 +639,7 @@ function validatePredmet(req, res, next) {
 }
 function validateIzvedboPredmeta(req, res, next) {
   debug("--validateIzvedboPredmeta");
-  req.next = next;
+  req.myNext = next;
   
   callNext(req, res, [ najdiIzvedboPredmeta, validIzvedbaPredmeta ]);
 }
@@ -660,8 +664,8 @@ function validIzvedbaPredmeta(req, res, next) {
   }
   else
   {
-    next = req.next;
-    req.next = undefined;
+    next = req.myNext;
+    req.myNext = undefined;
     
     callNext(req, res, next);
   }
@@ -1277,6 +1281,7 @@ function preveriPretekloDovoljDni(req, res, next) {
 // Vnos ocene
 function vnesiOcenoPodIzpit(req, res, next) {
   debug("--vnesiOcenoPodIzpit");
+  
   if(req.body.tock)
   {
     req.body.tock = parseInt(req.body.tock, 10);
@@ -1285,6 +1290,7 @@ function vnesiOcenoPodIzpit(req, res, next) {
     
     req.polaganje.tock = req.body.tock;
   }
+  
   if(req.body.koncna_ocena)
   {
     req.body.koncna_ocena = parseInt(req.body.koncna_ocena, 10);
@@ -1299,8 +1305,11 @@ function vnesiOcenoPodIzpit(req, res, next) {
 function vnesiOcenoStudentu(req, res, next) {
   debug("--vnesiOcenoStudentu");
   
-  req.predmet.ocena = req.body.koncna_ocena;
-  req.predmet.izpit = req.izpit;
+  if(!req.prejsnjiIzpit)
+  {
+    req.predmet.ocena = req.body.koncna_ocena;
+    req.predmet.izpit = req.izpit;
+  }
   
   //debug(req.predmet);
   
@@ -1390,10 +1399,16 @@ function najdiPrijavljenIzpit(req, res, next) {
     });
 }
 
+function duplPredmet(req, res, next) {
+  req.duplPredmet = req.predmet;
+  
+  callNext(req, res, next);
+}
 function preveriIzvedboPredmeta(req, res, next) {
   debug("--preveriIzvedboPredmeta");
   if(!req.body || !req.body.izvedba_predmeta)
   {
+    debug("Ni podane izvedbe predmeta");
     callNext(req, res, next);
   }
   else
@@ -1462,14 +1477,46 @@ function obdelajPrijavoNaIzpit(req, res, next) {
   var datum = new Date(req.body.datum_izvajanja);
   var danes = new Date();
   
+  /*
   if(danes < datum)
   {
-    res.status(400).json({ message: "Izpiti se še ni mogel izvajati, datum izvajanja je višji od današnjega"});
+    res.status(400).json({ message: "Izpit se še ni mogel izvajati, datum izvajanja je višji od današnjega"});
   }
   else
   {
-    if((req.izpit && req.predmet.ocena > 5) ||(req.izpit && datum > req.izpit.datum_izvajanja))
+    */
+    var enakaIzvedba = false;
+    if(req.izpit)
     {
+      // Preveri izvedbo predmeta-izpita
+      enakaIzvedba = req.izvedba.izvajalci.length == req.izpit.izvajalci.length;
+      
+      debug("Enaka izvedba length: " + enakaIzvedba);
+      
+      for(var i = 0; i < req.izvedba.izvajalci.length && enakaIzvedba; i++)
+      {
+        var izvajalecPredmeta = req.izvedba.izvajalci[i];
+        
+        for(var j = 0; j < req.izpit.izvajalci.length; j++)
+        {
+          var izvajalecIzpita = req.izpit.izvajalci[j];
+          
+          debug("Primerjaj: " + izvajalecPredmeta._id + " | " + izvajalecIzpita._id);
+          
+          if(!izvajalecPredmeta._id.equals(izvajalecIzpita._id))
+          {
+            enakaIzvedba = false;
+          }
+        }
+      }
+    }
+    
+    debug("Enaka izvedba? " + enakaIzvedba);
+    
+    if(req.izpit && req.predmet.ocena > 5)
+    {
+      debug("Vrni prijavo prej opravljenega izpita!");
+      
       callNext(req, res,[
         najdiPolaganje,
         odjaviPolagalca, nizajZaporedniPoskus,
@@ -1478,14 +1525,25 @@ function obdelajPrijavoNaIzpit(req, res, next) {
         ponastaviIzbranIzpita, obdelajPrijavoNaIzpit
       ]);
     }
+    else if((req.izpit && datum.getTime() != req.izpit.datum_izvajanja.getTime()) || (req.izpit && !enakaIzvedba))
+    {
+      debug("Prijavljen je, ampak prijave ne tikaj!");
+      
+      req.prejsnjiIzpit = req.izpit;
+      
+      req.izpit = undefined;
+      
+      obdelajPrijavoNaIzpit(req, res, next);
+    }
     else
     {
+      debug("Nadaljuj z vnosom ocene");
       next = req.myNext;
       req.myNext = undefined;
       
       callNext(req, res, next);
     }
-  }
+  //}
 }
 function najdiOpravljanIzpit(req, res, next) {
   debug("--najdiOpravljanIzpit");
@@ -1558,21 +1616,81 @@ function narediCustomIzpit(req, res, next) {
 }
 function nastaviPolaganja(req, res, next) {
   debug("--nastaviPolaganja");
+  
   var zaporedni_poskus = parseInt(req.body.zaporedni_poskus, 10);
   var zaporedni_poskus_skupaj = parseInt(req.body.zaporedni_poskus_skupaj, 10);
   
-  if(!isNaN(zaporedni_poskus) && zaporedni_poskus > 0) {
+  if(!isNaN(zaporedni_poskus) && zaporedni_poskus > 0)
+  {
     req.predmet.zaporedni_poskus = zaporedni_poskus;
     req.polaganje.zaporedni_poskus = zaporedni_poskus;
+    
+    if(req.prejsnjePolaganje)
+    {
+      debug("Popravljam prejšnje polaganje zaporedni poskus");
+      
+      req.predmet.zaporedni_poskus = zaporedni_poskus +1;
+      req.prejsnjePolaganje.zaporedni_poskus = zaporedni_poskus +1;
+    }
   }
   
-  if(!isNaN(zaporedni_poskus) && zaporedni_poskus_skupaj > 0) {
+  if(!isNaN(zaporedni_poskus) && zaporedni_poskus_skupaj > 0)
+  {
     req.predmet.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj;
     req.polaganje.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj;
+    
+    if(req.prejsnjePolaganje)
+    {
+      debug("Popravljam prejšnje polaganje zaporedni poskus skupaj");
+      
+      req.predmet.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj +1;
+      req.prejsnjePolaganje.zaporedni_poskus_skupaj = zaporedni_poskus_skupaj +1;
+    }
   }
   
   callNext(req, res, next);
 }
 function ocenaDodana(req, res) {
   res.status(200).json({ message: "Ocena dodana"});
+}
+
+function shraniPrejsnjiIzpit(req, res, next) {
+  debug("--shraniPrejsnjiIzpit");
+  if(!req.prejsnjiIzpit) {
+    callNext(req, res, next);
+  }
+  else
+  {
+    req.prejsnjiIzpit.save(function(err, izpit) {
+      if(err || !izpit) {
+        debug("---shraniPrejsnjiIzpit:\n" + err);
+        res.status(400).json({ message: "Napaka pri spreminjanju izpita" });
+      }
+      else
+      {
+        req.prejsnjiIzpit = izpit;
+        
+        callNext(req, res, next);
+      }
+    });
+  }
+}
+function najdiPolaganjePrejsnje(req, res, next) {
+  debug("--najdiPolaganjePrejsnje");
+  
+  if(!req.prejsnjiIzpit) {
+    callNext(req, res, next);
+  }
+  else
+  {
+    for(var i = 0; i < req.prejsnjiIzpit.polagalci.length; i++) {
+      if(req.prejsnjiIzpit.polagalci[i].student._id.equals(req.student._id) && !req.prejsnjiIzpit.polagalci[i].odjavljen)
+      {
+        req.prejsnjePolaganje = req.prejsnjiIzpit.polagalci[i];
+        break;
+      }
+    }
+    
+    callNext(req, res, next);
+  }
 }
