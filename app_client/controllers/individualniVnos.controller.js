@@ -17,6 +17,13 @@
           function success(odgovor){
             vm.podatkiStudenta = odgovor.data;
             vm.kart = odgovor.data;
+            
+            vm.studijskaLeta = [];
+            for(var i = 0; i < vm.podatkiStudenta.studijska_leta_studenta.length; i++)
+            {
+              var studLeto = vm.podatkiStudenta.studijska_leta_studenta[i].studijsko_leto;
+              vm.studijskaLeta.push(studLeto);
+            }
           },
           function error(odgovor){
             console.log(odgovor);
@@ -110,51 +117,56 @@
         vm.izbranPredmet = function(){
           vm.izbirajPodrobnosti = false;
           
-          izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
-            function success(odgovor){
-              console.log("Izvedbe: ", odgovor.data);
-              vm.izvedbe = odgovor.data;
-              
-              // Najdi izbran letnik
-              for(var j = 0; j < vm.sLeto.predmeti.length; j++)
-              {
-                if(vm.podatki.predmet._id == vm.sLeto.predmeti[j].predmet._id)
+          console.log("Izbrano leto:", vm.podatki.studijskoLeto);
+          
+          if(vm.podatki.studijskoLeto && vm.podatki.predmet)
+          {
+            izpitniRokPodatki.pridobiIzvedbePredmeta(vm.podatki.predmet._id, vm.podatki.studijskoLeto._id).then(
+              function success(odgovor){
+                console.log("Izvedbe: ", odgovor.data);
+                vm.izvedbe = odgovor.data;
+                
+                // Najdi izbran letnik
+                for(var j = 0; j < vm.sLeto.predmeti.length; j++)
                 {
-                  vm.izpit = vm.sLeto.predmeti[j].izpit;
-                  vm.myPredmet = vm.sLeto.predmeti[j];
-                  
-                  if(vm.izpit && vm.myPredmet.ocena <= 0)
+                  if(vm.podatki.predmet._id == vm.sLeto.predmeti[j].predmet._id)
                   {
-                    console.log("Prijavljen na izpit !!!");
-                    parseIzpit();
-                  }
-                  else
-                  {
-                    console.log("Ni prijave na izpit !!!");
+                    vm.izpit = vm.sLeto.predmeti[j].izpit;
+                    vm.myPredmet = vm.sLeto.predmeti[j];
                     
-                    vm.datum = new Date();
-                    
-                    vm.dan = vm.datum.getDate();
-                    vm.mesec = vm.datum.getMonth() +1;
-                    vm.leto = vm.datum.getFullYear();
-                    
-                    vm.ura = undefined;
-                    vm.minuta = undefined;
-                    
-                    vm.opravljanjLetos = vm.myPredmet.zaporedni_poskus +1;
-                    vm.opravljanjSkupaj = vm.myPredmet.zaporedni_poskus_skupaj +1;
-                    
-                    vm.podatki.lokacija = "";
-                    
-                    vm.izbirajPodrobnosti = true;
+                    if(vm.izpit && vm.myPredmet.ocena <= 0)
+                    {
+                      console.log("Prijavljen na izpit !!!");
+                      parseIzpit();
+                    }
+                    else
+                    {
+                      console.log("Ni prijave na izpit !!!");
+                      
+                      vm.datum = new Date();
+                      
+                      vm.dan = vm.datum.getDate();
+                      vm.mesec = vm.datum.getMonth() +1;
+                      vm.leto = vm.datum.getFullYear();
+                      
+                      vm.ura = undefined;
+                      vm.minuta = undefined;
+                      
+                      vm.opravljanjLetos = vm.myPredmet.zaporedni_poskus +1;
+                      vm.opravljanjSkupaj = vm.myPredmet.zaporedni_poskus_skupaj +1;
+                      
+                      vm.podatki.lokacija = "";
+                      
+                      vm.izbirajPodrobnosti = true;
+                    }
                   }
                 }
+              },
+              function error(odgovor){
+                console.log(odgovor);
               }
-            },
-            function error(odgovor){
-              console.log(odgovor);
-            }
-          ); 
+            );
+          }
         };
         function parseIzpit() {
           izberiIzvajalca();
@@ -259,16 +271,6 @@
               ); 
           }
         };
-        
-
-        ostaloPodatki.pridobiVseVeljavneStudijskaLeta().then(
-            function success(odgovor){
-                vm.studijskaLeta = odgovor.data;
-            },
-            function error(odgovor){
-                console.log(odgovor);
-            }
-        );
         
         function urediDatum() {
           vm.datum.setDate(vm.dan);
