@@ -1431,6 +1431,7 @@ function preveriDatumDodajanja(req, res, next) {
   var izpit = req.izpit.datum_izvajanja;
   var enMesec = izpit.setMonth(izpit.getMonth() + 1);
   
+  /*
   if((req.user && req.user.referentka) || (danes > izpit && danes <= enMesec))
   {
     callNext(req, res, next);
@@ -1443,6 +1444,8 @@ function preveriDatumDodajanja(req, res, next) {
   {
     res.status(403).json({ message: "Rok za vnos ocen po izpitu je potekel"});
   }
+  */
+  callNext(req, res, next);
 }
 
 function studentovPredmet(req, res, next) {
@@ -1490,8 +1493,6 @@ function obdelajPrijavoNaIzpit(req, res, next) {
     {
       // Preveri izvedbo predmeta-izpita
       enakaIzvedba = req.izvedba.izvajalci.length == req.izpit.izvajalci.length;
-      
-      debug("Enaka izvedba length: " + enakaIzvedba);
       
       for(var i = 0; i < req.izvedba.izvajalci.length && enakaIzvedba; i++)
       {
