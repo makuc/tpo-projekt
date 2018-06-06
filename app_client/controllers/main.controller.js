@@ -37,11 +37,13 @@
         }
         
         vm.vpisan=authentication.currentUser();
+        console.log(vm.vpisan);
         
         // vpisani je student
         if(authentication.currentUser().student){
             vm.jeStudent = true;
             vm.student = true;
+            vm.SPredmetnik = true;
             //console.log(authentication.currentUser());
             pridobiZahtevke();
         

@@ -8,8 +8,12 @@
         var vm = this;
         vm.cont=0;
          vm.vpisan=authentication.currentUser();
+         
+         vm.SKartotecniList = true;
+         
         
         if(authentication.currentUser().zaposlen){
+            vm.zaposlen = true;
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
@@ -36,6 +40,12 @@
             console.log(vm.idStudenta);
             ostaloPodatki.pridobiKartotecniList(vm.idStudenta).then(
                 function success(odgovor){
+                    if(!vm.zaposlen){
+                        vm.ime = odgovor.data.ime;
+                        vm.priimek = odgovor.data.priimek; 
+                    }
+
+                    
                     vm.kart = odgovor.data;
                     for(var i = 0; i < odgovor.data.studijska_leta_studenta.length; i++){
                         var skupnaOcena = 0;
@@ -63,6 +73,12 @@
         vm.najdiStudentKartotecniList = function(){
             studentPodatki.izpisStudenta(vm.idStudenta).then(
                 function success(odgovor){
+                    for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                        if(!odgovor.data.zetoni[i].izkoriscen){
+                            vm.neizkoriscenZeton = true;
+                        }
+                    }
+                    
                     vm.stud = odgovor.data;
                     for(var i = 0; i < odgovor.data.studijska_leta_studenta.length; i++){
                         var skupnaOcena = 0;

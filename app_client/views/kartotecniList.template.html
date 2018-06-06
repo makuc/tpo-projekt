@@ -27,256 +27,262 @@
 <div ng-init="vm.najdiKartotecniList()"></div>
 <div ng-init="vm.najdiStudentKartotecniList()"></div>
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <div class="navbar-brand">{{vm.kart.vpisna_stevilka}}, {{vm.kart.ime}} {{vm.kart.priimek}}</div>
+<div ng-show="vm.vpisan.referentka == true">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">{{vm.kart.vpisna_stevilka}}, {{vm.kart.ime}} {{vm.kart.priimek}}</div>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/podrobnostiStudenta/{{vm.kart._id}}">Osebni podatki</a></li>
+        <li class="active"><a href="/kartotecniList/{{vm.kart._id}}">Kartotečni indeks</a></li>
+        <li><a href="/elektronskiIndeks/{{vm.kart._id}}">Elektronski indeks</a></li>
+        <li><a href="/individualniVnos/{{vm.kart._id}}">Individualni vnos ocene</a></li>
+        <li><a href="/oceneStudentaPredmeti/{{vm.kart._id}}">Ocene</a></li>
+      </ul>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a href="/podrobnostiStudenta/{{vm.kart._id}}">Osebni podatki</a></li>
-      <li class="active"><a href="/kartotecniList/{{vm.kart._id}}">Kartotečni indeks</a></li>
-      <li><a href="/elektronskiIndeks/{{vm.kart._id}}">Elektronski indeks</a></li>
-      <li><a href="/individualniVnos/{{vm.kart._id}}">Individualni vnos ocene</a></li>
-      <li><a href="/oceneStudentaPredmeti/{{vm.kart._id}}">Ocene</a></li>
-    </ul>
-  </div>
-</nav>
+  </nav>
+</div>
 
-<h2>Kartotečni list</h2><br>
-<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
-<form role ="form"  class="form-horizonral">
+<navigacijastudent ng-show="vm.vpisan.student"></navigacijastudent>
 
- <button class="btn btn-info" ng-click="vm.cont=(vm.cont+1)%2">Tip kartotečnega lista</button> 
- <div ng-show="vm.cont == 0" > Vsi izpiti</div>
-  <div ng-show="vm.cont != 0" > Samo zadnji izpit</div>
+<div class="container">
+  <h2>Kartotečni list</h2><br>
+  <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+  <form role ="form"  class="form-horizonral">
   
-  <p>Študijsko leto <input type="text" ng-model="test"></p>
-  
-  <div ng-show="vm.cont == 0" id="exportable1">
-    <button class="btn btn-info" type="button" ng-click="vm.exportDataCSV1()">CSV</button>
-         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF1()">PDF</button>
-    <div class="row">
-        <div class="form-group col-sm-4">
-            <label>Vpisna številka:</label>
-            <div class="form-control" type="text" value="{{vm.kart.vpisna_stevilka}}" ng-model="vm.kart.vpisna_stevilka">{{vm.kart.vpisna_stevilka}}</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm-4">
-            <label>Priimek:</label>
-            <div class="form-control" type="text" value="{{vm.kart.priimek}}" ng-model="vm.kart.priimek"> {{vm.kart.priimek}}</div>
-        </div>
-           <div class="form-group col-sm-4">
-            <label>Ime:</label>
-            <div class="form-control" type="text" value="{{vm.kart.ime}}" ng-model="vm.kart.ime">{{vm.kart.ime}} </div>
-        </div>
-   
-    </div>
-    <div ng-repeat="letnik in vm.kart.studijska_leta_studenta | filter : test">
+   <button class="btn btn-info" ng-click="vm.cont=(vm.cont+1)%2">Tip kartotečnega lista</button> 
+   <div ng-show="vm.cont == 0" > Vsi izpiti</div>
+    <div ng-show="vm.cont != 0" > Samo zadnji izpit</div>
+    
+    <p>Študijsko leto <input type="text" ng-model="test"></p>
+    
+    <div ng-show="vm.cont == 0" id="exportable1">
+      <button class="btn btn-info" type="button" ng-click="vm.exportDataCSV1()">CSV</button>
+           <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF1()">PDF</button>
       <div class="row">
           <div class="form-group col-sm-4">
-              <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
-            </div>
+              <label>Vpisna številka:</label>
+              <div class="form-control" type="text" value="{{vm.kart.vpisna_stevilka}}" ng-model="vm.kart.vpisna_stevilka">{{vm.kart.vpisna_stevilka}}</div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-sm-4">
+              <label>Priimek:</label>
+              <div class="form-control" type="text" value="{{vm.kart.priimek}}" ng-model="vm.kart.priimek"> {{vm.kart.priimek}}</div>
+          </div>
+             <div class="form-group col-sm-4">
+              <label>Ime:</label>
+              <div class="form-control" type="text" value="{{vm.kart.ime}}" ng-model="vm.kart.ime">{{vm.kart.ime}} </div>
+          </div>
+     
+      </div>
+      <div ng-repeat="letnik in vm.kart.studijska_leta_studenta | filter : test">
+        <div class="row">
             <div class="form-group col-sm-4">
-              <div>Vrsta študija: {{letnik.vrsta_studija.sifra}},  {{letnik.vrsta_studija.opis}}</div>
-         </div>
-      </div>
-      <div class="row">
-          <div class="form-group col-sm-4">
-              <div>Letnik: {{letnik.letnik.naziv}}</div>
-            </div>  
-          <div class="form-group col-sm-4">
-              <div>Vrsta vpisa: {{letnik.vrsta_vpisa.koda}} - {{letnik.vrsta_vpisa.naziv}}</div>
-     </div>
-      </div>
-      <div class="row">
-           <div class="form-group col-sm-4">
-              <div>Način: {{letnik.nacin_studija.sifra}} - {{letnik.nacin_studija.naziv}}</div>
+                <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
               </div>
-               <div class="form-group col-sm-4">
-              <div>Skupina: {{letnik.kraj_izvajanja}}</div>
-              </div>
+              <div class="form-group col-sm-4">
+                <div>Vrsta študija: {{letnik.vrsta_studija.sifra}},  {{letnik.vrsta_studija.opis}}</div>
+           </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <div>Letnik: {{letnik.letnik.naziv}}</div>
+              </div>  
+            <div class="form-group col-sm-4">
+                <div>Vrsta vpisa: {{letnik.vrsta_vpisa.koda}} - {{letnik.vrsta_vpisa.naziv}}</div>
+       </div>
+        </div>
+        <div class="row">
+             <div class="form-group col-sm-4">
+                <div>Način: {{letnik.nacin_studija.sifra}} - {{letnik.nacin_studija.naziv}}</div>
+                </div>
+                 <div class="form-group col-sm-4">
+                <div>Skupina: {{letnik.kraj_izvajanja}}</div>
+                </div>
+        </div>
+       <div class="container table-responsive">
+        <table id="tabela_kartotecni_listi" class="table table-hover" >
+          <thead>
+            <tr>
+              <th >#</th>
+              <th >Šifra</th>
+              <th >Predmet</th>
+              <th >KT</th>
+              <th>Predavatelj(i)</th>
+              <th class="datum" >Datum</th>
+              <th class="ocena" >Ocena</th>
+              <th class="stPolaganj" >Št. polaganj</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="predmet in  letnik.predmeti" >
+              <td >{{ ($index + 1) }}</td>
+              <td class="export1">{{ predmet.predmet.sifra }}</td>
+              <td class="export1">{{ predmet.predmet.naziv }}</td>
+              <td class="export1">{{ predmet.predmet.KT }}</td>
+              <td colspan="4" style="padding:0;" class="export1">
+                <table class="clean" >
+                  <tr ng-repeat="izpit in predmet.izpiti | orderBy : izpit.datum_izvajanja : true" class="clean">
+                    <td style="">
+                      <ul>
+                         <li ng-repeat="izvajalec in izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
+                      </ul>
+                    </td>
+                    <td class="datum" class="export1">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
+                    <td class="ocena" class="export1" ng-show="izpit.polaganje.koncna_ocena > 0">{{ izpit.polaganje.koncna_ocena }}</td>
+                    <td class="ocena"  ng-hide="izpit.polaganje.koncna_ocena > 0">-</td>
+                    <td class="stPolaganj" class="export1">{{ izpit.polaganje.zaporedni_poskus_skupaj }} | {{ izpit.polaganje.zaporedni_poskus }}</td>
+                   </tr>
+                 </table>
+               </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Število opravljenih izpitov</th>
+              <th>Kreditne točke</th>
+              <th>Skupno povprečje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{letnik.stOpravljenih}}</td>
+              <td>{{letnik.stKT}}</td>
+              <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-     <div class="container table-responsive">
-      <table id="tabela_kartotecni_listi" class="table table-hover" >
-        <thead>
-          <tr>
-            <th >#</th>
-            <th >Šifra</th>
-            <th >Predmet</th>
-            <th >KT</th>
-            <th>Predavatelj(i)</th>
-            <th class="datum" >Datum</th>
-            <th class="ocena" >Ocena</th>
-            <th class="stPolaganj" >Št. polaganj</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="predmet in  letnik.predmeti" >
-            <td >{{ ($index + 1) }}</td>
-            <td class="export1">{{ predmet.predmet.sifra }}</td>
-            <td class="export1">{{ predmet.predmet.naziv }}</td>
-            <td class="export1">{{ predmet.predmet.KT }}</td>
-            <td colspan="4" style="padding:0;" class="export1">
-              <table class="clean" >
-                <tr ng-repeat="izpit in predmet.izpiti | orderBy : izpit.datum_izvajanja : true" class="clean">
-                  <td style="">
-                    <ul>
-                       <li ng-repeat="izvajalec in izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
-                    </ul>
-                  </td>
-                  <td class="datum" class="export1">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
-                  <td class="ocena" class="export1" ng-show="izpit.polaganje.koncna_ocena > 0">{{ izpit.polaganje.koncna_ocena }}</td>
-                  <td class="ocena"  ng-hide="izpit.polaganje.koncna_ocena > 0">-</td>
-                  <td class="stPolaganj" class="export1">{{ izpit.polaganje.zaporedni_poskus_skupaj }} | {{ izpit.polaganje.zaporedni_poskus }}</td>
-                 </tr>
-               </table>
-             </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Število opravljenih izpitov</th>
-            <th>Kreditne točke</th>
-            <th>Skupno povprečje</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{letnik.stOpravljenih}}</td>
-            <td>{{letnik.stKT}}</td>
-            <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        
+        
+      </div>
+      
+           
+       </div>
       
       
-    </div>
-    
-         
-     </div>
-    
-    
-    
-    
-     <div ng-show="vm.cont != 0" id="exportable2">
-    <div ng-show="vm.cont != 0" ng-repeat="letnik in vm.stud.studijska_leta_studenta | filter : test">
-      <button type="button" ng-click="vm.exportDataCSV2()">CSV</button>
-    <button type="button" ng-click="vm.exportDataPDF2()">PDF</button>
-      <div class="row">
-        <div class="form-group col-sm-4">
-            <label>Vpisna številka:</label>
-            <div class="form-control" type="text" value="{{vm.kart.vpisna_stevilka}}" ng-model="vm.kart.vpisna_stevilka">{{vm.kart.vpisna_stevilka}}</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-sm-4">
-            <label>Priimek:</label>
-            <div class="form-control" type="text" value="{{vm.kart.priimek}}" ng-model="vm.kart.priimek"> {{vm.kart.priimek}}</div>
-        </div>
-           <div class="form-group col-sm-4">
-            <label>Ime:</label>
-            <div class="form-control" type="text" value="{{vm.kart.ime}}" ng-model="vm.kart.ime">{{vm.kart.ime}} </div>
-        </div>
-   
-    </div>
+      
+      
+       <div ng-show="vm.cont != 0" id="exportable2">
+      <div ng-show="vm.cont != 0" ng-repeat="letnik in vm.stud.studijska_leta_studenta | filter : test">
+        <button type="button" ng-click="vm.exportDataCSV2()">CSV</button>
+      <button type="button" ng-click="vm.exportDataPDF2()">PDF</button>
+        <div class="row">
+          <div class="form-group col-sm-4">
+              <label>Vpisna številka:</label>
+              <div class="form-control" type="text" value="{{vm.kart.vpisna_stevilka}}" ng-model="vm.kart.vpisna_stevilka">{{vm.kart.vpisna_stevilka}}</div>
+          </div>
+      </div>
       <div class="row">
           <div class="form-group col-sm-4">
-              <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
-            </div>
+              <label>Priimek:</label>
+              <div class="form-control" type="text" value="{{vm.kart.priimek}}" ng-model="vm.kart.priimek"> {{vm.kart.priimek}}</div>
+          </div>
+             <div class="form-group col-sm-4">
+              <label>Ime:</label>
+              <div class="form-control" type="text" value="{{vm.kart.ime}}" ng-model="vm.kart.ime">{{vm.kart.ime}} </div>
+          </div>
+     
+      </div>
+        <div class="row">
             <div class="form-group col-sm-4">
-              <div>Vrsta študija: {{letnik.vrsta_studija.sifra}},  {{letnik.vrsta_studija.opis}}</div>
-         </div>
-      </div>
-      <div class="row">
-          <div class="form-group col-sm-4">
-              <div>Letnik: {{letnik.letnik.naziv}}</div>
-            </div>  
-          <div class="form-group col-sm-4">
-              <div>Vrsta vpisa: {{letnik.vrsta_vpisa.koda}} - {{letnik.vrsta_vpisa.naziv}}</div>
-     </div>
-      </div>
-      <div class="row">
-           <div class="form-group col-sm-4">
-              <div>Način: {{letnik.nacin_studija.sifra}} - {{letnik.nacin_studija.naziv}}</div>
+                <div>Študijsko leto: {{letnik.studijsko_leto.studijsko_leto}}</div>
               </div>
-               <div class="form-group col-sm-4">
-              <div>Skupina: {{letnik.kraj_izvajanja}}</div>
-              </div>
-      </div>
-     <div class="container table-responsive">
-      <table id="tabela_kartotecni_listi" class="table table-hover" class="export2" >
-        <thead>
-          <tr>
-             <th>#</th>
-            <th>Šifra</th>
-            <th>Predmet</th>
-            <th>KT</th>
-            <th>Predavatelj(i)</th>
-            <th class="datum">Datum</th>
-            <th class="ocena">Ocena</th>
-            <th class="stPolaganj">Št. polaganj</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="predmet in  letnik.predmeti" >
-            <td>{{ ($index + 1) }}</td>
-            <td class="export2">{{ predmet.predmet.sifra }}</td>
-            <td class="export2">{{ predmet.predmet.naziv }}</td>
-            <td class="export2"> {{ predmet.predmet.KT }}</td>
-            
-            <td colspan="1" style="padding:0;" class="export2">
-              <table class="clean" >
-               
-                  <td style="">
-                    <ul>
-                       <li ng-repeat="izvajalec in predmet.izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
-                    </ul>
-                  </td>
-                  
+              <div class="form-group col-sm-4">
+                <div>Vrsta študija: {{letnik.vrsta_studija.sifra}},  {{letnik.vrsta_studija.opis}}</div>
+           </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <div>Letnik: {{letnik.letnik.naziv}}</div>
+              </div>  
+            <div class="form-group col-sm-4">
+                <div>Vrsta vpisa: {{letnik.vrsta_vpisa.koda}} - {{letnik.vrsta_vpisa.naziv}}</div>
+       </div>
+        </div>
+        <div class="row">
+             <div class="form-group col-sm-4">
+                <div>Način: {{letnik.nacin_studija.sifra}} - {{letnik.nacin_studija.naziv}}</div>
+                </div>
+                 <div class="form-group col-sm-4">
+                <div>Skupina: {{letnik.kraj_izvajanja}}</div>
+                </div>
+        </div>
+       <div class="container table-responsive">
+        <table id="tabela_kartotecni_listi" class="table table-hover" class="export2" >
+          <thead>
+            <tr>
+               <th>#</th>
+              <th>Šifra</th>
+              <th>Predmet</th>
+              <th>KT</th>
+              <th>Predavatelj(i)</th>
+              <th class="datum">Datum</th>
+              <th class="ocena">Ocena</th>
+              <th class="stPolaganj">Št. polaganj</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="predmet in  letnik.predmeti" >
+              <td>{{ ($index + 1) }}</td>
+              <td class="export2">{{ predmet.predmet.sifra }}</td>
+              <td class="export2">{{ predmet.predmet.naziv }}</td>
+              <td class="export2"> {{ predmet.predmet.KT }}</td>
+              
+              <td colspan="1" style="padding:0;" class="export2">
+                <table class="clean" >
                  
-               </table>
-             </td>
-                        
-
-             <td class="datum" class="export2">{{ predmet.izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
-            <td class="ocena" class="export2" ng-show="predmet.ocena > 0">{{ predmet.ocena }}</td>
-            <td class="ocena" ng-hide="predmet.ocena > 0">-</td>
-            <td class="stPolaganj" class="export2" >({{ predmet.zaporedni_poskus_skupaj }}-{{ predmet.zaporedni_poskus }})</td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Število opravljenih izpitov</th>
-            <th>Kreditne točke</th>
-            <th>Skupno povprečje</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{letnik.stOpravljenih}}</td>
-            <td>{{letnik.stKT}}</td>
-            <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
-          </tr>
-        </tbody>
-      </table>
+                    <td style="">
+                      <ul>
+                         <li ng-repeat="izvajalec in predmet.izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
+                      </ul>
+                    </td>
+                    
+                   
+                 </table>
+               </td>
+                          
+  
+               <td class="datum" class="export2">{{ predmet.izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
+              <td class="ocena" class="export2" ng-show="predmet.ocena > 0">{{ predmet.ocena }}</td>
+              <td class="ocena" ng-hide="predmet.ocena > 0">-</td>
+              <td class="stPolaganj" class="export2" >({{ predmet.zaporedni_poskus_skupaj }}-{{ predmet.zaporedni_poskus }})</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Število opravljenih izpitov</th>
+              <th>Kreditne točke</th>
+              <th>Skupno povprečje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{letnik.stOpravljenih}}</td>
+              <td>{{letnik.stKT}}</td>
+              <td ng-hide="letnik.stOpravljenih == 0">{{(letnik.skupnaOcena / letnik.stOpravljenih).toFixed(2)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        
+        
+        
+        
+        
+      </div>
+      
+     </div>
+      
+  
+      
+      <button ng-hide="vm.vpisan.student" class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Nazaj</button>
     </div>
-      
-      
-      
-      
-      
-    </div>
-    
-   </div>
-    
-
-    
-    <button class="btn btn-danger pull-right" type="button" ng-click="vm.preklici()">Nazaj</button>
-  </div>
-</form>
+  </form>
+</div>

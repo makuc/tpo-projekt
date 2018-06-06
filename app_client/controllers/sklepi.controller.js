@@ -10,18 +10,25 @@
          vm.vpisan=authentication.currentUser();
          
          vm.studentId = $routeParams.studentId;
-        
-        if(authentication.currentUser().zaposlen){
-            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
-                function success(odgovor){
-                    vm.ime = odgovor.data.zaposlen.ime;
-                    vm.priimek = odgovor.data.zaposlen.priimek;
-                },
-                function error(odgovor){
-                    console.log(odgovor);
+         
+         vm.SSklipi = true;
+         
+
+        studentPodatki.izpisStudenta(authentication.currentUser().student).then(
+            function success(odgovor){
+                for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                    if(!odgovor.data.zetoni[i].izkoriscen){
+                           vm.neizkoriscenZeton = true;
+                    }
                 }
-            );
-        }
+                vm.ime = odgovor.data.ime;
+                vm.priimek = odgovor.data.priimek;
+            },
+            function error(odgovor){
+                console.log(odgovor);
+            }
+        );        
+
         
         vm.logoutFunc = function() {
             delTok();

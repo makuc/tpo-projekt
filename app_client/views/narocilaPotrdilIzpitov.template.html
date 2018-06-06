@@ -1,9 +1,10 @@
 <header style="margin-bottom: 15px"></header>
 <navigacijareferentka ng-show="vm.vpisan.referentka == true"></navigacijareferentka>
+<navigacijastudent ng-show="vm.vpisan.student"></navigacijastudent>
 <div class="container">
     
     <div class="col-sm-12" style="background-color: #f3f9ff; margin-bottom: 20px; border-radius: 10px" ng-show="vm.vpisan.student && vm.studentObject.studijska_leta_studenta.length > 0">
-        <h3>Naroči novo potrdilo o opravljenih izpitih</h3>
+        <h2>Naroči novo potrdilo o opravljenih izpitih</h2>
         <!--<div class="row">
           <div class="col-sm-4">
             <label>Študijsko leto vpisa</label>

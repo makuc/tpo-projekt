@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">{{vm.ime}} {{vm.priimek}}</div>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="vm.SPredmetnik ? 'active' : ''"><a href="/main">Predmetnik</a></li>
+            <li ng-class="vm.SIzpitniRoki ? 'active' : ''"><a href="/izpiti">Izpitni roki</a></li>
+            <li ng-class="vm.SProfil ? 'active' : ''"><a href="/myData">Moj profil</a></li>
+            <li ng-class="vm.SSklipi ? 'active' : ''"><a href="/sklepi/{{vm.vpisan.student}}">Sklepi</a></li>
+            <li ng-class="vm.SElektronskiIndeks ? 'active' : ''"><a href="/elektronskiIndeks/{{vm.vpisan.student}}">Elektronski indeks</a></li>
+            <li ng-class="vm.SKartotecniList ? 'active' : ''"><a href="/kartotecniList/{{vm.vpisan.student}}">Kartotečni list</a></li>
+            <li ng-class="vm.SNarociloVpis ? 'active' : ''"><a href="/narocilaPotrdilVpisa">Naroči potrdilo o vpisu</a></li>
+            <li ng-class="vm.SNarociloIzpit ? 'active' : ''"><a href="/narocilaPotrdilIzpitov">Naroči potrdilo o opravljenih izpitih</a></li>
+            <li ng-show="vm.neizkoriscenZeton"><a href="/vpis/{{vm.vpisan.student}}/podatkiStudenta">Vpis</a></li>
+        </ul>
+    </div>
+</nav>

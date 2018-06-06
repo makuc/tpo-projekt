@@ -1,14 +1,31 @@
 (function() {
     /* global angular */
     
-    izpitiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication'];
+    izpitiCtrl.$inject = ['ostaloPodatki', '$scope', '$location', 'authentication', 'studentPodatki'];
     
     
-    function izpitiCtrl(ostaloPodatki, $scope, $location, authentication){
+    function izpitiCtrl(ostaloPodatki, $scope, $location, authentication, studentPodatki){
         var vm = this;
+        
+        vm.SIzpitniRoki = true;
         
         vm.studentId = authentication.currentUser().student;
         //console.log(authentication.currentUser());
+        
+        studentPodatki.izpisStudenta(authentication.currentUser().student).then(
+                function success(odgovor){
+                    for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                        if(!odgovor.data.zetoni[i].izkoriscen){
+                            vm.neizkoriscenZeton = true;
+                        }
+                    }
+                    vm.ime = odgovor.data.ime;
+                    vm.priimek = odgovor.data.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
         
         vm.naStran = 10.0;
         vm.stran = 0;

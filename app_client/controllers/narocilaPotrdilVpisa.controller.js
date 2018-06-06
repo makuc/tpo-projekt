@@ -8,6 +8,7 @@
         var vm = this;
         
         vm.RNarocilaPotrdilVpis = true;
+        vm.SNarociloVpis = true;
         
          vm.vpisan=authentication.currentUser();
          console.log("Vpisan: ", vm.vpisan);
@@ -17,6 +18,22 @@
                 function success(odgovor){
                     vm.ime = odgovor.data.zaposlen.ime;
                     vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        } else {
+            studentPodatki.izpisStudenta(authentication.currentUser().student).then(
+                function success(odgovor){
+                    console.log(odgovor.data);
+                    for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                        if(!odgovor.data.zetoni[i].izkoriscen){
+                            vm.neizkoriscenZeton = true;
+                        }
+                    }
+                    vm.ime = odgovor.data.ime;
+                    vm.priimek = odgovor.data.priimek;
                 },
                 function error(odgovor){
                     console.log(odgovor);

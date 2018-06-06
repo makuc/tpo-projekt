@@ -1,18 +1,46 @@
 (function(){
     /* global angular */
     
-    elektronskiIndeksCtrl.$inject = ["studentPodatki", "$routeParams", "ostaloPodatki"];
+    elektronskiIndeksCtrl.$inject = ["studentPodatki", "$routeParams", "ostaloPodatki", "authentication"];
     
-    function elektronskiIndeksCtrl(studentPodatki, $routeParams, ostaloPodatki){
+    function elektronskiIndeksCtrl(studentPodatki, $routeParams, ostaloPodatki, authentication){
         var vm = this;
         
+        vm.vpisan = authentication.currentUser();
+        
+        vm.SElektronskiIndeks = true;
+        
         vm.idStudenta = $routeParams.studentId;
+        
+        
+        if(authentication.currentUser().zaposlen){
+            vm.zaposlen = true;
+            ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
+                function success(odgovor){
+                    vm.ime = odgovor.data.zaposlen.ime;
+                    vm.priimek = odgovor.data.zaposlen.priimek;
+                },
+                function error(odgovor){
+                    console.log(odgovor);
+                }
+            );
+        }
+        
         
         studentPodatki.izpisStudenta(vm.idStudenta).then(
             function success(odgovor){
                 vm.student = odgovor.data;
                 //console.log(vm.student);
-                
+                for(var i = 0; i < odgovor.data.zetoni.length; i++){
+                    if(!odgovor.data.zetoni[i].izkoriscen){
+                        vm.neizkoriscenZeton = true;
+                    }
+                }
+                if(vm.vpisan.student){
+                    vm.ime = odgovor.data.ime;
+                    vm.priimek = odgovor.data.priimek;
+                }
+            
                 vm.opravljeniPredmeti = [];
                 vm.skupnaOcena = 0;
                 vm.skupnoSteviloIzpitov = 0;
