@@ -679,7 +679,8 @@ function genVpisnaStevilka(req, res, next) {
   callNext(req, res, next);
 }
 function genStudentEmail(req, res, next) {
-  var initials = req.userObj.student.ime.substr(0,1).toLowerCase() + req.userObj.student.priimek.substr(0,1).toLowerCase();
+  var initials = (Utils.removeDiacritics(req.userObj.student.ime.substr(0,1))).toLowerCase() +
+                 (Utils.removeDiacritics(req.userObj.student.priimek.substr(0,1))).toLowerCase();
   
   // Check if we already generated an email using these initials !!
   for(var i = 0; i < req.userMails.length; i++) {
