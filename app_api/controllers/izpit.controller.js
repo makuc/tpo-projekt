@@ -215,6 +215,7 @@ module.exports.individualniVnosOcene = function(req, res) {
 function najdiVseIzpiteStudijskoLeto(req, res, next) {
   Izpit
     .find({
+      valid: true,
       studijsko_leto: req.studijskoLeto
     })
     .limit(0)
@@ -232,6 +233,7 @@ function najdiVseIzpiteStudijskoLeto(req, res, next) {
 function najdiVseIzpitePredmet(req, res, next) {
   Izpit
     .find({
+      valid: true,
       predmet: req.predmet
     })
     .limit(0)
@@ -249,6 +251,7 @@ function najdiVseIzpitePredmet(req, res, next) {
 function najdiVseIzpiteStudijskoLetoPredmet(req, res, next) {
   Izpit
     .find({
+      valid: true,
       predmet: req.predmet,
       studijsko_leto: req.studijskoLeto
     })
