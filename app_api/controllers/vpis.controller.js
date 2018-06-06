@@ -649,12 +649,10 @@ function odstejPrejsnjaRednaPolaganja(req, res, next) {
         }
       }
     }
-    
+    debug("Obdelanih predmetov: " + req.predmetiStudenta.length);
   }
   
-  debug("Obdelanih predmetov: " + req.predmetiStudenta.length);
-  
-  return res.sendStatus(200);
+  //return res.sendStatus(200);
   
   callNext(req, res, next);
 }
