@@ -1,5 +1,6 @@
 <header style="margin-bottom: 15px"></header>
-<navigacijastudent></navigacijastudent>
+<navigacijastudent ng-show="vm.vpisan.student"></navigacijastudent>
+<navigacijapodatkistudenta ng-hide="vm.vpisan.student"></navigacijapodatkistudenta>
 <div class="container">
     <h2>Sklepi</h2>
     <!--<h3>{{ vm.student.ime }} {{ vm.student.priimek }}, {{ vm.student.vpisna_stevilka }}</h3><br>-->
@@ -15,7 +16,7 @@
             </div>
         </div>
     </div>
-    <a href="/sklepi/{{ vm.studentId }}/dodaj" class="btn btn-primary dodaj" style="margin-bottom: 15px" ng-show="vm.vpisan.referentka == true"><div class="glyphicon glyphicon-plus-sign">Dodaj</div></a>
+    <a href="/sklepi/{{ vm.studentId }}/dodaj" class="btn btn-primary dodaj" style="margin-bottom: 15px" ng-show="vm.vpisan.referentka == true"><div class="glyphicon glyphicon-plus-sign"></div>Dodaj</a>
     <div class="container table-responsive">
         <table id="tabela_delovPredmetnika" class="table table-hover" ng-init="vm.prikaziDelePredmetnika()">
             <thead>

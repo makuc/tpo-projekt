@@ -30,6 +30,7 @@
         studentPodatki.izpisStudenta(vm.idStudenta).then(
             function success(odgovor){
                 vm.student = odgovor.data;
+                vm.kart = odgovor.data;
                 //console.log(vm.student);
                 for(var i = 0; i < odgovor.data.zetoni.length; i++){
                     if(!odgovor.data.zetoni[i].izkoriscen){

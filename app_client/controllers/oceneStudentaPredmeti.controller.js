@@ -8,6 +8,7 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         vm.SOcene = true;
          
          vm.predmetId = $routeParams.predmetId;
          vm.studijskoLetoId = $routeParams.studijskoLetoId;
@@ -81,6 +82,7 @@
             studentPodatki.izpisStudenta($routeParams.studentId).then(
                 function success(odgovor){
                     vm.student = odgovor.data;
+                    vm.kart = odgovor.data;
                     console.log("Student: ", vm.student);
                     predmetPodatki.najdiPredmeteIzvajalca().then(
                       function success(odgovor){

@@ -8,6 +8,8 @@
         var vm = this;
         
          vm.vpisan=authentication.currentUser();
+         
+         vm.RPodrobnostiStudenta = true;
         
         if(authentication.currentUser().zaposlen){
             ostaloPodatki.najdiZaposlenega(authentication.currentUser().zaposlen).then(
@@ -36,6 +38,7 @@
             studentPodatki.izpisStudenta(vm.idStudenta).then(
                 function success(odgovor){
                     vm.student = odgovor.data;
+                    vm.kart = odgovor.data;
                 },
                 function error(odgovor){
                     console.log(odgovor);

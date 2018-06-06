@@ -14,7 +14,7 @@
          vm.SSklipi = true;
          
 
-        studentPodatki.izpisStudenta(authentication.currentUser().student).then(
+        studentPodatki.izpisStudenta(vm.studentId).then(
             function success(odgovor){
                 for(var i = 0; i < odgovor.data.zetoni.length; i++){
                     if(!odgovor.data.zetoni[i].izkoriscen){
@@ -23,6 +23,7 @@
                 }
                 vm.ime = odgovor.data.ime;
                 vm.priimek = odgovor.data.priimek;
+                vm.kart = odgovor.data;
             },
             function error(odgovor){
                 console.log(odgovor);

@@ -1,34 +1,37 @@
 <header style="margin-bottom: 15px"></header>
-<div ng-init="vm.pridobiDelPredmeta()"></div>
-<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
-<form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="form-group col-sm-4" style="background:#e4eef5;text-align:center; color:#597ea2">
-                <div moment-picker
-                    ng-model="vm.datum"
-                    format="ddd D. M. YYYY, HH:mm"
-                    change="vm.setDate()">
-                    <h3>
-                        <i class="glyphicon glyphicon-calendar"></i>
-                        {{ vm.datum.locale("sl").format("ddd D. M. YYYY, HH:mm") }}
-                    </h3>
+<navigacijapodatkistudenta></navigacijapodatkistudenta>
+<div class="container">
+    <div ng-init="vm.pridobiDelPredmeta()"></div>
+    <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+    <form role ="form" ng-submit="vm.shrani()" class="form-horizonral">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="form-group col-sm-4" style="background:#e4eef5;text-align:center; color:#597ea2">
+                    <div moment-picker
+                        ng-model="vm.datum"
+                        format="ddd D. M. YYYY, HH:mm"
+                        change="vm.setDate()">
+                        <h3>
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            {{ vm.datum.locale("sl").format("ddd D. M. YYYY, HH:mm") }}
+                        </h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Organ:</label>
-                <input class="form-control" type="text" value="{{vm.delPredmetnika.organ}}" ng-model="vm.delPredmetnika.organ">
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Organ:</label>
+                    <input class="form-control" type="text" value="{{vm.delPredmetnika.organ}}" ng-model="vm.delPredmetnika.organ">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Besedilo:</label>
-                <textarea class="form-control" type="text" value="{{vm.delPredmetnika.besedilo}}" ng-model="vm.delPredmetnika.besedilo"></textarea>
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Besedilo:</label>
+                    <textarea class="form-control" type="text" value="{{vm.delPredmetnika.besedilo}}" ng-model="vm.delPredmetnika.besedilo"></textarea>
+                </div>
             </div>
+            <button class="btn btn-success"  type="submit">Shrani</button>
+            <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
         </div>
-        <button class="btn btn-success"  type="submit">Shrani</button>
-        <button class="btn btn-danger" type="button" ng-click="vm.preklici()">Prekliči</button>
-    </div>
-</form>
+    </form>
+</div>

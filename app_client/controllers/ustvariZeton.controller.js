@@ -9,11 +9,16 @@
         
         vm.studentId = $routeParams.studentId;
         
+        vm.SZeton = true;
+        vm.naslov = "Dodajanje žetona";
+        vm.vpisan = authentication.currentUser();
+        
         vm.opcijeBool = [true, false];
         
         vm.prikaziZeton = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
+                    vm.kart = odgovor.data;
                     vm.student = odgovor.data;
                     //console.log("Student: ", vm.student);
                     

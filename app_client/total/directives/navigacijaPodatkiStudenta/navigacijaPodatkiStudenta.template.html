@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">{{vm.kart.vpisna_stevilka}}, {{vm.kart.ime}} {{vm.kart.priimek}}</div>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ng-class="vm.RPodrobnostiStudenta ? 'active' : ''"><a href="/podrobnostiStudenta/{{vm.kart._id}}">Osebni podatki</a></li>
+        <li ng-class="vm.SKartotecniList ? 'active' : ''"><a href="/kartotecniList/{{vm.kart._id}}">Kartotečni indeks</a></li>
+        <li ng-class="vm.SElektronskiIndeks ? 'active': ''"><a href="/elektronskiIndeks/{{vm.kart._id}}">Elektronski indeks</a></li>
+        <li ng-class="vm.SVnosOcen ? 'active': ''"><a href="/individualniVnos/{{vm.kart._id}}">Individualni vnos ocene</a></li>
+        <li ng-class="vm.SOcene ? 'active' : ''"><a href="/oceneStudentaPredmeti/{{vm.kart._id}}">Ocene</a></li>
+        <li ng-class="vm.SSklipi ? 'active': ''" ng-show="vm.vpisan.referentka == true"><a href="/sklepi/{{vm.kart._id}}">Sklepi</a></li>
+        <li ng-class="vm.SZeton ? 'active': ''" ng-show="vm.vpisan.referentka == true"><a href="/prikaziStudente/{{vm.kart._id}}/zetoni">Žetoni</a></li>
+      </ul>
+    </div>
+</nav>

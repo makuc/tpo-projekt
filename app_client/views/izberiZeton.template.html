@@ -1,11 +1,13 @@
 <header></header>
-<h3>Izbira vpisa</h3>
-<table class="table table-hover">
-    <tr ng-repeat="x in vm.neizkorisceniZetoni">
-        <td>{{x.letnik.naziv}}</td>
-        <td>{{x.nacin_studija.naziv}}</td>
-        <td>{{x.vrsta_vpisa.naziv}}</td>
-        <td><button class="btn btn-primary" ng-click="vm.izberi(x._id)">Izberi</button></td>
-    </tr>
-</table>
-<button class="btn btn-danger" ng-click="vm.nazaj()">Nazaj</button>
+<div class="container">
+    <h2>Izbira vpisa</h2>
+    <table class="table table-hover">
+        <tr ng-repeat="x in vm.neizkorisceniZetoni">
+            <td>{{x.letnik.naziv}}</td>
+            <td>{{x.nacin_studija.naziv}}</td>
+            <td>{{x.vrsta_vpisa.naziv}}</td>
+            <td><button class="btn btn-primary" ng-click="vm.izberi(x._id)">Izberi</button></td>
+        </tr>
+    </table>
+    <button class="btn btn-danger" ng-click="vm.nazaj()">Nazaj</button>
+</div>

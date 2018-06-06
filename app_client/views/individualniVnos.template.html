@@ -6,105 +6,94 @@
 
 <header style="margin-bottom: 15px"></header>
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <div class="navbar-brand">{{vm.podatkiStudenta.vpisna_stevilka}}, {{vm.podatkiStudenta.ime}} {{vm.podatkiStudenta.priimek}}</div>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="/podrobnostiStudenta/{{vm.podatkiStudenta._id}}">Osebni podatki</a></li>
-      <li><a href="/kartotecniList/{{vm.podatkiStudenta._id}}">Kartotečni indeks</a></li>
-      <li><a href="/elektronskiIndeks/{{vm.podatkiStudenta._id}}">Elektronski indeks</a></li>
-      <li class="active"><a href="/individualniVnos/{{vm.podatkiStudenta._id}}">Individualni vnos ocene</a></li>
-      <li><a href="/oceneStudentaPredmeti/{{vm.podatkiStudenta._id}}">Ocene</a></li>
-    </ul>
-  </div>
-</nav>
+<navigacijapodatkistudenta></navigacijapodatkistudenta>
 
-<h2>Individualni vnos ocen</h2><br>
-<div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
-<form role ="form" ng-submit="vm.individualnoOddaj()" class="form-horizonral">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="form-group col-sm-4">
-                <label>Študijsko leto:</label>
-                <select ng-change="vm.izbrano()" class="form-control" ng-model="vm.podatki.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
+<div class="container">
+    <h2>Individualni vnos ocen</h2><br>
+    <div role="allert" class="alert alert-danger" ng-show="vm.obvestilo">{{vm.obvestilo}}</div>
+    <form role ="form" ng-submit="vm.individualnoOddaj()" class="form-horizonral">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Študijsko leto:</label>
+                    <select ng-change="vm.izbrano()" class="form-control" ng-model="vm.podatki.studijskoLeto" ng-options='sl as (sl.studijsko_leto) for sl in vm.studijskaLeta track by sl._id'></select>
+                </div>
             </div>
+            <div ng-show="vm.podatki.studijskoLeto" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Predmet:</label>
+                    <select ng-change="vm.izbranPredmet()" class="form-control" ng-model="vm.podatki.predmet" ng-options='pr as (pr.sifra + ", " + pr.naziv) for pr in vm.predmeti track by pr._id'></select>
+                </div>
+            </div>
+            <div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Izpraševalec:</label>
+                    <select class="form-control" ng-model="vm.podatki.izvedbe" ng-options='iz as (iz.izvajalci[0].ime + " " + iz.izvajalci[0].priimek + "  " + iz.izvajalci[1].ime + " " + iz.izvajalci[1].priimek + "  " + iz.izvajalci[2].ime + " " + iz.izvajalci[2].priimek) for iz in vm.izvedbe track by iz._id'></select>
+                </div>
+            </div>
+            <div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <p style="margin-bottom: 0px"><label>Datum izvajanja:</label></p>
+                    <input class="form-control vEniVrsti" type="text" ng-model="vm.dan" style="width:50px"/>
+                    <input class="form-control vEniVrsti" type="text" ng-model="vm.mesec" style="width:50px"/>
+                    <input class="form-control vEniVrsti" type="text" ng-model="vm.leto" style="width:80px"/>
+                </div>
+            </div>
+            <div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <p style="margin-bottom: 0px"><label>Ura izvajanja:</label></p>
+                    <input class="form-control vEniVrsti" type="text" ng-model="vm.ura" style="width:50px"/><h3 class="vEniVrsti" style="margin-top: 0px">:</h3>
+                    <input class="form-control vEniVrsti" type="text" ng-model="vm.minuta" style="width:50px"/>
+                </div>
+            </div>
+            <div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Lokacija:</label>
+                    <input class="form-control" type="text" ng-model="vm.podatki.lokacija"/>
+                </div>
+            </div>
+            <!--<div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Maksimalno število prijav:</label>
+                    <input class="form-control" type="text" ng-model="vm.podatki.maxPrijav"/>
+                </div>
+            </div>-->
+            <!-- IZBIRA STUDENTA IN VNOS OCENE TER POLAGANJ -->
+            <div ng-show="vm.podatki.predmet" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Izbira študenta</label>
+                    <select class="form-control" ng-change="vm.dobiStudenta(vm.izbranStudent._id)" ng-model="vm.izbranStudent" ng-options='stu as (stu.vpisna_stevilka + ", " + stu.ime + " " + stu.priimek) for stu in vm.vsiStudenti track by stu._id'></select>
+                </div>
+            </div>
+            <div ng-show="vm.izbranStudent" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Točke izpita:</label>
+                    <input class="form-control" type="text" ng-model="vm.izbraneTocke"/>
+                </div>
+            </div>
+            <div ng-show="vm.izbranStudent" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Ocena izpita</label>
+                    <select class="form-control" ng-model="vm.izbranaOcena" ng-options="oc for oc in vm.izbiraOcen"></select>
+                </div>
+            </div>
+            <div ng-show="vm.izbranStudent" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Število opravljanj letos:</label>
+                    <input class="form-control" type="text" ng-model="vm.opravljanjLetos"/>
+                </div>
+            </div>
+            <div ng-show="vm.izbranStudent" class="row">
+                <div class="form-group col-sm-4">
+                    <label>Število opravljanj skupaj:</label>
+                    <input class="form-control" type="text" ng-model="vm.opravljanjSkupaj"/>
+                </div>
+            </div>
+            <div role="allert" class="alert alert-success" ng-show="vm.obvestiloSucc">{{vm.obvestiloSucc}}</div>
+            <button class="btn btn-success"  type="submit">Shrani</button>
+            <button class="btn btn-danger" type="button" ng-click="vm.preklici()" ng-show="!vm.obvestiloSucc">Prekliči</button>
+            <a href="/main"><button class="btn btn-primary" type="button" ng-show="vm.obvestiloSucc">Nazaj na glavno stran</button></a>
+            
         </div>
-        <div ng-show="vm.podatki.studijskoLeto" class="row">
-            <div class="form-group col-sm-4">
-                <label>Predmet:</label>
-                <select ng-change="vm.izbranPredmet()" class="form-control" ng-model="vm.podatki.predmet" ng-options='pr as (pr.sifra + ", " + pr.naziv) for pr in vm.predmeti track by pr._id'></select>
-            </div>
-        </div>
-        <div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <label>Izpraševalec:</label>
-                <select class="form-control" ng-model="vm.podatki.izvedbe" ng-options='iz as (iz.izvajalci[0].ime + " " + iz.izvajalci[0].priimek + "  " + iz.izvajalci[1].ime + " " + iz.izvajalci[1].priimek + "  " + iz.izvajalci[2].ime + " " + iz.izvajalci[2].priimek) for iz in vm.izvedbe track by iz._id'></select>
-            </div>
-        </div>
-        <div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <p style="margin-bottom: 0px"><label>Datum izvajanja:</label></p>
-                <input class="form-control vEniVrsti" type="text" ng-model="vm.dan" style="width:50px"/>
-                <input class="form-control vEniVrsti" type="text" ng-model="vm.mesec" style="width:50px"/>
-                <input class="form-control vEniVrsti" type="text" ng-model="vm.leto" style="width:80px"/>
-            </div>
-        </div>
-        <div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <p style="margin-bottom: 0px"><label>Ura izvajanja:</label></p>
-                <input class="form-control vEniVrsti" type="text" ng-model="vm.ura" style="width:50px"/><h3 class="vEniVrsti" style="margin-top: 0px">:</h3>
-                <input class="form-control vEniVrsti" type="text" ng-model="vm.minuta" style="width:50px"/>
-            </div>
-        </div>
-        <div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <label>Lokacija:</label>
-                <input class="form-control" type="text" ng-model="vm.podatki.lokacija"/>
-            </div>
-        </div>
-        <!--<div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <label>Maksimalno število prijav:</label>
-                <input class="form-control" type="text" ng-model="vm.podatki.maxPrijav"/>
-            </div>
-        </div>-->
-        <!-- IZBIRA STUDENTA IN VNOS OCENE TER POLAGANJ -->
-        <div ng-show="vm.podatki.predmet" class="row">
-            <div class="form-group col-sm-4">
-                <label>Izbira študenta</label>
-                <select class="form-control" ng-change="vm.dobiStudenta(vm.izbranStudent._id)" ng-model="vm.izbranStudent" ng-options='stu as (stu.vpisna_stevilka + ", " + stu.ime + " " + stu.priimek) for stu in vm.vsiStudenti track by stu._id'></select>
-            </div>
-        </div>
-        <div ng-show="vm.izbranStudent" class="row">
-            <div class="form-group col-sm-4">
-                <label>Točke izpita:</label>
-                <input class="form-control" type="text" ng-model="vm.izbraneTocke"/>
-            </div>
-        </div>
-        <div ng-show="vm.izbranStudent" class="row">
-            <div class="form-group col-sm-4">
-                <label>Ocena izpita</label>
-                <select class="form-control" ng-model="vm.izbranaOcena" ng-options="oc for oc in vm.izbiraOcen"></select>
-            </div>
-        </div>
-        <div ng-show="vm.izbranStudent" class="row">
-            <div class="form-group col-sm-4">
-                <label>Število opravljanj letos:</label>
-                <input class="form-control" type="text" ng-model="vm.opravljanjLetos"/>
-            </div>
-        </div>
-        <div ng-show="vm.izbranStudent" class="row">
-            <div class="form-group col-sm-4">
-                <label>Število opravljanj skupaj:</label>
-                <input class="form-control" type="text" ng-model="vm.opravljanjSkupaj"/>
-            </div>
-        </div>
-        <div role="allert" class="alert alert-success" ng-show="vm.obvestiloSucc">{{vm.obvestiloSucc}}</div>
-        <button class="btn btn-success"  type="submit">Shrani</button>
-        <button class="btn btn-danger" type="button" ng-click="vm.preklici()" ng-show="!vm.obvestiloSucc">Prekliči</button>
-        <a href="/main"><button class="btn btn-primary" type="button" ng-show="vm.obvestiloSucc">Nazaj na glavno stran</button></a>
-        
-    </div>
-</form>
+    </form>
+</div>

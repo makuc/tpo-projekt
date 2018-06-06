@@ -1,91 +1,78 @@
 <header></header>
 
-<div ng-show="vm.vpisan.referentka == true">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <div class="navbar-brand">{{vm.student.vpisna_stevilka}}, {{vm.student.ime}} {{vm.student.priimek}}</div>
-        </div>
-        <ul class="nav navbar-nav">
-          <li><a href="/podrobnostiStudenta/{{vm.student._id}}">Osebni podatki</a></li>
-          <li><a href="/kartotecniList/{{vm.student._id}}">Kartotečni indeks</a></li>
-          <li class="active"><a href="/elektronskiIndeks/{{vm.student._id}}">Elektronski indeks</a></li>
-          <li><a href="/individualniVnos/{{vm.student._id}}">Individualni vnos ocene</a></li>
-          <li><a href="/oceneStudentaPredmeti/{{vm.student._id}}">Ocene</a></li>
-        </ul>
-      </div>
-    </nav>
-</div>
+<navigacijapodatkistudenta ng-hide="vm.vpisan.student"></navigacijapodatkistudenta>
 <navigacijastudent ng-show="vm.vpisan.student"></navigacijastudent>
 
-<h2>Elektronski indeks</h2>
-
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Šifra</th>
-            <th>Predmet</th>
-            <th>Letnik</th>
-            <th>Datum</th>
-            <th>Opravljanje</th>
-            <th>KT</th>
-            <th>Ocena</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="predmet in vm.opravljeniPredmeti | orderBy: predmet.izpit.datum_izvajanja : false">
-            <td>{{($index + 1)}}</td>
-            <td>{{predmet.predmet.sifra}}</td>
-            <td>{{predmet.predmet.naziv}}</td>
-            <td>{{predmet.letnik}}</td>
-            <td>{{predmet.izpit.datum_izvajanja | date:" dd. MM. yyyy"}}</td>
-            <td>{{predmet.zaporedni_poskus}}.</td>
-            <td>{{predmet.predmet.KT}}</td>
-            <td>{{predmet.ocena}}</td>
-        </tr>
-    </tbody>
-</table>
-
-<h4>Povprečne ocene po študijskih letih</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Študijsko leto</th>
-            <th>Število opravljenih izpitov</th>
-            <th>Kreditne točke</th>
-            <th>Skupno povprečje</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="leto in vm.studijskaLeta">
-            <td>{{leto.studijsko_leto.studijsko_leto}}</td>
-            <td>{{leto.st}}</td>
-            <td>{{leto.KT}}</td>
-            <td ng-hide="leto.st==0">{{(leto.skupnaOcena / leto.st).toFixed(2)}}</td>
-        </tr>
-    </tbody>
-</table>
-
-<h4>Skupna povprečna ocena</h4>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Število opravljenih izpitov</th>
-            <th>Kreditne točke</th>
-            <th>Skupno povprečje</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{vm.skupnoSteviloIzpitov}}</td>
-            <td>{{vm.skupnoKreditneTocke}}</td>
-            <td>{{(vm.skupnoPovprecje).toFixed(2)}}</td>
-        </tr>
-    </tbody>
-</table>
-<button ng-json-export-excel data="vm.opravljeniPredmeti"
-        report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv','letnik': 'Letnik', 'izpit.datum_izvajanja': 'Datum izvajanja','zaporedni_poskus': 'Zaporedni poskus', 'predmet.KT': 'KT', 'ocena': 'Ocena' }"
-        filename="'filename'" class="btn btn-info">ExportCSV</button>
-         <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
-<a ng-hide="vm.vpisan.student" href="/main" class="btn btn-danger">Nazaj</a>
+<div class="container">
+    <h2>Elektronski indeks</h2>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Šifra</th>
+                <th>Predmet</th>
+                <th>Letnik</th>
+                <th>Datum</th>
+                <th>Opravljanje</th>
+                <th>KT</th>
+                <th>Ocena</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="predmet in vm.opravljeniPredmeti | orderBy: predmet.izpit.datum_izvajanja : false">
+                <td>{{($index + 1)}}</td>
+                <td>{{predmet.predmet.sifra}}</td>
+                <td>{{predmet.predmet.naziv}}</td>
+                <td>{{predmet.letnik}}</td>
+                <td>{{predmet.izpit.datum_izvajanja | date:" dd. MM. yyyy"}}</td>
+                <td>{{predmet.zaporedni_poskus}}.</td>
+                <td>{{predmet.predmet.KT}}</td>
+                <td>{{predmet.ocena}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4>Povprečne ocene po študijskih letih</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Študijsko leto</th>
+                <th>Število opravljenih izpitov</th>
+                <th>Kreditne točke</th>
+                <th>Skupno povprečje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="leto in vm.studijskaLeta">
+                <td>{{leto.studijsko_leto.studijsko_leto}}</td>
+                <td>{{leto.st}}</td>
+                <td>{{leto.KT}}</td>
+                <td ng-hide="leto.st==0">{{(leto.skupnaOcena / leto.st).toFixed(2)}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4>Skupna povprečna ocena</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Število opravljenih izpitov</th>
+                <th>Kreditne točke</th>
+                <th>Skupno povprečje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{vm.skupnoSteviloIzpitov}}</td>
+                <td>{{vm.skupnoKreditneTocke}}</td>
+                <td>{{(vm.skupnoPovprecje).toFixed(2)}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button ng-json-export-excel data="vm.opravljeniPredmeti"
+            report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv','letnik': 'Letnik', 'izpit.datum_izvajanja': 'Datum izvajanja','zaporedni_poskus': 'Zaporedni poskus', 'predmet.KT': 'KT', 'ocena': 'Ocena' }"
+            filename="'filename'" class="btn btn-info">ExportCSV</button>
+             <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
+    <a ng-hide="vm.vpisan.student" href="/main" class="btn btn-danger">Nazaj</a>
+</div>

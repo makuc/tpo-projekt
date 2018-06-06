@@ -7,6 +7,10 @@
     function urediZetoneCtrl(ostaloPodatki, $scope, $location, authentication, $routeParams, studentPodatki){
         var vm = this;
         
+        vm.SZeton = true;
+        
+        vm.vpisan = authentication.currentUser();
+        
          vm.studentId = $routeParams.studentId;
          //console.log(vm.studentId);
         
@@ -77,6 +81,7 @@
         vm.prikaziZetone = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
+                    vm.kart = odgovor.data;
                     vm.student = odgovor.data;
                     vm.zetoni = vm.student.zetoni;
                     

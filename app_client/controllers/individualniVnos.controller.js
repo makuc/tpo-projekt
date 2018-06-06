@@ -9,11 +9,14 @@
         vm.podatki = {datum:new Date()};
         vm.vpisan=authentication.currentUser();
         
+        vm.SVnosOcen = true;
+        
         vm.studentId = $routeParams.studentId;
         
         studentPodatki.izpisStudenta(vm.studentId).then(
             function success(odgovor){
                 vm.podatkiStudenta = odgovor.data;
+                vm.kart = odgovor.data;
                 console.log(odgovor.data);
                 if($routeParams.studentId)
                 {

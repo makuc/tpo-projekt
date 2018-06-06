@@ -7,6 +7,8 @@
     function dodajSklepCtrl($location, ostaloPodatki, $routeParams, authentication, studentPodatki){
         var vm = this;
         
+        vm.SSklipi = true;
+        
          vm.vpisan=authentication.currentUser();
          vm.studentId = $routeParams.studentId;
          vm.sklepId = $routeParams.sklepId;
@@ -41,6 +43,7 @@
         vm.pridobiDelPredmeta = function(){
             studentPodatki.izpisStudenta(vm.studentId).then(
                 function success(odgovor){
+                    vm.kart = odgovor.data;
                     vm.deliPredmetnika = odgovor.data.sklepi;
                     //console.log(vm.deliPredmetnika);
                     //console.log(vm.sklepId);

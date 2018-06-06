@@ -7,6 +7,7 @@
     function izberiZetonCtrl(studentPodatki, authentication, ostaloPodatki, $location){
         var vm = this;
         
+        
         vm.neizkorisceniZetoni = [];
         studentPodatki.izpisStudenta(authentication.currentUser().student).then(
             function success(odgovor){
