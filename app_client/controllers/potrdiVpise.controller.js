@@ -100,6 +100,8 @@
           ostaloPodatki.potrdiVpis(vpisniListId).then(
               function success(odgovor){
                 $window.open("/api/v1/potrdilo-vpisa/" + vpisniListId, '_blank');
+                $window.open("/api/v1/potrdilo-vpisa/" + vpisniListId, '_blank');
+                $window.open("/api/v1/potrdilo-vpisa/" + vpisniListId, '_blank');
                   vm.pridobiVseVpise();
                   
               },
