@@ -608,6 +608,10 @@
             return $http.post('/api/v1/student/' + studentId + '/ocena', data);
         }
         
+        function seznamVpisanihVLetnik(letnik, leto){
+            return $http.get('api/v1/letnik/' + letnik + '/leto/' + leto);
+        }
+        
         return {
             uvoziStudente: uvoziStudente,
             
@@ -763,7 +767,9 @@
             narociPotrdiloIzpitov: narociPotrdiloIzpitov,
             zakljuciNarociloPotrdilaIzpitov: zakljuciNarociloPotrdilaIzpitov,
             
-            inidividualniVnosOcene: inidividualniVnosOcene
+            inidividualniVnosOcene: inidividualniVnosOcene,
+            
+            seznamVpisanihVLetnik: seznamVpisanihVLetnik
         };
     };
     

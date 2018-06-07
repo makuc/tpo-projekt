@@ -78,7 +78,8 @@ var zdruzeno = uglifyJs.minify({
   'urejanjeIzpitniRokProfesorCtrl.js': fs.readFileSync('app_client/controllers/urediIzpitniRokProfesor.controller.js', 'utf8'),
   'urejanjeIzpitniRokReferentkaCtrl.js': fs.readFileSync('app_client/controllers/urediIzpitniRokReferentka.controller.js', 'utf8'),
   'izberiZetonCtrl.js': fs.readFileSync('app_client/controllers/izberiZeton.controller.js', 'utf8'),
-  'elektronskiIndeksCtrl.js': fs.readFileSync('app_client/controllers/elektronskiIndeks.controller.js', 'utf8')
+  'elektronskiIndeksCtrl.js': fs.readFileSync('app_client/controllers/elektronskiIndeks.controller.js', 'utf8'),
+  'seznamVpisanihVLetnikCtrl.js': fs.readFileSync('app_client/controllers/seznamVLetniku.controller.js', 'utf8')
   //'login.js': fs.readFileSync('app_client/controllers/login.controller.js', 'utf8'),
   //'vpisniListCtrl.js': fs.readFileSync('app_client/controllers/vpisniList.controller.js', 'utf8')
 });

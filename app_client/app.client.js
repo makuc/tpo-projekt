@@ -492,6 +492,13 @@
                 controllerAs: 'vm'
             })
             
+            
+            .when('/seznamVpisanihVLetnik', {
+                templateUrl: 'views/seznamVLetniku.template.html',
+                controller: 'seznamVpisanihVLetnikCtrl',
+                controllerAs: 'vm'
+            })
+            
             .otherwise({redirectTo: '/main'});
             
             $locationProvider.html5Mode(true);
