@@ -109,7 +109,7 @@
               <td class="export1">{{ predmet.predmet.KT }}</td>
               <td colspan="4" style="padding:0;" class="export1">
                 <table class="clean" >
-                  <tr ng-repeat="izpit in predmet.izpiti | orderBy : izpit.datum_izvajanja : true" class="clean">
+                  <tr ng-repeat="izpit in predmet.izpiti | orderBy:'datum_izvajanja'" class="clean">
                     <td style="">
                       <ul>
                          <li ng-repeat="izvajalec in izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>

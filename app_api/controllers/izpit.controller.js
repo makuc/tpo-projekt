@@ -1516,6 +1516,7 @@ function obdelajPrijavoNaIzpit(req, res, next) {
     }
     
     debug("Enaka izvedba? " + enakaIzvedba);
+    debug("Trenutna/prejšnja ocena:", req.predmet.ocena);
     
     if(req.izpit && req.predmet.ocena > 5)
     {
@@ -1529,7 +1530,10 @@ function obdelajPrijavoNaIzpit(req, res, next) {
         ponastaviIzbranIzpita, obdelajPrijavoNaIzpit
       ]);
     }
-    else if((req.izpit && datum.getTime() != req.izpit.datum_izvajanja.getTime()) || (req.izpit && !enakaIzvedba))
+    else if(
+      req.izpit && req.predmet.ocena <= 0 &&
+      (datum.getTime() != req.izpit.datum_izvajanja.getTime() || !enakaIzvedba)
+    )
     {
       debug("Prijavljen je, ampak prijave ne tikaj!");
       
@@ -1538,6 +1542,16 @@ function obdelajPrijavoNaIzpit(req, res, next) {
       req.izpit = undefined;
       
       obdelajPrijavoNaIzpit(req, res, next);
+    }
+    else if(req.izpit && req.predmet.ocena > 0)
+    {
+      debug("Nadaljuj z vnosom ocene");
+      next = req.myNext;
+      
+      req.izpit = undefined;
+      req.myNext = undefined;
+      
+      callNext(req, res, next);
     }
     else
     {
