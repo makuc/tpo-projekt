@@ -268,7 +268,7 @@ function validateStudijskoLeto(req, res, next) {
   });
 }
 function studentiLetnikaStudijskoLeto(req, res, next) {
-  debug("--studentiLetnikaStudijskoLeto");;
+  debug("--studentiLetnikaStudijskoLeto");
   Student
     .find({
       "studijska_leta_studenta": {
