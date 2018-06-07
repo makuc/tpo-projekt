@@ -9,6 +9,7 @@
         
         vm.studentId = $route.current.params.studentId;
         vm.vpisan = authentication.currentUser();
+        vm.SIzpiti = true;
         //console.log($route.current.params.studentId);
         //console.log(authentication.currentUser());
         
@@ -70,6 +71,7 @@
                     studentPodatki.izpisStudenta(vm.studentId).then(
                         function success(odgovor){
                             vm.student = odgovor.data;
+                            vm.kart = odgovor.data;
                         },
                         function error(odgovor){
                             console.log(odgovor);

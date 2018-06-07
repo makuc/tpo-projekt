@@ -73,6 +73,7 @@
         vm.prikaziIzpite = function(){
             ostaloPodatki.vsiIzpitniRoki(vm.studentId).then(
                 function success(odgovor){
+                    console.log(odgovor.data);
                     vm.izpiti = odgovor.data;
                     for (var i = 0; i < vm.izpiti.length; i++) {
                         for (var j = 0; j < vm.izpiti[i].polagalci.length; j++) {

@@ -11,6 +11,7 @@
         <li ng-class="vm.SOcene ? 'active' : ''"><a href="/oceneStudentaPredmeti/{{vm.kart._id}}">Ocene</a></li>
         <li ng-class="vm.SSklipi ? 'active': ''" ng-show="vm.vpisan.referentka == true"><a href="/sklepi/{{vm.kart._id}}">Sklepi</a></li>
         <li ng-class="vm.SZeton ? 'active': ''" ng-show="vm.vpisan.referentka == true"><a href="/prikaziStudente/{{vm.kart._id}}/zetoni">Žetoni</a></li>
+        <li ng-class="vm.SIzpiti ? 'active' : ''" ng-show="vm.vpisan.referentka == true"><a href="/izpitiForce/{{vm.kart._id}}">Izpiti</a></li>
       </ul>
     </div>
 </nav>
