@@ -1,8 +1,12 @@
 var mongoose = require("mongoose");
 var callNext = require("./_include/callNext");
 
+let debug = require('debug')('letnik');
+
 var Letnik = mongoose.model('Letnik');
 var StudijskiProgram = mongoose.model('StudijskiProgram');
+let Student = mongoose.model('Student');
+let StudijskoLeto = mongoose.model('StudijskoLeto');
 
 
 /* GET home page. */
@@ -97,6 +101,14 @@ module.exports.delLetnik = function(req, res) {
 };
 module.exports.obnoviLetnik = function(req, res) {
   callNext(req, res, [ najdiLetnikId, obnoviLetnik, vrniLetnik ]);
+};
+
+module.exports.vpisaniVLetnikStudijskoLeto = function(req, res) {
+  debug("--vpisaniVLetnikStudijskoLeto");
+  
+  callNext(req, res, [
+    validateStudijskoLeto, validateLetnik, studentiLetnikaStudijskoLeto
+  ]);
 };
 
 /* Funkcije */
@@ -219,4 +231,65 @@ function validateStudijskiProgram(req, res, next) {
     
     callNext(req, res, next);
   });
+}
+
+function validateLetnik(req, res, next) {
+  debug("--validateLetnik");
+  Letnik.findById(req.params.letnik, function(err, letnik) {
+    if(err || !letnik) {
+      debug("---validateLetnik", err);
+      res.status(400).json({ message: "Izbrani letnik ne obstaja" });
+    }
+    else
+    {
+      req.letnik = letnik;
+      debug("Letnik: ", letnik.naziv);
+      
+      callNext(req, res, next);
+    }
+  });
+}
+function validateStudijskoLeto(req, res, next) {
+  debug("--validateStudijskoLeto");
+  
+  debug("Leto ID:", req.params.leto);
+  StudijskoLeto.findById(req.params.leto, function(err, leto) {
+    if(err || !leto) {
+      debug("--validateStudijskoLeto:", err);
+      res.status(400).json({ message: "Izbrano študijsko leto ne obstaja" });
+    }
+    else
+    {
+      req.leto = leto;
+      debug("Študijsko leto: ", leto.studijsko_leto);
+      
+      callNext(req, res, next);
+    }
+  });
+}
+function studentiLetnikaStudijskoLeto(req, res, next) {
+  debug("--studentiLetnikaStudijskoLeto");;
+  Student
+    .find({
+      "studijska_leta_studenta": {
+        $elemMatch: {
+          studijsko_leto: req.leto,
+          letnik: req.letnik
+        }
+      }
+    })
+    .populate()
+    .select("ime priimek vpisna_stevilka spol email prenosni_telefon")
+    .exec(function(err, studenti) {
+      if(err || !studenti)
+      {
+        debug("---studentiLetnikaStudijskoLeto:" + err);
+        res.status(404).json({ message: "Ne najdem študentov"});
+      }
+      else
+      {
+        debug("Najdenih " + studenti.length + " študentov");
+        res.status(200).send(studenti);
+      }
+    });
 }

@@ -86,6 +86,8 @@ router.delete('/student/:student_id/sklep/:sklep', ctrl.Sklep.izbrisi);
 // Individualni vnos ocene
 router.post('/student/:student_id/ocena', ctrl.Izpit.individualniVnosOcene);
 
+router.get('/letnik/:letnik/leto/:leto', ctrl.NeodvisniPodatki.Letnik.vpisaniVLetnikStudijskoLeto);
+
 
 // Controller Izpiti
 router.get('/izpit/leto/:studijskoLeto_id', ctrl.Izpit.getIzpiteStudijskoLeto);
