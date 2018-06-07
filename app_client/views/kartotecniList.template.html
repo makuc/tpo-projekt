@@ -115,7 +115,7 @@
                          <li ng-repeat="izvajalec in izpit.izvajalci">{{izvajalec.ime}} {{izvajalec.priimek}}</li>
                       </ul>
                     </td>
-                    <td class="btn btn-info datum" class="export1">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
+                    <td class="datum" class="export1">{{ izpit.datum_izvajanja | date:'dd. MM. yyyy HH:mm' }}</td>
                     <td class="ocena" class="export1" ng-show="izpit.polaganje.koncna_ocena > 0">{{ izpit.polaganje.koncna_ocena }}</td>
                     <td class="ocena"  ng-hide="izpit.polaganje.koncna_ocena > 0">-</td>
                     <td class="stPolaganj" class="export1">{{ izpit.polaganje.zaporedni_poskus_skupaj }} | {{ izpit.polaganje.zaporedni_poskus }}</td>
@@ -154,8 +154,8 @@
       
        <div ng-show="vm.cont != 0" id="exportable2">
       <div ng-show="vm.cont != 0" ng-repeat="letnik in vm.stud.studijska_leta_studenta | filter : test">
-        <button type="button" ng-click="vm.exportDataCSV2()">CSV</button>
-      <button type="button" ng-click="vm.exportDataPDF2()">PDF</button>
+        <button class="btn btn-info" type="button" ng-click="vm.exportDataCSV2()">CSV</button>
+      <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF2()">PDF</button>
         <div class="row">
           <div class="form-group col-sm-4">
               <label>Vpisna številka:</label>
