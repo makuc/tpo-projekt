@@ -66,7 +66,10 @@
             </tfoot>
         </table>
     </div>
-    
+    <button ng-json-export-excel data="vm.opravljeniPredmeti"
+            report-fields="{'predmet.sifra': 'Šifra', 'predmet.naziv': 'Naziv','studijskoLetoAdd': 'Študisjko leto', 'predmet.KT': 'KT','zaporedni_poskus': 'Zaporedni poskus', 'zaporedni_poskus_skupaj': 'Zaporedni poskus skupaj', 'ocena': 'Ocena' }"
+            filename="'filename'" class="btn btn-info">ExportCSV</button>
+             <button class="btn btn-info" type="button" ng-click="vm.exportDataPDF()">PDF</button>
     <a href="/prikaziStudente" class="btn btn-primary" type="button">Nazaj na seznam študentov</a>
     
 </div>
