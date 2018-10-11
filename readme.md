@@ -11,6 +11,15 @@ Izdelana na **Fakulteti za Računalništvo in Informatiko (FRI)**, *Univerza v L
 * Node.JS - Razvoj back-end API RESTful aplikacije. (zadolžen: Armin Makovec)
 * MongoDB - Podatkovna baza za hranjenje podatkov, do katerih dostopa back-end API. (podatkovne modele pripravil: Armin Makovec)
 
+## Metoda razvoja ##
+Aplikacijo smo razvijali z uporabo metodologije razvoja programske opreme imenovane Scrum.
+
+Udeleženci pri razvoju:
+
+* Naročnik aplikacije: Profesor prof. Viljan Mahnič, as. dr. Marko Poženel
+* Scrum Master: Robert Barachini
+* Člani razvojne ekipe: Armin Makovec, Enej Guček, Robert Barachini, Uroš Majcen
+
 ## Dependencies ##
 * bcryptjs - 2.4.3
 * bootstrap-datepicker - 1.8.0
